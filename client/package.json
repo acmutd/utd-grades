@@ -14,7 +14,7 @@
     "chart.js": "^2.9.3",
     "formik": "^2.1.4",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "next": "9.3.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
