@@ -4,6 +4,7 @@ import Results from './Results';
 import Core from './Core';
 import Header from './Header';
 import Animations from './Animations';
+import MigrationNotice from './MigrationNotice';
 
 export {
   Core,
@@ -11,5 +12,6 @@ export {
   Form,
   Results,
   Header,
-  Animations
+  Animations,
+  MigrationNotice,
 };
