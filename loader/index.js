@@ -6,9 +6,11 @@ const ProgressBar = require('progress');
 
 async function run() {
   try {
-    const sequelize = init();
+    const conn = new init();
+    await conn.connect();
+    const sequelize = conn.sequelize;
 
-    let content = JSON.parse(fs.readFileSync('data/spring2019.json', 'utf8'));
+    let content = JSON.parse(fs.readFileSync('data/Summer2021/Summer2021.json', 'utf8'));
 
     const models = sequelize.models;
 
