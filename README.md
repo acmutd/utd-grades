@@ -22,12 +22,14 @@ and [acmutd/utd-grades#16](https://github.com/acmutd/utd-grades/issues/16).
 This monorepo consists of 4 sub-projects split into the core application and side utilities.
 
 Core Application:
-* The `client` folder contains the project's front-end built with React and Next.js
-* The `functions` folder contains the project's backend code built as Node.js AWS Lambda functions with the Serverless Framework
+
+- The `client` folder contains the project's front-end built with React and Next.js
+- The `functions` folder contains the project's backend code built as Node.js AWS Lambda functions with the Serverless Framework
 
 Side Utilities:
-* The `converter` folder contains a Python script that converts the Excel file of grade distributions into a JSON file fitting our own data format
-* The `loader` folder contains Node.js data loading script that loads the converted JSON file of grade distributions data into PostgreSQL
+
+- The `converter` folder contains a Python script that converts the Excel file of grade distributions into a JSON file fitting our own data format
+- The `loader` folder contains Node.js data loading script that loads the converted JSON file of grade distributions data into PostgreSQL
 
 There is also a `data` folder that contains all currently received grade data with the original Excel files and converted JSON files.
 
@@ -37,20 +39,20 @@ Development steps are listed within each module's README.
 
 ## Deploying
 
-The two parts making up the core application are the `client` and `functions` modules. The deployment process for both are separate, allowing changes to be made to each service independently from the other. 
+The two parts making up the core application are the `client` and `functions` modules. The deployment process for both are separate, allowing changes to be made to each service independently from the other.
 
 Deployment steps are listed within each module's README.
 
 ## Uploading New Data
 
-To upload new grade data received from UTD, the data will first need to be converted from Excel in JSON. To do this, use the `converter` Python script. 
+To upload new grade data received from UTD, the data will first need to be converted from Excel in JSON. To do this, use the `converter` Python script.
 
 First we'll need to install all the necessary dependencies for the script.
 
 1. Change directories into the converter folder
 2. Run `python -m venv venv` to create a virtual environment (use `py` instead of `python` if using Python Launcher on Windows)
 3. Run `venv/bin/activate` to activate virtual environment
-    1. `venv\Scripts\activate` on Windows
+   1. `venv\Scripts\activate` on Windows
 4. Finally run `pip install -r requirements.txt` to install all dependencies
 
 Now the `converter` script is ready to run.
@@ -70,15 +72,26 @@ Now we must take our converted JSON and actually upload it to our PostgreSQL dat
 
 Now the `loader` script is ready to run
 
-1. Create a `.env` file in the `loader` folder and enter the database credentials for the UTD Grades database
-      
+1.  Create a `.env` file in the `loader` folder and enter the database credentials for the UTD Grades database
+
         dbName=database name goes here
         dbUser=username goes here
         dbPass=password goes here
         dbHost=host goes here
 
-2. Take the outputted JSON file from the `converter` script and place it in the `loader/data` folder.
-3. Within the `loader/index.js` file, edit the name of the file location to match the JSON file you're loading.
-4. Run the script with `npm start`
+2.  Take the outputted JSON file from the `converter` script and place it in the `loader/data` folder.
+3.  Within the `loader/index.js` file, edit the name of the file location to match the JSON file you're loading.
+4.  Run the script with `npm start`
 
-The script should output the records it was not able to upload. Keep track of these so you can fix whatever issue may have occured with those specific records and re-upload them later. Sometimes there are quirks with professor names that cause issues on our end. Some professors are included in the dataset with no first name, which causes a problem with our parsing. For these, just look up the professor to get their first name and edit the records accordingly. When you re-upload, don't re-upload the whole JSON file again. Instead only re-upload the specific records that didn't upload the first time by placing them into a separate `errors.json` file (in the `loader/data/` folder). Then, edit the `loader/index.js` script to read the `errors.json` file instead of the whole semester JSON file. This is just to prevent data that uploaded properly the first time from getting messed with.
+The script should output the records it was not able to upload. Keep track of
+these so you can fix whatever issue may have occured with those specific records
+and re-upload them later. Sometimes there are quirks with professor names that
+cause issues on our end. Some professors are included in the dataset with no
+first name, which causes a problem with our parsing. For these, just look up the
+professor to get their first name and edit the records accordingly. When you
+re-upload, don't re-upload the whole JSON file again. Instead only re-upload the
+specific records that didn't upload the first time by placing them into a
+separate `errors.json` file (in the `loader/data/` folder). Then, edit the
+`loader/index.js` script to read the `errors.json` file instead of the whole
+semester JSON file. This is just to prevent data that uploaded properly the
+first time from getting messed with.
