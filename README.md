@@ -8,13 +8,13 @@ UTD Grades is a tool to view grade distributions at UT Dallas.
 
 ## Deprecation Notice
 
-UTD Grades is having its functionality expanded into the [Nebula Data Service](https://github.com/acmutd/nebula-data-service).
+UTD Grades is having its functionality expanded into the [Athena](https://github.com/UTDNebula/athena) project.
 
-In the near-term, this means nothing will change. In February 2021, UTD Grades
-will be incoporated into the Nebula Data Service and have its functionality
-merged with that tool.
+In the near-term, this means nothing will change. In spring 2022, existing UTD
+Grades functionality will be expanded to include professor evaluations and other
+data visualizations.
 
-For more information, see [acmutd/nebula-data-service#8](https://github.com/acmutd/nebula-data-service/issues/8)
+For more information, see [UTDNebula/athena#2](https://github.com/UTDNebula/athena/discussions/2)
 and [acmutd/utd-grades#16](https://github.com/acmutd/utd-grades/issues/16).
 
 ## Components

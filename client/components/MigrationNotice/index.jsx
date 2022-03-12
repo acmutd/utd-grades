@@ -80,21 +80,12 @@ export default function MigrationNotice() {
         utdgrades.com.
         <br />
         P.S. If you&apos;re a developer interested in the migration, see the{' '}
-        <a href="https://github.com/acmutd/utd-grades/issues/16">
-          utd-grades
+        <a href="https://github.com/UTDNebula/athena/discussions/2">
+          athena
         </a>{' '}
-        and{' '}
-        <a href="https://github.com/acmutd/nebula-data-service/issues/8">
-          nebula-data-service
-        </a>{' '}
-        repositories on GitHub.
+        repository on GitHub.
       </BannerBody>
-      <BannerCTA>
-        {/* TODO: Re-enable once the blog post is up. */}
-        {/* <a href="https://about.utdnebula.com/blog/utd-grades-migration">
-          Learn more about the migration.
-        </a> */}
-      </BannerCTA>
+      <BannerCTA></BannerCTA>
     </Banner>
   );
 }
