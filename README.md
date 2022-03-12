@@ -4,7 +4,18 @@
 ![Deploy to Development](https://github.com/bharatari/utd-grades/workflows/Deploy%20to%20Development/badge.svg)
 ![Test](https://github.com/bharatari/utd-grades/workflows/Test/badge.svg)
 
-UTD Grades is a tool to view grade distributions at UT Dallas. 
+UTD Grades is a tool to view grade distributions at UT Dallas.
+
+## Deprecation Notice
+
+UTD Grades is having its functionality expanded into the [Athena](https://github.com/UTDNebula/athena) project.
+
+In the near-term, this means nothing will change. In spring 2022, existing UTD
+Grades functionality will be expanded to include professor evaluations and other
+data visualizations.
+
+For more information, see [UTDNebula/athena#2](https://github.com/UTDNebula/athena/discussions/2)
+and [acmutd/utd-grades#16](https://github.com/acmutd/utd-grades/issues/16).
 
 ## Components
 
