@@ -4,7 +4,7 @@ import fetch from 'isomorphic-fetch';
 export default {
   base() {
     if (process.env.NODE_ENV === 'development') {
-      return 'https://0qqbseweak.execute-api.us-east-2.amazonaws.com';
+      return 'http://localhost:4000/development';
     } else if (process.env.NODE_ENV === 'test') {
       return 'https://0qqbseweak.execute-api.us-east-2.amazonaws.com';
     } else {
