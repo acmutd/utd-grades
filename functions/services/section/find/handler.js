@@ -1,23 +1,18 @@
-const Connection = require('../../../models');
+const doDbOp = require('../../../models');
 const respond = require('../../../utils/respond');
 const find = require('./index');
-
-let connection;
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   try {
-    if (!connection) {
-      connection = new Connection();
-    }
 
-    await connection.connect();
+    return doDbOp(async (sequelize) => {
+      const response = await find(event['queryStringParameters'], sequelize);
 
-    const response = await find(event['queryStringParameters'], connection);
-
-    return respond.success(response);
+      return respond.success(response);
+    });
   } catch (e) {
     return respond.error(e);
-  }  
+  }
 };

@@ -1,26 +1,20 @@
 const ProfessorService = require('./index');
 const respond = require('../../utils/respond');
-const utils = require('./utils');
-
-let connection;
+const doDbOp = require('../../models');
 
 module.exports.find = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   try {
-    if (!connection) {
-      connection = new Connection();
-    }
+    return doDbOp(async (sequelize) => {
+      let service = new ProfessorService(sequelize);
 
-    await connection.connect();
+      let queryParams = event['queryStringParameters'];
+      let response = await service.find(queryParams);
 
-    let service = new ProfessorService(connection);
-
-    let queryParams = event['queryStringParameters'];
-    let response = await service.find(queryParams);
-    
-    return respond.success(response);
+      return respond.success(response);
+    });
   } catch (e) {
     return respond.error(e);
-  }  
+  }
 };
