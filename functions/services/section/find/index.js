@@ -1,9 +1,9 @@
 const SectionService = require('../service');
 const utils = require('./utils');
 
-module.exports = async (queryParams, connection) => {
+module.exports = async (queryParams, sequelize) => {
   try {
-    let service = new SectionService(connection);
+    let service = new SectionService(sequelize);
 
     const params = utils.parseSearchStringIfExists(queryParams);
 

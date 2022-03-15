@@ -4,8 +4,8 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 class ProfessorService {
-  constructor(connection) {
-    this.sequelize = connection.sequelize;
+  constructor(sequelize) {
+    this.sequelize = sequelize;
   }
   
   async get(id) {
