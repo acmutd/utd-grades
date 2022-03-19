@@ -6,7 +6,22 @@ const Op = Sequelize.Op;
 
 module.exports = async (queryParams, sequelize) => {
 
+  console.log(queryParams);
+
+
   queryParams = utils.parseSearchStringIfExists(queryParams);
+
+  const {
+    sectionNumber,
+    firstName,
+    lastName,
+    courseNumber,
+    coursePrefix,
+    year,
+    type,
+    sortField = 'number',
+    sortDirection = 'ASC'
+  } = queryParams;
 
   const models = sequelize.models;
   const Section = models.section;
@@ -14,8 +29,8 @@ module.exports = async (queryParams, sequelize) => {
   function sectionWhere() {
     let where = {};
 
-    if (!_.isNil(queryParams['sectionNumber'])) {
-      where.number = queryParams['sectionNumber'].trim();
+    if (!_.isNil(sectionNumber)) {
+      where.number = sectionNumber.trim();
 
       if (typeof where.number === 'string') {
         where.number = where.number.toUpperCase();
@@ -32,16 +47,16 @@ module.exports = async (queryParams, sequelize) => {
   function professorWhere() {
     let where = {};
 
-    if (!_.isNil(queryParams['firstName'])) {
-      const firstName = queryParams['firstName'].trim();
+    if (!_.isNil(firstName)) {
+      const firstName = firstName.trim();
 
       where.firstName = {
         [Op.iLike]: `%${firstName}%`,
       };
     }
 
-    if (!_.isNil(queryParams['lastName'])) {
-      const lastName = queryParams['lastName'].trim();
+    if (!_.isNil(lastName)) {
+      const lastName = lastName.trim();
 
       where.lastName = {
         [Op.iLike]: `%${lastName}%`,
@@ -54,12 +69,12 @@ module.exports = async (queryParams, sequelize) => {
   function courseWhere() {
     let where = {};
 
-    if (!_.isNil(queryParams['courseNumber'])) {
-      where.number = queryParams['courseNumber'].trim();
+    if (!_.isNil(courseNumber)) {
+      where.number = courseNumber.trim();
     }
 
-    if (!_.isNil(queryParams['coursePrefix'])) {
-      where.prefix = queryParams['coursePrefix'].toUpperCase().trim();
+    if (!_.isNil(coursePrefix)) {
+      where.prefix = coursePrefix.toUpperCase().trim();
     }
 
     return where;
@@ -68,19 +83,19 @@ module.exports = async (queryParams, sequelize) => {
   function semesterWhere() {
     let where = {};
 
-    if (!_.isNil(queryParams['year'])) {
-      where.year = queryParams['year'].trim();
+    if (!_.isNil(year)) {
+      where.year = year.trim();
     }
 
-    if (!_.isNil(queryParams['type'])) {
-      where.type = queryParams['type'].toLowerCase().trim();
+    if (!_.isNil(type)) {
+      where.type = type.toLowerCase().trim();
     }
 
     return where;
   }
 
   const sectionOrder = () => {
-    const { sortField = 'number', sortDirection = 'ASC' } = queryParams;
+    // const { sortField = 'number', sortDirection = 'ASC' } = queryParams;
     let order = [];
 
     if (sortField === 'year' || sortField === 'type') {
