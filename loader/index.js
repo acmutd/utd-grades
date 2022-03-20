@@ -3,6 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 const init = require('../functions/models/index');
 const ProgressBar = require('progress');
+const glob = require("glob-promise");
 
 async function run() {
   try {
@@ -10,16 +11,25 @@ async function run() {
     await conn.connect();
     const sequelize = conn.sequelize;
 
-    let content = JSON.parse(fs.readFileSync('../data/Summer 2021/Summer2021.json', 'utf8'));
+    const dataFiles = await glob("../data/**/*.json");
 
-    const models = sequelize.models;
+    for (const file of dataFiles) {
+      console.log(file);
+      try {
+        let content = JSON.parse(fs.readFileSync(file, 'utf8'));
 
-    const bar = new ProgressBar(':bar :current | :total', { total: content.length });
+        const models = sequelize.models;
 
-    for (let i = 0; i < content.length; i++) {
-      await saveItem(content[i], i, models);
+        const bar = new ProgressBar(':bar :current | :total', { total: content.length });
 
-      bar.tick();
+        for (let i = 0; i < content.length; i++) {
+          await saveItem(content[i], i, models);
+
+          bar.tick();
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   } catch (e) {
     console.log(e);
