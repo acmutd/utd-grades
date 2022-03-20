@@ -10,7 +10,7 @@ async function run() {
     await conn.connect();
     const sequelize = conn.sequelize;
 
-    let content = JSON.parse(fs.readFileSync('data/Summer2021/Summer2021.json', 'utf8'));
+    let content = JSON.parse(fs.readFileSync('../data/Summer 2021/Summer2021.json', 'utf8'));
 
     const models = sequelize.models;
 
