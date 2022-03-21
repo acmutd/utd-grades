@@ -1,89 +1,94 @@
 require('dotenv').config();
 
 const fs = require('fs');
-const init = require('../functions/models/index');
 const ProgressBar = require('progress');
 const glob = require("glob-promise");
 
+const doDbOp = require('../functions/models');
+const Course = require('../functions/models/Course');
+const Professor = require('../functions/models/Professor');
+const Section = require('../functions/models/Section');
+const Semester = require('../functions/models/Semester');
+
+
 async function run() {
-  try {
-    const conn = new init();
-    await conn.connect();
-    const sequelize = conn.sequelize;
+  const dataFiles = await glob("../data/**/*.json");
 
-    const dataFiles = await glob("../data/**/*.json");
+  for (const file of dataFiles) {
+    try {
+      let content = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const bar = new ProgressBar(`${file} :bar :current | :total`, { total: content.length });
 
-    for (const file of dataFiles) {
-      console.log(file);
-      try {
-        let content = JSON.parse(fs.readFileSync(file, 'utf8'));
-
-        const models = sequelize.models;
-
-        const bar = new ProgressBar(':bar :current | :total', { total: content.length });
-
-        for (let i = 0; i < content.length; i++) {
-          await saveItem(content[i], i, models);
-
-          bar.tick();
+      for (let i = 0; i < content.length; i++) {
+        try {
+          await saveItem(content[i], i);
+        } catch (e) {
+          console.log("Failed to save item, skipping.", e);
         }
-      } catch (e) {
-        console.log(e);
+
+        bar.tick();
       }
+    } catch (e) {
+      console.log("Completely failed file, skipping.", e);
     }
-  } catch (e) {
-    console.log(e);
   }
 }
 
-async function saveItem(item, i, models) {
-  try {
-    // Find or create semester
-    const term = item.term.split(' ');
-    const term_year = parseInt(term[0]);
-    const term_term = term[1].toLowerCase();
+async function findOrCreate(entity, where) {
+  const found = await doDbOp(async (con) => {
+    return con.getRepository(entity).find({ where });
+  });
 
-    const [semester, semester_created] = await models.semester.findOrCreate({
-      where: {
-        year: term[0],
-        type: term_term,
-      },
+  if (found.length == 0) {
+    return await doDbOp(async (con) => {
+      return await con.getRepository(entity).save(where);
     });
-
-    // Find or create professor
-    const prof = item.prof.split(', ');
-    const lastName = prof[0];
-    const firstName = prof[1];
-
-    const [professor, professor_created] = await models.professor.findOrCreate({
-      where: {
-        firstName,
-        lastName,
-      },
-    });
-
-    // Find or create course
-    const [course, course_created] = await models.course.findOrCreate({
-      where: {
-        number: item.num,
-        prefix: item.subj,
-        semesterId: semester.id,
-      },
-    });
-
-    // Finally, we can add the section
-    const [section, section_created] = await models.section.findOrCreate({
-      where: {
-        number: item.sect,
-        grades: item.grades,
-        courseId: course.id,
-        professorId: professor.id,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-    console.log(`Could not load: ${i}`);
+  } else {
+    return found[0];
   }
+}
+
+async function saveItem(item, i) {
+  // Find or create semester
+  const term = item.term.split(' ');
+  const term_year = parseInt(term[0]);
+  const term_term = term[1].toLowerCase();
+
+  const semester = await findOrCreate(Semester, {
+    year: term[0],
+    type: term_term
+  });
+
+  // Find or create professor
+  const prof = item.prof.split(', ');
+  const lastName = prof[0];
+  const firstName = prof[1];
+
+  const professor = await findOrCreate(Professor, {
+    firstName,
+    lastName,
+  });
+
+  // Find or create course
+  const course = await findOrCreate(Course, {
+    number: item.num,
+    prefix: item.subj,
+    semester: {
+      id: semester.id,
+    },
+  });
+
+  // Finally, we can add the section
+  await findOrCreate(Section, {
+    number: item.sect,
+    grades: item.grades,
+    course: {
+      id: course.id,
+    },
+    professor: {
+      id: professor.id,
+    },
+  });
 }
 
 run()

@@ -6,8 +6,8 @@ module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
   try {
-    return doDbOp(async (sequelize) => {
-      const response = await get(event.pathParameters.id, sequelize);
+    return doDbOp(async (con) => {
+      const response = await get(event.pathParameters.id, con);
 
       return respond.success(response);
     });

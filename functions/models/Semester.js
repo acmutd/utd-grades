@@ -1,34 +1,28 @@
-const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
+const { EntitySchema } = require("typeorm");
 
-module.exports = function (sequelize) {
-  const semester = sequelize.define('semester', {
+module.exports = new EntitySchema({
+  name: "semester",
+  columns: {
+    id: {
+      primary: true,
+      type: "integer",
+      generated: true
+    },
     year: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: "integer",
+      nullable: false,
     },
     type: {
-      type: DataTypes.ENUM('fall', 'spring', 'summer'),
-      allowNull: false,
+      type: "enum",
+      enum: ["fall", "spring", "summer"],
+      nullable: false,
     },
-  }, {
-    hooks: {
-      beforeCount(options) {
-        options.raw = true;
-      },
+  },
+  relations: {
+    courses: {
+      type: "one-to-many",
+      target: "course",
+      inverseSide: "semester",
     },
-    getterMethods: {
-      name() {
-        const capitalizedType = this.type.charAt(0).toUpperCase() + this.type.slice(1);
-
-        return `${this.year} ${capitalizedType}`;
-      },
-    },
-  });
-
-  semester.associate = function(models) {
-
-  }
-
-  return semester;
-}
+  },
+});

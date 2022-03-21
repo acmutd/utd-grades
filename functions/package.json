@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "lodash": "^4.17.19",
-    "pg": "^8.0.3",
-    "sequelize": "^5.21.7"
+    "pg": "^8.7.3",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.21.7",
+    "typeorm": "^0.2.45"
   },
   "devDependencies": {
     "jest": "^25.4.0",
