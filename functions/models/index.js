@@ -1,39 +1,40 @@
-const Sequelize = require('sequelize');
+const createConnection = require("typeorm").createConnection;
+const { getConnectionManager } = require("typeorm");
 const dbConfig = require('../config/db');
 
-const Course = require('./Course');
-const Professor = require('./Professor');
-const Section = require('./Section');
-const Semester = require('./Semester');
+const Course = require("./Course");
+const Professor = require("./Professor");
+const Section = require("./Section");
+const Semester = require("./Semester");
 
+const CONNECTION_NAME = "default";
 
 async function doDbOp(f) {
-  const sequelize = new Sequelize(`postgres://${dbConfig.dbUser}:${dbConfig.dbPass}@${dbConfig.dbHost}/${dbConfig.dbName}`, {
-    logging: false,
-  });
+  const connectionManager = getConnectionManager();
 
-  Course(sequelize);
-  Professor(sequelize);
-  Section(sequelize);
-  Semester(sequelize);
+  let con;
 
-  // Apply associations
-  const models = sequelize.models;
+  if (connectionManager.has(CONNECTION_NAME)) {
+    con = connectionManager.get(CONNECTION_NAME);
+  } else {
+    con = connectionManager.create({
+      name: CONNECTION_NAME,
+      type: "postgres",
+      host: dbConfig.dbHost,
+      username: dbConfig.dbUser,
+      password: dbConfig.dbPass,
+      database: dbConfig.dbName,
+      synchronize: true,
+      entities: [Course, Professor, Section, Semester],
+      // logging: true,
+    });
+  }
 
-  Object.keys(models).forEach(name => {
-    if ('associate' in models[name]) {
-      models[name].associate(models);
-    }
-  });
+  if (!con.isConnected) {
+    await con.connect();
+  }
 
-  // Sync to the database
-  await sequelize.sync();
-
-  const r = await f(sequelize);
-
-  await sequelize.close();
-
-  return r;
+  return await f(con);
 }
 
 module.exports = doDbOp;
