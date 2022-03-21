@@ -1,13 +1,8 @@
 const _ = require('lodash');
-const Sequelize = require("sequelize");
 const utils = require('./utils');
+const Section = require("../../../models/Section");
 
-const Op = Sequelize.Op;
-
-module.exports = async (queryParams, sequelize) => {
-
-  console.log(queryParams);
-
+module.exports = async (queryParams, con) => {
 
   queryParams = utils.parseSearchStringIfExists(queryParams);
 
@@ -23,144 +18,70 @@ module.exports = async (queryParams, sequelize) => {
     sortDirection = 'ASC'
   } = queryParams;
 
-  const models = sequelize.models;
-  const Section = models.section;
+  let query = con.getRepository(Section).createQueryBuilder("section");
 
-  function sectionWhere() {
-    let where = {};
-
-    if (!_.isNil(sectionNumber)) {
-      where.number = sectionNumber.trim();
-
-      if (typeof where.number === 'string') {
-        where.number = where.number.toUpperCase();
-
-        if (where.number.length < 3) {
-          where.number = where.number.padStart(3, '0');
-        }
-      }
-    }
-
-    return where;
+  if (!_.isNil(sectionNumber)) {
+    query = query.andWhere({
+      number: sectionNumber.trim().toUpperCase().padStart(3, '0')
+    });
   }
 
-  function professorWhere() {
-    let where = {};
+  let professorCondition = "";
+  let professorConditionParams = {};
 
-    if (!_.isNil(firstName)) {
-      const firstName = firstName.trim();
-
-      where.firstName = {
-        [Op.iLike]: `%${firstName}%`,
-      };
-    }
-
-    if (!_.isNil(lastName)) {
-      const lastName = lastName.trim();
-
-      where.lastName = {
-        [Op.iLike]: `%${lastName}%`,
-      };
-    }
-
-    return where;
+  if (!_.isNil(firstName)) {
+    professorCondition += "professor.firstName ILIKE :firstName";
+    professorConditionParams.firstName = `%${firstName.trim()}%`;
   }
 
-  function courseWhere() {
-    let where = {};
-
-    if (!_.isNil(courseNumber)) {
-      where.number = courseNumber.trim();
+  if (!_.isNil(lastName)) {
+    if (professorCondition) {
+      professorCondition += " AND ";
     }
-
-    if (!_.isNil(coursePrefix)) {
-      where.prefix = coursePrefix.toUpperCase().trim();
-    }
-
-    return where;
+    professorCondition += "professor.lastName ILIKE :lastName";
+    professorConditionParams.lastName = `%${lastName.trim()}%`;
   }
 
-  function semesterWhere() {
-    let where = {};
+  query = query.innerJoinAndSelect("section.professor", "professor", professorCondition, professorConditionParams);
 
-    if (!_.isNil(year)) {
-      where.year = year.trim();
-    }
+  let courseCondition = "";
+  let courseConditionParams = {};
 
-    if (!_.isNil(type)) {
-      where.type = type.toLowerCase().trim();
-    }
-
-    return where;
+  if (!_.isNil(courseNumber)) {
+    courseCondition += "course.number = :courseNumber";
+    courseConditionParams.courseNumber = courseNumber.trim();
   }
 
-  const sectionOrder = () => {
-    // const { sortField = 'number', sortDirection = 'ASC' } = queryParams;
-    let order = [];
-
-    if (sortField === 'year' || sortField === 'type') {
-      order.push([
-        models.course,
-        models.semester,
-        sortField,
-        sortDirection,
-      ]);
-    } else if (sortField === 'firstName' || sortField === 'lastName') {
-      order.push([models.professor, sortField, sortDirection]);
-    } else if (
-      sortField === 'coursePrefix' ||
-      sortField === 'courseNumber'
-    ) {
-      order.push([models.course, sortField, sortDirection]);
+  if (!_.isNil(coursePrefix)) {
+    if (courseCondition) {
+      courseCondition += " AND ";
     }
+    courseCondition += "course.prefix = :coursePrefix";
+    courseConditionParams.coursePrefix = coursePrefix.toUpperCase().trim();
+  }
 
-    const sectionNumber = sequelize.cast(
-      sequelize.fn('coalesce',
-        sequelize.fn(
-          'nullif',
-          sequelize.fn(
-            'REGEXP_REPLACE',
-            sequelize.col('section.number'),
-            '[^0-9]*',
-            '',
-            'g'
-          ),
-          ''
-        ),
-        '0'
-      ),
-      'integer'
-    );
+  query = query.innerJoinAndSelect("section.course", "course", courseCondition, courseConditionParams);
 
-    if (sortField === 'number') {
-      order.push([sectionNumber, sortDirection]);
-    } else {
-      order.push([sectionNumber, 'ASC']);
+  let semesterCondition = "";
+  let semesterConditionParams = {};
+
+  if (!_.isNil(year)) {
+    semesterCondition += "semester.year = :semesterYear";
+    semesterConditionParams.semesterYear = year.trim();
+  }
+
+  if (!_.isNil(type)) {
+    if (semesterCondition) {
+      semesterCondition += " AND ";
     }
+    semesterCondition += "semester.type = :semesterType";
+    semesterConditionParams.semesterType = type.toLowerCase().trim();
+  }
 
-    return order;
-  };
+  query = query.innerJoinAndSelect("course.semester", "semester", semesterCondition, semesterConditionParams);
 
-  const sections = await Section.findAll({
-    where: sectionWhere(),
-    order: sectionOrder(),
-    include: [
-      {
-        model: models.professor,
-        where: professorWhere(),
-      },
-      {
-        model: models.course,
-        where: courseWhere(),
-        include: [
-          {
-            model: models.semester,
-            where: semesterWhere(),
-          },
-        ],
-      },
-    ],
-  });
-
-  return sections;
+  return await query
+    .addOrderBy("semester.year", "DESC")
+    .addOrderBy("section.number", "ASC")
+    .getMany();
 };

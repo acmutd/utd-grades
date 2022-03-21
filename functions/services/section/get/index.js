@@ -1,21 +1,10 @@
-module.exports = async (id, sequelize) => {
-  const models = sequelize.models;
-  const Section = models.section;
+const Section = require("../../../models/Section");
 
-  const section = await Section.findOne({
-    where: {
-      id,
-    },
-    include: [
-      {
-        model: models.professor,
-      },
-      {
-        model: models.course,
-        include: [{ model: models.semester }],
-      },
-    ],
-  });
-
-  return section;
+module.exports = async (id, con) => {
+  return await con.getRepository(Section).createQueryBuilder("section")
+    .where({ id })
+    .innerJoinAndSelect("section.professor", "professor")
+    .innerJoinAndSelect("section.course", "course")
+    .innerJoinAndSelect("course.semester", "semester")
+    .getOne();
 };

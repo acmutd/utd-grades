@@ -7,8 +7,8 @@ module.exports.handler = async (event, context) => {
 
   try {
 
-    return doDbOp(async (sequelize) => {
-      const response = await find(event['queryStringParameters'], sequelize);
+    return doDbOp(async (con) => {
+      const response = await find(event['queryStringParameters'], con);
 
       return respond.success(response);
     });

@@ -9,12 +9,15 @@ export default {
     return sections;
   },
   buildSectionName(section) {
-    if (section && section.course && section.course.semester && section.course.semester.name && typeof section.course.semester.name === 'string') {
-      const [year, semester] = section.course.semester.name.split(' ');
-
-      section.course.semester.name = `${semester} ${year}`;
+    if (section && section.course && section.course.semester) {
+      section.course.semester.name = this.getSemesterName(section.course.semester)
     }
 
     return section;
+  },
+  getSemesterName(semester) {
+    const capitalizedType = semester.type.charAt(0).toUpperCase() + semester.type.slice(1);
+
+    return `${capitalizedType} ${semester.year}`;
   }
 }

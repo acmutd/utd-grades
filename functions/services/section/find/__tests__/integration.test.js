@@ -1,13 +1,6 @@
+const { getConnection } = require('typeorm');
+const doDbOp = require('../../../../models');
 const find = require('../index');
-const Connection = require('../../../../models/index');
-
-let connection;
-
-beforeAll(async () => {
-  connection = new Connection();
-
-  await connection.connect();
-});
 
 describe('Test sample queries', () => {
   test('Should search by course prefix and number', async () => {
@@ -19,7 +12,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].course.number).toEqual(expected.courseNumber);
@@ -36,7 +29,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].course.number).toEqual(expected.courseNumber);
@@ -54,7 +47,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].course.number).toEqual(expected.courseNumber);
@@ -72,7 +65,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].course.number).toEqual(expected.courseNumber);
@@ -92,7 +85,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].course.number).toEqual(expected.courseNumber);
@@ -110,7 +103,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].professor.firstName).toEqual(expected.professorFirstName);
@@ -126,7 +119,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, connection);
+      const response = await doDbOp(async (con) => await find({ search }, con));
 
       expect(response).not.toHaveLength(0);
       expect(response[0].course.number).toEqual(expected.courseNumber);
@@ -139,6 +132,6 @@ describe('Test sample queries', () => {
   });
 });
 
-afterAll(() => {
-  connection.close();
+afterAll(async () => {
+  await getConnection("default").close();
 });

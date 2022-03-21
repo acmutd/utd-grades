@@ -1,31 +1,36 @@
-const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
+const { EntitySchema } = require("typeorm");
 
-module.exports = function (sequelize) {
-  const course = sequelize.define('course', {
+module.exports = new EntitySchema({
+  name: "course",
+  columns: {
+    id: {
+      primary: true,
+      type: "integer",
+      generated: true
+    },
     description: {
-      type: DataTypes.STRING,
+      type: "text",
+      nullable: true,
     },
     number: {
-      type: Sequelize.TEXT,
-      allowNull: false,
+      type: "text",
+      nullable: false,
     },
     prefix: {
-      type: Sequelize.TEXT,
-      allowNull: false,
+      type: "text",
+      nullable: false,
     },
-  }, {
-    hooks: {
-      beforeCount(options) {
-        options.raw = true;
-      },
+  },
+  relations: {
+    sections: {
+      type: "one-to-many",
+      target: "section",
+      inverseSide: "course"
     },
-  });
-
-  course.associate = function(models) {
-    course.hasMany(models.section);
-    course.belongsTo(models.semester);
-  }
-
-  return course;
-}
+    semester: {
+      type: "many-to-one",
+      target: "semester",
+      inverseSide: "courses",
+    },
+  },
+});
