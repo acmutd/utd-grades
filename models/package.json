@@ -1,0 +1,11 @@
+{
+  "name": "utd-grades-model",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "typeorm": "^0.2.45"
+  },
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
+}
