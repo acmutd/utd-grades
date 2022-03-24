@@ -20,12 +20,12 @@ export class Professor {
   id: number
 
   @Column({ nullable: true })
-  first: string | null
+  first: string
 
   @Column({ nullable: false })
   last: string
 
-  constructor(first: string | null, last: string) {
+  constructor(first: string, last: string) {
     this.first = first;
     this.last = last;
   }
@@ -73,16 +73,20 @@ export class Subject {
 
 @Entity()
 export class Grades {
-  @ManyToOne(() => Semester, { nullable: false, cascade: true, primary: true })
+
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @ManyToOne(() => Semester, { nullable: false, cascade: true })
   semester: Semester
 
-  @ManyToOne(() => Subject, { nullable: false, cascade: true, primary: true })
+  @ManyToOne(() => Subject, { nullable: false, cascade: true })
   subject: Subject
 
-  @ManyToOne(() => CatalogNumber, { nullable: false, cascade: true, primary: true })
+  @ManyToOne(() => CatalogNumber, { nullable: false, cascade: true })
   catalogNumber: CatalogNumber
 
-  @ManyToOne(() => Section, { nullable: false, cascade: true, primary: true })
+  @ManyToOne(() => Section, { nullable: false, cascade: true })
   section: Section
 
   @Column({ nullable: false })

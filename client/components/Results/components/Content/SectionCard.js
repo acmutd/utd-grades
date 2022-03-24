@@ -48,9 +48,9 @@ const Professor = styled.p`
 export default function SectionCard({ section, handleRelatedSectionClick }) {
   return (
     <SlideUp startAt={100}>
-      <Card onClick={() => handleRelatedSectionClick(`${section.course.prefix} ${section.course.number}`, section.id)}>
-        <Name>{section.course.prefix} {section.course.number}.{section.number}</Name>
-        <Professor>{section.professor.firstName} {section.professor.lastName} - {section.course.semester.name}</Professor>
+      <Card onClick={() => handleRelatedSectionClick(`${section.subject.name} ${section.catalogNumber.name}`, section.id)}>
+        <Name>{section.subject.name} {section.catalogNumber.name}.{section.section.name}</Name>
+        <Professor>{section.instructor1.first} {section.instructor1.last} - {section.semester.name}</Professor>
       </Card>
     </SlideUp>
   );

@@ -56,8 +56,8 @@ export default function Results({ search, sectionId, router }) {
     section && [
       'relatedSections',
       {
-        courseNumber: section.course.number,
-        coursePrefix: section.course.prefix,
+        courseNumber: section.catalogNumber.name,
+        coursePrefix: section.subject.name,
       },
     ],
     fetchSections,
