@@ -1,8 +1,10 @@
 const _ = require('lodash');
 const utils = require('./utils');
-const Section = require("../../../models/Section");
+const { Section, Grades } = require("utd-grades-models");
+const { getRepository } = require("typeorm");
+const { abbreviateSemesterName } = require('./utils');
 
-module.exports = async (queryParams, con) => {
+module.exports = async (queryParams) => {
 
   queryParams = utils.parseSearchStringIfExists(queryParams);
 
@@ -18,19 +20,24 @@ module.exports = async (queryParams, con) => {
     sortDirection = 'ASC'
   } = queryParams;
 
-  let query = con.getRepository(Section).createQueryBuilder("section");
+  let query = getRepository(Grades).createQueryBuilder("grades");
+
+  let sectionCondition = "";
+  let sectionConditionParams = {};
 
   if (!_.isNil(sectionNumber)) {
-    query = query.andWhere({
-      number: sectionNumber.trim().toUpperCase().padStart(3, '0')
-    });
+    sectionCondition = "section.name = :sectionName";
+    sectionConditionParams.sectionName = sectionNumber.toUpperCase();
   }
+
+  query = query.innerJoinAndSelect("grades.section", "section", sectionCondition, sectionConditionParams);
 
   let professorCondition = "";
   let professorConditionParams = {};
 
+  // TODO: better name matching
   if (!_.isNil(firstName)) {
-    professorCondition += "professor.firstName ILIKE :firstName";
+    professorCondition += "professor.first ILIKE :firstName";
     professorConditionParams.firstName = `%${firstName.trim()}%`;
   }
 
@@ -38,50 +45,54 @@ module.exports = async (queryParams, con) => {
     if (professorCondition) {
       professorCondition += " AND ";
     }
-    professorCondition += "professor.lastName ILIKE :lastName";
+    professorCondition += "professor.last ILIKE :lastName";
     professorConditionParams.lastName = `%${lastName.trim()}%`;
   }
 
-  query = query.innerJoinAndSelect("section.professor", "professor", professorCondition, professorConditionParams);
+  // TODO: other instructors ignored
+  query = query.innerJoinAndSelect("grades.instructor1", "professor", professorCondition, professorConditionParams);
 
-  let courseCondition = "";
-  let courseConditionParams = {};
+  let catalogNumberCondition = "";
+  let catalogNumberConditionParams = {};
 
   if (!_.isNil(courseNumber)) {
-    courseCondition += "course.number = :courseNumber";
-    courseConditionParams.courseNumber = courseNumber.trim();
+    catalogNumberCondition += "catalogNumber.name = :courseNumber";
+    catalogNumberConditionParams.courseNumber = courseNumber.trim();
   }
+
+  query = query.innerJoinAndSelect("grades.catalogNumber", "catalogNumber", catalogNumberCondition, catalogNumberConditionParams);
+
+  let subjectCondition = "";
+  let subjectConditionParams = {};
 
   if (!_.isNil(coursePrefix)) {
-    if (courseCondition) {
-      courseCondition += " AND ";
-    }
-    courseCondition += "course.prefix = :coursePrefix";
-    courseConditionParams.coursePrefix = coursePrefix.toUpperCase().trim();
+    subjectCondition += "subject.name = :coursePrefix";
+    subjectConditionParams.coursePrefix = coursePrefix.toUpperCase().trim();
   }
 
-  query = query.innerJoinAndSelect("section.course", "course", courseCondition, courseConditionParams);
+  query = query.innerJoinAndSelect("grades.subject", "subject", subjectCondition, subjectConditionParams);
 
   let semesterCondition = "";
   let semesterConditionParams = {};
 
   if (!_.isNil(year)) {
-    semesterCondition += "semester.year = :semesterYear";
-    semesterConditionParams.semesterYear = year.trim();
+    semesterCondition += "semester.name ILIKE :semesterYear";
+    semesterConditionParams.semesterYear = `%${year.trim()[2] + year.trim()[3]}%`; // TODO: bad
   }
 
   if (!_.isNil(type)) {
     if (semesterCondition) {
       semesterCondition += " AND ";
     }
-    semesterCondition += "semester.type = :semesterType";
-    semesterConditionParams.semesterType = type.toLowerCase().trim();
+    semesterCondition += "semester.name ILIKE :semesterType";
+    semesterConditionParams.semesterType = `%${abbreviateSemesterName(type)}%`;
   }
 
-  query = query.innerJoinAndSelect("course.semester", "semester", semesterCondition, semesterConditionParams);
+  query = query.innerJoinAndSelect("grades.semester", "semester", semesterCondition, semesterConditionParams);
 
   return await query
-    .addOrderBy("semester.year", "DESC")
-    .addOrderBy("section.number", "ASC")
+    // TODO: ordering
+    // .addOrderBy("semester.year", "DESC")
+    // .addOrderBy("section.number", "ASC")
     .getMany();
 };
