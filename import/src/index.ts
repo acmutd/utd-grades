@@ -1,6 +1,6 @@
 import * as csv from 'csv-parse/sync';
 import * as path from 'path';
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 import { createConnection, EntityManager, EntityTarget, getConnection } from "typeorm";
 import { CatalogNumber, Grades, Professor, Section, Semester, Subject } from 'utd-grades-models';
 
@@ -43,15 +43,15 @@ function gradesRow(csvRow: Record<string, any>, semester: Semester, profs: Map<s
   return grades;
 }
 
-function parseCsv(filePath: string): Record<string, any>[] {
+async function parseCsv(filePath: string): Promise<Record<string, any>[]> {
   console.log(filePath);
-  const fileContents = fs.readFileSync(filePath);
+  const fileContents = await fs.readFile(filePath);
   return csv.parse(fileContents, {
     columns: true, // detect column names from header
   });
 }
 
-function parseDataDir(dataDir: string): [Map<string, Professor>, Map<string, Semester>, Map<string, Subject>, Map<string, CatalogNumber>, Map<string, Section>, Grades[]] {
+async function parseDataDir(dataDir: string): Promise<[Map<string, Professor>, Map<string, Semester>, Map<string, Subject>, Map<string, CatalogNumber>, Map<string, Section>, Grades[]]> {
   let profs = new Map<string, Professor>();
   let semesters = new Map<string, Semester>();
   let subjects = new Map<string, Subject>();
@@ -80,11 +80,11 @@ function parseDataDir(dataDir: string): [Map<string, Professor>, Map<string, Sem
 
   let grades: Grades[] = [];
 
-  for (const fileName of fs.readdirSync(dataDir)) {
+  for (const fileName of await fs.readdir(dataDir)) {
     const semester = new Semester(path.parse(fileName).name)
     add(semesters, semester);
 
-    for (const csvRow of parseCsv(path.join(dataDir, fileName))) {
+    for (const csvRow of await parseCsv(path.join(dataDir, fileName))) {
       addProf(csvRow["Instructor 1"]);
       addProf(csvRow["Instructor 2"]);
       addProf(csvRow["Instructor 3"]);
@@ -109,18 +109,14 @@ async function insertMap<T>(manager: EntityManager, target: EntityTarget<T>, map
   }
 }
 
-async function createDb() {
-  await createConnection({
-    name: "default",
-    type: "postgres",
-    host: "localhost",
-    username: "postgres",
-    database: "utdgrades",
+async function createDb(): Promise<Uint8Array> {
+  const con = await createConnection({
+    type: "sqljs",
     synchronize: true,
     entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
   });
 
-  const [profs, semesters, subjects, catalogNumbers, sections, allGrades] = parseDataDir("../data");
+  const [profs, semesters, subjects, catalogNumbers, sections, allGrades] = await parseDataDir("../data/raw");
 
   await getConnection().transaction(async manager => {
     // insert() each separately instead of just save()ing everything in allGrades for super speed boost
@@ -135,7 +131,18 @@ async function createDb() {
     }
   });
 
-  await getConnection("default").close();
+  // @ts-ignore SqljsDriver isn't exported from typeorm, but it's here: https://github.com/typeorm/typeorm/blob/68a5c230776f6ad4e3ee7adea5ad4ecdce033c7e/src/driver/sqljs/SqljsDriver.ts
+  const data: Uint8Array = (con.driver as SqljsDriver).export();
+
+  await con.close();
+
+  return data;
 }
 
-createDb();
+async function main() {
+  const data = await createDb();
+  await fs.writeFile("../data/utdgrades.sqlite3", Buffer.from(data));
+}
+
+main()
+
