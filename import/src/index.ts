@@ -64,6 +64,19 @@ function parseDataDir(dataDir: string): [Map<string, Professor>, Map<string, Sem
     }
   }
 
+  function addProf(name?: string) {
+    if (name && !profs.has(name)) {
+      const parts = name.split(",");
+
+      let first = parts[1] ?? null;
+      if (first) first = first.trim();
+
+      let last = parts[0]!.trim();
+
+      profs.set(name, new Professor(first, last));
+    }
+  }
+
   let grades: Grades[] = [];
 
   for (const fileName of fs.readdirSync(dataDir)) {
@@ -71,12 +84,12 @@ function parseDataDir(dataDir: string): [Map<string, Professor>, Map<string, Sem
     add(semesters, semester);
 
     for (const csvRow of parseCsv(path.join(dataDir, fileName))) {
-      add(profs, new Professor(csvRow["Instructor 1"]));
-      add(profs, new Professor(csvRow["Instructor 2"]));
-      add(profs, new Professor(csvRow["Instructor 3"]));
-      add(profs, new Professor(csvRow["Instructor 4"]));
-      add(profs, new Professor(csvRow["Instructor 5"]));
-      add(profs, new Professor(csvRow["Instructor 6"]));
+      addProf(csvRow["Instructor 1"]);
+      addProf(csvRow["Instructor 2"]);
+      addProf(csvRow["Instructor 3"]);
+      addProf(csvRow["Instructor 4"]);
+      addProf(csvRow["Instructor 5"]);
+      addProf(csvRow["Instructor 6"]);
 
       add(subjects, new Subject(csvRow["Subject"]));
       add(catalogNumbers, new CatalogNumber(csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"]));

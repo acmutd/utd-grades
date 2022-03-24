@@ -94,5 +94,17 @@ module.exports = {
     if (lastName) params['lastName'] = lastName;
 
     return params;
+  },
+  
+  abbreviateSemesterName(name) {
+    name = name.trim().toLowerCase();
+    if (name === 'summer') {
+      return 'su';
+    } else if (name === 'spring') {
+      return 's';
+    } else if (name === 'fall') {
+      return 'f';
+    }
+    return null;
   }
 }

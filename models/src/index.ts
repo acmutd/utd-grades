@@ -19,11 +19,15 @@ export class Professor {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({ nullable: false, unique: true })
-  name: string
+  @Column({ nullable: true })
+  first: string | null
 
-  constructor(name: string) {
-    this.name = name;
+  @Column({ nullable: false })
+  last: string
+
+  constructor(first: string | null, last: string) {
+    this.first = first;
+    this.last = last;
   }
 }
 
