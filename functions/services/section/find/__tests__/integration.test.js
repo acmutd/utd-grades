@@ -1,6 +1,20 @@
-const { getConnection } = require('typeorm');
-const doDbOp = require('../../../../models');
+const { getConnection, createConnection } = require('typeorm');
+const { CatalogNumber, Grades, Professor, Section, Semester, Subject } = require("utd-grades-models");
 const find = require('../index');
+
+
+beforeAll(async () => {
+  await createConnection({
+    name: "default",
+    type: "postgres",
+    host: "localhost",
+    username: "postgres",
+    database: "utdgrades",
+    synchronize: true,
+    entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
+    // logging: true // useful for debugging
+  });
+})
 
 describe('Test sample queries', () => {
   test('Should search by course prefix and number', async () => {
@@ -12,11 +26,11 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].course.number).toEqual(expected.courseNumber);
-      expect(response[0].course.prefix).toEqual(expected.coursePrefix);
+      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
+      expect(response[0].subject.name).toEqual(expected.coursePrefix);
     }
   });
   
@@ -29,11 +43,11 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].course.number).toEqual(expected.courseNumber);
-      expect(response[0].course.prefix).toEqual(expected.coursePrefix);
+      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
+      expect(response[0].subject.name).toEqual(expected.coursePrefix);
     }
   });
 
@@ -47,31 +61,30 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].course.number).toEqual(expected.courseNumber);
-      expect(response[0].course.prefix).toEqual(expected.coursePrefix);
-      expect(response[0].number.includes(expected.sectionNumber)).toBeTruthy();
+      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
+      expect(response[0].subject.name).toEqual(expected.coursePrefix);
+      expect(response[0].section.name.includes(expected.sectionNumber)).toBeTruthy();
     }
   });
 
   test('Should handle semesters', async () => {
     const queries = [
-      { search: 'CS 1337 fall 2019', expected: { coursePrefix: 'CS', courseNumber: '1337', semesterType: 'fall', year: 2019 } },
-      { search: 'BCOM 3310 Summer 2019', expected: { coursePrefix: 'BCOM', courseNumber: '3310', semesterType: 'summer', year: 2019 } },
-      { search: 'HIST 1301 Spring 2018', expected: { coursePrefix: 'HIST', courseNumber: '1301', semesterType: 'spring', year: 2018 } }
+      { search: 'CS 1337 fall 2019', expected: { coursePrefix: 'CS', courseNumber: '1337', semester: 'f19' } },
+      { search: 'BCOM 3310 Summer 2019', expected: { coursePrefix: 'BCOM', courseNumber: '3310', semester: 'su19' } },
+      { search: 'HIST 1301 Spring 2018', expected: { coursePrefix: 'HIST', courseNumber: '1301', semester: 's18' } }
     ];
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].course.number).toEqual(expected.courseNumber);
-      expect(response[0].course.prefix).toEqual(expected.coursePrefix);
-      expect(response[0].course.semester.type).toEqual(expected.semesterType);
-      expect(response[0].course.semester.year).toEqual(expected.year);
+      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
+      expect(response[0].subject.name).toEqual(expected.coursePrefix);
+      expect(response[0].semester.name).toEqual(expected.semester);
     }
   });
 
@@ -85,13 +98,13 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].course.number).toEqual(expected.courseNumber);
-      expect(response[0].course.prefix).toEqual(expected.coursePrefix);
-      expect(response[0].professor.firstName).toEqual(expected.professorFirstName);
-      expect(response[0].professor.lastName).toEqual(expected.professorLastName);
+      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
+      expect(response[0].subject.name).toEqual(expected.coursePrefix);
+      expect(response[0].instructor1.first).toEqual(expected.professorFirstName);
+      expect(response[0].instructor1.last).toEqual(expected.professorLastName);
     }
   });
 
@@ -103,31 +116,30 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].professor.firstName).toEqual(expected.professorFirstName);
-      expect(response[0].professor.lastName).toEqual(expected.professorLastName);
+      expect(response[0].instructor1.first).toEqual(expected.professorFirstName);
+      expect(response[0].instructor1.last).toEqual(expected.professorLastName);
     }
   });
 
   test('Should handle everything together', async () => {
     const queries = [
-      { search: 'CS 1337 502 fall 2019 Stephen Perkins', expected: { coursePrefix: 'CS', courseNumber: '1337', sectionNumber: '501', semesterType: 'fall', year: 2019, professorFirstName: 'Stephen J', professorLastName: 'Perkins' } },
-      { search: 'BCOM 3310 HON Fall 2019 Kristen Lawson', expected: { coursePrefix: 'BCOM', courseNumber: '3310', sectionNumber: 'HON', semesterType: 'fall', year: 2019, professorFirstName: 'Kristen A', professorLastName: 'Lawson' } }
+      { search: 'CS 1337 502 fall 2019 Stephen Perkins', expected: { coursePrefix: 'CS', courseNumber: '1337', sectionNumber: '501', semester: 'f19', professorFirstName: 'Stephen J', professorLastName: 'Perkins' } },
+      { search: 'BCOM 3310 HON Fall 2019 Kristen Lawson', expected: { coursePrefix: 'BCOM', courseNumber: '3310', sectionNumber: 'HON', semester: 'f19', professorFirstName: 'Kristen A', professorLastName: 'Lawson' } }
     ];
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await doDbOp(async (con) => await find({ search }, con));
+      const response = await find({ search });
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].course.number).toEqual(expected.courseNumber);
-      expect(response[0].course.prefix).toEqual(expected.coursePrefix);
-      expect(response[0].course.semester.type).toEqual(expected.semesterType);
-      expect(response[0].course.semester.year).toEqual(expected.year);
-      expect(response[0].professor.firstName).toEqual(expected.professorFirstName);
-      expect(response[0].professor.lastName).toEqual(expected.professorLastName);
+      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
+      expect(response[0].subject.name).toEqual(expected.coursePrefix);
+      expect(response[0].semester.name).toEqual(expected.semester);
+      expect(response[0].instructor1.first).toEqual(expected.professorFirstName);
+      expect(response[0].instructor1.last).toEqual(expected.professorLastName);
     }
   });
 });
