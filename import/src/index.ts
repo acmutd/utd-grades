@@ -68,12 +68,13 @@ function parseDataDir(dataDir: string): [Map<string, Professor>, Map<string, Sem
     if (name && !profs.has(name)) {
       const parts = name.split(",");
 
-      let first = parts[1] ?? null;
+      let first = parts[1];
       if (first) first = first.trim();
 
       let last = parts[0]!.trim();
 
-      profs.set(name, new Professor(first, last));
+      // TODO non-null assertion is wrong, but I can't define Professor.first as string | null without typeorm yelling at me 
+      profs.set(name, new Professor(first!, last));
     }
   }
 

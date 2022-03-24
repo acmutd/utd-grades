@@ -2,10 +2,10 @@ const { getConnection, createConnection } = require('typeorm');
 const { CatalogNumber, Grades, Professor, Section, Semester, Subject } = require("utd-grades-models");
 const find = require('../index');
 
+let con;
 
 beforeAll(async () => {
-  await createConnection({
-    name: "default",
+  con = await createConnection({
     type: "postgres",
     host: "localhost",
     username: "postgres",
@@ -26,7 +26,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
@@ -43,7 +43,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
@@ -61,7 +61,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
@@ -79,7 +79,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
@@ -98,7 +98,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
@@ -116,7 +116,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].instructor1.first).toEqual(expected.professorFirstName);
@@ -132,7 +132,7 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search });
+      const response = await find({ search }, con);
 
       expect(response).not.toHaveLength(0);
       expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
@@ -145,5 +145,5 @@ describe('Test sample queries', () => {
 });
 
 afterAll(async () => {
-  await getConnection("default").close();
+  await con.close();
 });

@@ -75,5 +75,35 @@ export default {
     }
 
     return colors;
+  },
+  extractGrades(obj) {
+    let ret = {}
+
+    function addIfNotZero(key, value) {
+      if (value === 0) return;
+      ret[key] = value;
+    }
+
+    addIfNotZero('A+', obj.aPlus);
+    addIfNotZero('A', obj.a);
+    addIfNotZero('A-', obj.aMinus);
+    addIfNotZero('B+', obj.bPlus);
+    addIfNotZero('B', obj.b);
+    addIfNotZero('B-', obj.bMinus);
+    addIfNotZero('C+', obj.cPlus);
+    addIfNotZero('C', obj.c);
+    addIfNotZero('C-', obj.cMinus);
+    addIfNotZero('D+', obj.dPlus);
+    addIfNotZero('D', obj.d);
+    addIfNotZero('D-', obj.dMinus);
+    addIfNotZero('F', obj.f);
+    addIfNotZero('CR', obj.cr);
+    addIfNotZero('NC', obj.nc);
+    addIfNotZero('P', obj.p);
+    addIfNotZero('W', obj.w);
+    addIfNotZero('I', obj.i);
+    addIfNotZero('NF', obj.nf);
+
+    return ret;
   }
 };

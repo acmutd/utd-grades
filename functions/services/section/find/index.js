@@ -1,10 +1,9 @@
 const _ = require('lodash');
 const utils = require('./utils');
-const { Section, Grades } = require("utd-grades-models");
-const { getRepository } = require("typeorm");
+const { Grades } = require("utd-grades-models");
 const { abbreviateSemesterName } = require('./utils');
 
-module.exports = async (queryParams) => {
+module.exports = async (queryParams, con) => {
 
   queryParams = utils.parseSearchStringIfExists(queryParams);
 
@@ -20,7 +19,7 @@ module.exports = async (queryParams) => {
     sortDirection = 'ASC'
   } = queryParams;
 
-  let query = getRepository(Grades).createQueryBuilder("grades");
+  let query = con.getRepository(Grades).createQueryBuilder("grades");
 
   let sectionCondition = "";
   let sectionConditionParams = {};
