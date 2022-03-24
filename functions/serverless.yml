@@ -3,7 +3,6 @@ service: utd-grades
 custom:
   serverless-offline:
     httpPort: 4000
-  envVars: ${file(env.json)}
 
 provider:
   name: aws
@@ -13,11 +12,6 @@ provider:
   stackTags:
     environment: ${self:provider.stage}
     project: utd-grades
-  environment:
-    DB_NAME: ${env:DB_NAME, self:custom.envVars.DB_NAME}
-    DB_USER: ${env:DB_USER, self:custom.envVars.DB_USER}
-    DB_PASS: ${env:DB_PASS, self:custom.envVars.DB_PASS}
-    DB_HOST: ${env:DB_HOST, self:custom.envVars.DB_HOST}
   httpApi:
     cors: true
 
