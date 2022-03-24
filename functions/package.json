@@ -8,9 +8,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.19",
-    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
-    "sequelize": "^5.21.7",
+    "sql.js": "^1.6.2",
     "typeorm": "^0.2.45",
     "utd-grades-models": "file:../models"
   },
