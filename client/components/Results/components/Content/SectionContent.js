@@ -115,7 +115,7 @@ export default function SectionContent({ relatedSections, section, handleRelated
       mode: 'single',
       callbacks: {
         label: (tooltipItems, data) => {
-          const { values } = general.splitData(general.convertAssociatedArrayToObjectArray(section.grades));
+          const { values } = general.splitData(general.convertAssociatedArrayToObjectArray(general.extractGrades(section)));
           const total = _.sum(values);
 
           let text = [`Students: ${tooltipItems.yLabel}`];
@@ -134,7 +134,7 @@ export default function SectionContent({ relatedSections, section, handleRelated
   const [totalStudents, setTotalStudents] = useState();
 
   useEffect(() => {
-    const grades = section.grades;
+    const grades = general.extractGrades(section);
     const objectArray = general.convertAssociatedArrayToObjectArray(grades);
     const sortedGrades = general.sortByGrades(objectArray);
     const { keys, values } = general.splitData(sortedGrades);
@@ -158,8 +158,8 @@ export default function SectionContent({ relatedSections, section, handleRelated
   return (
     <Container>
       <Stack>
-        <Header>{section.course.prefix} {section.course.number}<Section>.{section.number}</Section></Header>
-        <SubHeader>{section.professor.lastName}, {section.professor.firstName} - {section.course.semester.name}</SubHeader>
+        <Header>{section.subject.name} {section.catalogNumber.name}<Section>.{section.number}</Section></Header>
+        <SubHeader>{section.instructor1.last}, {section.instructor1.first} - {section.semester.name}</SubHeader>
         <Total>Total Students <span style={{ color: '#333333' }}>{totalStudents}</span></Total>
       </Stack>
 

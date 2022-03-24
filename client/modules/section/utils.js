@@ -1,23 +1,25 @@
 export default {
-  buildSectionNames(sections) {
-    if (sections) {
-      for (let i = 0; i < sections.length; i++) {
-        sections[i] = this.buildSectionName(sections[i]);
+  expandSemesterNames(response) {
+    if (response) {
+      for (let i = 0; i < response.length; i++) {
+        response[i] = this.expandSemesterName(response[i]);
       }
     }
-
-    return sections;
+    return response;
   },
-  buildSectionName(section) {
-    if (section && section.course && section.course.semester) {
-      section.course.semester.name = this.getSemesterName(section.course.semester)
+  expandSemesterName(response) {
+    let s = response.semester.name;
+
+    if (s.startsWith('su')) {
+      s = `Summer 20${s.substring(2)}`
+    } else if (s.startsWith('s')) {
+      s = `Spring 20${s.substring(1)}`
+    } else if (s.startsWith('f')) {
+      s = `Fall 20${s.substring(1)}`
     }
 
-    return section;
-  },
-  getSemesterName(semester) {
-    const capitalizedType = semester.type.charAt(0).toUpperCase() + semester.type.slice(1);
+    response.semester.name = s;
 
-    return `${capitalizedType} ${semester.year}`;
+    return response;
   }
 }

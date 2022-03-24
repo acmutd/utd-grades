@@ -142,7 +142,7 @@ export default function ResultsList({ loading, id, data, onClick, error }) {
           }}
           dataSource={data}
           renderItem={item => {  
-            const { keys, values } = general.splitData(general.convertAssociatedArrayToObjectArray(item.grades));
+            const { keys, values } = general.splitData(general.convertAssociatedArrayToObjectArray(general.extractGrades(item)));
             const total = sum(values);
 
             return (
@@ -152,8 +152,8 @@ export default function ResultsList({ loading, id, data, onClick, error }) {
                 actions={[<IconText icon={UserOutlined} text={total} key="students-total" />]}
                 onClick={() => onClick(item.id)}>
                 <List.Item.Meta
-                  title={<a href="#">{item.course.prefix} {item.course.number}.{item.number}</a>}
-                  description={`${item.professor.lastName}, ${item.professor.firstName} - ${item.course.semester.name}`}
+                  title={<a href="#">{item.subject.name} {item.catalogNumber.name}.{item.section.name}</a>}
+                  description={`${item.instructor1.last}, ${item.instructor1.first} - ${item.semester.name}`}
                 />
               </Item>
             );
