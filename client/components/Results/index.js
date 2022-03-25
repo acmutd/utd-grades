@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { List, Content } from './components';
 import { Form } from '../';
 import { Row, Col } from 'antd';
-import { fetchSections, fetchSection } from '../../modules/section';
+import { fetchSections, fetchSection } from '../../search';
 import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
 import { useQuery } from 'react-query';

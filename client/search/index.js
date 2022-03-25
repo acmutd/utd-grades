@@ -1,5 +1,5 @@
-import find from '../../services/section/find';
-import get from '../../services/section/get';
+import find from './getSections';
+import get from './getSectionById';
 import utils from './utils';
 const { CatalogNumber, Grades, Professor, Section, Semester, Subject } = require("utd-grades-models");
 const { createConnection } = require("typeorm");
@@ -8,7 +8,7 @@ let con;
 
 async function initCon() {
   if (!con) {
-    const response = await fetch(new URL("../../../data/utdgrades.sqlite3", import.meta.url).toString());
+    const response = await fetch(new URL("../../data/utdgrades.sqlite3", import.meta.url).toString());
     const data = await response.arrayBuffer();
 
     con = await createConnection({
@@ -17,7 +17,7 @@ async function initCon() {
       entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
       sqlJsConfig: {
         locateFile: () =>
-          new URL("../../node_modules/sql.js/dist/sql-wasm.wasm", import.meta.url).toString()
+          new URL("../node_modules/sql.js/dist/sql-wasm.wasm", import.meta.url).toString()
       }
     });
   }

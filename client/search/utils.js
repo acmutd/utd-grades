@@ -17,7 +17,7 @@ module.exports = {
   parseSearchString(search) {
     const searchString = search.toLowerCase();
 
-    const prefixPattern = /(?<!\w)(?!summer|spring|fall)([a-zA-Z]{2,4})(?=(\s|\d+))/
+    const prefixPattern = /(?<!\w)(?!summer|spring|fall)([a-zA-Z]{2,4})(?=(\s|\d+))/ // FIXME: this causes searches for 2-4 letter long names to not work
     const numberPattern = /(?:(?<!fall\s)|(?<!fall)|(?<!spring\s)|(?<!spring)|(?<!summer\s)|(?<!summer))(\d{4})/
     const yearPattern = /(?:(?<=fall\s)|(?<=fall)|(?<=spring\s)|(?<=spring)|(?<=summer\s)|(?<=summer))(\d{4})/
     const semesterPattern = /(fall|spring|summer)(?=\d{4}|\s\d{4})/
@@ -106,5 +106,30 @@ module.exports = {
       return 'f';
     }
     return null;
+  },
+
+  expandSemesterNames(response) {
+    if (response) {
+      for (let i = 0; i < response.length; i++) {
+        response[i] = this.expandSemesterName(response[i]);
+      }
+    }
+    return response;
+  },
+  
+  expandSemesterName(response) {
+    let s = response.semester.name;
+
+    if (s.startsWith('su')) {
+      s = `Summer 20${s.substring(2)}`
+    } else if (s.startsWith('s')) {
+      s = `Spring 20${s.substring(1)}`
+    } else if (s.startsWith('f')) {
+      s = `Fall 20${s.substring(1)}`
+    }
+
+    response.semester.name = s;
+
+    return response;
   }
 }
