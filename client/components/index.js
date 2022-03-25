@@ -4,7 +4,6 @@ import Results from './Results';
 import Core from './Core';
 import Header from './Header';
 import Animations from './Animations';
-import MigrationNotice from './MigrationNotice';
 
 export {
   Core,
@@ -13,5 +12,4 @@ export {
   Results,
   Header,
   Animations,
-  MigrationNotice,
 };
