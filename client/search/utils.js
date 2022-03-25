@@ -116,7 +116,7 @@ module.exports = {
     }
     return response;
   },
-  
+
   expandSemesterName(response) {
     let s = response.semester.name;
 
