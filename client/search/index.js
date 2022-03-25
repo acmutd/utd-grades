@@ -23,7 +23,7 @@ async function initCon() {
   }
 }
 
-export async function fetchSections(key, params) {
+export async function fetchSections(params) {
   try {
     await initCon();
     let response = await find(params, con);
