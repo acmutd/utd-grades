@@ -1,6 +1,6 @@
 const { createConnection } = require('typeorm');
 const { CatalogNumber, Grades, Professor, Section, Semester, Subject } = require("utd-grades-models");
-const find = require('../index');
+const find = require('../getSections');
 const fs = require("fs/promises");
 
 let con;

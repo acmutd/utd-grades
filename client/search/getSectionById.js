@@ -9,4 +9,4 @@ module.exports = async (id, con) => {
     .innerJoinAndSelect("grades.subject", "subject")
     .innerJoinAndSelect("grades.semester", "semester")
     .getOne();
-};
+}
