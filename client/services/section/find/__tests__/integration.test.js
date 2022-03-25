@@ -1,16 +1,16 @@
-const { getConnection, createConnection } = require('typeorm');
+const { createConnection } = require('typeorm');
 const { CatalogNumber, Grades, Professor, Section, Semester, Subject } = require("utd-grades-models");
 const find = require('../index');
+const fs = require("fs/promises");
 
 let con;
 
 beforeAll(async () => {
+  const data = await fs.readFile("../data/utdgrades.sqlite3");
+
   con = await createConnection({
-    type: "postgres",
-    host: "localhost",
-    username: "postgres",
-    database: "utdgrades",
-    synchronize: true,
+    type: "sqljs",
+    database: data,
     entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
     // logging: true // useful for debugging
   });
