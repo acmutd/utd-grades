@@ -1,7 +1,7 @@
 import React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { Core, Form, Animations, MigrationNotice } from '../components';
+import { Core, Form, Animations } from '../components';
 import { Col } from 'antd';
 
 const { FadeIn } = Animations;
@@ -64,7 +64,6 @@ export default function Home() {
               <Description>See how students did in any given class. And it's <strong>free, forever.</strong></Description>
             </FadeIn>
             <Form onSubmit={handleSubmit} />
-            <MigrationNotice />
           </Col>
         </Main>
       </Content>
