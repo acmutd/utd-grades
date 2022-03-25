@@ -1,11 +1,10 @@
 const _ = require('lodash');
-const utils = require('./utils');
+const { abbreviateSemesterName, parseSearchStringIfExists } = require('./utils');
 const { Grades } = require("utd-grades-models");
-const { abbreviateSemesterName } = require('./utils');
 
 module.exports = async (queryParams, con) => {
 
-  queryParams = utils.parseSearchStringIfExists(queryParams);
+  queryParams = parseSearchStringIfExists(queryParams);
 
   const {
     sectionNumber,
@@ -36,7 +35,7 @@ module.exports = async (queryParams, con) => {
 
   // TODO: better name matching
   if (!_.isNil(firstName)) {
-    professorCondition += "professor.first ILIKE :firstName";
+    professorCondition += "professor.first LIKE :firstName";
     professorConditionParams.firstName = `%${firstName.trim()}%`;
   }
 
@@ -44,7 +43,7 @@ module.exports = async (queryParams, con) => {
     if (professorCondition) {
       professorCondition += " AND ";
     }
-    professorCondition += "professor.last ILIKE :lastName";
+    professorCondition += "professor.last LIKE :lastName";
     professorConditionParams.lastName = `%${lastName.trim()}%`;
   }
 
@@ -75,7 +74,7 @@ module.exports = async (queryParams, con) => {
   let semesterConditionParams = {};
 
   if (!_.isNil(year)) {
-    semesterCondition += "semester.name ILIKE :semesterYear";
+    semesterCondition += "semester.name LIKE :semesterYear";
     semesterConditionParams.semesterYear = `%${year.trim()[2] + year.trim()[3]}%`; // TODO: bad
   }
 
@@ -83,7 +82,7 @@ module.exports = async (queryParams, con) => {
     if (semesterCondition) {
       semesterCondition += " AND ";
     }
-    semesterCondition += "semester.name ILIKE :semesterType";
+    semesterCondition += "semester.name LIKE :semesterType";
     semesterConditionParams.semesterType = `%${abbreviateSemesterName(type)}%`;
   }
 

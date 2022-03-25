@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
@@ -21,12 +22,20 @@
     "react-query": "^1.2.9",
     "react-scroll": "^1.8.4",
     "react-transition-group": "^4.3.0",
-    "styled-components": "^5.1.0"
+    "reflect-metadata": "^0.1.13",
+    "sql.js": "^1.6.2",
+    "styled-components": "^5.1.0",
+    "typeorm": "^0.2.45",
+    "utd-grades-models": "file:../models"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^3.0.0",
-    "prettier": "2.0.5"
+    "jest": "^27.5.1",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "path": "^0.12.7",
+    "prettier": "2.0.5",
+    "webpack": "^5.70.0"
   }
 }

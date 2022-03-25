@@ -6,7 +6,7 @@ module.exports = {
       if (search) {
         queryParams = {
           ...queryParams,
-          ...this.parseSearchString(search)
+          ...module.exports.parseSearchString(search)
         };
       }
     }
