@@ -3,10 +3,11 @@ import './styles.css';
 import 'antd/dist/antd.css';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import type { AppProps } from 'next/app'
 
 const queryClient = new QueryClient();
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <>
       <Head>

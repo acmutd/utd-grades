@@ -1,5 +1,7 @@
+import { StringGradients } from 'antd/lib/progress/progress';
 import React from 'react';
 import styled from 'styled-components';
+import { Grades } from 'utd-grades-models';
 import SlideUp from './animations/SlideUp';
 
 const Card = styled.div`
@@ -43,7 +45,12 @@ const Professor = styled.p`
   margin-bottom: 0px;
 `;
 
-export default function SectionCard({ section, handleRelatedSectionClick }) {
+interface SectionCardProps {
+  section: Grades;
+  handleRelatedSectionClick: (search: string, id: number) => void;
+}
+
+export default function SectionCard({ section, handleRelatedSectionClick }: SectionCardProps) {
   return (
     <SlideUp delay={100}>
       <Card

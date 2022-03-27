@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { List, Spin, Popover as AntPopover } from 'antd';
 import { FrownTwoTone, UserOutlined } from '@ant-design/icons';
-import general from '../utils/general';
 import styled, { css } from 'styled-components';
+import { Grades } from 'utd-grades-models';
+import { getTotalStudents } from '../utils/util';
 
-const Item = styled(List.Item)`
+const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
   border-right: 1px solid #e8e8e8;
   border-bottom: 1px solid #e8e8e8;
@@ -83,14 +84,37 @@ const LoadingItem = styled(List.Item)`
   }
 `;
 
-const IconText = ({ icon, text }) => (
+const IconWrapper = styled.div`
+  margin-right: 8;
+`;
+
+interface IconTextProps {
+  icon: ReactNode;
+  text: string;
+}
+
+const IconText = ({ icon, text }: IconTextProps) => (
   <span>
-    {React.createElement(icon, { style: { marginRight: 8 } })}
+    <IconWrapper>{icon}</IconWrapper>
     {text}
   </span>
 );
 
-export default function SectionList({ loading, id, data, onClick, error }) {
+interface SectionListProps {
+  loading: boolean;
+  id: number;
+  data: any;
+  onClick: any;
+  error: any;
+}
+
+export default function SectionList({
+  loading,
+  id,
+  data,
+  onClick,
+  error,
+}: SectionListProps) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -133,7 +157,7 @@ export default function SectionList({ loading, id, data, onClick, error }) {
       return emptyMessage;
     } else {
       return (
-        <List
+        <List<Grades>
           itemLayout="vertical"
           size="large"
           pagination={{
@@ -147,7 +171,7 @@ export default function SectionList({ loading, id, data, onClick, error }) {
           }}
           dataSource={data}
           renderItem={(item) => {
-            const totalStudents = general.getTotalStudents(item);
+            const totalStudents = getTotalStudents(item);
 
             return (
               <Item
@@ -155,7 +179,7 @@ export default function SectionList({ loading, id, data, onClick, error }) {
                 selected={item.id == id}
                 actions={[
                   <IconText
-                    icon={UserOutlined}
+                    icon={<UserOutlined />}
                     text={totalStudents}
                     key="students-total"
                   />,

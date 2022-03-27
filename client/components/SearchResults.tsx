@@ -7,6 +7,8 @@ import { fetchSections, fetchSection } from '../search';
 import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
 import { useQuery } from 'react-query';
+import { NextRouter, Router } from 'next/router';
+import { UnparsedSearchQuery } from '../types';
 
 const Container = styled.div`
   display: block;
@@ -40,8 +42,14 @@ const ResultsContainer = styled(Col)`
   }
 `;
 
-export default function Results({ search, sectionId, router }) {
-  const scrollRef = useRef();
+interface ResultsProps {
+  search: string;
+  sectionId: number;
+  router: NextRouter;
+}
+
+export default function Results({ search, sectionId, router }: ResultsProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const {
     data: sections,
@@ -72,39 +80,39 @@ export default function Results({ search, sectionId, router }) {
     ],
     () =>
       fetchSections({
-        courseNumber: section.catalogNumber.name,
-        coursePrefix: section.subject.name,
+        courseNumber: section!.catalogNumber.name, // can't be null because we guard on `section`
+        coursePrefix: section!.subject.name,
       }),
     { retry: false, enabled: !!section }
   );
 
-  function handleSubmit({ search }) {
+  function handleSubmit({ search } : UnparsedSearchQuery) {
     router.push({
       pathname: '/results',
       query: { search },
     });
   }
 
-  function handleClick(id) {
+  function handleClick(id: string) {
     router.push({
       pathname: '/results',
       query: { search, sectionId: id },
     });
 
     const scrollDistance =
-      window.pageYOffset + scrollRef.current.getBoundingClientRect().top;
+      window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
   }
 
-  function handleRelatedSectionClick(search, id) {
+  function handleRelatedSectionClick(search: string, id: number) {
     router.push({
       pathname: '/results',
       query: { search, sectionId: id },
     });
 
     const scrollDistance =
-      window.pageYOffset + scrollRef.current.getBoundingClientRect().top;
+      window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
   }
@@ -117,7 +125,7 @@ export default function Results({ search, sectionId, router }) {
           sm={{ span: 18, offset: 3 }}
           xs={{ span: 20, offset: 2 }}
         >
-          <Search onSubmit={handleSubmit} initialValues={{ search }} />
+          <Search onSubmit={handleSubmit} initialSearchValue={search} />
         </Col>
       </Row>
 
@@ -140,8 +148,8 @@ export default function Results({ search, sectionId, router }) {
             <Col lg={18} xs={24}>
               <div style={{ width: '100%', height: '100%' }} ref={scrollRef}>
                 <SearchResultsContent
-                  section={section}
-                  relatedSections={relatedSections}
+                  section={section!} // FIXME: need to actually do something if these are null
+                  relatedSections={relatedSections!}
                   loadingSection={sectionStatus === 'loading'}
                   handleRelatedSectionClick={handleRelatedSectionClick}
                   error={sectionError}

@@ -1,11 +1,16 @@
-const {
-  abbreviateSemesterName,
-  parseSearchStringIfExists,
-} = require('./utils');
-const { Grades } = require('utd-grades-models');
+import { abbreviateSemesterName, parseSearchString } from './utils';
+import { Grades } from 'utd-grades-models';
+import { DataSource } from 'typeorm';
+import { SearchQuery } from '../types';
 
-module.exports = async (queryParams, con) => {
-  queryParams = parseSearchStringIfExists(queryParams);
+export default async function getSections(
+  params: SearchQuery,
+  con: DataSource
+): Promise<Grades[]> {
+  const parsed = parseSearchString(params);
+  if (!parsed) {
+    return [];
+  }
 
   const {
     sectionNumber,
@@ -17,12 +22,14 @@ module.exports = async (queryParams, con) => {
     type,
     sortField = 'number',
     sortDirection = 'ASC',
-  } = queryParams;
+  } = parsed;
 
   let query = con.getRepository(Grades).createQueryBuilder('grades');
 
+  // TODO this is all kind of a mess...
+
   let sectionCondition = '';
-  let sectionConditionParams = {};
+  let sectionConditionParams: { sectionName?: string } = {};
 
   if (sectionNumber != null) {
     sectionCondition = 'section.name = :sectionName';
@@ -37,7 +44,7 @@ module.exports = async (queryParams, con) => {
   );
 
   let professorCondition = '';
-  let professorConditionParams = {};
+  let professorConditionParams: { firstName?: string; lastName?: string } = {};
 
   // TODO: better name matching
   if (firstName != null) {
@@ -62,7 +69,7 @@ module.exports = async (queryParams, con) => {
   );
 
   let catalogNumberCondition = '';
-  let catalogNumberConditionParams = {};
+  let catalogNumberConditionParams: { courseNumber?: string } = {};
 
   if (courseNumber != null) {
     catalogNumberCondition += 'catalogNumber.name = :courseNumber';
@@ -77,7 +84,7 @@ module.exports = async (queryParams, con) => {
   );
 
   let subjectCondition = '';
-  let subjectConditionParams = {};
+  let subjectConditionParams: { coursePrefix?: string } = {};
 
   if (coursePrefix != null) {
     subjectCondition += 'subject.name = :coursePrefix';
@@ -92,7 +99,10 @@ module.exports = async (queryParams, con) => {
   );
 
   let semesterCondition = '';
-  let semesterConditionParams = {};
+  let semesterConditionParams: {
+    semesterYear?: string;
+    semesterType?: string;
+  } = {};
 
   if (year != null) {
     semesterCondition += 'semester.name LIKE :semesterYear';
@@ -121,4 +131,4 @@ module.exports = async (queryParams, con) => {
     // .addOrderBy("semester.year", "DESC")
     // .addOrderBy("section.number", "ASC")
     .getMany();
-};
+}

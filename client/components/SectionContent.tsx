@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import { Row, Spin } from 'antd';
 import SectionCard from './SectionCard';
-import general from '../utils/general';
 
 import {
   Chart as ChartJS,
@@ -10,8 +9,12 @@ import {
   LinearScale,
   BarElement,
   Tooltip,
+  ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { Grades } from 'utd-grades-models';
+import { getTotalStudents, extractGrades, getColors } from '../utils/util';
+import { UserFriendlyGrades } from '../types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -108,18 +111,24 @@ const Stack = styled.div`
   flex-direction: column;
 `;
 
+interface SectionContentProps {
+  relatedSections: Grades[];
+  section: Grades;
+  handleRelatedSectionClick: (search: string, id: number) => void;
+}
+
 export default function SectionContent({
   relatedSections,
   section,
   handleRelatedSectionClick,
-}) {
+}: SectionContentProps) {
   const renderRelatedSections = () => {
     if (relatedSections) {
       return relatedSections
         .filter((s) => s.id != section.id)
         .map((s) => (
           <SectionCard
-            key={s.id}
+            key={s.id} // FIXME
             section={s}
             handleRelatedSectionClick={handleRelatedSectionClick}
           />
@@ -129,23 +138,23 @@ export default function SectionContent({
     return <Spin />;
   };
 
-  const totalStudents = general.getTotalStudents(section);
+  const totalStudents = getTotalStudents(section);
 
-  const grades = general.extractGrades(section);
-  const keys = Object.keys(grades);
+  const grades = extractGrades(section);
+  const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
   const values = Object.values(grades);
 
   const data = {
     labels: keys,
-    datasets: [{ backgroundColor: general.getColors(keys), data: values }],
+    datasets: [{ backgroundColor: getColors(keys), data: values }],
   };
 
-  const options = {
+  const options: ChartOptions<"bar"> = {
     plugins: {
       tooltip: {
         enabled: true,
         mode: 'nearest',
-        interesect: true,
+        intersect: true,
         callbacks: {
           label: (context) => {
             const count = context.parsed.y;
@@ -164,7 +173,7 @@ export default function SectionContent({
       <Stack>
         <Header>
           {section.subject.name} {section.catalogNumber.name}
-          <Section>.{section.number}</Section>
+          <Section>.{section.section.name}</Section>
         </Header>
         <SubHeader>
           {section.instructor1.last}, {section.instructor1.first} -{' '}
