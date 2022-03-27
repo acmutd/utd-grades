@@ -142,8 +142,7 @@ export default function ResultsList({ loading, id, data, onClick, error }) {
           }}
           dataSource={data}
           renderItem={item => {  
-            const { keys, values } = general.splitData(general.convertAssociatedArrayToObjectArray(general.extractGrades(item)));
-            const total = sum(values);
+            const total = sum(Object.values(general.extractGrades(item)));
 
             return (
               <Item

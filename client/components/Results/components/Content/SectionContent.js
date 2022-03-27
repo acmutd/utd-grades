@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Graph } from '../../../';
 import { Row, Spin } from 'antd';
 import SectionCard from './SectionCard';
 import _ from 'lodash';
 import general from '../../../../utils/general';
+
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+);
 
 const Container = styled.div`
   padding-top: 20px;
@@ -100,60 +115,43 @@ const Stack = styled.div`
 `;
 
 export default function SectionContent({ relatedSections, section, handleRelatedSectionClick }) {
-  const [options, setOptions] = useState({ 
-    legend: { display: false },
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          precision: 0
-        },
-      }],
-    },
-    tooltips: {
-      enabled: true,
-      mode: 'single',
-      callbacks: {
-        label: (tooltipItems, data) => {
-          const { values } = general.splitData(general.convertAssociatedArrayToObjectArray(general.extractGrades(section)));
-          const total = _.sum(values);
 
-          let text = [`Students: ${tooltipItems.yLabel}`];
-          const count = tooltipItems.yLabel;
-          const percentage = (count / total) * 100;
-
-          text.push(`Percentage: ${percentage.toFixed(2)}%`);
-          
-          return text;
-        }
-      }
-    },
-  });
-
-  const [data, setData] = useState({});
-  const [totalStudents, setTotalStudents] = useState();
-
-  useEffect(() => {
-    const grades = general.extractGrades(section);
-    const objectArray = general.convertAssociatedArrayToObjectArray(grades);
-    const sortedGrades = general.sortByGrades(objectArray);
-    const { keys, values } = general.splitData(sortedGrades);
-    const colors = general.getColors(keys);
-
-    setTotalStudents(_.sum(values));
-    setData({ labels: keys, datasets: [{ backgroundColor: colors, data: values }]});
-  }, [section]);
-  
   const renderRelatedSections = () => {
     if (relatedSections) {
       return relatedSections.filter(s => s.id != section.id).map(s => (
         <SectionCard key={s.id} section={s} handleRelatedSectionClick={handleRelatedSectionClick} />
       ))
     }
-    
+
     return <Spin />;
   };
 
+  const grades = general.extractGrades(section);
+  const keys = Object.keys(grades);
+  const values = Object.values(grades);
+
+  const totalStudents = _.sum(values);
+
+  const data = { labels: keys, datasets: [{ backgroundColor: general.getColors(keys), data: values }] };
+
+  const options = {
+    plugins: {
+      tooltip: {
+        enabled: true,
+        mode: "nearest",
+        interesect: true,
+        callbacks: {
+          label: (context) => {
+            const count = context.parsed.y;
+            return [
+              `Students: ${count}`,
+              `Percentage: ${((count / totalStudents) * 100).toFixed(2)}%`
+            ]
+          }
+        }
+      }
+    }
+  };
 
   return (
     <Container>
@@ -165,7 +163,7 @@ export default function SectionContent({ relatedSections, section, handleRelated
 
       <Row>
         <GraphContainer>
-          <Graph type="bar" data={data} options={options} />
+          <Bar options={options} data={data} />
         </GraphContainer>
       </Row>
 
