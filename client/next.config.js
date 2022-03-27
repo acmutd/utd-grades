@@ -3,6 +3,9 @@ const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
+  compiler: {
+    styledComponents: true,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.plugins.push(
