@@ -60,12 +60,12 @@ export default function Home() {
             sm={{ span: 10, offset: 3 }}
             xs={{ span: 20, offset: 2 }}
           >
-            <FadeIn startAt={0}>
+            <FadeIn delay={0}>
               <Header>
                 <HeaderBold>UTD</HeaderBold> Grades
               </Header>
             </FadeIn>
-            <FadeIn startAt={300}>
+            <FadeIn delay={300}>
               <Description>
                 See how students did in any given class. And it&apos;s{' '}
                 <strong>free, forever.</strong>
