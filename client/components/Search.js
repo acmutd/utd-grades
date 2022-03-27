@@ -25,7 +25,7 @@ const Popover = styled.div`
   width: 375px;
 `;
 
-export default function Form({
+export default function Search({
   onSubmit,
   initialValues: { search } = { search: '' },
 }) {
