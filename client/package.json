@@ -13,7 +13,6 @@
     "@ant-design/icons": "^4.7.0",
     "antd": "^4.19.3",
     "chart.js": "^3.7.1",
-    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.19",
     "next": "^11.1.2",
     "react": "^17.0.2",
