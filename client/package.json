@@ -10,8 +10,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ant-design/icons": "^4.0.6",
-    "antd": "^4.1.4",
+    "@ant-design/icons": "^4.7.0",
+    "antd": "^4.19.3",
     "chart.js": "^2.9.3",
     "formik": "^2.1.4",
     "isomorphic-fetch": "^2.2.1",
