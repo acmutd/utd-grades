@@ -106,10 +106,10 @@ export default function ResultsList({ loading, id, data, onClick, error }) {
   const emptyMessage = (
     <EmptyContainer>
       <StyledIcon />
-      <Error>We weren't able to find that. Try searching for something else!</Error>
+      <Error>We weren&apos;t able to find that. Try searching for something else!</Error>
       <Hint content={popover} placement="bottom">
         <span style={{ textAlign: 'center' }}>
-          Still can't find what you're looking for? <span style={{ textDecoration: 'underline' }}>Learn more.</span>
+          Still can&apos;t find what you&apos;re looking for? <span style={{ textDecoration: 'underline' }}>Learn more.</span>
         </span>
       </Hint>
     </EmptyContainer>

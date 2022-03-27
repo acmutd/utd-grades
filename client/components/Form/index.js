@@ -35,7 +35,7 @@ export default function Form({
       <ul>
         <li>A specific section: CS 1337.501</li>
         <li>A whole course: CS 1337</li>
-        <li>A professor's name (last name or full): Jason Smith</li>
+        <li>A professor&apos;s name (last name or full): Jason Smith</li>
         <li>A specific semester: CS 1337 fall 2017</li>
         <li>Everything together: CS 1337.1 fall 2017 jason smith</li>
       </ul>
