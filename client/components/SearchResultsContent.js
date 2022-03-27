@@ -24,7 +24,7 @@ const Spinner = styled(Spin)`
   display: block !important;
 `;
 
-export default function Content({
+export default function SearchResultsContent({
   section,
   relatedSections,
   loadingSection,

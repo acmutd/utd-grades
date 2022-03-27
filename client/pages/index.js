@@ -1,10 +1,10 @@
 import React from 'react';
 import Router from 'next/router';
 import styled from 'styled-components';
-import { Core, Form, Animations } from '../components';
+import Core from '../components/Core'
+import Search from '../components/Search'
+import FadeIn from '../components/animations/FadeIn'
 import { Col } from 'antd';
-
-const { FadeIn } = Animations;
 
 const Content = styled.div`
   display: block;
@@ -71,7 +71,7 @@ export default function Home() {
                 <strong>free, forever.</strong>
               </Description>
             </FadeIn>
-            <Form onSubmit={handleSubmit} />
+            <Search onSubmit={handleSubmit} />
           </Col>
         </Main>
       </Content>

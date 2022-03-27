@@ -1,5 +1,7 @@
 import React from 'react';
-import { Results as ResultsComponent, Core, Header } from '../components';
+import SearchResults from '../components/SearchResults'
+import Core from '../components/Core';
+import Header from '../components/Header';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
@@ -9,7 +11,7 @@ const Stack = styled.div`
   width: 100%;
 `;
 
-export default function Results() {
+export default function ResultsPage() {
   const router = useRouter();
 
   const { search, sectionId } = router.query;
@@ -22,7 +24,7 @@ export default function Results() {
       <Core>
         <Stack>
           <Header />
-          <ResultsComponent
+          <SearchResults
             search={search}
             sectionId={sectionId}
             router={router}

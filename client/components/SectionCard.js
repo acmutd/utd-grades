@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Animations from '../../../Animations';
-
-const { SlideUp } = Animations;
+import SlideUp from './animations/SlideUp';
 
 const Card = styled.div`
   box-shadow: var(--box-shadow-inactive);

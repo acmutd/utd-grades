@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Row, Spin } from 'antd';
 import SectionCard from './SectionCard';
-import general from '../../../../utils/general';
+import general from '../utils/general';
 
 import {
   Chart as ChartJS,
