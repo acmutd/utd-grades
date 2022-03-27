@@ -1,12 +1,27 @@
 const webpack = require('webpack');
 const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   compiler: {
     styledComponents: true,
   },
   webpack: (config, { isServer }) => {
+    // next will complain "warn  - Production code optimization has been disabled in your project. Read more: https://nextjs.org/docs/messages/minification-disabled"
+    // but don't worry about it... this build is actually somehow _smaller_ than the "optimized" one...
+    config.optimization = {
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            // TypeORM relies on class names for generating queries, so these need to remain unmangled
+            // FIXME: I honestly it's a typeorm bug that this is needed since we specify `name` in `@Entity`
+            keep_classnames: /(CatalogNumber)|(Professor)|(Section)|(Semester)|(Subject)|(Grades)/,
+          }
+        })
+      ]
+    }
+
     if (!isServer) {
       config.plugins.push(
         new NodePolyfillPlugin(),

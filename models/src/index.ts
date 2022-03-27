@@ -1,7 +1,7 @@
 import "reflect-metadata"
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 
-@Entity()
+@Entity("catalog_number")
 export class CatalogNumber {
   @PrimaryGeneratedColumn()
   id!: number
@@ -14,7 +14,7 @@ export class CatalogNumber {
   }
 }
 
-@Entity()
+@Entity("professor")
 export class Professor {
   @PrimaryGeneratedColumn()
   id!: number
@@ -31,7 +31,7 @@ export class Professor {
   }
 }
 
-@Entity()
+@Entity("section")
 export class Section {
   @PrimaryGeneratedColumn()
   id!: number
@@ -44,7 +44,7 @@ export class Section {
   }
 }
 
-@Entity()
+@Entity("semester")
 export class Semester {
   @PrimaryGeneratedColumn()
   id!: number
@@ -58,7 +58,7 @@ export class Semester {
 }
 
 
-@Entity()
+@Entity("subject")
 export class Subject {
   @PrimaryGeneratedColumn()
   id!: number
@@ -71,7 +71,7 @@ export class Subject {
   }
 }
 
-@Entity()
+@Entity("grades")
 export class Grades {
 
   @PrimaryGeneratedColumn()
