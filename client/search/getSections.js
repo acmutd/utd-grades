@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { abbreviateSemesterName, parseSearchStringIfExists } = require('./utils');
 const { Grades } = require("utd-grades-models");
 
@@ -23,7 +22,7 @@ module.exports = async (queryParams, con) => {
   let sectionCondition = "";
   let sectionConditionParams = {};
 
-  if (!_.isNil(sectionNumber)) {
+  if (sectionNumber != null) {
     sectionCondition = "section.name = :sectionName";
     sectionConditionParams.sectionName = sectionNumber.toUpperCase();
   }
@@ -34,12 +33,12 @@ module.exports = async (queryParams, con) => {
   let professorConditionParams = {};
 
   // TODO: better name matching
-  if (!_.isNil(firstName)) {
+  if (firstName != null) {
     professorCondition += "professor.first LIKE :firstName";
     professorConditionParams.firstName = `%${firstName.trim()}%`;
   }
 
-  if (!_.isNil(lastName)) {
+  if (lastName != null) {
     if (professorCondition) {
       professorCondition += " AND ";
     }
@@ -53,7 +52,7 @@ module.exports = async (queryParams, con) => {
   let catalogNumberCondition = "";
   let catalogNumberConditionParams = {};
 
-  if (!_.isNil(courseNumber)) {
+  if (courseNumber != null) {
     catalogNumberCondition += "catalogNumber.name = :courseNumber";
     catalogNumberConditionParams.courseNumber = courseNumber.trim();
   }
@@ -63,7 +62,7 @@ module.exports = async (queryParams, con) => {
   let subjectCondition = "";
   let subjectConditionParams = {};
 
-  if (!_.isNil(coursePrefix)) {
+  if (coursePrefix != null) {
     subjectCondition += "subject.name = :coursePrefix";
     subjectConditionParams.coursePrefix = coursePrefix.toUpperCase().trim();
   }
@@ -73,12 +72,12 @@ module.exports = async (queryParams, con) => {
   let semesterCondition = "";
   let semesterConditionParams = {};
 
-  if (!_.isNil(year)) {
+  if (year != null) {
     semesterCondition += "semester.name LIKE :semesterYear";
     semesterConditionParams.semesterYear = `%${year.trim()[2] + year.trim()[3]}%`; // TODO: bad
   }
 
-  if (!_.isNil(type)) {
+  if (type != null) {
     if (semesterCondition) {
       semesterCondition += " AND ";
     }

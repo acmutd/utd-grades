@@ -3,7 +3,6 @@ import { List, Spin, Popover as AntPopover } from 'antd';
 import { FrownTwoTone, UserOutlined } from '@ant-design/icons';
 import general from '../../../../utils/general';
 import styled, { css } from 'styled-components';
-import { sum } from 'lodash/fp';
 
 const Item = styled(List.Item)`
   padding: 25px;
@@ -142,13 +141,13 @@ export default function ResultsList({ loading, id, data, onClick, error }) {
           }}
           dataSource={data}
           renderItem={item => {  
-            const total = sum(Object.values(general.extractGrades(item)));
+            const totalStudents = general.getTotalStudents(item);
 
             return (
               <Item
                 key={item.id}
                 selected={item.id == id}
-                actions={[<IconText icon={UserOutlined} text={total} key="students-total" />]}
+                actions={[<IconText icon={UserOutlined} text={totalStudents} key="students-total" />]}
                 onClick={() => onClick(item.id)}>
                 <List.Item.Meta
                   title={<a href="#">{item.subject.name} {item.catalogNumber.name}.{item.section.name}</a>}
