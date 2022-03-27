@@ -9,7 +9,7 @@
   "dependencies": {
     "csv-parse": "^5.0.4",
     "sql.js": "^1.6.2",
-    "typeorm": "^0.2.45",
+    "typeorm": "^0.3.4",
     "utd-grades-models": "file:../models"
   },
   "devDependencies": {

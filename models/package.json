@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.45"
+    "typeorm": "^0.3.4"
   },
   "devDependencies": {
     "@tsconfig/node16-strictest": "^1.0.0",
