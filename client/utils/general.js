@@ -48,5 +48,8 @@ export default {
     addIfNotZero('NF', obj.nf);
 
     return ret;
+  },
+  getTotalStudents(obj) {
+    return Object.values(this.extractGrades(obj)).reduce((acc, x) => acc + x, 0);
   }
 };
