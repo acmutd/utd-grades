@@ -1,19 +1,12 @@
-const {
-  CatalogNumber,
-  Grades,
-  Professor,
-  Section,
-  Semester,
-  Subject,
-} = require('utd-grades-models');
-const find = require('../getSections');
-const fs = require('fs/promises');
-const { DataSource } = require('typeorm');
+import { CatalogNumber, Grades, Professor, Section, Semester, Subject } from 'utd-grades-models';
+import find from '../getSections';
+import { readFile } from 'fs/promises';
+import { DataSource } from 'typeorm';
 
-let con;
+let con: DataSource;
 
 beforeAll(async () => {
-  const data = await fs.readFile('../data/utdgrades.sqlite3');
+  const data = await readFile('../data/utdgrades.sqlite3');
 
   con = new DataSource({
     type: 'sqljs',

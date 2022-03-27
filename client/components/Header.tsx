@@ -10,7 +10,7 @@ const Menu = styled(Row)`
   align-items: center;
 `;
 
-const Back = styled(Button)`
+const Back = styled(Button)<{ $dummy?: boolean }>`
   background: none;
   outline: none;
   border: none;
@@ -18,7 +18,7 @@ const Back = styled(Button)`
   outline: none;
   border: none;
   box-shadow: none;
-  visibility: ${(props) => (props.dummy ? 'hidden' : 'visible')};
+  visibility: ${(props) => (props.$dummy ? 'hidden' : 'visible')};
 `;
 
 const HeaderText = styled.a`
@@ -61,7 +61,7 @@ export default function Header() {
         </h2>
       </HeaderText>
       <Back
-        dummy={true}
+        $dummy
         onClick={goHome}
         type="ghost"
         icon={<HomeOutlined />}

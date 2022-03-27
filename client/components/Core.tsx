@@ -1,4 +1,4 @@
-import React from 'react';
+import { type ReactNode } from 'react';
 import { Popover } from 'antd';
 import { HeartTwoTone, ThunderboltTwoTone } from '@ant-design/icons';
 import styled from 'styled-components';
@@ -37,7 +37,11 @@ const Footer = styled.div`
   }
 `;
 
-function Core({ children }) {
+interface CoreProps {
+  children: ReactNode;
+}
+
+function Core({ children }: CoreProps) {
   const donors = (
     <div style={{ width: '300px' }}>
       <p>

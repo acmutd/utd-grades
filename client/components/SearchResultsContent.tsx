@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import SectionContent from './SectionContent';
 import { Spin } from 'antd';
+import { Grades } from 'utd-grades-models';
 
 const LoadingContainer = styled.div`
   padding: 50px;
@@ -24,13 +25,21 @@ const Spinner = styled(Spin)`
   display: block !important;
 `;
 
+interface SearchResultsContentProps {
+  section: Grades;
+  relatedSections: Grades[];
+  loadingSection: boolean;
+  handleRelatedSectionClick: (search: string, id: number) => void;
+  error: unknown; // TODO
+}
+
 export default function SearchResultsContent({
   section,
   relatedSections,
   loadingSection,
   handleRelatedSectionClick,
   error,
-}) {
+}: SearchResultsContentProps) {
   if (section) {
     return (
       <SectionContent
