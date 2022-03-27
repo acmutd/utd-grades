@@ -17,16 +17,6 @@ function MyApp({ Component, pageProps }) {
         <link rel="manifest" href="/site.webmanifest"></link>
         <title>UTD Grades</title>
         <meta name="description" content="See how students did in any given class at UT Dallas. And it's free, forever." />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128111650-1"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-  
-            gtag('config', 'UA-128111650-1');`
-          }}
-        />
       </Head>
 
       <QueryClientProvider client={queryClient}>
