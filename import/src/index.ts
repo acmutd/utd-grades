@@ -1,7 +1,7 @@
 import * as csv from 'csv-parse/sync';
 import * as path from 'path';
 import * as fs from 'fs/promises';
-import { createConnection, EntityManager, EntityTarget, getConnection } from "typeorm";
+import { DataSource, EntityManager, EntityTarget } from "typeorm";
 import { CatalogNumber, Grades, Professor, Section, Semester, Subject } from 'utd-grades-models';
 
 function gradesRow(csvRow: Record<string, any>, semester: Semester, profs: Map<string, Professor>, subjects: Map<string, Subject>, catalogNumbers: Map<string, CatalogNumber>, sections: Map<string, Section>): Grades {
@@ -110,15 +110,17 @@ async function insertMap<T>(manager: EntityManager, target: EntityTarget<T>, map
 }
 
 async function createDb(): Promise<Uint8Array> {
-  const con = await createConnection({
+  const con = new DataSource({
     type: "sqljs",
     synchronize: true,
     entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
   });
 
+  await con.initialize();
+
   const [profs, semesters, subjects, catalogNumbers, sections, allGrades] = await parseDataDir("../data/raw");
 
-  await getConnection().transaction(async manager => {
+  await con.transaction(async manager => {
     // insert() each separately instead of just save()ing everything in allGrades for super speed boost
     await insertMap(manager, Professor, profs);
     await insertMap(manager, Semester, semesters);
@@ -134,7 +136,7 @@ async function createDb(): Promise<Uint8Array> {
   // @ts-ignore SqljsDriver isn't exported from typeorm, but it's here: https://github.com/typeorm/typeorm/blob/68a5c230776f6ad4e3ee7adea5ad4ecdce033c7e/src/driver/sqljs/SqljsDriver.ts
   const data: Uint8Array = (con.driver as SqljsDriver).export();
 
-  await con.close();
+  await con.destroy();
 
   return data;
 }
@@ -145,4 +147,3 @@ async function main() {
 }
 
 main()
-
