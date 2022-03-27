@@ -13,12 +13,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 const Container = styled.div`
   padding-top: 20px;
@@ -89,7 +84,7 @@ const OtherSectionsHeader = styled.p`
   font-weight: 700;
   text-transform: uppercase;
   font-size: 16px;
-`
+`;
 
 const OtherSectionsRow = styled(Row)`
   padding-top: 50px;
@@ -113,13 +108,22 @@ const Stack = styled.div`
   flex-direction: column;
 `;
 
-export default function SectionContent({ relatedSections, section, handleRelatedSectionClick }) {
-
+export default function SectionContent({
+  relatedSections,
+  section,
+  handleRelatedSectionClick,
+}) {
   const renderRelatedSections = () => {
     if (relatedSections) {
-      return relatedSections.filter(s => s.id != section.id).map(s => (
-        <SectionCard key={s.id} section={s} handleRelatedSectionClick={handleRelatedSectionClick} />
-      ))
+      return relatedSections
+        .filter((s) => s.id != section.id)
+        .map((s) => (
+          <SectionCard
+            key={s.id}
+            section={s}
+            handleRelatedSectionClick={handleRelatedSectionClick}
+          />
+        ));
     }
 
     return <Spin />;
@@ -131,33 +135,45 @@ export default function SectionContent({ relatedSections, section, handleRelated
   const keys = Object.keys(grades);
   const values = Object.values(grades);
 
-  const data = { labels: keys, datasets: [{ backgroundColor: general.getColors(keys), data: values }] };
+  const data = {
+    labels: keys,
+    datasets: [{ backgroundColor: general.getColors(keys), data: values }],
+  };
 
   const options = {
     plugins: {
       tooltip: {
         enabled: true,
-        mode: "nearest",
+        mode: 'nearest',
         interesect: true,
         callbacks: {
           label: (context) => {
             const count = context.parsed.y;
             return [
               `Students: ${count}`,
-              `Percentage: ${((count / totalStudents) * 100).toFixed(2)}%`
-            ]
-          }
-        }
-      }
-    }
+              `Percentage: ${((count / totalStudents) * 100).toFixed(2)}%`,
+            ];
+          },
+        },
+      },
+    },
   };
 
   return (
     <Container>
       <Stack>
-        <Header>{section.subject.name} {section.catalogNumber.name}<Section>.{section.number}</Section></Header>
-        <SubHeader>{section.instructor1.last}, {section.instructor1.first} - {section.semester.name}</SubHeader>
-        <Total>Total Students <span style={{ color: '#333333' }}>{totalStudents}</span></Total>
+        <Header>
+          {section.subject.name} {section.catalogNumber.name}
+          <Section>.{section.number}</Section>
+        </Header>
+        <SubHeader>
+          {section.instructor1.last}, {section.instructor1.first} -{' '}
+          {section.semester.name}
+        </SubHeader>
+        <Total>
+          Total Students{' '}
+          <span style={{ color: '#333333' }}>{totalStudents}</span>
+        </Total>
       </Stack>
 
       <Row>
@@ -168,9 +184,7 @@ export default function SectionContent({ relatedSections, section, handleRelated
 
       <OtherSectionsRow>
         <OtherSectionsHeader>Other Sections</OtherSectionsHeader>
-        <SectionsContainer>
-          {renderRelatedSections()}
-        </SectionsContainer>
+        <SectionsContainer>{renderRelatedSections()}</SectionsContainer>
       </OtherSectionsRow>
     </Container>
   );

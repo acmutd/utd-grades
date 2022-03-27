@@ -11,7 +11,7 @@ const transitionStyles = {
   },
   entered: {
     opacity: 1,
-  }
+  },
 };
 
 export default function FadeIn({ startAt, children }) {
@@ -21,12 +21,10 @@ export default function FadeIn({ startAt, children }) {
     setTimeout(() => setDisplay(true), startAt);
   }, [startAt]);
 
-  return (
-    React.cloneElement(children, {
-      style: {
-        ...defaultStyle,
-        ...transitionStyles[display ? 'entered' : 'entering'],
-      }
-    })
-  );
+  return React.cloneElement(children, {
+    style: {
+      ...defaultStyle,
+      ...transitionStyles[display ? 'entered' : 'entering'],
+    },
+  });
 }

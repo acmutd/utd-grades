@@ -5,7 +5,7 @@ import { Spin } from 'antd';
 
 const LoadingContainer = styled.div`
   padding: 50px;
-`
+`;
 
 const EmptyContainer = styled.div`
   padding: 50px;
@@ -24,11 +24,23 @@ const Spinner = styled(Spin)`
   display: block !important;
 `;
 
-export default function Content({ section, relatedSections, loadingSection, handleRelatedSectionClick, error }) {
+export default function Content({
+  section,
+  relatedSections,
+  loadingSection,
+  handleRelatedSectionClick,
+  error,
+}) {
   if (section) {
-    return <SectionContent section={section} relatedSections={relatedSections} handleRelatedSectionClick={handleRelatedSectionClick} />;
+    return (
+      <SectionContent
+        section={section}
+        relatedSections={relatedSections}
+        handleRelatedSectionClick={handleRelatedSectionClick}
+      />
+    );
   } else if (loadingSection) {
-    return(
+    return (
       <LoadingContainer>
         <Spinner />
       </LoadingContainer>
