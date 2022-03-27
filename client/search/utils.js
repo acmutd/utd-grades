@@ -6,7 +6,7 @@ module.exports = {
       if (search) {
         queryParams = {
           ...queryParams,
-          ...module.exports.parseSearchString(search)
+          ...module.exports.parseSearchString(search),
         };
       }
     }
@@ -17,11 +17,15 @@ module.exports = {
   parseSearchString(search) {
     const searchString = search.toLowerCase();
 
-    const prefixPattern = /(?<!\w)(?!summer|spring|fall)([a-zA-Z]{2,4})(?=(\s|\d+))/ // FIXME: this causes searches for 2-4 letter long names to not work
-    const numberPattern = /(?:(?<!fall\s)|(?<!fall)|(?<!spring\s)|(?<!spring)|(?<!summer\s)|(?<!summer))(\d{4})/
-    const yearPattern = /(?:(?<=fall\s)|(?<=fall)|(?<=spring\s)|(?<=spring)|(?<=summer\s)|(?<=summer))(\d{4})/
-    const semesterPattern = /(fall|spring|summer)(?=\d{4}|\s\d{4})/
-    const sectionPattern = /(?:(?<=\d{4})|(?<=\d{4}\s)|(?<=\.))(\d{1,3}|\w{1,3})(?=\s|$)/
+    const prefixPattern =
+      /(?<!\w)(?!summer|spring|fall)([a-zA-Z]{2,4})(?=(\s|\d+))/; // FIXME: this causes searches for 2-4 letter long names to not work
+    const numberPattern =
+      /(?:(?<!fall\s)|(?<!fall)|(?<!spring\s)|(?<!spring)|(?<!summer\s)|(?<!summer))(\d{4})/;
+    const yearPattern =
+      /(?:(?<=fall\s)|(?<=fall)|(?<=spring\s)|(?<=spring)|(?<=summer\s)|(?<=summer))(\d{4})/;
+    const semesterPattern = /(fall|spring|summer)(?=\d{4}|\s\d{4})/;
+    const sectionPattern =
+      /(?:(?<=\d{4})|(?<=\d{4}\s)|(?<=\.))(\d{1,3}|\w{1,3})(?=\s|$)/;
 
     let prefix = searchString.match(prefixPattern);
     let number = searchString.match(numberPattern);
@@ -30,7 +34,7 @@ module.exports = {
     let section = searchString.match(sectionPattern);
 
     const params = {};
-  
+
     let professor = searchString;
 
     if (prefix) {
@@ -50,7 +54,7 @@ module.exports = {
 
       professor = professor.replace(year, '');
     }
-    
+
     if (semester) {
       semester = semester[0];
 
@@ -98,7 +102,7 @@ module.exports = {
 
     return params;
   },
-  
+
   abbreviateSemesterName(name) {
     name = name.trim().toLowerCase();
     if (name === 'summer') {
@@ -124,15 +128,15 @@ module.exports = {
     let s = response.semester.name;
 
     if (s.startsWith('su')) {
-      s = `Summer 20${s.substring(2)}`
+      s = `Summer 20${s.substring(2)}`;
     } else if (s.startsWith('s')) {
-      s = `Spring 20${s.substring(1)}`
+      s = `Spring 20${s.substring(1)}`;
     } else if (s.startsWith('f')) {
-      s = `Fall 20${s.substring(1)}`
+      s = `Fall 20${s.substring(1)}`;
     }
 
     response.semester.name = s;
 
     return response;
-  }
-}
+  },
+};

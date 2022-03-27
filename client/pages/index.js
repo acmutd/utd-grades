@@ -33,7 +33,7 @@ const Header = styled.h2`
 const Description = styled.p`
   font-family: var(--font-family);
   text-align: center;
-  color: #95989A;
+  color: #95989a;
   font-weight: 400;
   font-size: 18px;
   margin-bottom: 30px;
@@ -47,26 +47,34 @@ export default function Home() {
   function handleSubmit({ search }) {
     Router.push({
       pathname: '/results',
-      query: { search }
+      query: { search },
     });
   }
-
 
   return (
     <Core>
       <Content>
         <Main>
-          <Col lg={{ span: 8, offset: 8 }} sm={{ span: 10, offset: 3 }} xs={{ span: 20, offset: 2 }}>
+          <Col
+            lg={{ span: 8, offset: 8 }}
+            sm={{ span: 10, offset: 3 }}
+            xs={{ span: 20, offset: 2 }}
+          >
             <FadeIn startAt={0}>
-              <Header><HeaderBold>UTD</HeaderBold> Grades</Header>
+              <Header>
+                <HeaderBold>UTD</HeaderBold> Grades
+              </Header>
             </FadeIn>
             <FadeIn startAt={300}>
-              <Description>See how students did in any given class. And it&apos;s <strong>free, forever.</strong></Description>
+              <Description>
+                See how students did in any given class. And it&apos;s{' '}
+                <strong>free, forever.</strong>
+              </Description>
             </FadeIn>
             <Form onSubmit={handleSubmit} />
           </Col>
         </Main>
       </Content>
     </Core>
-  )
+  );
 }
