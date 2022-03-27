@@ -19,7 +19,7 @@ export default function FadeIn({ startAt, children }) {
 
   useEffect(() => {
     setTimeout(() => setDisplay(true), startAt);
-  }, []);
+  }, [startAt]);
 
   return (
     React.cloneElement(children, {
