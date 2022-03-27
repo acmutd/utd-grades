@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
-import { List, Content } from './components';
-import { Form } from '../';
+import SectionList from './SectionList';
+import Search from './Search';
+import SearchResultsContent from './SearchResultsContent';
 import { Row, Col } from 'antd';
-import { fetchSections, fetchSection } from '../../search';
+import { fetchSections, fetchSection } from '../search';
 import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
 import { useQuery } from 'react-query';
@@ -116,7 +117,7 @@ export default function Results({ search, sectionId, router }) {
           sm={{ span: 18, offset: 3 }}
           xs={{ span: 20, offset: 2 }}
         >
-          <Form onSubmit={handleSubmit} initialValues={{ search }} />
+          <Search onSubmit={handleSubmit} initialValues={{ search }} />
         </Col>
       </Row>
 
@@ -127,7 +128,7 @@ export default function Results({ search, sectionId, router }) {
         >
           <Row>
             <Col lg={6} xs={24}>
-              <List
+              <SectionList
                 data={sections}
                 onClick={handleClick}
                 loading={sectionsStatus === 'loading'}
@@ -138,7 +139,7 @@ export default function Results({ search, sectionId, router }) {
 
             <Col lg={18} xs={24}>
               <div style={{ width: '100%', height: '100%' }} ref={scrollRef}>
-                <Content
+                <SearchResultsContent
                   section={section}
                   relatedSections={relatedSections}
                   loadingSection={sectionStatus === 'loading'}

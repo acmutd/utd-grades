@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { List, Spin, Popover as AntPopover } from 'antd';
 import { FrownTwoTone, UserOutlined } from '@ant-design/icons';
-import general from '../../../../utils/general';
+import general from '../utils/general';
 import styled, { css } from 'styled-components';
 
 const Item = styled(List.Item)`
@@ -90,7 +90,7 @@ const IconText = ({ icon, text }) => (
   </span>
 );
 
-export default function ResultsList({ loading, id, data, onClick, error }) {
+export default function SectionList({ loading, id, data, onClick, error }) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
