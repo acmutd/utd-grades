@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { keyframes } from 'styled-components';
+import Animation from './Animation';
 
-const defaultStyle = {
-  transition: 'opacity 300ms ease-out',
-  opacity: 0,
-};
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
 
-const transitionStyles = {
-  entering: {
-    opacity: 0,
-  },
-  entered: {
-    opacity: 1,
-  },
-};
+  to {
+    opacity: 1;
+  }
+`
 
-export default function FadeIn({ startAt, children }) {
-  const [display, setDisplay] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => setDisplay(true), startAt);
-  }, [startAt]);
-
-  return React.cloneElement(children, {
-    style: {
-      ...defaultStyle,
-      ...transitionStyles[display ? 'entered' : 'entering'],
-    },
-  });
+export default function FadeIn({ delay, children }) {
+  return <Animation keyframes={fadeIn} delay={delay} children={children} />
 }
