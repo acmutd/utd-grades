@@ -1,19 +1,21 @@
-const { createConnection } = require('typeorm');
 const { CatalogNumber, Grades, Professor, Section, Semester, Subject } = require("utd-grades-models");
 const find = require('../getSections');
 const fs = require("fs/promises");
+const { DataSource } = require('typeorm');
 
 let con;
 
 beforeAll(async () => {
   const data = await fs.readFile("../data/utdgrades.sqlite3");
 
-  con = await createConnection({
+  con = new DataSource({
     type: "sqljs",
     database: data,
     entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
     // logging: true // useful for debugging
   });
+
+  await con.initialize();
 })
 
 describe('Test sample queries', () => {
@@ -145,5 +147,5 @@ describe('Test sample queries', () => {
 });
 
 afterAll(async () => {
-  await con.close();
+  await con.destroy();
 });
