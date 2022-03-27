@@ -1,17 +1,18 @@
 import find from './getSections';
 import get from './getSectionById';
-import utils from './utils';
-const {
+import { expandSemesterName, expandSemesterNames } from './utils';
+import { DataSource } from 'typeorm';
+import {
   CatalogNumber,
   Grades,
   Professor,
   Section,
   Semester,
   Subject,
-} = require('utd-grades-models');
-const { DataSource } = require('typeorm');
+} from 'utd-grades-models';
+import { SearchQuery } from '../types';
 
-let con;
+let con: DataSource;
 
 async function initCon() {
   if (!con) {
@@ -37,28 +38,12 @@ async function initCon() {
   }
 }
 
-export async function fetchSections(params) {
-  try {
-    await initCon();
-    let response = await find(params, con);
-
-    response = utils.expandSemesterNames(response);
-
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
+export async function fetchSections(params: SearchQuery): Promise<Grades[]> {
+  await initCon();
+  return expandSemesterNames(await find(params, con));
 }
 
-export async function fetchSection(id) {
-  try {
-    await initCon();
-    let response = await get(id, con);
-
-    response = utils.expandSemesterName(response);
-
-    return response;
-  } catch (e) {
-    console.log(e);
-  }
+export async function fetchSection(id: number): Promise<Grades | null> {
+  await initCon();
+  return expandSemesterName(await get(id, con));
 }

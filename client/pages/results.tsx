@@ -14,7 +14,9 @@ const Stack = styled.div`
 export default function ResultsPage() {
   const router = useRouter();
 
-  const { search, sectionId } = router.query;
+  // FIXME: this probably isn't good
+  const search = router.query.search as string
+  const sectionId = router.query.sectionId as string
 
   // Query params not populated on first render in Next.js
   // Migrate to checking Router.ready when available
@@ -26,7 +28,7 @@ export default function ResultsPage() {
           <Header />
           <SearchResults
             search={search}
-            sectionId={sectionId}
+            sectionId={parseInt(sectionId)}
             router={router}
           />
         </Stack>

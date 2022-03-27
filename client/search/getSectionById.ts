@@ -1,6 +1,10 @@
-const { Grades } = require('utd-grades-models');
+import { DataSource } from 'typeorm';
+import { Grades } from 'utd-grades-models';
 
-module.exports = async (id, con) => {
+export default async function getSectionById(
+  id: number,
+  con: DataSource
+): Promise<Grades | null> {
   return await con
     .getRepository(Grades)
     .createQueryBuilder('grades')
@@ -11,4 +15,4 @@ module.exports = async (id, con) => {
     .innerJoinAndSelect('grades.subject', 'subject')
     .innerJoinAndSelect('grades.semester', 'semester')
     .getOne();
-};
+}
