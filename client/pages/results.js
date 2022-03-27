@@ -1,3 +1,4 @@
+import React from 'react';
 import { Results as ResultsComponent, Core, Header } from '../components';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';

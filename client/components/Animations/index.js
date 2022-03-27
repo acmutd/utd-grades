@@ -1,7 +1,9 @@
 import SlideUp from './SlideUp';
 import FadeIn from './FadeIn';
 
-export default  {
+const Animations = {
   SlideUp,
   FadeIn,
 };
+
+export default Animations;

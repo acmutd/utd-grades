@@ -61,7 +61,7 @@ export default function Home() {
               <Header><HeaderBold>UTD</HeaderBold> Grades</Header>
             </FadeIn>
             <FadeIn startAt={300}>
-              <Description>See how students did in any given class. And it's <strong>free, forever.</strong></Description>
+              <Description>See how students did in any given class. And it&apos;s <strong>free, forever.</strong></Description>
             </FadeIn>
             <Form onSubmit={handleSubmit} />
           </Col>

@@ -30,7 +30,7 @@ export default function SlideUp({ startAt, children }) {
 
   useEffect(() => {
     setTimeout(() => setDisplay(true), startAt);
-  }, []);
+  }, [startAt]);
 
   return (
     <Transition in={display} timeout={300} appear={true} unmountOnExit={true}>

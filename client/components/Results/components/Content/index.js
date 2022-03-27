@@ -46,4 +46,4 @@ export default function Content({ section, relatedSections, loadingSection, hand
       </EmptyContainer>
     );
   }
-};
+}
