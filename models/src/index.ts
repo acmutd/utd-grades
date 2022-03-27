@@ -4,7 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 @Entity()
 export class CatalogNumber {
   @PrimaryGeneratedColumn()
-  id: number
+  id!: number
 
   @Column({ nullable: false, unique: true })
   name: string
@@ -17,7 +17,7 @@ export class CatalogNumber {
 @Entity()
 export class Professor {
   @PrimaryGeneratedColumn()
-  id: number
+  id!: number
 
   @Column({ nullable: true })
   first: string
@@ -34,7 +34,7 @@ export class Professor {
 @Entity()
 export class Section {
   @PrimaryGeneratedColumn()
-  id: number
+  id!: number
 
   @Column({ nullable: false, unique: true })
   name: string
@@ -47,7 +47,7 @@ export class Section {
 @Entity()
 export class Semester {
   @PrimaryGeneratedColumn()
-  id: number
+  id!: number
 
   @Column({ nullable: false, unique: true })
   name: string
@@ -61,7 +61,7 @@ export class Semester {
 @Entity()
 export class Subject {
   @PrimaryGeneratedColumn()
-  id: number
+  id!: number
 
   @Column({ nullable: false, unique: true })
   name: string
@@ -75,92 +75,92 @@ export class Subject {
 export class Grades {
 
   @PrimaryGeneratedColumn()
-  id: number
+  id!: number
 
   @ManyToOne(() => Semester, { nullable: false, cascade: true })
-  semester: Semester
+  semester!: Semester
 
   @ManyToOne(() => Subject, { nullable: false, cascade: true })
-  subject: Subject
+  subject!: Subject
 
   @ManyToOne(() => CatalogNumber, { nullable: false, cascade: true })
-  catalogNumber: CatalogNumber
+  catalogNumber!: CatalogNumber
 
   @ManyToOne(() => Section, { nullable: false, cascade: true })
-  section: Section
+  section!: Section
 
   @Column({ nullable: false })
-  aPlus: number
+  aPlus!: number
 
   @Column({ nullable: false })
-  a: number
+  a!: number
 
   @Column({ nullable: false })
-  aMinus: number
+  aMinus!: number
 
   @Column({ nullable: false })
-  bPlus: number
+  bPlus!: number
 
   @Column({ nullable: false })
-  b: number
+  b!: number
 
   @Column({ nullable: false })
-  bMinus: number
+  bMinus!: number
 
   @Column({ nullable: false })
-  cPlus: number
+  cPlus!: number
 
   @Column({ nullable: false })
-  c: number
+  c!: number
 
   @Column({ nullable: false })
-  cMinus: number
+  cMinus!: number
 
   @Column({ nullable: false })
-  dPlus: number
+  dPlus!: number
 
   @Column({ nullable: false })
-  d: number
+  d!: number
 
   @Column({ nullable: false })
-  dMinus: number
+  dMinus!: number
 
   @Column({ nullable: false })
-  f: number
+  f!: number
 
   @Column({ nullable: false })
-  cr: number
+  cr!: number
 
   @Column({ nullable: false })
-  nc: number
+  nc!: number
 
   @Column({ nullable: false })
-  p: number
+  p!: number
 
   @Column({ nullable: false })
-  w: number
+  w!: number
 
   @Column({ nullable: false })
-  i: number
+  i!: number
 
   @Column({ nullable: false })
-  nf: number
+  nf!: number
 
   @ManyToOne(() => Professor, { cascade: true })
-  instructor1: Professor
+  instructor1!: Professor
 
   @ManyToOne(() => Professor, { cascade: true })
-  instructor2: Professor
+  instructor2!: Professor
 
   @ManyToOne(() => Professor, { cascade: true })
-  instructor3: Professor
+  instructor3!: Professor
 
   @ManyToOne(() => Professor, { cascade: true })
-  instructor4: Professor
+  instructor4!: Professor
 
   @ManyToOne(() => Professor, { cascade: true })
-  instructor5: Professor
+  instructor5!: Professor
 
   @ManyToOne(() => Professor, { cascade: true })
-  instructor6: Professor
+  instructor6!: Professor
 }
