@@ -1,18 +1,21 @@
-const webpack = require("webpack");
-const path = require("path");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const webpack = require('webpack');
+const path = require('path');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
   webpack: (config, { isServer }) => {
-
     if (!isServer) {
       config.plugins.push(
         new NodePolyfillPlugin(),
-        new webpack.NormalModuleReplacementPlugin(/typeorm$/, function (result) {
-          result.request = result.request.replace(/typeorm/, "typeorm/browser");
+        new webpack.NormalModuleReplacementPlugin(/typeorm$/, function (
+          result
+        ) {
+          result.request = result.request.replace(/typeorm/, 'typeorm/browser');
         }),
         new webpack.ProvidePlugin({
-          'window.SQL': path.resolve(path.join(__dirname, '/node_modules/sql.js/dist/sql-wasm.js'))
+          'window.SQL': path.resolve(
+            path.join(__dirname, '/node_modules/sql.js/dist/sql-wasm.js')
+          ),
         })
       );
 
@@ -21,21 +24,21 @@ module.exports = {
         test: /\.wasm$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/[hash][ext][query]'
-        }
+          filename: 'static/[hash][ext][query]',
+        },
       });
 
       config.module.rules.push({
         test: /\.sqlite3$/i,
         type: 'asset/resource',
         generator: {
-          filename: 'static/[hash][ext][query]'
-        }
+          filename: 'static/[hash][ext][query]',
+        },
       });
 
       // Fixes npm packages that depend on `fs` module
       config.resolve.fallback = {
-        fs: false
+        fs: false,
       };
     }
 

@@ -42,23 +42,40 @@ const ResultsContainer = styled(Col)`
 export default function Results({ search, sectionId, router }) {
   const scrollRef = useRef();
 
-  const { data: sections, status: sectionsStatus, error: sectionsError } = useQuery(
+  const {
+    data: sections,
+    status: sectionsStatus,
+    error: sectionsError,
+  } = useQuery(
     ['sections', search],
     () => fetchSections({ search, sortField: 'year', sortDirection: 'DESC' }),
     { retry: false, enabled: !!search }
   );
 
-  const { data: section, status: sectionStatus, error: sectionError } = useQuery(
-    ['section', sectionId],
-    () => fetchSection(sectionId),
-    { retry: false, enabled: !!sectionId }
-  );
+  const {
+    data: section,
+    status: sectionStatus,
+    error: sectionError,
+  } = useQuery(['section', sectionId], () => fetchSection(sectionId), {
+    retry: false,
+    enabled: !!sectionId,
+  });
 
   const { data: relatedSections } = useQuery(
-    ['relatedSections', section && { courseNumber: section.catalogNumber.name, coursePrefix: section.subject.name, }],
-    () => fetchSections({ courseNumber: section.catalogNumber.name, coursePrefix: section.subject.name, }),
+    [
+      'relatedSections',
+      section && {
+        courseNumber: section.catalogNumber.name,
+        coursePrefix: section.subject.name,
+      },
+    ],
+    () =>
+      fetchSections({
+        courseNumber: section.catalogNumber.name,
+        coursePrefix: section.subject.name,
+      }),
     { retry: false, enabled: !!section }
-  )
+  );
 
   function handleSubmit({ search }) {
     router.push({

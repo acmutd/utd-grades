@@ -22,7 +22,11 @@ export default function Results() {
       <Core>
         <Stack>
           <Header />
-          <ResultsComponent search={search} sectionId={sectionId} router={router} />
+          <ResultsComponent
+            search={search}
+            sectionId={sectionId}
+            router={router}
+          />
         </Stack>
       </Core>
     );

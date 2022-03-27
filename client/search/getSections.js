@@ -1,8 +1,10 @@
-const { abbreviateSemesterName, parseSearchStringIfExists } = require('./utils');
-const { Grades } = require("utd-grades-models");
+const {
+  abbreviateSemesterName,
+  parseSearchStringIfExists,
+} = require('./utils');
+const { Grades } = require('utd-grades-models');
 
 module.exports = async (queryParams, con) => {
-
   queryParams = parseSearchStringIfExists(queryParams);
 
   const {
@@ -14,78 +16,105 @@ module.exports = async (queryParams, con) => {
     year,
     type,
     sortField = 'number',
-    sortDirection = 'ASC'
+    sortDirection = 'ASC',
   } = queryParams;
 
-  let query = con.getRepository(Grades).createQueryBuilder("grades");
+  let query = con.getRepository(Grades).createQueryBuilder('grades');
 
-  let sectionCondition = "";
+  let sectionCondition = '';
   let sectionConditionParams = {};
 
   if (sectionNumber != null) {
-    sectionCondition = "section.name = :sectionName";
+    sectionCondition = 'section.name = :sectionName';
     sectionConditionParams.sectionName = sectionNumber.toUpperCase();
   }
 
-  query = query.innerJoinAndSelect("grades.section", "section", sectionCondition, sectionConditionParams);
+  query = query.innerJoinAndSelect(
+    'grades.section',
+    'section',
+    sectionCondition,
+    sectionConditionParams
+  );
 
-  let professorCondition = "";
+  let professorCondition = '';
   let professorConditionParams = {};
 
   // TODO: better name matching
   if (firstName != null) {
-    professorCondition += "professor.first LIKE :firstName";
+    professorCondition += 'professor.first LIKE :firstName';
     professorConditionParams.firstName = `%${firstName.trim()}%`;
   }
 
   if (lastName != null) {
     if (professorCondition) {
-      professorCondition += " AND ";
+      professorCondition += ' AND ';
     }
-    professorCondition += "professor.last LIKE :lastName";
+    professorCondition += 'professor.last LIKE :lastName';
     professorConditionParams.lastName = `%${lastName.trim()}%`;
   }
 
   // TODO: other instructors ignored
-  query = query.innerJoinAndSelect("grades.instructor1", "professor", professorCondition, professorConditionParams);
+  query = query.innerJoinAndSelect(
+    'grades.instructor1',
+    'professor',
+    professorCondition,
+    professorConditionParams
+  );
 
-  let catalogNumberCondition = "";
+  let catalogNumberCondition = '';
   let catalogNumberConditionParams = {};
 
   if (courseNumber != null) {
-    catalogNumberCondition += "catalogNumber.name = :courseNumber";
+    catalogNumberCondition += 'catalogNumber.name = :courseNumber';
     catalogNumberConditionParams.courseNumber = courseNumber.trim();
   }
 
-  query = query.innerJoinAndSelect("grades.catalogNumber", "catalogNumber", catalogNumberCondition, catalogNumberConditionParams);
+  query = query.innerJoinAndSelect(
+    'grades.catalogNumber',
+    'catalogNumber',
+    catalogNumberCondition,
+    catalogNumberConditionParams
+  );
 
-  let subjectCondition = "";
+  let subjectCondition = '';
   let subjectConditionParams = {};
 
   if (coursePrefix != null) {
-    subjectCondition += "subject.name = :coursePrefix";
+    subjectCondition += 'subject.name = :coursePrefix';
     subjectConditionParams.coursePrefix = coursePrefix.toUpperCase().trim();
   }
 
-  query = query.innerJoinAndSelect("grades.subject", "subject", subjectCondition, subjectConditionParams);
+  query = query.innerJoinAndSelect(
+    'grades.subject',
+    'subject',
+    subjectCondition,
+    subjectConditionParams
+  );
 
-  let semesterCondition = "";
+  let semesterCondition = '';
   let semesterConditionParams = {};
 
   if (year != null) {
-    semesterCondition += "semester.name LIKE :semesterYear";
-    semesterConditionParams.semesterYear = `%${year.trim()[2] + year.trim()[3]}%`; // TODO: bad
+    semesterCondition += 'semester.name LIKE :semesterYear';
+    semesterConditionParams.semesterYear = `%${
+      year.trim()[2] + year.trim()[3]
+    }%`; // TODO: bad
   }
 
   if (type != null) {
     if (semesterCondition) {
-      semesterCondition += " AND ";
+      semesterCondition += ' AND ';
     }
-    semesterCondition += "semester.name LIKE :semesterType";
+    semesterCondition += 'semester.name LIKE :semesterType';
     semesterConditionParams.semesterType = `%${abbreviateSemesterName(type)}%`;
   }
 
-  query = query.innerJoinAndSelect("grades.semester", "semester", semesterCondition, semesterConditionParams);
+  query = query.innerJoinAndSelect(
+    'grades.semester',
+    'semester',
+    semesterCondition,
+    semesterConditionParams
+  );
 
   return await query
     // TODO: ordering
