@@ -45,7 +45,7 @@ const Professor = styled.p`
 
 export default function SectionCard({ section, handleRelatedSectionClick }) {
   return (
-    <SlideUp startAt={100}>
+    <SlideUp delay={100}>
       <Card
         onClick={() =>
           handleRelatedSectionClick(
