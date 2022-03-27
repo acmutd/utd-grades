@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Row, Spin } from 'antd';
 import SectionCard from './SectionCard';
-import _ from 'lodash';
 import general from '../../../../utils/general';
 
 import {
@@ -126,11 +125,11 @@ export default function SectionContent({ relatedSections, section, handleRelated
     return <Spin />;
   };
 
+  const totalStudents = general.getTotalStudents(section);
+
   const grades = general.extractGrades(section);
   const keys = Object.keys(grades);
   const values = Object.values(grades);
-
-  const totalStudents = _.sum(values);
 
   const data = { labels: keys, datasets: [{ backgroundColor: general.getColors(keys), data: values }] };
 
