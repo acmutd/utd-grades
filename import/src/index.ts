@@ -1,8 +1,8 @@
 import * as csv from 'csv-parse/sync';
 import * as path from 'path';
 import * as fs from 'fs/promises';
-import { DataSource, EntityManager, EntityTarget } from "typeorm";
-import { CatalogNumber, Grades, Professor, Section, Semester, Subject } from 'utd-grades-models';
+import initSqlJs, { Database } from "sql.js/dist/sql-wasm"
+import type { CatalogNumber, Grades, Professor, Section, Semester, Subject } from 'utd-grades-models';
 
 function gradesRow(csvRow: Record<string, any>, semester: Semester, profs: Map<string, Professor>, subjects: Map<string, Subject>, catalogNumbers: Map<string, CatalogNumber>, sections: Map<string, Section>): Grades {
   function parseNum(s?: string): number {
@@ -10,37 +10,37 @@ function gradesRow(csvRow: Record<string, any>, semester: Semester, profs: Map<s
     return 0;
   }
 
-  const grades = new Grades();
-  grades.semester = semester;
-  grades.subject = subjects.get(csvRow["Subject"])!;
-  grades.catalogNumber = catalogNumbers.get(csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"])!;
-  grades.section = sections.get(csvRow["Section"])!;
-  grades.aPlus = parseNum(csvRow["A+"]);
-  grades.a = parseNum(csvRow["A"]);
-  grades.aMinus = parseNum(csvRow["A-"]);
-  grades.bPlus = parseNum(csvRow["B+"]);
-  grades.b = parseNum(csvRow["B"]);
-  grades.bMinus = parseNum(csvRow["B-"]);
-  grades.cPlus = parseNum(csvRow["C+"]);
-  grades.c = parseNum(csvRow["C"]);
-  grades.cMinus = parseNum(csvRow["C-"]);
-  grades.dPlus = parseNum(csvRow["D+"]);
-  grades.d = parseNum(csvRow["D"]);
-  grades.dMinus = parseNum(csvRow["D-"]);
-  grades.f = parseNum(csvRow["F"]);
-  grades.cr = parseNum(csvRow["CR"]);
-  grades.nc = parseNum(csvRow["NC"]);
-  grades.p = parseNum(csvRow["P"]);
-  grades.w = parseNum(csvRow["W"] ?? csvRow["Total W"]);
-  grades.i = parseNum(csvRow["I"]);
-  grades.nf = parseNum(csvRow["NF"]);
-  grades.instructor1 = profs.get(csvRow["Instructor 1"])!;
-  grades.instructor2 = profs.get(csvRow["Instructor 2"])!;
-  grades.instructor3 = profs.get(csvRow["Instructor 3"])!;
-  grades.instructor4 = profs.get(csvRow["Instructor 4"])!;
-  grades.instructor5 = profs.get(csvRow["Instructor 5"])!;
-  grades.instructor6 = profs.get(csvRow["Instructor 6"])!;
-  return grades;
+  return {
+    semester: semester,
+    subject: subjects.get(csvRow["Subject"])!,
+    catalogNumber: catalogNumbers.get(csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"])!,
+    section: sections.get(csvRow["Section"])!,
+    aPlus: parseNum(csvRow["A+"]),
+    a: parseNum(csvRow["A"]),
+    aMinus: parseNum(csvRow["A-"]),
+    bPlus: parseNum(csvRow["B+"]),
+    b: parseNum(csvRow["B"]),
+    bMinus: parseNum(csvRow["B-"]),
+    cPlus: parseNum(csvRow["C+"]),
+    c: parseNum(csvRow["C"]),
+    cMinus: parseNum(csvRow["C-"]),
+    dPlus: parseNum(csvRow["D+"]),
+    d: parseNum(csvRow["D"]),
+    dMinus: parseNum(csvRow["D-"]),
+    f: parseNum(csvRow["F"]),
+    cr: parseNum(csvRow["CR"]),
+    nc: parseNum(csvRow["NC"]),
+    p: parseNum(csvRow["P"]),
+    w: parseNum(csvRow["W"] ?? csvRow["Total W"]),
+    i: parseNum(csvRow["I"]),
+    nf: parseNum(csvRow["NF"]),
+    instructor1: profs.get(csvRow["Instructor 1"])!,
+    instructor2: profs.get(csvRow["Instructor 2"])!,
+    instructor3: profs.get(csvRow["Instructor 3"])!,
+    instructor4: profs.get(csvRow["Instructor 4"])!,
+    instructor5: profs.get(csvRow["Instructor 5"])!,
+    instructor6: profs.get(csvRow["Instructor 6"])!,
+  }
 }
 
 async function parseCsv(filePath: string): Promise<Record<string, any>[]> {
@@ -58,7 +58,7 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, Professor>, M
   let catalogNumbers = new Map<string, CatalogNumber>();
   let sections = new Map<string, Section>();
 
-  function add<T extends { id: number, name: string }>(map: Map<string, T>, value: T) {
+  function add<T extends { id?: number, name: string }>(map: Map<string, T>, value: T) {
     if (value.name && !map.has(value.name)) {
       map.set(value.name, value);
     }
@@ -68,20 +68,17 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, Professor>, M
     if (name && !profs.has(name)) {
       const parts = name.split(",");
 
-      let first = parts[1];
-      if (first) first = first.trim();
-
-      let last = parts[0]!.trim();
-
-      // TODO non-null assertion is wrong, but I can't define Professor.first as string | null without typeorm yelling at me 
-      profs.set(name, new Professor(first!, last));
+      profs.set(name, {
+        first: parts[1]?.trim() ?? null,
+        last: parts[0]!.trim(),
+      })
     }
   }
 
   let grades: Grades[] = [];
 
   for (const fileName of await fs.readdir(dataDir)) {
-    const semester = new Semester(path.parse(fileName).name)
+    const semester = { name: path.parse(fileName).name };
     add(semesters, semester);
 
     for (const csvRow of await parseCsv(path.join(dataDir, fileName))) {
@@ -92,9 +89,9 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, Professor>, M
       addProf(csvRow["Instructor 5"]);
       addProf(csvRow["Instructor 6"]);
 
-      add(subjects, new Subject(csvRow["Subject"]));
-      add(catalogNumbers, new CatalogNumber(csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"]));
-      add(sections, new Section(csvRow["Section"]));
+      add(subjects, { name: csvRow["Subject"] });
+      add(catalogNumbers, { name: csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"] });
+      add(sections, { name: csvRow["Section"] });
 
       grades.push(gradesRow(csvRow, semester, profs, subjects, catalogNumbers, sections))
     }
@@ -103,40 +100,83 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, Professor>, M
   return [profs, semesters, subjects, catalogNumbers, sections, grades];
 }
 
-async function insertMap<T>(manager: EntityManager, target: EntityTarget<T>, map: Map<string, T>) {
+async function insertMap<T extends { id?: number, name: string }>(db: Database, table: string, map: Map<string, T>) {
+  const stmt = db.prepare(`INSERT INTO ${table}(id, name) VALUES (NULL, ?) RETURNING id`);
   for (const x of map.values()) {
-    await manager.insert(target, x);
+    x.id = stmt.getAsObject([x.name])['id'] as number;
   }
+  stmt.free();
+}
+
+async function insertProfMap<T extends { id?: number, first: string | null, last: string }>(db: Database, table: string, map: Map<string, T>) {
+  const stmt = db.prepare(`INSERT INTO ${table}(id, first, last) VALUES (NULL, ?, ?) RETURNING Id`);
+  for (const x of map.values()) {
+    x.id = stmt.getAsObject([x.first, x.last])['id'] as number;
+  }
+  stmt.free();
 }
 
 async function createDb(): Promise<Uint8Array> {
-  const con = new DataSource({
-    type: "sqljs",
-    synchronize: true,
-    entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
-  });
+  const SQL = await initSqlJs();
+  const db = new SQL.Database();
 
-  await con.initialize();
+  const initScript = await fs.readFile("src/create_db.sql");
+  db.run(initScript.toString());
 
   const [profs, semesters, subjects, catalogNumbers, sections, allGrades] = await parseDataDir("../data/raw");
 
-  await con.transaction(async manager => {
-    // insert() each separately instead of just save()ing everything in allGrades for super speed boost
-    await insertMap(manager, Professor, profs);
-    await insertMap(manager, Semester, semesters);
-    await insertMap(manager, Subject, subjects);
-    await insertMap(manager, CatalogNumber, catalogNumbers);
-    await insertMap(manager, Section, sections);
+  db.exec("BEGIN");
 
-    for (const grades of allGrades) {
-      await manager.insert(Grades, grades);
-    }
-  });
+  await insertProfMap(db, "professor", profs);
+  await insertMap(db, "semester", semesters);
+  await insertMap(db, "subject", subjects);
+  await insertMap(db, "catalog_number", catalogNumbers);
+  await insertMap(db, "section", sections);
 
-  // @ts-ignore SqljsDriver isn't exported from typeorm, but it's here: https://github.com/typeorm/typeorm/blob/68a5c230776f6ad4e3ee7adea5ad4ecdce033c7e/src/driver/sqljs/SqljsDriver.ts
-  const data: Uint8Array = (con.driver as SqljsDriver).export();
+  const stmt = db.prepare(`
+    INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id)
+    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
-  await con.destroy();
+  for (const grades of allGrades) {
+    grades.id = stmt.getAsObject([
+      grades.aPlus,
+      grades.a,
+      grades.aMinus,
+      grades.bPlus,
+      grades.b,
+      grades.bMinus,
+      grades.cPlus,
+      grades.c,
+      grades.cMinus,
+      grades.dPlus,
+      grades.d,
+      grades.dMinus,
+      grades.f,
+      grades.cr,
+      grades.nc,
+      grades.p,
+      grades.w,
+      grades.i,
+      grades.nf,
+      grades.semester.id!,
+      grades.subject.id!,
+      grades.catalogNumber.id!,
+      grades.section.id!,
+      grades.instructor1?.id ?? null,
+      grades.instructor2?.id ?? null,
+      grades.instructor3?.id ?? null,
+      grades.instructor4?.id ?? null,
+      grades.instructor5?.id ?? null,
+      grades.instructor6?.id ?? null,
+    ])['id'] as number;
+  }
+
+  stmt.free();
+
+  db.exec("COMMIT");
+
+  const data = db.export();
+  db.close();
 
   return data;
 }

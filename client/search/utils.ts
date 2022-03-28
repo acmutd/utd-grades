@@ -1,3 +1,4 @@
+import { ParamsObject } from 'sql.js';
 import { Grades } from 'utd-grades-models';
 import { ParsedSearchQuery, SearchQuery } from '../types';
 
@@ -129,3 +130,99 @@ export function expandSemesterName(grades: Grades | null): Grades | null {
 
   return grades;
 }
+
+export function rowToGrades(row: ParamsObject): Grades | null {
+  if (row.gradesId === undefined) return null;
+
+  return {
+    id: row.gradesId as number,
+    semester: {
+      id: row.semesterId as number,
+      name: row.semesterName as string,
+    },
+    subject: {
+      id: row.subjectId as number,
+      name: row.subjectName as string,
+    },
+    catalogNumber: {
+      id: row.catalogNumberId as number,
+      name: row.catalogNumberName as string,
+    },
+    section: {
+      id: row.sectionId as number,
+      name: row.sectionName as string,
+    },
+    aPlus: row.aPlus as number,
+    a: row.a as number,
+    aMinus: row.aMinus as number,
+    bPlus: row.bPlus as number,
+    b: row.b as number,
+    bMinus: row.bMinus as number,
+    cPlus: row.cPlus as number,
+    c: row.c as number,
+    cMinus: row.cMinus as number,
+    dPlus: row.dPlus as number,
+    d: row.d as number,
+    dMinus: row.dMinus as number,
+    f: row.f as number,
+    cr: row.cr as number,
+    nc: row.nc as number,
+    p: row.p as number,
+    w: row.w as number,
+    i: row.i as number,
+    nf: row.nf as number,
+    instructor1: {
+      id: row.professorId as number,
+      first: row.professorFirst as string,
+      last: row.professorLast as string,
+    },
+  };
+}
+
+export const BASE_QUERY = `SELECT grades.id          AS gradesId,
+        grades.aPlus,
+        grades.a,
+        grades.aMinus,
+        grades.bPlus,
+        grades.b,
+        grades.bMinus,
+        grades.cPlus,
+        grades.c,
+        grades.cMinus,
+        grades.dPlus,
+        grades.d,
+        grades.dMinus,
+        grades.f,
+        grades.cr,
+        grades.nc,
+        grades.p,
+        grades.w,
+        grades.i,
+        grades.nf,
+        grades.semesterId,
+        grades.subjectId,
+        grades.catalogNumberId,
+        grades.sectionId,
+        grades.instructor1Id,
+        grades.instructor2Id,
+        grades.instructor3Id,
+        grades.instructor4Id,
+        grades.instructor5Id,
+        grades.instructor6Id,
+        section.id          AS sectionId,
+        section.name        AS sectionName,
+        professor.id        AS professorId,
+        professor.first     AS professorFirst,
+        professor.last      AS professorLast,
+        catalog_number.id   AS catalogNumberId,
+        catalog_number.name AS catalogNumberName,
+        subject.id          AS subjectId,
+        subject.name        AS subjectName,
+        semester.id         AS semesterId,
+        semester.name       AS semesterName
+FROM grades
+         INNER JOIN section ON section.id = grades.sectionId
+         INNER JOIN professor ON professor.id = grades.instructor1Id
+         INNER JOIN catalog_number ON catalog_number.id = grades.catalogNumberId
+         INNER JOIN subject ON subject.id = grades.subjectId
+         INNER JOIN semester ON semester.id = grades.semesterId`;

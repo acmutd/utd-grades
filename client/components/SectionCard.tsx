@@ -57,7 +57,7 @@ export default function SectionCard({ section, handleRelatedSectionClick }: Sect
         onClick={() =>
           handleRelatedSectionClick(
             `${section.subject.name} ${section.catalogNumber.name}`,
-            section.id
+            section.id! // FIXME
           )
         }
       >

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@types/sql.js": "^1.4.3",
     "antd": "^4.19.3",
     "chart.js": "^3.7.1",
     "next": "^12.1.1",
@@ -24,7 +25,6 @@
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.6.2",
     "styled-components": "^5.3.5",
-    "typeorm": "^0.3.4",
     "utd-grades-models": "file:../models"
   },
   "devDependencies": {
