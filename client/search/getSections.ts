@@ -1,11 +1,42 @@
-import { abbreviateSemesterName, parseSearchString } from './utils';
+import {
+  abbreviateSemesterName,
+  BASE_QUERY,
+  parseSearchString,
+  rowToGrades,
+} from './utils';
 import { Grades } from 'utd-grades-models';
-import { DataSource } from 'typeorm';
 import { SearchQuery } from '../types';
+import { Database } from 'sql.js';
+
+function createWhereString(
+  ...args: [
+    column: string | undefined,
+    clause: string,
+    modifier?: (s: string) => string
+  ][]
+): [where: string, whereParams: string[]] {
+  let where = '';
+  const whereParams: string[] = [];
+
+  for (const [column, clause, modifier] of args) {
+    if (column != null) {
+      if (where === '') {
+        where += 'WHERE ';
+      } else {
+        where += 'AND ';
+      }
+
+      where += `${clause}\n`;
+      whereParams.push(`${modifier ? modifier(column) : column}`);
+    }
+  }
+
+  return [where, whereParams];
+}
 
 export default async function getSections(
   params: SearchQuery,
-  con: DataSource
+  db: Database
 ): Promise<Grades[]> {
   const parsed = parseSearchString(params);
   if (!parsed) {
@@ -24,111 +55,27 @@ export default async function getSections(
     sortDirection = 'ASC',
   } = parsed;
 
-  let query = con.getRepository(Grades).createQueryBuilder('grades');
-
-  // TODO this is all kind of a mess...
-
-  let sectionCondition = '';
-  let sectionConditionParams: { sectionName?: string } = {};
-
-  if (sectionNumber != null) {
-    sectionCondition = 'section.name = :sectionName';
-    sectionConditionParams.sectionName = sectionNumber.toUpperCase();
-  }
-
-  query = query.innerJoinAndSelect(
-    'grades.section',
-    'section',
-    sectionCondition,
-    sectionConditionParams
+  const [where, whereParams] = createWhereString(
+    [sectionNumber, 'sectionName = ?', (s) => s.toUpperCase()],
+    [firstName, 'professorFirst LIKE ?', (s) => `%${s.trim()}%`], // TODO: other instructors ignored
+    [lastName, 'professorLast LIKE ?', (s) => `%${s.trim()}%`],
+    [courseNumber, 'catalogNumberName = ?'],
+    [coursePrefix, 'subjectName = ?', (s) => s.toUpperCase()],
+    [year, 'semesterName LIKE ?', (s) => `%${s.trim()[2] + s.trim()[3]}%`], // TODO: bad
+    [type, 'semesterName LIKE ?', (s) => `%${abbreviateSemesterName(s)}%`]
   );
 
-  let professorCondition = '';
-  let professorConditionParams: { firstName?: string; lastName?: string } = {};
+  // TODO: ordering
 
-  // TODO: better name matching
-  if (firstName != null) {
-    professorCondition += 'professor.first LIKE :firstName';
-    professorConditionParams.firstName = `%${firstName.trim()}%`;
+  const grades: Grades[] = [];
+
+  const query = BASE_QUERY + '\n' + where;
+  const stmt = db.prepare(query);
+  stmt.bind(whereParams);
+  while (stmt.step()) {
+    grades.push(rowToGrades(stmt.getAsObject())!);
   }
+  stmt.free();
 
-  if (lastName != null) {
-    if (professorCondition) {
-      professorCondition += ' AND ';
-    }
-    professorCondition += 'professor.last LIKE :lastName';
-    professorConditionParams.lastName = `%${lastName.trim()}%`;
-  }
-
-  // TODO: other instructors ignored
-  query = query.innerJoinAndSelect(
-    'grades.instructor1',
-    'professor',
-    professorCondition,
-    professorConditionParams
-  );
-
-  let catalogNumberCondition = '';
-  let catalogNumberConditionParams: { courseNumber?: string } = {};
-
-  if (courseNumber != null) {
-    catalogNumberCondition += 'catalogNumber.name = :courseNumber';
-    catalogNumberConditionParams.courseNumber = courseNumber.trim();
-  }
-
-  query = query.innerJoinAndSelect(
-    'grades.catalogNumber',
-    'catalogNumber',
-    catalogNumberCondition,
-    catalogNumberConditionParams
-  );
-
-  let subjectCondition = '';
-  let subjectConditionParams: { coursePrefix?: string } = {};
-
-  if (coursePrefix != null) {
-    subjectCondition += 'subject.name = :coursePrefix';
-    subjectConditionParams.coursePrefix = coursePrefix.toUpperCase().trim();
-  }
-
-  query = query.innerJoinAndSelect(
-    'grades.subject',
-    'subject',
-    subjectCondition,
-    subjectConditionParams
-  );
-
-  let semesterCondition = '';
-  let semesterConditionParams: {
-    semesterYear?: string;
-    semesterType?: string;
-  } = {};
-
-  if (year != null) {
-    semesterCondition += 'semester.name LIKE :semesterYear';
-    semesterConditionParams.semesterYear = `%${
-      year.trim()[2] + year.trim()[3]
-    }%`; // TODO: bad
-  }
-
-  if (type != null) {
-    if (semesterCondition) {
-      semesterCondition += ' AND ';
-    }
-    semesterCondition += 'semester.name LIKE :semesterType';
-    semesterConditionParams.semesterType = `%${abbreviateSemesterName(type)}%`;
-  }
-
-  query = query.innerJoinAndSelect(
-    'grades.semester',
-    'semester',
-    semesterCondition,
-    semesterConditionParams
-  );
-
-  return await query
-    // TODO: ordering
-    // .addOrderBy("semester.year", "DESC")
-    // .addOrderBy("section.number", "ASC")
-    .getMany();
+  return grades;
 }
