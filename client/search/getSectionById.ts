@@ -1,18 +1,15 @@
-import { DataSource } from 'typeorm';
+import { Database } from 'sql.js';
 import { Grades } from 'utd-grades-models';
+import { BASE_QUERY, rowToGrades } from './utils';
 
 export default async function getSectionById(
   id: number,
-  con: DataSource
+  db: Database
 ): Promise<Grades | null> {
-  return await con
-    .getRepository(Grades)
-    .createQueryBuilder('grades')
-    .where({ id })
-    .innerJoinAndSelect('grades.section', 'section')
-    .innerJoinAndSelect('grades.instructor1', 'professor')
-    .innerJoinAndSelect('grades.catalogNumber', 'catalogNumber')
-    .innerJoinAndSelect('grades.subject', 'subject')
-    .innerJoinAndSelect('grades.semester', 'semester')
-    .getOne();
+  const stmt = db.prepare(BASE_QUERY + '\nWHERE gradesId = ?');
+  const grades = rowToGrades(stmt.getAsObject([id]));
+
+  stmt.free();
+
+  return grades;
 }

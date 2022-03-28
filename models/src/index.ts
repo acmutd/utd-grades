@@ -1,166 +1,58 @@
-import "reflect-metadata"
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
-
-@Entity("catalog_number")
-export class CatalogNumber {
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @Column({ nullable: false, unique: true })
+export interface CatalogNumber {
+  id?: number
   name: string
-
-  constructor(name: string) {
-    this.name = name;
-  }
 }
 
-@Entity("professor")
-export class Professor {
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @Column({ nullable: true })
-  first: string
-
-  @Column({ nullable: false })
+export interface Professor {
+  id?: number
+  first: string | null
   last: string
-
-  constructor(first: string, last: string) {
-    this.first = first;
-    this.last = last;
-  }
 }
 
-@Entity("section")
-export class Section {
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @Column({ nullable: false, unique: true })
+export interface Section {
+  id?: number
   name: string
-
-  constructor(name: string) {
-    this.name = name;
-  }
 }
 
-@Entity("semester")
-export class Semester {
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @Column({ nullable: false, unique: true })
+export interface Semester {
+  id?: number
   name: string
-
-  constructor(name: string) {
-    this.name = name;
-  }
 }
 
-
-@Entity("subject")
-export class Subject {
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @Column({ nullable: false, unique: true })
+export interface Subject {
+  id?: number
   name: string
-
-  constructor(name: string) {
-    this.name = name;
-  }
 }
 
-@Entity("grades")
-export class Grades {
-
-  @PrimaryGeneratedColumn()
-  id!: number
-
-  @ManyToOne(() => Semester, { nullable: false, cascade: true })
-  semester!: Semester
-
-  @ManyToOne(() => Subject, { nullable: false, cascade: true })
-  subject!: Subject
-
-  @ManyToOne(() => CatalogNumber, { nullable: false, cascade: true })
-  catalogNumber!: CatalogNumber
-
-  @ManyToOne(() => Section, { nullable: false, cascade: true })
-  section!: Section
-
-  @Column({ nullable: false })
-  aPlus!: number
-
-  @Column({ nullable: false })
-  a!: number
-
-  @Column({ nullable: false })
-  aMinus!: number
-
-  @Column({ nullable: false })
-  bPlus!: number
-
-  @Column({ nullable: false })
-  b!: number
-
-  @Column({ nullable: false })
-  bMinus!: number
-
-  @Column({ nullable: false })
-  cPlus!: number
-
-  @Column({ nullable: false })
-  c!: number
-
-  @Column({ nullable: false })
-  cMinus!: number
-
-  @Column({ nullable: false })
-  dPlus!: number
-
-  @Column({ nullable: false })
-  d!: number
-
-  @Column({ nullable: false })
-  dMinus!: number
-
-  @Column({ nullable: false })
-  f!: number
-
-  @Column({ nullable: false })
-  cr!: number
-
-  @Column({ nullable: false })
-  nc!: number
-
-  @Column({ nullable: false })
-  p!: number
-
-  @Column({ nullable: false })
-  w!: number
-
-  @Column({ nullable: false })
-  i!: number
-
-  @Column({ nullable: false })
-  nf!: number
-
-  @ManyToOne(() => Professor, { cascade: true })
-  instructor1!: Professor
-
-  @ManyToOne(() => Professor, { cascade: true })
-  instructor2!: Professor
-
-  @ManyToOne(() => Professor, { cascade: true })
-  instructor3!: Professor
-
-  @ManyToOne(() => Professor, { cascade: true })
-  instructor4!: Professor
-
-  @ManyToOne(() => Professor, { cascade: true })
-  instructor5!: Professor
-
-  @ManyToOne(() => Professor, { cascade: true })
-  instructor6!: Professor
+export interface Grades {
+  id?: number
+  semester: Semester
+  subject: Subject
+  catalogNumber: CatalogNumber
+  section: Section
+  aPlus: number  
+  a: number
+  aMinus: number
+  bPlus: number
+  b: number
+  bMinus: number
+  cPlus: number
+  c: number
+  cMinus: number
+  dPlus: number
+  d: number
+  dMinus: number
+  f: number
+  cr: number
+  nc: number
+  p: number
+  w: number
+  i: number
+  nf: number
+  instructor1: Professor
+  instructor2?: Professor
+  instructor3?: Professor
+  instructor4?: Professor
+  instructor5?: Professor
+  instructor6?: Professor
 }
