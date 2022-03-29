@@ -56,18 +56,19 @@ export default function SectionCard({ section, handleRelatedSectionClick }: Sect
       <Card
         onClick={() =>
           handleRelatedSectionClick(
-            `${section.subject.name} ${section.catalogNumber.name}`,
+            `${section.subject} ${section.catalogNumber}`,
             section.id! // FIXME
           )
         }
       >
         <Name>
-          {section.subject.name} {section.catalogNumber.name}.
-          {section.section.name}
+          {section.subject} {section.catalogNumber}.
+          {section.section}
         </Name>
         <Professor>
-          {section.instructor1.first} {section.instructor1.last} -{' '}
-          {section.semester.name}
+          {/* FIXME (no professor): non null assertion */}
+          {section.instructor1!.first} {section.instructor1!.last} -{' '}
+          {section.semester}
         </Professor>
       </Card>
     </SlideUp>
