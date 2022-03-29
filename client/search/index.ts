@@ -1,4 +1,4 @@
-import find from './getSections';
+import find, { createWhereString } from './getSections';
 import get from './getSectionById';
 import { expandSemesterName, expandSemesterNames } from './utils';
 import { Grades } from 'utd-grades-models';
@@ -35,4 +35,23 @@ export async function fetchSections(params: SearchQuery): Promise<Grades[]> {
 export async function fetchSection(id: number): Promise<Grades | null> {
   await initCon();
   return expandSemesterName(await get(id, db));
+}
+
+export async function getSectionStrings(
+  partialQuery: string
+): Promise<string[]> {
+  if (partialQuery === '') return [];
+
+  await initCon();
+
+  const strings: string[] = [];
+
+  const stmt = db.prepare(
+    `SELECT string FROM grades_strings WHERE ${createWhereString(partialQuery)}`
+  );
+  while (stmt.step()) {
+    strings.push(stmt.get()[0] as string);
+  }
+
+  return strings;
 }
