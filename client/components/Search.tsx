@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form as AntForm, Popover as AntPopover, Input } from 'antd';
 import styled from 'styled-components';
-import { UnparsedSearchQuery } from '../types';
+import { SearchQuery } from '../types';
 
 const StyledSearch = styled(Input.Search)`
   &&& {
@@ -27,7 +27,7 @@ const Popover = styled.div`
 `;
 
 interface SearchProps {
-  onSubmit: (query: UnparsedSearchQuery) => void;
+  onSubmit: (query: SearchQuery) => void;
   initialSearchValue?: string;
 }
 

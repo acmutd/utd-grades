@@ -1,19 +1,5 @@
-export type SearchQuery = UnparsedSearchQuery | ParsedSearchQuery;
-
-export interface UnparsedSearchQuery {
+export interface SearchQuery {
   search: string;
-  sortField?: string;
-  sortDirection?: 'ASC' | 'DESC';
-}
-
-export interface ParsedSearchQuery {
-  coursePrefix?: string;
-  courseNumber?: string;
-  year?: string;
-  type?: string;
-  sectionNumber?: string;
-  firstName?: string;
-  lastName?: string;
   sortField?: string;
   sortDirection?: 'ASC' | 'DESC';
 }
