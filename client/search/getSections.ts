@@ -3,7 +3,7 @@ import { Grades } from 'utd-grades-models';
 import { SearchQuery } from '../types';
 import { Database } from 'sql.js';
 
-function createWhereString(search: string): string {
+export function createWhereString(search: string): string {
   return search
     .split(' ')
     .map((s) => `string LIKE '%${s}%'`)
