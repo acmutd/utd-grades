@@ -74,14 +74,14 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     [
       'relatedSections',
       section && {
-        courseNumber: section.catalogNumber.name,
-        coursePrefix: section.subject.name,
+        courseNumber: section.catalogNumber,
+        coursePrefix: section.subject,
       },
     ],
     () =>
       fetchSections({
-        courseNumber: section!.catalogNumber.name, // can't be null because we guard on `section`
-        coursePrefix: section!.subject.name,
+        courseNumber: section!.catalogNumber, // can't be null because we guard on `section`
+        coursePrefix: section!.subject,
       }),
     { retry: false, enabled: !!section }
   );
