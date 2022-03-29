@@ -174,36 +174,3 @@ export function rowToGrades(row: ParamsObject): Grades | null {
     instructor6: null,
   };
 }
-
-export const BASE_QUERY = `SELECT grades.id AS gradesId,
-        grades.aPlus,
-        grades.a,
-        grades.aMinus,
-        grades.bPlus,
-        grades.b,
-        grades.bMinus,
-        grades.cPlus,
-        grades.c,
-        grades.cMinus,
-        grades.dPlus,
-        grades.d,
-        grades.dMinus,
-        grades.f,
-        grades.cr,
-        grades.nc,
-        grades.p,
-        grades.w,
-        grades.i,
-        grades.nf,
-        semester.string AS semester,
-        subject.string AS subject,
-        catalogNumber.string AS catalogNumber,
-        section.string AS section,
-        instructor1.string AS instructor1
-FROM grades
-         INNER JOIN strings semester ON semester.id = grades.semesterId
-         INNER JOIN strings subject ON subject.id = grades.subjectId
-         INNER JOIN strings catalogNumber ON catalogNumber.id = grades.catalogNumberId
-         INNER JOIN strings section ON section.id = grades.sectionId
-         INNER JOIN strings instructor1 ON instructor1.id = grades.instructor1Id
-         `;
