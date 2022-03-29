@@ -1,7 +1,23 @@
-import React, { useState } from 'react';
-import { Form as AntForm, Popover as AntPopover, Input } from 'antd';
+import React, { useCallback, useMemo, useState } from 'react';
+import {
+  Form as AntForm,
+  Popover as AntPopover,
+  Input,
+  AutoComplete,
+  SelectProps,
+  Select,
+  Spin,
+} from 'antd';
 import styled from 'styled-components';
 import { SearchQuery } from '../types';
+import debounce from 'lodash.debounce';
+import { getSectionStrings } from '../search';
+
+const StyledAutoComplete = styled(AutoComplete)`
+  &&& {
+    width: 100%;
+  }
+`
 
 const StyledSearch = styled(Input.Search)`
   &&& {
@@ -50,16 +66,34 @@ export default function Search({
 
   const [searchValue, setSearchValue] = useState(initialSearch);
 
+  const [options, setOptions] = useState<{ value: string }[]>([]);
+
+  const fetchOptions = useCallback(
+    debounce((partialQuery) => {
+      getSectionStrings(partialQuery).then((strings) =>
+        setOptions(strings.map((value) => ({ value })))
+      );
+    }, 300),
+    []
+  );
+
+  function onChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setSearchValue(event.target.value);
+    fetchOptions(event.target.value);
+  }
+
   return (
     <AntForm>
-      <StyledSearch
-        name="search"
-        size="large"
-        placeholder="ex. CS 1337 Fall 2017 Smith"
-        onSearch={(search) => onSubmit({ search })}
-        onChange={(event) => setSearchValue(event.target.value)}
-        value={searchValue}
-      />
+      <StyledAutoComplete options={options}>
+        <StyledSearch
+          onSearch={(search) => onSubmit({ search })}
+          onChange={onChange}
+          name="search"
+          size="large"
+          placeholder="ex. CS 1337 Fall 2017 Smith"
+          value={searchValue}
+        />
+      </StyledAutoComplete>
       <Hint content={hintContent} placement="bottom">
         <span style={{ textAlign: 'center' }}>
           Need to know what you can enter?{' '}
