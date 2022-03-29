@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
 import { useQuery } from 'react-query';
 import { NextRouter, Router } from 'next/router';
-import { UnparsedSearchQuery } from '../types';
+import { SearchQuery } from '../types';
 
 const Container = styled.div`
   display: block;
@@ -79,14 +79,14 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
       },
     ],
     () =>
+      // TODO (field search)
       fetchSections({
-        courseNumber: section!.catalogNumber, // can't be null because we guard on `section`
-        coursePrefix: section!.subject,
+        search: `${section!.catalogNumber} ${section!.subject}` // can't be null because we guard on `section`
       }),
     { retry: false, enabled: !!section }
   );
 
-  function handleSubmit({ search } : UnparsedSearchQuery) {
+  function handleSubmit({ search } : SearchQuery) {
     router.push({
       pathname: '/results',
       query: { search },
