@@ -70,3 +70,12 @@ FROM grades
          INNER JOIN strings catalogNumber ON catalogNumber.id = grades.catalogNumberId
          INNER JOIN strings section ON section.id = grades.sectionId
          INNER JOIN strings instructor1 ON instructor1.id = grades.instructor1Id;
+
+CREATE VIEW grades_strings(id,string) AS
+SELECT gradesId,
+       subject       || ' ' ||
+       catalogNumber || '.' ||
+       section       || ' ' ||
+       semester      || ' ' ||
+       instructor1
+FROM grades_populated;
