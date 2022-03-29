@@ -56,13 +56,13 @@ export default async function getSections(
   } = parsed;
 
   const [where, whereParams] = createWhereString(
-    [sectionNumber, 'sectionName = ?', (s) => s.toUpperCase()],
-    [firstName, 'professorFirst LIKE ?', (s) => `%${s.trim()}%`], // TODO: other instructors ignored
-    [lastName, 'professorLast LIKE ?', (s) => `%${s.trim()}%`],
-    [courseNumber, 'catalogNumberName = ?'],
-    [coursePrefix, 'subjectName = ?', (s) => s.toUpperCase()],
-    [year, 'semesterName LIKE ?', (s) => `%${s.trim()[2] + s.trim()[3]}%`], // TODO: bad
-    [type, 'semesterName LIKE ?', (s) => `%${abbreviateSemesterName(s)}%`]
+    [sectionNumber, 'section = ?', (s) => s.toUpperCase()],
+    [firstName, 'instructor1 LIKE ?', (s) => `%${s.trim()}%`], // TODO: other instructors ignored
+    [lastName, 'instructor1 LIKE ?', (s) => `%${s.trim()}%`],
+    [courseNumber, 'catalogNumber = ?'],
+    [coursePrefix, 'subject = ?', (s) => s.toUpperCase()],
+    [year, 'semester LIKE ?', (s) => `%${s.trim()[2] + s.trim()[3]}%`], // TODO: bad
+    [type, 'semester LIKE ?', (s) => `%${abbreviateSemesterName(s)}%`]
   );
 
   // TODO: ordering

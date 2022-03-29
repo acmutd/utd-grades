@@ -1,5 +1,6 @@
 import { ParamsObject } from 'sql.js';
 import { Grades } from 'utd-grades-models';
+import { splitName } from '../components/utils';
 import { ParsedSearchQuery, SearchQuery } from '../types';
 
 function isParsedSearchQuery(query: SearchQuery): query is ParsedSearchQuery {
@@ -116,7 +117,7 @@ export function expandSemesterNames(grades: Grades[]): Grades[] {
 export function expandSemesterName(grades: Grades | null): Grades | null {
   if (!grades) return grades;
 
-  let s = grades.semester.name;
+  let s = grades.semester;
 
   if (s.startsWith('su')) {
     s = `Summer 20${s.substring(2)}`;
@@ -126,7 +127,7 @@ export function expandSemesterName(grades: Grades | null): Grades | null {
     s = `Fall 20${s.substring(1)}`;
   }
 
-  grades.semester.name = s;
+  grades.semester = s;
 
   return grades;
 }
@@ -134,24 +135,14 @@ export function expandSemesterName(grades: Grades | null): Grades | null {
 export function rowToGrades(row: ParamsObject): Grades | null {
   if (row.gradesId === undefined) return null;
 
+  const [instructor1First, instructor1Last] = splitName(row.instructor1 as string); // FIXME (no professor)
+
   return {
     id: row.gradesId as number,
-    semester: {
-      id: row.semesterId as number,
-      name: row.semesterName as string,
-    },
-    subject: {
-      id: row.subjectId as number,
-      name: row.subjectName as string,
-    },
-    catalogNumber: {
-      id: row.catalogNumberId as number,
-      name: row.catalogNumberName as string,
-    },
-    section: {
-      id: row.sectionId as number,
-      name: row.sectionName as string,
-    },
+    semester: row.semester as string,
+    subject: row.subject as string,
+    catalogNumber: row.catalogNumber as string,
+    section: row.section as string,
     aPlus: row.aPlus as number,
     a: row.a as number,
     aMinus: row.aMinus as number,
@@ -172,14 +163,19 @@ export function rowToGrades(row: ParamsObject): Grades | null {
     i: row.i as number,
     nf: row.nf as number,
     instructor1: {
-      id: row.professorId as number,
-      first: row.professorFirst as string,
-      last: row.professorLast as string,
+      first: instructor1First,
+      last: instructor1Last,
     },
+    // TODO (more professors)
+    instructor2: null,
+    instructor3: null,
+    instructor4: null,
+    instructor5: null,
+    instructor6: null,
   };
 }
 
-export const BASE_QUERY = `SELECT grades.id          AS gradesId,
+export const BASE_QUERY = `SELECT grades.id AS gradesId,
         grades.aPlus,
         grades.a,
         grades.aMinus,
@@ -199,30 +195,15 @@ export const BASE_QUERY = `SELECT grades.id          AS gradesId,
         grades.w,
         grades.i,
         grades.nf,
-        grades.semesterId,
-        grades.subjectId,
-        grades.catalogNumberId,
-        grades.sectionId,
-        grades.instructor1Id,
-        grades.instructor2Id,
-        grades.instructor3Id,
-        grades.instructor4Id,
-        grades.instructor5Id,
-        grades.instructor6Id,
-        section.id          AS sectionId,
-        section.name        AS sectionName,
-        professor.id        AS professorId,
-        professor.first     AS professorFirst,
-        professor.last      AS professorLast,
-        catalog_number.id   AS catalogNumberId,
-        catalog_number.name AS catalogNumberName,
-        subject.id          AS subjectId,
-        subject.name        AS subjectName,
-        semester.id         AS semesterId,
-        semester.name       AS semesterName
+        semester.string AS semester,
+        subject.string AS subject,
+        catalogNumber.string AS catalogNumber,
+        section.string AS section,
+        instructor1.string AS instructor1
 FROM grades
-         INNER JOIN section ON section.id = grades.sectionId
-         INNER JOIN professor ON professor.id = grades.instructor1Id
-         INNER JOIN catalog_number ON catalog_number.id = grades.catalogNumberId
-         INNER JOIN subject ON subject.id = grades.subjectId
-         INNER JOIN semester ON semester.id = grades.semesterId`;
+         INNER JOIN strings semester ON semester.id = grades.semesterId
+         INNER JOIN strings subject ON subject.id = grades.subjectId
+         INNER JOIN strings catalogNumber ON catalogNumber.id = grades.catalogNumberId
+         INNER JOIN strings section ON section.id = grades.sectionId
+         INNER JOIN strings instructor1 ON instructor1.id = grades.instructor1Id
+         `;

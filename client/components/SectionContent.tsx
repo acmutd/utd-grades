@@ -172,12 +172,13 @@ export default function SectionContent({
     <Container>
       <Stack>
         <Header>
-          {section.subject.name} {section.catalogNumber.name}
-          <Section>.{section.section.name}</Section>
+          {section.subject} {section.catalogNumber}
+          <Section>.{section.section}</Section>
         </Header>
         <SubHeader>
-          {section.instructor1.last}, {section.instructor1.first} -{' '}
-          {section.semester.name}
+          {/* FIXME (no professor): non null assertion */}
+          {section.instructor1!.last}, {section.instructor1!.first} -{' '} 
+          {section.semester}
         </SubHeader>
         <Total>
           Total Students{' '}

@@ -4,6 +4,7 @@ import { FrownTwoTone, UserOutlined } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 import { Grades } from 'utd-grades-models';
 import { getTotalStudents } from '../utils/util';
+import { splitName } from './utils';
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
@@ -189,11 +190,12 @@ export default function SectionList({
                 <List.Item.Meta
                   title={
                     <a href="#">
-                      {item.subject.name} {item.catalogNumber.name}.
-                      {item.section.name}
+                      {item.subject} {item.catalogNumber}.
+                      {item.section}
                     </a>
                   }
-                  description={`${item.instructor1.last}, ${item.instructor1.first} - ${item.semester.name}`}
+                  // FIXME (no professor): non null assertion
+                  description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${item.semester}`}
                 />
               </Item>
             );

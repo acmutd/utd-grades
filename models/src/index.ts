@@ -1,35 +1,14 @@
-export interface CatalogNumber {
-  id?: number
-  name: string
-}
-
-export interface Professor {
-  id?: number
+export interface Instructor {
   first: string | null
   last: string
 }
 
-export interface Section {
-  id?: number
-  name: string
-}
-
-export interface Semester {
-  id?: number
-  name: string
-}
-
-export interface Subject {
-  id?: number
-  name: string
-}
-
 export interface Grades {
   id?: number
-  semester: Semester
-  subject: Subject
-  catalogNumber: CatalogNumber
-  section: Section
+  semester: string
+  subject: string
+  catalogNumber: string
+  section: string
   aPlus: number  
   a: number
   aMinus: number
@@ -49,10 +28,27 @@ export interface Grades {
   w: number
   i: number
   nf: number
-  instructor1: Professor
-  instructor2?: Professor
-  instructor3?: Professor
-  instructor4?: Professor
-  instructor5?: Professor
-  instructor6?: Professor
+  instructor1: Instructor | null // FIXME (no professor): why do some sections have no professor???
+  instructor2: Instructor | null
+  instructor3: Instructor | null
+  instructor4: Instructor | null
+  instructor5: Instructor | null
+  instructor6: Instructor | null
 }
+
+type Modify<T, R> = Omit<T, keyof R> & R;
+
+// A type which is the same as Grades except with the string variables changed to numbers
+// This corresponds directly to a row in the grades table in the database
+export type GradesRow = Modify<Grades, {
+  semester: number
+  subject: number
+  catalogNumber: number
+  section: number
+  instructor1: number | null
+  instructor2: number | null
+  instructor3: number | null
+  instructor4: number | null
+  instructor5: number | null
+  instructor6: number | null
+}>
