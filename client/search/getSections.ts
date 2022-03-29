@@ -1,6 +1,5 @@
 import {
   abbreviateSemesterName,
-  BASE_QUERY,
   parseSearchString,
   rowToGrades,
 } from './utils';
@@ -57,7 +56,7 @@ export default async function getSections(
 
   const [where, whereParams] = createWhereString(
     [sectionNumber, 'section = ?', (s) => s.toUpperCase()],
-    [firstName, 'instructor1 LIKE ?', (s) => `%${s.trim()}%`], // TODO: other instructors ignored
+    [firstName, 'instructor1 LIKE ?', (s) => `%${s.trim()}%`], // TODO (more professors): other instructors ignored
     [lastName, 'instructor1 LIKE ?', (s) => `%${s.trim()}%`],
     [courseNumber, 'catalogNumber = ?'],
     [coursePrefix, 'subject = ?', (s) => s.toUpperCase()],
@@ -69,7 +68,7 @@ export default async function getSections(
 
   const grades: Grades[] = [];
 
-  const query = BASE_QUERY + '\n' + where;
+  const query = 'SELECT * FROM grades_populated' + '\n' + where;
   const stmt = db.prepare(query);
   stmt.bind(whereParams);
   while (stmt.step()) {
