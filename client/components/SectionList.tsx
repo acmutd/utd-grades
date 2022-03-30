@@ -1,10 +1,14 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { List, Spin, Popover as AntPopover } from 'antd';
-import { FrownTwoTone, UserOutlined } from '@ant-design/icons';
+import {
+  BarChartOutlined,
+  FrownTwoTone,
+  UserOutlined,
+} from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 import { Grades } from 'utd-grades-models';
-import { getTotalStudents } from '../utils/util';
-import { splitName } from './utils';
+import { getLetterGradeColor } from '../utils/util';
+import { getLetterGrade } from './utils';
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
@@ -89,15 +93,20 @@ const IconWrapper = styled.div`
   margin-right: 8;
 `;
 
+const AverageWrapper = styled.div<{ average: number }>`
+  color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
+  font-weight: bold;
+`;
+
 interface IconTextProps {
   icon: ReactNode;
-  text: string;
+  child: ReactNode;
 }
 
-const IconText = ({ icon, text }: IconTextProps) => (
+const IconText = ({ icon, child }: IconTextProps) => (
   <span>
     <IconWrapper>{icon}</IconWrapper>
-    {text}
+    {child}
   </span>
 );
 
@@ -171,35 +180,41 @@ export default function SectionList({
             onChange: (page) => setPage(page),
           }}
           dataSource={data}
-          renderItem={(item) => {
-            const totalStudents = getTotalStudents(item);
-
-            return (
-              <Item
-                key={item.id}
-                selected={item.id == id}
-                actions={[
-                  <IconText
-                    icon={<UserOutlined />}
-                    text={totalStudents}
-                    key="students-total"
-                  />,
-                ]}
-                onClick={() => onClick(item.id)}
-              >
-                <List.Item.Meta
-                  title={
-                    <a href="#">
-                      {item.subject} {item.catalogNumber}.
-                      {item.section}
-                    </a>
+          renderItem={(item) => (
+            <Item
+              key={item.id}
+              selected={item.id == id}
+              actions={[
+                <IconText
+                  icon={<UserOutlined />}
+                  child={item.totalStudents.toString()}
+                  key="students-total"
+                />,
+                <IconText
+                  icon={<BarChartOutlined />}
+                  child={
+                    <AverageWrapper average={item.average}>
+                      {getLetterGrade(item.average)}
+                    </AverageWrapper>
                   }
-                  // FIXME (no professor): non null assertion
-                  description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${item.semester}`}
-                />
-              </Item>
-            );
-          }}
+                  key="average"
+                />,
+              ]}
+              onClick={() => onClick(item.id)}
+            >
+              <List.Item.Meta
+                title={
+                  <a href="#">
+                    {item.subject} {item.catalogNumber}.{item.section}
+                  </a>
+                }
+                // FIXME (no professor): non null assertion
+                description={`${item.instructor1!.last}, ${
+                  item.instructor1!.first
+                } - ${item.semester}`}
+              />
+            </Item>
+          )}
         />
       );
     }
