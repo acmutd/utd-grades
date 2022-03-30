@@ -1,3 +1,5 @@
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 import React from 'react';
 import './styles.css';
 import 'antd/dist/antd.css';
@@ -8,7 +10,13 @@ import type { AppProps } from 'next/app';
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      // the data we're fetching is completely static, so we never need to refetch and can cache forever
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      cacheTime: Infinity,
+      staleTime: Infinity,
+      retry: false,
     },
   },
 });
@@ -48,6 +56,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

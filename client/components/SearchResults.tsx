@@ -3,12 +3,12 @@ import SectionList from './SectionList';
 import Search from './Search';
 import SearchResultsContent from './SearchResultsContent';
 import { Row, Col } from 'antd';
-import { fetchSections, fetchSection } from '../search';
 import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
 import { useQuery } from 'react-query';
-import { NextRouter, Router } from 'next/router';
+import { NextRouter } from 'next/router';
 import { SearchQuery } from '../types';
+import { useDb } from '../utils/useDb';
 
 const Container = styled.div`
   display: block;
@@ -51,23 +51,26 @@ interface ResultsProps {
 export default function Results({ search, sectionId, router }: ResultsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  const { data: db, status: dbStatus, error: dbError } = useDb();
+
   const {
     data: sections,
     status: sectionsStatus,
     error: sectionsError,
   } = useQuery(
     ['sections', search],
-    () => fetchSections({ search, sortField: 'year', sortDirection: 'DESC' }),
-    { retry: false, enabled: !!search }
+    // db can't be undefined, because it's only enabled once db is defined
+    () => db!.getSectionsBySearch(search),
+    { enabled: !!db }
   );
 
   const {
     data: section,
     status: sectionStatus,
     error: sectionError,
-  } = useQuery(['section', sectionId], () => fetchSection(sectionId), {
-    retry: false,
-    enabled: !!sectionId,
+    // db can't be undefined, because it's only enabled once db is defined
+  } = useQuery(['section', sectionId], () => db!.getSectionById(sectionId), {
+    enabled: !!db,
   });
 
   const { data: relatedSections } = useQuery(
@@ -80,13 +83,14 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     ],
     () =>
       // TODO (field search)
-      fetchSections({
-        search: `${section!.catalogNumber} ${section!.subject}` // can't be null because we guard on `section`
-      }),
-    { retry: false, enabled: !!section }
+      // db can't be undefined, because it's only enabled once section is defined which implies db is defined
+      db!.getSectionsBySearch(
+        `${section!.catalogNumber} ${section!.subject}` // can't be null because we guard on `section`
+      ),
+    { enabled: !!section }
   );
 
-  function handleSubmit({ search } : SearchQuery) {
+  function handleSubmit({ search }: SearchQuery) {
     router.push({
       pathname: '/results',
       query: { search },

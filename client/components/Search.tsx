@@ -4,20 +4,17 @@ import {
   Popover as AntPopover,
   Input,
   AutoComplete,
-  SelectProps,
-  Select,
-  Spin,
 } from 'antd';
 import styled from 'styled-components';
 import { SearchQuery } from '../types';
 import debounce from 'lodash.debounce';
-import { getSectionStrings } from '../search';
+import { useDb } from '../utils/useDb';
 
 const StyledAutoComplete = styled(AutoComplete)`
   &&& {
     width: 100%;
   }
-`
+`;
 
 const StyledSearch = styled(Input.Search)`
   &&& {
@@ -68,13 +65,18 @@ export default function Search({
 
   const [options, setOptions] = useState<{ value: string }[]>([]);
 
-  const fetchOptions = useCallback(
-    debounce((partialQuery) => {
-      getSectionStrings(partialQuery).then((strings) =>
-        setOptions(strings.map((value) => ({ value })))
-      );
-    }, 300),
-    []
+  const { data: db } = useDb();
+
+  const fetchOptions = useMemo(
+    () =>
+      debounce((partialQuery) => {
+        if (db && partialQuery) {
+          db.getSectionStrings(partialQuery).then((strings) =>
+            setOptions(strings.map((value) => ({ value })))
+          );
+        }
+      }, 300),
+    [db]
   );
 
   function onChange(event: React.ChangeEvent<HTMLInputElement>) {
