@@ -3,9 +3,15 @@ import './styles.css';
 import 'antd/dist/antd.css';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
