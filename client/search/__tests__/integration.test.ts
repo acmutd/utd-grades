@@ -1,21 +1,23 @@
-import { CatalogNumber, Grades, Professor, Section, Semester, Subject } from 'utd-grades-models';
+import { Grades } from 'utd-grades-models';
 import find from '../getSections';
 import { readFile } from 'fs/promises';
-import { DataSource } from 'typeorm';
+import { Database } from 'sql.js';
+import * as fs from 'fs/promises';
+import initSqlJs from 'sql.js/dist/sql-wasm';
 
-let con: DataSource;
+let db: Database;
+
+async function initCon() {
+  if (!db) {
+    const SQL = await initSqlJs();
+    db = new SQL.Database(
+      new Uint8Array(await fs.readFile('../data/utdgrades.sqlite3'))
+    );
+  }
+}
 
 beforeAll(async () => {
-  const data = await readFile('../data/utdgrades.sqlite3');
-
-  con = new DataSource({
-    type: 'sqljs',
-    database: data,
-    entities: [CatalogNumber, Grades, Professor, Section, Semester, Subject],
-    // logging: true // useful for debugging
-  });
-
-  await con.initialize();
+  await initCon();
 });
 
 describe('Test sample queries', () => {
@@ -37,11 +39,11 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
-      expect(response[0].subject.name).toEqual(expected.coursePrefix);
+      expect(response[0].catalogNumber).toEqual(expected.courseNumber);
+      expect(response[0].subject).toEqual(expected.coursePrefix);
     }
   });
 
@@ -63,11 +65,11 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
-      expect(response[0].subject.name).toEqual(expected.coursePrefix);
+      expect(response[0].catalogNumber).toEqual(expected.courseNumber);
+      expect(response[0].subject).toEqual(expected.coursePrefix);
     }
   });
 
@@ -109,14 +111,12 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
-      expect(response[0].subject.name).toEqual(expected.coursePrefix);
-      expect(
-        response[0].section.name.includes(expected.sectionNumber)
-      ).toBeTruthy();
+      expect(response[0].catalogNumber).toEqual(expected.courseNumber);
+      expect(response[0].subject).toEqual(expected.coursePrefix);
+      expect(response[0].section.includes(expected.sectionNumber)).toBeTruthy();
     }
   });
 
@@ -124,14 +124,14 @@ describe('Test sample queries', () => {
     const queries = [
       {
         search: 'CS 1337 fall 2019',
-        expected: { coursePrefix: 'CS', courseNumber: '1337', semester: 'f19' },
+        expected: { coursePrefix: 'CS', courseNumber: '1337', semester: 'Fall 2019' },
       },
       {
         search: 'BCOM 3310 Summer 2019',
         expected: {
           coursePrefix: 'BCOM',
           courseNumber: '3310',
-          semester: 'su19',
+          semester: 'Summer 2019',
         },
       },
       {
@@ -139,19 +139,19 @@ describe('Test sample queries', () => {
         expected: {
           coursePrefix: 'HIST',
           courseNumber: '1301',
-          semester: 's18',
+          semester: 'Spring 2018',
         },
       },
     ];
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
-      expect(response[0].subject.name).toEqual(expected.coursePrefix);
-      expect(response[0].semester.name).toEqual(expected.semester);
+      expect(response[0].catalogNumber).toEqual(expected.courseNumber);
+      expect(response[0].subject).toEqual(expected.coursePrefix);
+      expect(response[0].semester).toEqual(expected.semester);
     }
   });
 
@@ -197,15 +197,15 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
-      expect(response[0].subject.name).toEqual(expected.coursePrefix);
-      expect(response[0].instructor1.first).toEqual(
+      expect(response[0].catalogNumber).toEqual(expected.courseNumber);
+      expect(response[0].subject).toEqual(expected.coursePrefix);
+      expect(response[0].instructor1?.first).toEqual(
         expected.professorFirstName
       );
-      expect(response[0].instructor1.last).toEqual(expected.professorLastName);
+      expect(response[0].instructor1?.last).toEqual(expected.professorLastName);
     }
   });
 
@@ -229,13 +229,13 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].instructor1.first).toEqual(
+      expect(response[0].instructor1?.first).toEqual(
         expected.professorFirstName
       );
-      expect(response[0].instructor1.last).toEqual(expected.professorLastName);
+      expect(response[0].instructor1?.last).toEqual(expected.professorLastName);
     }
   });
 
@@ -247,7 +247,7 @@ describe('Test sample queries', () => {
           coursePrefix: 'CS',
           courseNumber: '1337',
           sectionNumber: '501',
-          semester: 'f19',
+          semester: 'Fall 2019',
           professorFirstName: 'Stephen J',
           professorLastName: 'Perkins',
         },
@@ -258,7 +258,7 @@ describe('Test sample queries', () => {
           coursePrefix: 'BCOM',
           courseNumber: '3310',
           sectionNumber: 'HON',
-          semester: 'f19',
+          semester: 'Fall 2019',
           professorFirstName: 'Kristen A',
           professorLastName: 'Lawson',
         },
@@ -267,20 +267,20 @@ describe('Test sample queries', () => {
 
     for (let i = 0; i < queries.length; i++) {
       const { search, expected } = queries[i];
-      const response = await find({ search }, con);
+      const response = await find({ search }, db);
 
       expect(response).not.toHaveLength(0);
-      expect(response[0].catalogNumber.name).toEqual(expected.courseNumber);
-      expect(response[0].subject.name).toEqual(expected.coursePrefix);
-      expect(response[0].semester.name).toEqual(expected.semester);
-      expect(response[0].instructor1.first).toEqual(
+      expect(response[0].catalogNumber).toEqual(expected.courseNumber);
+      expect(response[0].subject).toEqual(expected.coursePrefix);
+      expect(response[0].semester).toEqual(expected.semester);
+      expect(response[0].instructor1?.first).toEqual(
         expected.professorFirstName
       );
-      expect(response[0].instructor1.last).toEqual(expected.professorLastName);
+      expect(response[0].instructor1?.last).toEqual(expected.professorLastName);
     }
   });
 });
 
 afterAll(async () => {
-  await con.destroy();
+  db.close();
 });
