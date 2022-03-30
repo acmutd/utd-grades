@@ -1,7 +1,7 @@
-import { rowToGrades } from './utils';
 import { Grades } from 'utd-grades-models';
 import { SearchQuery } from '../types';
 import { Database } from 'sql.js';
+import { rowToGrades } from '../utils';
 
 type Season = 'Spring' | 'Summer' | 'Fall';
 

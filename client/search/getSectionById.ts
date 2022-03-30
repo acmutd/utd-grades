@@ -1,6 +1,6 @@
 import { Database } from 'sql.js';
 import { Grades } from 'utd-grades-models';
-import { rowToGrades } from './utils';
+import { rowToGrades } from '../utils';
 
 export default async function getSectionById(
   id: number,
