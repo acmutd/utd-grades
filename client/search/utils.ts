@@ -2,41 +2,6 @@ import { ParamsObject } from 'sql.js';
 import { Grades } from 'utd-grades-models';
 import { splitName } from '../components/utils';
 
-export function abbreviateSemesterName(name: string) {
-  name = name.trim().toLowerCase();
-  if (name === 'summer') {
-    return 'su';
-  } else if (name === 'spring') {
-    return 's';
-  } else if (name === 'fall') {
-    return 'f';
-  }
-  return null;
-}
-
-export function expandSemesterNames(grades: Grades[]): Grades[] {
-  // can't be null in this case because input isn't null
-  return grades.map((g) => expandSemesterName(g)!);
-}
-
-export function expandSemesterName(grades: Grades | null): Grades | null {
-  if (!grades) return grades;
-
-  let s = grades.semester;
-
-  if (s.startsWith('su')) {
-    s = `Summer 20${s.substring(2)}`;
-  } else if (s.startsWith('s')) {
-    s = `Spring 20${s.substring(1)}`;
-  } else if (s.startsWith('f')) {
-    s = `Fall 20${s.substring(1)}`;
-  }
-
-  grades.semester = s;
-
-  return grades;
-}
-
 export function rowToGrades(row: ParamsObject): Grades | null {
   if (row.gradesId === undefined) return null;
 

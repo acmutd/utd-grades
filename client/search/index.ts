@@ -1,6 +1,5 @@
 import find, { createWhereString } from './getSections';
 import get from './getSectionById';
-import { expandSemesterName, expandSemesterNames } from './utils';
 import { Grades } from 'utd-grades-models';
 import { SearchQuery } from '../types';
 import { Database } from 'sql.js/dist/sql-wasm';
@@ -29,12 +28,12 @@ async function initCon() {
 
 export async function fetchSections(params: SearchQuery): Promise<Grades[]> {
   await initCon();
-  return expandSemesterNames(await find(params, db));
+  return await find(params, db);
 }
 
 export async function fetchSection(id: number): Promise<Grades | null> {
   await initCon();
-  return expandSemesterName(await get(id, db));
+  return await get(id, db);
 }
 
 export async function getSectionStrings(
