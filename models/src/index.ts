@@ -34,13 +34,16 @@ export interface Grades {
   instructor4: Instructor | null
   instructor5: Instructor | null
   instructor6: Instructor | null
+
+  totalStudents: number
+  average: number
 }
 
 type Modify<T, R> = Omit<T, keyof R> & R;
 
 // A type which is the same as Grades except with the string variables changed to numbers
 // This corresponds directly to a row in the grades table in the database
-export type GradesRow = Modify<Grades, {
+export type GradesRow = Modify<Omit<Grades, "totalStudents" | "average">, {
   semester: number
   subject: number
   catalogNumber: number
