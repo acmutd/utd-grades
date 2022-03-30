@@ -1,7 +1,8 @@
 import { Grades } from 'utd-grades-models';
 import { UserFriendlyGrades } from '../types';
 
-export function getColors(keys: (keyof UserFriendlyGrades)[]) {
+export function getLetterGradeColor(grade: keyof UserFriendlyGrades): string {
+  // FIXME: some of these colors are pretty hard to read on white. Adjust for accessibility (see https://web.dev/color-and-contrast-accessibility/)
   const colorMap = {
     'A+': 'rgb(45, 179, 63)',
     A: 'rgb(48, 199, 55)',
@@ -24,7 +25,11 @@ export function getColors(keys: (keyof UserFriendlyGrades)[]) {
     NF: 'rgb(102, 102, 102)',
   };
 
-  return keys.map((key) => colorMap[key]);
+  return colorMap[grade];
+}
+
+export function getColors(keys: (keyof UserFriendlyGrades)[]) {
+  return keys.map((key) => getLetterGradeColor(key));
 }
 
 export function extractGrades(grades: Grades): UserFriendlyGrades {
@@ -56,8 +61,4 @@ export function extractGrades(grades: Grades): UserFriendlyGrades {
   addIfNotZero('NF', grades.nf);
 
   return ret;
-}
-
-export function getTotalStudents(grades: Grades) {
-  return Object.values(extractGrades(grades)).reduce((acc, x) => acc + x, 0);
 }

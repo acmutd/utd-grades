@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Row, Spin } from 'antd';
 import SectionCard from './SectionCard';
@@ -13,8 +13,9 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Grades } from 'utd-grades-models';
-import { getTotalStudents, extractGrades, getColors } from '../utils/util';
+import { extractGrades, getColors } from '../utils/util';
 import { UserFriendlyGrades } from '../types';
+import { getLetterGrade } from './utils';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -70,7 +71,7 @@ const SubHeader = styled.h5`
   color: rgb(117, 117, 117);
 `;
 
-const Total = styled.h5`
+const Stat = styled.h5`
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 18px;
@@ -138,8 +139,6 @@ export default function SectionContent({
     return <Spin />;
   };
 
-  const totalStudents = getTotalStudents(section);
-
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
   const values = Object.values(grades);
@@ -160,13 +159,15 @@ export default function SectionContent({
             const count = context.parsed.y;
             return [
               `Students: ${count}`,
-              `Percentage: ${((count / totalStudents) * 100).toFixed(2)}%`,
+              `Percentage: ${((count / section.totalStudents) * 100).toFixed(2)}%`,
             ];
           },
         },
       },
     },
   };
+
+  const averageLetter = getLetterGrade(section.average);
 
   return (
     <Container>
@@ -180,10 +181,14 @@ export default function SectionContent({
           {section.instructor1!.last}, {section.instructor1!.first} -{' '} 
           {section.semester}
         </SubHeader>
-        <Total>
+        <Stat>
           Total Students{' '}
-          <span style={{ color: '#333333' }}>{totalStudents}</span>
-        </Total>
+          <span style={{ color: '#333333' }}>{section.totalStudents}</span>
+        </Stat>
+        <Stat>
+          Average Grade{' '}
+          <span style={{ color: '#333333' }}>{averageLetter}</span>
+        </Stat>
       </Stack>
 
       <Row>
