@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 import SectionContent from './SectionContent';
 import { Spin } from 'antd';
-import { Grades } from 'utd-grades-models';
+import { Grades } from 'utd-grades-db';
 
 const LoadingContainer = styled.div`
   padding: 50px;

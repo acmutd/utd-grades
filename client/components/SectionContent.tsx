@@ -12,7 +12,7 @@ import {
   ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { Grades } from 'utd-grades-models';
+import { Grades } from 'utd-grades-db';
 import { extractGrades, getColors, getLetterGrade } from '../utils';
 import { UserFriendlyGrades } from '../types';
 
@@ -178,7 +178,7 @@ export default function SectionContent({
         <SubHeader>
           {/* FIXME (no professor): non null assertion */}
           {section.instructor1!.last}, {section.instructor1!.first} -{' '} 
-          {section.semester}
+          {`${section.semester.season} ${section.semester.year}`}
         </SubHeader>
         <Stat>
           Total Students{' '}
