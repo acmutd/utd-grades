@@ -7,8 +7,7 @@ import {
 } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
 import { Grades } from 'utd-grades-models';
-import { getLetterGradeColor } from '../utils/util';
-import { getLetterGrade } from './utils';
+import { getLetterGrade, getLetterGradeColor } from '../utils';
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
