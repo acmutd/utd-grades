@@ -2,7 +2,7 @@ import * as csv from "csv-parse/sync";
 import * as path from "path";
 import * as fs from "fs/promises";
 import initSqlJs, { Database } from "sql.js/dist/sql-wasm";
-import type { GradesRow } from "utd-grades-models";
+import type { GradesRow } from "../types/GradesRow";
 
 function reorderName(name: string): string {
   const parts = name.split(", ");
@@ -128,10 +128,10 @@ async function createDb(): Promise<Uint8Array> {
   const SQL = await initSqlJs();
   const db = new SQL.Database();
 
-  const initScript = await fs.readFile("src/create_db.sql");
+  const initScript = await fs.readFile("db_schema.sql");
   db.run(initScript.toString());
 
-  const [strings, allGrades] = await parseDataDir("../data/raw");
+  const [strings, allGrades] = await parseDataDir("../raw_data");
 
   db.exec("BEGIN");
 
@@ -187,7 +187,7 @@ async function createDb(): Promise<Uint8Array> {
 
 async function main() {
   const data = await createDb();
-  await fs.writeFile("../data/utdgrades.sqlite3", Buffer.from(data));
+  await fs.writeFile("utdgrades.sqlite3", Buffer.from(data));
 }
 
 main();

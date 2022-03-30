@@ -1,7 +1,7 @@
 import { StringGradients } from 'antd/lib/progress/progress';
 import React from 'react';
 import styled from 'styled-components';
-import { Grades } from 'utd-grades-models';
+import { Grades } from 'utd-grades-db';
 import SlideUp from './animations/SlideUp';
 
 const Card = styled.div`
@@ -68,7 +68,7 @@ export default function SectionCard({ section, handleRelatedSectionClick }: Sect
         <Professor>
           {/* FIXME (no professor): non null assertion */}
           {section.instructor1!.first} {section.instructor1!.last} -{' '}
-          {section.semester}
+          {`${section.semester.season} ${section.semester.year}`}
         </Professor>
       </Card>
     </SlideUp>

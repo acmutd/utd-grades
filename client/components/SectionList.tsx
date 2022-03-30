@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
-import { Grades } from 'utd-grades-models';
+import { Grades } from 'utd-grades-db';
 import { getLetterGrade, getLetterGradeColor } from '../utils';
 
 const Item = styled(List.Item)<{ selected: boolean }>`
@@ -210,7 +210,7 @@ export default function SectionList({
                 // FIXME (no professor): non null assertion
                 description={`${item.instructor1!.last}, ${
                   item.instructor1!.first
-                } - ${item.semester}`}
+                } - ${item.semester.season} ${item.semester.year}`}
               />
             </Item>
           )}
