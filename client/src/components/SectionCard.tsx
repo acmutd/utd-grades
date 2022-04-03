@@ -1,7 +1,6 @@
-import { StringGradients } from 'antd/lib/progress/progress';
 import React from 'react';
 import styled from 'styled-components';
-import { Grades } from 'utd-grades-db';
+import type { Grades } from '@utd-grades/db';
 import SlideUp from './animations/SlideUp';
 
 const Card = styled.div`
@@ -57,7 +56,7 @@ export default function SectionCard({ section, handleRelatedSectionClick }: Sect
         onClick={() =>
           handleRelatedSectionClick(
             `${section.subject} ${section.catalogNumber}`,
-            section.id! // FIXME
+            section.id
           )
         }
       >

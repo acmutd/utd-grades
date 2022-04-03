@@ -12,9 +12,9 @@ import {
   ChartOptions,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { Grades } from 'utd-grades-db';
+import type { Grades } from '@utd-grades/db';
 import { extractGrades, getColors, getLetterGrade } from '../utils';
-import { UserFriendlyGrades } from '../types';
+import type { UserFriendlyGrades } from '../types';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 

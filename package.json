@@ -1,0 +1,32 @@
+{
+  "name": "utd-grades",
+  "version": "2.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "db"
+  ],
+  "scripts": {
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "build": "npm run createDb && npm run build --workspace=client && npm run export --workspace=client",
+    "dev": "npm run createDb && npm run dev --workspace=client",
+    "createDb": "npm run build --workspace=db && npm run createDb --workspace=db"
+  },
+  "dependencies": {
+    "sql.js": "^1.6.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "@types/sql.js": "^1.4.3",
+    "@typescript-eslint/eslint-plugin": "^5.17.0",
+    "@typescript-eslint/parser": "^5.17.0",
+    "eslint": "^8.12.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^26.1.3",
+    "jest": "^27.5.1",
+    "prettier": "2.6.1",
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.3"
+  }
+}

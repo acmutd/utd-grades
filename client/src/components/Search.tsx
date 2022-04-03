@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Form as AntForm,
   Popover as AntPopover,
@@ -6,7 +6,7 @@ import {
   AutoComplete,
 } from 'antd';
 import styled from 'styled-components';
-import { SearchQuery } from '../types';
+import type { SearchQuery } from '../types';
 import debounce from 'lodash.debounce';
 import { useDb } from '../utils/useDb';
 
@@ -69,11 +69,10 @@ export default function Search({
 
   const fetchOptions = useMemo(
     () =>
-      debounce((partialQuery) => {
+      debounce((partialQuery: string) => {
         if (db && partialQuery) {
-          db.getSectionStrings(partialQuery).then((strings) =>
-            setOptions(strings.map((value) => ({ value })))
-          );
+          const strings = db.getSectionStrings(partialQuery);
+          setOptions(strings.map((value) => ({ value })));
         }
       }, 300),
     [db]

@@ -6,7 +6,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import styled, { css } from 'styled-components';
-import { Grades } from 'utd-grades-db';
+import type { Grades } from '@utd-grades/db';
 import { getLetterGrade, getLetterGradeColor } from '../utils';
 
 const Item = styled(List.Item)<{ selected: boolean }>`
@@ -112,9 +112,9 @@ const IconText = ({ icon, child }: IconTextProps) => (
 interface SectionListProps {
   loading: boolean;
   id: number;
-  data: any;
-  onClick: any;
-  error: any;
+  data: Grades[] | undefined;
+  onClick: (id: number) => void;
+  error: unknown;
 }
 
 export default function SectionList({
