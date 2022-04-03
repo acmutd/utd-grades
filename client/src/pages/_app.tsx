@@ -1,5 +1,3 @@
-import { ReactQueryDevtools } from 'react-query/devtools'
-
 import React from 'react';
 import './styles.css';
 import 'antd/dist/antd.css';
@@ -56,7 +54,6 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

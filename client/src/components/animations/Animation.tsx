@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import styled, { type Keyframes } from 'styled-components';
 
 const Wrapper = styled.div<AnimationProps>`

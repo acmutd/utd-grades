@@ -1,7 +1,7 @@
 import * as csv from "csv-parse/sync";
 import * as path from "path";
 import * as fs from "fs/promises";
-import initSqlJs, { Database } from "sql.js/dist/sql-wasm";
+import initSqlJs, { Database } from "sql.js";
 import type { GradesRow } from "../types/GradesRow";
 
 function reorderName(name: string): string {
@@ -15,10 +15,25 @@ function reorderName(name: string): string {
 }
 
 function gradesRow(
-  csvRow: Record<string, any>,
+  id: number,
+  csvRow: Record<string, string>,
   semester: string,
   strings: Map<string, number>
 ): GradesRow {
+  function getStringIdForColumn(...columnCandidates: string[]): number {
+    const rowValue = columnCandidates.map(column => csvRow[column]).find(rowValue => rowValue !== undefined)
+    if (!rowValue) {
+      throw new Error(`Value for all columns was undefined: ${columnCandidates}`);
+    }
+
+    const string = strings.get(rowValue);
+    if (!string) {
+      throw new Error(`Unknown string: ${rowValue}`);
+    }
+
+    return string;
+  }
+
   function parseNum(s?: string): number {
     if (s) return parseInt(s, 10);
     return 0;
@@ -33,12 +48,11 @@ function gradesRow(
   }
 
   return {
+    id,
     semester: strings.get(semester)!,
-    subject: strings.get(csvRow["Subject"])!,
-    catalogNumber: strings.get(
-      csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"] // some semesters have "Catalog Number", some have "Catalog Nbr"
-    )!,
-    section: strings.get(csvRow["Section"])!,
+    subject: getStringIdForColumn("Subject"),
+    catalogNumber: getStringIdForColumn("Catalog Number", "Catalog Nbr"), // some semesters have "Catalog Number", some have "Catalog Nbr"
+    section: getStringIdForColumn("Section"),
     aPlus: parseNum(csvRow["A+"]),
     a: parseNum(csvRow["A"]),
     aMinus: parseNum(csvRow["A-"]),
@@ -68,17 +82,17 @@ function gradesRow(
 }
 
 async function parseCsv(filePath: string): Promise<Record<string, string>[]> {
-  console.log(filePath);
+  console.log(`Parsing ${filePath}`);
   const fileContents = await fs.readFile(filePath);
   return csv.parse(fileContents, {
     columns: true, // detect column names from header
-  });
+  }) as Record<string, string>[]; // csv.parse returns `any` for some reason. This should be safe
 }
 
 async function parseDataDir(
   dataDir: string
 ): Promise<[Map<string, number>, GradesRow[]]> {
-  let strings = new Map<string, number>();
+  const strings = new Map<string, number>();
 
   function add(s: string | undefined, modify?: (s: string) => string) {
     if (s) {
@@ -91,7 +105,7 @@ async function parseDataDir(
     }
   }
 
-  let grades: GradesRow[] = [];
+  const grades: GradesRow[] = [];
 
   for (const fileName of await fs.readdir(dataDir)) {
     const semester = path.parse(fileName).name;
@@ -109,14 +123,14 @@ async function parseDataDir(
       add(csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"]);
       add(csvRow["Section"]);
 
-      grades.push(gradesRow(csvRow, semester, strings));
+      grades.push(gradesRow(grades.length, csvRow, semester, strings));
     }
   }
 
   return [strings, grades];
 }
 
-async function insertStrings(db: Database, strings: Map<string, number>) {
+function insertStrings(db: Database, strings: Map<string, number>) {
   const stmt = db.prepare(`INSERT INTO strings(id, string) VALUES (?, ?)`);
   for (const [string, id] of strings.entries()) {
     stmt.run([id, string]);
@@ -135,14 +149,15 @@ async function createDb(): Promise<Uint8Array> {
 
   db.exec("BEGIN");
 
-  await insertStrings(db, strings);
+  insertStrings(db, strings);
 
   const stmt = db.prepare(`
     INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id)
-    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
   for (const grades of allGrades) {
     stmt.getAsObject([
+      grades.id,
       grades.aPlus,
       grades.a,
       grades.aMinus,
@@ -185,9 +200,9 @@ async function createDb(): Promise<Uint8Array> {
   return data;
 }
 
-async function main() {
-  const data = await createDb();
-  await fs.writeFile("utdgrades.sqlite3", Buffer.from(data));
-}
+const DB_PATH = "utdgrades.sqlite3";
 
-main();
+const data = await createDb();
+await fs.writeFile(DB_PATH, Buffer.from(data));
+
+console.log(`\nDatabase successfully written to ${DB_PATH}`);

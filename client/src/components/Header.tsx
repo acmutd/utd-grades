@@ -43,7 +43,9 @@ const HeaderBold = styled.span`
 
 export default function Header() {
   function goHome() {
-    Router.push('/');
+    (async function () {
+      await Router.push('/');
+    })();
   }
 
   return (

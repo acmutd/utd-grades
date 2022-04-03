@@ -1,5 +1,5 @@
-import { Grades } from 'utd-grades-db';
-import { UserFriendlyGrades } from '../types';
+import type { Grades } from '@utd-grades/db';
+import type { UserFriendlyGrades } from '../types';
 
 export function getLetterGrade(grade: number): keyof UserFriendlyGrades {
   if (grade >= 0.97) {

@@ -13,7 +13,7 @@ export class GradesDatabase {
     this.db.close();
   }
 
-  async getSectionsBySearch(search: string): Promise<Grades[]> {
+  getSectionsBySearch(search: string): Grades[] {
     const grades: Grades[] = [];
 
     const query = `
@@ -42,7 +42,7 @@ export class GradesDatabase {
     });
   }
 
-  async getSectionById(id: number): Promise<Grades | null> {
+  getSectionById(id: number): Grades | null {
     const stmt = this.db.prepare(
       "SELECT * FROM grades_populated WHERE gradesId = ? LIMIT 1"
     );
@@ -53,7 +53,7 @@ export class GradesDatabase {
     return grades;
   }
 
-  async getSectionStrings(partialQuery: string): Promise<string[]> {
+  getSectionStrings(partialQuery: string): string[] {
     if (partialQuery === "") return [];
 
     const strings: string[] = [];

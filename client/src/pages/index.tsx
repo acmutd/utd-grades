@@ -5,7 +5,7 @@ import Core from '../components/Core'
 import Search from '../components/Search'
 import FadeIn from '../components/animations/FadeIn'
 import { Col } from 'antd';
-import { SearchQuery } from '../types';
+import type { SearchQuery } from '../types';
 
 const Content = styled.div`
   display: block;
@@ -46,10 +46,12 @@ const HeaderBold = styled.span`
 
 export default function Home() {
   function handleSubmit({ search } : SearchQuery) {
-    Router.push({
-      pathname: '/results',
-      query: { search },
-    });
+    (async function () {
+      await Router.push({
+        pathname: '/results',
+        query: { search },
+      });
+    })();
   }
 
   return (
