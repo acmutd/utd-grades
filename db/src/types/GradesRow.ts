@@ -2,7 +2,7 @@
  * Corresponds directly to a row in the grades table in the database.
  */
 export interface GradesRow {
-  id?: number;
+  id: number;
   semester: number;
   subject: number;
   catalogNumber: number;

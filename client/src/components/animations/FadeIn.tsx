@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { keyframes } from 'styled-components';
 import Animation from './Animation';
 

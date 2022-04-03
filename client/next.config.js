@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
+/** @type {import('next').NextConfig} */
 module.exports = {
   compiler: {
     styledComponents: true,
@@ -12,7 +13,7 @@ module.exports = {
         new NodePolyfillPlugin(),
         new webpack.ProvidePlugin({
           'window.SQL': path.resolve(
-            path.join(__dirname, '/node_modules/sql.js/dist/sql-wasm.js')
+            path.join(__dirname, '../node_modules/sql.js/dist/sql-wasm.js')
           ),
         })
       );

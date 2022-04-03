@@ -7,10 +7,11 @@ let db: GradesDatabase;
 async function initCon() {
   if (!db) {
     const SQL = await initSqlJs();
-    let sqlJsDb = new SQL.Database(
-      new Uint8Array(await fs.readFile("../db/utdgrades.sqlite3"))
+    db = new GradesDatabase(
+      new SQL.Database(
+        new Uint8Array(await fs.readFile("utdgrades.sqlite3"))
+      )
     );
-    db = new GradesDatabase(sqlJsDb);
   }
 }
 
@@ -19,7 +20,7 @@ beforeAll(async () => {
 });
 
 describe("Test sample queries", () => {
-  test("Should search by course prefix and number", async () => {
+  test("Should search by course prefix and number", () => {
     const queries = [
       {
         search: "CS 1337",
@@ -36,15 +37,15 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);
       expect(response.subject).toEqual(expected.coursePrefix);
     }
   });
 
-  test("Should handle lowercase course prefixes", async () => {
+  test("Should handle lowercase course prefixes", () => {
     const queries = [
       {
         search: "cs 1337",
@@ -61,15 +62,15 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);
       expect(response.subject).toEqual(expected.coursePrefix);
     }
   });
 
-  test("Should handle section numbers", async () => {
+  test("Should handle section numbers", () => {
     const queries = [
       {
         search: "CS 1337.001",
@@ -106,8 +107,8 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);
       expect(response.subject).toEqual(expected.coursePrefix);
@@ -115,7 +116,7 @@ describe("Test sample queries", () => {
     }
   });
 
-  test("Should handle semesters", async () => {
+  test("Should handle semesters", () => {
     const queries = [
       {
         search: "CS 1337 fall 2019",
@@ -125,7 +126,7 @@ describe("Test sample queries", () => {
           semester: {
             season: "Fall",
             year: 2019,
-          }
+          },
         },
       },
       {
@@ -136,7 +137,7 @@ describe("Test sample queries", () => {
           semester: {
             season: "Summer",
             year: 2019,
-          }
+          },
         },
       },
       {
@@ -147,14 +148,14 @@ describe("Test sample queries", () => {
           semester: {
             season: "Spring",
             year: 2018,
-          }
+          },
         },
       },
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);
       expect(response.subject).toEqual(expected.coursePrefix);
@@ -162,7 +163,7 @@ describe("Test sample queries", () => {
     }
   });
 
-  test("Should handle professor names", async () => {
+  test("Should handle professor names", () => {
     const queries = [
       {
         search: "CS 1337 Jason Smith",
@@ -203,8 +204,8 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);
       expect(response.subject).toEqual(expected.coursePrefix);
@@ -213,7 +214,7 @@ describe("Test sample queries", () => {
     }
   });
 
-  test("Should handle professor-only", async () => {
+  test("Should handle professor-only", () => {
     const queries = [
       {
         search: "Stephen Perkins",
@@ -232,15 +233,15 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.instructor1?.first).toEqual(expected.professorFirstName);
       expect(response.instructor1?.last).toEqual(expected.professorLastName);
     }
   });
 
-  test("Should handle everything together", async () => {
+  test("Should handle everything together", () => {
     const queries = [
       {
         search: "CS 1337 502 fall 2019 Stephen Perkins",
@@ -273,8 +274,8 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = (await db.getSectionsBySearch(search))[0];
-      if (!response) fail("response was empty");
+      const response = db.getSectionsBySearch(search)[0];
+      if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);
       expect(response.subject).toEqual(expected.coursePrefix);
@@ -285,6 +286,6 @@ describe("Test sample queries", () => {
   });
 });
 
-afterAll(async () => {
+afterAll(() => {
   db.close();
 });

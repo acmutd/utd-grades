@@ -6,8 +6,8 @@ import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import { animateScroll as scroll } from 'react-scroll';
 import { useQuery } from 'react-query';
-import { NextRouter } from 'next/router';
-import { SearchQuery } from '../types';
+import type { NextRouter } from 'next/router';
+import type { SearchQuery } from '../types';
 import { useDb } from '../utils/useDb';
 
 const Container = styled.div`
@@ -51,7 +51,7 @@ interface ResultsProps {
 export default function Results({ search, sectionId, router }: ResultsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { data: db, status: dbStatus, error: dbError } = useDb();
+  const { data: db } = useDb();
 
   const {
     data: sections,
@@ -91,17 +91,21 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   );
 
   function handleSubmit({ search }: SearchQuery) {
-    router.push({
-      pathname: '/results',
-      query: { search },
-    });
+    (async function () {
+      await router.push({
+        pathname: '/results',
+        query: { search },
+      });
+    })();
   }
 
-  function handleClick(id: string) {
-    router.push({
-      pathname: '/results',
-      query: { search, sectionId: id },
-    });
+  function handleClick(id: number) {
+    (async function () {
+      await router.push({
+        pathname: '/results',
+        query: { search, sectionId: id },
+      });
+    })();
 
     const scrollDistance =
       window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
@@ -110,10 +114,12 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   }
 
   function handleRelatedSectionClick(search: string, id: number) {
-    router.push({
-      pathname: '/results',
-      query: { search, sectionId: id },
-    });
+    (async function () {
+      await router.push({
+        pathname: '/results',
+        query: { search, sectionId: id },
+      });
+    })();
 
     const scrollDistance =
       window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
