@@ -1,6 +1,6 @@
 import * as csv from "csv-parse/sync";
-import * as path from "path";
 import * as fs from "fs/promises";
+import * as path from "path";
 import initSqlJs, { Database } from "sql.js";
 import type { GradesRow } from "../types/GradesRow";
 
@@ -21,7 +21,9 @@ function gradesRow(
   strings: Map<string, number>
 ): GradesRow {
   function getStringIdForColumn(...columnCandidates: string[]): number {
-    const rowValue = columnCandidates.map(column => csvRow[column]).find(rowValue => rowValue !== undefined)
+    const rowValue = columnCandidates
+      .map((column) => csvRow[column])
+      .find((rowValue) => rowValue !== undefined);
     if (!rowValue) {
       throw new Error(`Value for all columns was undefined: ${columnCandidates}`);
     }
@@ -89,9 +91,7 @@ async function parseCsv(filePath: string): Promise<Record<string, string>[]> {
   }) as Record<string, string>[]; // csv.parse returns `any` for some reason. This should be safe
 }
 
-async function parseDataDir(
-  dataDir: string
-): Promise<[Map<string, number>, GradesRow[]]> {
+async function parseDataDir(dataDir: string): Promise<[Map<string, number>, GradesRow[]]> {
   const strings = new Map<string, number>();
 
   function add(s: string | undefined, modify?: (s: string) => string) {

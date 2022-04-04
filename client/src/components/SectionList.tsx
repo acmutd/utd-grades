@@ -1,13 +1,9 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { List, Spin, Popover as AntPopover } from 'antd';
-import {
-  BarChartOutlined,
-  FrownTwoTone,
-  UserOutlined,
-} from '@ant-design/icons';
-import styled, { css } from 'styled-components';
-import type { Grades } from '@utd-grades/db';
-import { getLetterGrade, getLetterGradeColor } from '../utils';
+import { BarChartOutlined, FrownTwoTone, UserOutlined } from "@ant-design/icons";
+import type { Grades } from "@utd-grades/db";
+import { List, Popover as AntPopover, Spin } from "antd";
+import React, { ReactNode, useEffect, useState } from "react";
+import styled, { css } from "styled-components";
+import { getLetterGrade, getLetterGradeColor } from "../utils";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
@@ -34,7 +30,7 @@ const Item = styled(List.Item)<{ selected: boolean }>`
     margin-bottom: 0px;
   }
 
-  ${(props) => (props.selected ? selectedStyles : '')}
+  ${(props) => (props.selected ? selectedStyles : "")}
 `;
 
 const selectedStyles = css`
@@ -117,13 +113,7 @@ interface SectionListProps {
   error: unknown;
 }
 
-export default function SectionList({
-  loading,
-  id,
-  data,
-  onClick,
-  error,
-}: SectionListProps) {
+export default function SectionList({ loading, id, data, onClick, error }: SectionListProps) {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -133,8 +123,8 @@ export default function SectionList({
   const popover = (
     <Popover>
       <p>
-        Because of FERPA restrictions, grade data for certain classes — in
-        particular, classes with a small number of students — is unavailable.
+        Because of FERPA restrictions, grade data for certain classes — in particular, classes with
+        a small number of students — is unavailable.
       </p>
     </Popover>
   );
@@ -142,13 +132,11 @@ export default function SectionList({
   const emptyMessage = (
     <EmptyContainer>
       <StyledIcon />
-      <Error>
-        We weren&apos;t able to find that. Try searching for something else!
-      </Error>
+      <Error>We weren&apos;t able to find that. Try searching for something else!</Error>
       <Hint content={popover} placement="bottom">
-        <span style={{ textAlign: 'center' }}>
-          Still can&apos;t find what you&apos;re looking for?{' '}
-          <span style={{ textDecoration: 'underline' }}>Learn more.</span>
+        <span style={{ textAlign: "center" }}>
+          Still can&apos;t find what you&apos;re looking for?{" "}
+          <span style={{ textDecoration: "underline" }}>Learn more.</span>
         </span>
       </Hint>
     </EmptyContainer>
@@ -172,7 +160,7 @@ export default function SectionList({
           pagination={{
             pageSize: 8,
             style: {
-              marginRight: '10px',
+              marginRight: "10px",
             },
             showSizeChanger: false,
             current: page,
@@ -208,9 +196,9 @@ export default function SectionList({
                   </a>
                 }
                 // FIXME (no professor): non null assertion
-                description={`${item.instructor1!.last}, ${
-                  item.instructor1!.first
-                } - ${item.semester.season} ${item.semester.year}`}
+                description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${
+                  item.semester.season
+                } ${item.semester.year}`}
               />
             </Item>
           )}

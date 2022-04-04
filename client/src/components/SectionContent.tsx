@@ -1,20 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Row, Spin } from 'antd';
-import SectionCard from './SectionCard';
-
+import type { Grades } from "@utd-grades/db";
+import { Row, Spin } from "antd";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
-  Tooltip,
+  CategoryScale,
+  Chart as ChartJS,
   ChartOptions,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import type { Grades } from '@utd-grades/db';
-import { extractGrades, getColors, getLetterGrade } from '../utils';
-import type { UserFriendlyGrades } from '../types';
+  LinearScale,
+  Tooltip,
+} from "chart.js";
+import React from "react";
+import { Bar } from "react-chartjs-2";
+import styled from "styled-components";
+import type { UserFriendlyGrades } from "../types";
+import { extractGrades, getColors, getLetterGrade } from "../utils";
+import SectionCard from "./SectionCard";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -151,7 +150,7 @@ export default function SectionContent({
     plugins: {
       tooltip: {
         enabled: true,
-        mode: 'nearest',
+        mode: "nearest",
         intersect: true,
         callbacks: {
           label: (context) => {
@@ -177,16 +176,14 @@ export default function SectionContent({
         </Header>
         <SubHeader>
           {/* FIXME (no professor): non null assertion */}
-          {section.instructor1!.last}, {section.instructor1!.first} -{' '} 
+          {section.instructor1!.last}, {section.instructor1!.first} -{" "}
           {`${section.semester.season} ${section.semester.year}`}
         </SubHeader>
         <Stat>
-          Total Students{' '}
-          <span style={{ color: '#333333' }}>{section.totalStudents}</span>
+          Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
         </Stat>
         <Stat>
-          Average Grade{' '}
-          <span style={{ color: '#333333' }}>{averageLetter}</span>
+          Average Grade <span style={{ color: "#333333" }}>{averageLetter}</span>
         </Stat>
       </Stack>
 

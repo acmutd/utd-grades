@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
-import SectionList from './SectionList';
-import Search from './Search';
-import SearchResultsContent from './SearchResultsContent';
-import { Row, Col } from 'antd';
-import styled from 'styled-components';
-import { animateScroll as scroll } from 'react-scroll';
-import { useQuery } from 'react-query';
-import type { NextRouter } from 'next/router';
-import type { SearchQuery } from '../types';
-import { useDb } from '../utils/useDb';
+import { Col, Row } from "antd";
+import type { NextRouter } from "next/router";
+import React, { useRef } from "react";
+import { useQuery } from "react-query";
+import { animateScroll as scroll } from "react-scroll";
+import styled from "styled-components";
+import type { SearchQuery } from "../types";
+import { useDb } from "../utils/useDb";
+import Search from "./Search";
+import SearchResultsContent from "./SearchResultsContent";
+import SectionList from "./SectionList";
 
 const Container = styled.div`
   display: block;
@@ -58,7 +58,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     status: sectionsStatus,
     error: sectionsError,
   } = useQuery(
-    ['sections', search],
+    ["sections", search],
     // db can't be undefined, because it's only enabled once db is defined
     () => db!.getSectionsBySearch(search),
     { enabled: !!db }
@@ -69,13 +69,13 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     status: sectionStatus,
     error: sectionError,
     // db can't be undefined, because it's only enabled once db is defined
-  } = useQuery(['section', sectionId], () => db!.getSectionById(sectionId), {
+  } = useQuery(["section", sectionId], () => db!.getSectionById(sectionId), {
     enabled: !!db,
   });
 
   const { data: relatedSections } = useQuery(
     [
-      'relatedSections',
+      "relatedSections",
       section && {
         courseNumber: section.catalogNumber,
         coursePrefix: section.subject,
@@ -93,7 +93,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   function handleSubmit({ search }: SearchQuery) {
     (async function () {
       await router.push({
-        pathname: '/results',
+        pathname: "/results",
         query: { search },
       });
     })();
@@ -102,13 +102,12 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   function handleClick(id: number) {
     (async function () {
       await router.push({
-        pathname: '/results',
+        pathname: "/results",
         query: { search, sectionId: id },
       });
     })();
 
-    const scrollDistance =
-      window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
+    const scrollDistance = window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
   }
@@ -116,13 +115,12 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   function handleRelatedSectionClick(search: string, id: number) {
     (async function () {
       await router.push({
-        pathname: '/results',
+        pathname: "/results",
         query: { search, sectionId: id },
       });
     })();
 
-    const scrollDistance =
-      window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
+    const scrollDistance = window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
   }
@@ -130,37 +128,30 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   return (
     <Container>
       <Row>
-        <Col
-          lg={{ span: 8, offset: 8 }}
-          sm={{ span: 18, offset: 3 }}
-          xs={{ span: 20, offset: 2 }}
-        >
+        <Col lg={{ span: 8, offset: 8 }} sm={{ span: 18, offset: 3 }} xs={{ span: 20, offset: 2 }}>
           <Search onSubmit={handleSubmit} initialSearchValue={search} />
         </Col>
       </Row>
 
       <Row>
-        <ResultsContainer
-          lg={{ span: 20, offset: 2 }}
-          xs={{ span: 24, offset: 0 }}
-        >
+        <ResultsContainer lg={{ span: 20, offset: 2 }} xs={{ span: 24, offset: 0 }}>
           <Row>
             <Col lg={6} xs={24}>
               <SectionList
                 data={sections}
                 onClick={handleClick}
-                loading={sectionsStatus === 'loading'}
+                loading={sectionsStatus === "loading"}
                 id={sectionId}
                 error={sectionsError}
               />
             </Col>
 
             <Col lg={18} xs={24}>
-              <div style={{ width: '100%', height: '100%' }} ref={scrollRef}>
+              <div style={{ width: "100%", height: "100%" }} ref={scrollRef}>
                 <SearchResultsContent
                   section={section!} // FIXME: need to actually do something if these are null
                   relatedSections={relatedSections!}
-                  loadingSection={sectionStatus === 'loading'}
+                  loadingSection={sectionStatus === "loading"}
                   handleRelatedSectionClick={handleRelatedSectionClick}
                   error={sectionError}
                 />
