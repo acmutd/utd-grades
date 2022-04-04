@@ -4,6 +4,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  basePath: process.env.BASE_PATH ?? "",
   compiler: {
     styledComponents: true,
   },
