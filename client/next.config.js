@@ -1,6 +1,6 @@
-const webpack = require('webpack');
-const path = require('path');
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const webpack = require("webpack");
+const path = require("path");
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 /** @type {import('next').NextConfig} */
 module.exports = {
@@ -12,8 +12,8 @@ module.exports = {
       config.plugins.push(
         new NodePolyfillPlugin(),
         new webpack.ProvidePlugin({
-          'window.SQL': path.resolve(
-            path.join(__dirname, '../node_modules/sql.js/dist/sql-wasm.js')
+          "window.SQL": path.resolve(
+            path.join(__dirname, "../node_modules/sql.js/dist/sql-wasm.js")
           ),
         })
       );
@@ -21,17 +21,17 @@ module.exports = {
       // From https://github.com/samsam2310/zbar.wasm/issues/8#issuecomment-879799232
       config.module.rules.push({
         test: /\.wasm$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: 'static/[hash][ext][query]',
+          filename: "static/[hash][ext][query]",
         },
       });
 
       config.module.rules.push({
         test: /\.sqlite3$/i,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: 'static/[hash][ext][query]',
+          filename: "static/[hash][ext][query]",
         },
       });
 

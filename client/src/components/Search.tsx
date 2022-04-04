@@ -1,14 +1,9 @@
-import React, { useMemo, useState } from 'react';
-import {
-  Form as AntForm,
-  Popover as AntPopover,
-  Input,
-  AutoComplete,
-} from 'antd';
-import styled from 'styled-components';
-import type { SearchQuery } from '../types';
-import debounce from 'lodash.debounce';
-import { useDb } from '../utils/useDb';
+import { AutoComplete, Form as AntForm, Input, Popover as AntPopover } from "antd";
+import debounce from "lodash.debounce";
+import React, { useMemo, useState } from "react";
+import styled from "styled-components";
+import type { SearchQuery } from "../types";
+import { useDb } from "../utils/useDb";
 
 const StyledAutoComplete = styled(AutoComplete)`
   &&& {
@@ -44,10 +39,7 @@ interface SearchProps {
   initialSearchValue?: string;
 }
 
-export default function Search({
-  onSubmit,
-  initialSearchValue: initialSearch = '',
-}: SearchProps) {
+export default function Search({ onSubmit, initialSearchValue: initialSearch = "" }: SearchProps) {
   const hintContent = (
     <Popover>
       <p>You can search for:</p>
@@ -96,11 +88,9 @@ export default function Search({
         />
       </StyledAutoComplete>
       <Hint content={hintContent} placement="bottom">
-        <span style={{ textAlign: 'center' }}>
-          Need to know what you can enter?{' '}
-          <span style={{ textDecoration: 'underline' }}>
-            Pretty much anything.
-          </span>
+        <span style={{ textAlign: "center" }}>
+          Need to know what you can enter?{" "}
+          <span style={{ textDecoration: "underline" }}>Pretty much anything.</span>
         </span>
       </Hint>
     </AntForm>

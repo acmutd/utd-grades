@@ -1,11 +1,11 @@
-import React from 'react';
-import Router from 'next/router';
-import styled from 'styled-components';
-import Core from '../components/Core'
-import Search from '../components/Search'
-import FadeIn from '../components/animations/FadeIn'
-import { Col } from 'antd';
-import type { SearchQuery } from '../types';
+import { Col } from "antd";
+import Router from "next/router";
+import React from "react";
+import styled from "styled-components";
+import FadeIn from "../components/animations/FadeIn";
+import Core from "../components/Core";
+import Search from "../components/Search";
+import type { SearchQuery } from "../types";
 
 const Content = styled.div`
   display: block;
@@ -45,10 +45,10 @@ const HeaderBold = styled.span`
 `;
 
 export default function Home() {
-  function handleSubmit({ search } : SearchQuery) {
+  function handleSubmit({ search }: SearchQuery) {
     (async function () {
       await Router.push({
-        pathname: '/results',
+        pathname: "/results",
         query: { search },
       });
     })();
@@ -70,7 +70,7 @@ export default function Home() {
             </FadeIn>
             <FadeIn delay={300}>
               <Description>
-                See how students did in any given class. And it&apos;s{' '}
+                See how students did in any given class. And it&apos;s{" "}
                 <strong>free, forever.</strong>
               </Description>
             </FadeIn>

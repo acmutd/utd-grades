@@ -43,9 +43,7 @@ export class GradesDatabase {
   }
 
   getSectionById(id: number): Grades | null {
-    const stmt = this.db.prepare(
-      "SELECT * FROM grades_populated WHERE gradesId = ? LIMIT 1"
-    );
+    const stmt = this.db.prepare("SELECT * FROM grades_populated WHERE gradesId = ? LIMIT 1");
     const grades = rowToGrades(stmt.getAsObject([id]));
 
     stmt.free();
@@ -59,9 +57,7 @@ export class GradesDatabase {
     const strings: string[] = [];
 
     const stmt = this.db.prepare(
-      `SELECT string FROM grades_strings WHERE ${createWhereString(
-        partialQuery
-      )}`
+      `SELECT string FROM grades_strings WHERE ${createWhereString(partialQuery)}`
     );
 
     while (stmt.step()) {

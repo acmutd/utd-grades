@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import type { Grades } from '@utd-grades/db';
-import SlideUp from './animations/SlideUp';
+import type { Grades } from "@utd-grades/db";
+import React from "react";
+import styled from "styled-components";
+import SlideUp from "./animations/SlideUp";
 
 const Card = styled.div`
   box-shadow: var(--box-shadow-inactive);
@@ -54,19 +54,15 @@ export default function SectionCard({ section, handleRelatedSectionClick }: Sect
     <SlideUp delay={100}>
       <Card
         onClick={() =>
-          handleRelatedSectionClick(
-            `${section.subject} ${section.catalogNumber}`,
-            section.id
-          )
+          handleRelatedSectionClick(`${section.subject} ${section.catalogNumber}`, section.id)
         }
       >
         <Name>
-          {section.subject} {section.catalogNumber}.
-          {section.section}
+          {section.subject} {section.catalogNumber}.{section.section}
         </Name>
         <Professor>
           {/* FIXME (no professor): non null assertion */}
-          {section.instructor1!.first} {section.instructor1!.last} -{' '}
+          {section.instructor1!.first} {section.instructor1!.last} -{" "}
           {`${section.semester.season} ${section.semester.year}`}
         </Professor>
       </Card>
