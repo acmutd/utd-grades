@@ -121,9 +121,21 @@ export const SEASONS: Record<Season, number> = {
 };
 
 export function createWhereString(search: string): string {
+  /*
+  subject: 'CS' should match 'CS' but not 'HCS'
+  courseSection: '33' should match '3377' but not '1336'
+  semester: '20', '18', '2018', 'Fall' should all match 'Fall 2018'
+  instructor1: 'John', 'Cole' should match 'John Cole'. 'Ali' should match 'Alice' but not 'Salisbury'
+   */
   return search
     .split(" ")
-    .map((s) => `string LIKE '%${s}%'`)
+    .map((s) => `(
+      subject LIKE '${s}%' OR
+      courseSection LIKE '${s}%' OR
+      semester LIKE '%${s}%' OR
+      instructor1 LIKE '${s}%' OR
+      instructor1 LIKE '% ${s}%'
+    )`)
     .join(" AND ");
 }
 
