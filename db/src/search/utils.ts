@@ -28,8 +28,7 @@ function getGrades(row: ParamsObject, includeNonGraded: boolean): number[] {
 function getAverage(row: ParamsObject): number {
   // FIXME: we currently don't include F here. I feel like we should, but technically you didn't earn a grade if you got an F? not sure
   const percentOfGradePoints = [
-    1, 1, 0.9175, 0.8325, 0.75, 0.6675, 0.5825, 0.5, 0.4175, 0.3325, 0.25,
-    0.1675,
+    1, 1, 0.9175, 0.8325, 0.75, 0.6675, 0.5825, 0.5, 0.4175, 0.3325, 0.25, 0.1675,
   ];
   const grades = getGrades(row, false);
 
@@ -52,9 +51,7 @@ function getTotalStudents(row: ParamsObject): number {
 export function rowToGrades(row: ParamsObject): Grades | null {
   if (row["gradesId"] === undefined) return null;
 
-  const [instructor1First, instructor1Last] = splitName(
-    row["instructor1"] as string
-  ); // FIXME (no professor)
+  const [instructor1First, instructor1Last] = splitName(row["instructor1"] as string); // FIXME (no professor)
 
   const [season, year] = parseSemester(row["semester"] as string);
 
@@ -109,9 +106,7 @@ export function parseSeason(s: string): Season {
   return s;
 }
 
-export function parseSemester(
-  semester: string
-): [season: Season, year: number] {
+export function parseSemester(semester: string): [season: Season, year: number] {
   const [season, year] = semester.split(" ");
   if (!season || !year) {
     throw new Error(`Invalid semester name: ${semester}`);

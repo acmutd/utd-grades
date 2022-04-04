@@ -1,6 +1,6 @@
-import type { ReactNode } from 'react';
-import { keyframes } from 'styled-components';
-import Animation from './Animation';
+import type { ReactNode } from "react";
+import { keyframes } from "styled-components";
+import Animation from "./Animation";
 
 const fadeIn = keyframes`
   from {

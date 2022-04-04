@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Row, Button } from 'antd';
-import Router from 'next/router';
-import { HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined } from "@ant-design/icons";
+import { Button, Row } from "antd";
+import Router from "next/router";
+import React from "react";
+import styled from "styled-components";
 
 const Menu = styled(Row)`
   padding: 30px;
@@ -18,7 +18,7 @@ const Back = styled(Button)<{ $dummy?: boolean }>`
   outline: none;
   border: none;
   box-shadow: none;
-  visibility: ${(props) => (props.$dummy ? 'hidden' : 'visible')};
+  visibility: ${(props) => (props.$dummy ? "hidden" : "visible")};
 `;
 
 const HeaderText = styled.a`
@@ -44,19 +44,13 @@ const HeaderBold = styled.span`
 export default function Header() {
   function goHome() {
     (async function () {
-      await Router.push('/');
+      await Router.push("/");
     })();
   }
 
   return (
     <Menu>
-      <Back
-        onClick={goHome}
-        type="ghost"
-        icon={<HomeOutlined />}
-        shape="circle"
-        size="large"
-      />
+      <Back onClick={goHome} type="ghost" icon={<HomeOutlined />} shape="circle" size="large" />
       <HeaderText href="#" onClick={goHome}>
         <h2>
           <HeaderBold>UTD</HeaderBold> Grades
