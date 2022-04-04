@@ -11,7 +11,8 @@
     "lint": "npm run lint --workspaces --if-present",
     "build": "npm run createDb && npm run build --workspace=client && npm run export --workspace=client",
     "dev": "npm run createDb && npm run dev --workspace=client",
-    "createDb": "npm run build --workspace=db && npm run createDb --workspace=db"
+    "createDb": "npm run build --workspace=db && npm run createDb --workspace=db",
+    "prettier": "npx prettier --write ."
   },
   "dependencies": {
     "sql.js": "^1.6.2"
@@ -26,6 +27,7 @@
     "eslint-plugin-jest": "^26.1.3",
     "jest": "^27.5.1",
     "prettier": "2.6.1",
+    "prettier-plugin-organize-imports": "^2.3.4",
     "ts-jest": "^27.1.4",
     "typescript": "^4.6.3"
   }
