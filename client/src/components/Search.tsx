@@ -46,9 +46,9 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
       <ul>
         <li>A specific section: CS 1337.501</li>
         <li>A whole course: CS 1337</li>
-        <li>A professor&apos;s name (last name or full): Jason Smith</li>
-        <li>A specific semester: CS 1337 fall 2017</li>
-        <li>Everything together: CS 1337.1 fall 2017 jason smith</li>
+        <li>A professor&apos;s name: Jason Smith</li>
+        <li>A specific semester: CS 1337 Fall 2021</li>
+        <li>Everything together: CS 1337.001 Fall 2021 Jason Smith</li>
       </ul>
     </Popover>
   );
@@ -77,7 +77,11 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
 
   return (
     <AntForm>
-      <StyledAutoComplete options={options}>
+      <StyledAutoComplete
+        options={options}
+        // TODO: find a better value than unknown
+        onSelect={(value: unknown) => onSubmit({ search: value as string })}
+      >
         <StyledSearch
           onSearch={(search) => onSubmit({ search })}
           onChange={onChange}
