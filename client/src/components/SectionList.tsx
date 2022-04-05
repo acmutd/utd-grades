@@ -1,9 +1,10 @@
-import { BarChartOutlined, FrownTwoTone, UserOutlined } from "@ant-design/icons";
+import { FrownTwoTone, UserOutlined } from "@ant-design/icons";
 import type { Grades } from "@utd-grades/db";
 import { List, Popover as AntPopover, Spin } from "antd";
 import React, { ReactNode, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import { getLetterGrade, getLetterGradeColor } from "../utils";
+// FIXME (median)
+// import { getLetterGrade, getLetterGradeColor } from "../utils";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
@@ -88,10 +89,11 @@ const IconWrapper = styled.div`
   margin-right: 8;
 `;
 
-const AverageWrapper = styled.div<{ average: number }>`
-  color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
-  font-weight: bold;
-`;
+// FIXME (median)
+// const AverageWrapper = styled.div<{ average: number }>`
+//   color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
+//   font-weight: bold;
+// `;
 
 interface IconTextProps {
   icon: ReactNode;
@@ -177,15 +179,16 @@ export default function SectionList({ loading, id, data, onClick, error }: Secti
                   child={item.totalStudents.toString()}
                   key="students-total"
                 />,
-                <IconText
-                  icon={<BarChartOutlined />}
-                  child={
-                    <AverageWrapper average={item.average}>
-                      {getLetterGrade(item.average)}
-                    </AverageWrapper>
-                  }
-                  key="average"
-                />,
+                // FIXME (median)
+                // <IconText
+                //   icon={<BarChartOutlined />}
+                //   child={
+                //     <AverageWrapper average={item.average}>
+                //       {getLetterGrade(item.average)}
+                //     </AverageWrapper>
+                //   }
+                //   key="average"
+                // />,
               ]}
               onClick={() => onClick(item.id)}
             >
