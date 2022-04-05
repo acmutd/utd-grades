@@ -71,8 +71,18 @@ FROM grades
          INNER JOIN strings section ON section.id = grades.sectionId
          INNER JOIN strings instructor1 ON instructor1.id = grades.instructor1Id;
 
-CREATE VIEW grades_strings(id,string,subject,courseSection,semester,instructor1) AS
+-- FIXME: grades_strings is no longer an appropriate name, since autocomplete now use autocomplete_strings
+CREATE VIEW grades_strings(id,subject,courseSection,semester,instructor1) AS
 SELECT gradesId,
+       subject,
+       catalogNumber || '.' || section,
+       semester,
+       instructor1
+FROM grades_populated;
+
+CREATE VIEW autocomplete_strings(priority,string,subject,courseSection,semester,instructor1) AS
+-- CS 1337.001 Fall 2020 Firstname Lastname
+SELECT 4,
        subject       || ' ' ||
        catalogNumber || '.' ||
        section       || ' ' ||
@@ -82,4 +92,48 @@ SELECT gradesId,
        catalogNumber || '.' || section,
        semester,
        instructor1
+from grades_populated
+UNION
+-- CS 1337 Fall 2020 Firstname Lastname
+SELECT 3,
+       subject       || ' ' ||
+       catalogNumber || ' ' ||
+       semester      || ' ' ||
+       instructor1,
+       subject,
+       catalogNumber,
+       semester,
+       instructor1
+FROM grades_populated
+UNION
+-- CS 1337 Firstname Lastname
+SELECT 2,
+       subject || ' ' ||
+       catalogNumber || ' ' ||
+       instructor1,
+       subject,
+       catalogNumber,
+       '',
+       instructor1
+from grades_populated
+UNION
+-- CS 1337 Fall 2020
+SELECT 1,
+       subject       || ' ' ||
+       catalogNumber || ' ' ||
+       semester,
+       subject,
+       catalogNumber,
+       semester,
+       ''
+FROM grades_populated
+UNION
+-- CS 1337
+SELECT 0,
+       subject || ' ' ||
+       catalogNumber,
+       subject,
+       catalogNumber,
+       '',
+       ''
 FROM grades_populated;

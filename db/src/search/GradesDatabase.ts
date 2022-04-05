@@ -13,6 +13,10 @@ export class GradesDatabase {
     this.db.close();
   }
 
+  /**
+   * Retrieve all sections for a full search query
+   * @param search
+   */
   getSectionsBySearch(search: string): Grades[] {
     const grades: Grades[] = [];
 
@@ -51,13 +55,17 @@ export class GradesDatabase {
     return grades;
   }
 
+  /**
+   * Provide options for autocomplete (partial) queries
+   * @param partialQuery
+   */
   getSectionStrings(partialQuery: string): string[] {
     if (partialQuery === "") return [];
 
     const strings: string[] = [];
 
     const stmt = this.db.prepare(
-      `SELECT string FROM grades_strings WHERE ${createWhereString(partialQuery)}`
+      `SELECT string FROM autocomplete_strings WHERE ${createWhereString(partialQuery)} ORDER BY priority`
     );
 
     while (stmt.step()) {
