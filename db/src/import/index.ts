@@ -200,7 +200,7 @@ async function createDb(): Promise<Uint8Array> {
   return data;
 }
 
-const DB_PATH = "utdgrades.sqlite3";
+const DB_PATH = "utdgrades.txt";
 
 const data = await createDb();
 await fs.writeFile(DB_PATH, Buffer.from(data));
