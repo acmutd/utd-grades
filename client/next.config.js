@@ -32,7 +32,8 @@ module.exports = {
         test: /\.sqlite3$/i,
         type: "asset/resource",
         generator: {
-          filename: "static/[hash][ext][query]",
+          // Adding the .txt extension "tricks" GitHub Pages into gzipping the db file
+          filename: "static/[hash][ext][query].txt",
         },
       });
 
