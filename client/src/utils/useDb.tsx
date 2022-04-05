@@ -15,7 +15,7 @@ declare global {
 
 async function initCon(): Promise<GradesDatabase> {
   const response = await fetch(
-    new URL("../../../db/utdgrades.txt", import.meta.url).toString()
+    new URL("../../../db/utdgrades.sqlite3", import.meta.url).toString()
   );
   const data = new Uint8Array(await response.arrayBuffer());
 

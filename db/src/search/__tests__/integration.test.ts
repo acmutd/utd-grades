@@ -8,7 +8,7 @@ async function initCon() {
   if (!db) {
     const SQL = await initSqlJs();
     db = new GradesDatabase(
-      new SQL.Database(new Uint8Array(await fs.readFile("utdgrades.txt")))
+      new SQL.Database(new Uint8Array(await fs.readFile("utdgrades.sqlite3")))
     );
   }
 }
