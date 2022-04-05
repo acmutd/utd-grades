@@ -12,7 +12,7 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
-import { extractGrades, getColors, getLetterGrade } from "../utils";
+import { extractGrades, getColors } from "../utils";
 import SectionCard from "./SectionCard";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
@@ -165,7 +165,8 @@ export default function SectionContent({
     },
   };
 
-  const averageLetter = getLetterGrade(section.average);
+  // FIXME (median)
+  // const averageLetter = getLetterGrade(section.average);
 
   return (
     <Container>
@@ -182,9 +183,10 @@ export default function SectionContent({
         <Stat>
           Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
         </Stat>
-        <Stat>
+        {/* FIXME (median)
+        <Stat> 
           Average Grade <span style={{ color: "#333333" }}>{averageLetter}</span>
-        </Stat>
+        </Stat> */}
       </Stack>
 
       <Row>
