@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import type { NextRouter } from "next/router";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
@@ -90,6 +90,13 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     { enabled: !!section }
   );
 
+  useEffect(() => {
+    // Automatically select section if there is only one choice
+    if (sections && sections.length == 1) {
+      handleClick(sections[0]!.id);
+    }
+  }, [sections]);
+
   function handleSubmit({ search }: SearchQuery) {
     (async function () {
       await router.push({
@@ -107,7 +114,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
       });
     })();
 
-    const scrollDistance = window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
+    const scrollDistance = window.scrollY + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
   }
@@ -120,7 +127,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
       });
     })();
 
-    const scrollDistance = window.pageYOffset + scrollRef.current!.getBoundingClientRect().top;
+    const scrollDistance = window.scrollY + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
   }
