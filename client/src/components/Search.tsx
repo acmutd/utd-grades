@@ -1,6 +1,6 @@
 import { AutoComplete, Form as AntForm, Input, Popover as AntPopover } from "antd";
 import debounce from "lodash.debounce";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import type { SearchQuery } from "../types";
 import { useDb } from "../utils/useDb";
@@ -54,7 +54,6 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
   );
 
   const [searchValue, setSearchValue] = useState(initialSearch);
-
   const [options, setOptions] = useState<{ value: string }[]>([]);
 
   const { data: db } = useDb();
@@ -70,25 +69,30 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
     [db]
   );
 
-  function onChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearchValue(event.target.value);
-    fetchOptions(event.target.value);
+  // Set search value to initialSearch when it gets populated in Router
+  useEffect(() => {
+    setSearchValue(initialSearch);
+  }, [initialSearch]);
+
+  function onChange(value: string) {
+    setSearchValue(value);
+    fetchOptions(value);
   }
 
   return (
     <AntForm>
       <StyledAutoComplete
         options={options}
-        // TODO: find a better value than unknown
+        // TODO: find a better type than unknown
         onSelect={(value: unknown) => onSubmit({ search: value as string })}
+        onChange={(value: unknown) => onChange(value as string)}
+        value={searchValue}
       >
         <StyledSearch
           onSearch={(search) => onSubmit({ search })}
-          onChange={onChange}
           name="search"
           size="large"
           placeholder="ex. CS 1337 Fall 2017 Smith"
-          value={searchValue}
         />
       </StyledAutoComplete>
       <Hint content={hintContent} placement="bottom">
