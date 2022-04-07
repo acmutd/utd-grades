@@ -58,11 +58,7 @@ export default function Home() {
     <Core>
       <Content>
         <Main>
-          <Col
-            lg={{ span: 8, offset: 8 }}
-            sm={{ span: 10, offset: 3 }}
-            xs={{ span: 20, offset: 2 }}
-          >
+          <Col lg={{ span: 8, offset: 8 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
                 <HeaderBold>UTD</HeaderBold> Grades
