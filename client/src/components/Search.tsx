@@ -5,20 +5,9 @@ import styled from "styled-components";
 import type { SearchQuery } from "../types";
 import { useDb } from "../utils/useDb";
 
-const StyledAutoComplete = styled(AutoComplete)`
-  &&& {
-    width: 100%;
-  }
-`;
-
-const StyledSearch = styled(Input.Search)`
-  &&& {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
-    border-radius: 20px !important;
-    outline: none;
-    font-family: var(--font-family);
-  }
-`;
+const autoCompleteStyle: React.CSSProperties = {
+  width: "100%",
+};
 
 const Hint = styled(AntPopover)`
   margin-top: 25px;
@@ -81,20 +70,21 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
 
   return (
     <AntForm>
-      <StyledAutoComplete
+      <AutoComplete
         options={options}
+        style={autoCompleteStyle}
         // TODO: find a better type than unknown
         onSelect={(value: unknown) => onSubmit({ search: value as string })}
         onChange={(value: unknown) => onChange(value as string)}
         value={searchValue}
       >
-        <StyledSearch
+        <Input.Search
           onSearch={(search) => onSubmit({ search })}
           name="search"
           size="large"
           placeholder="ex. CS 1337 Fall 2017 Smith"
         />
-      </StyledAutoComplete>
+      </AutoComplete>
       <Hint content={hintContent} placement="bottom">
         <span style={{ textAlign: "center" }}>
           Need to know what you can enter?{" "}
