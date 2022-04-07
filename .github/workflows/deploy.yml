@@ -34,7 +34,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
-      - run: BASE_PATH=/utd-grades npm run build # TODO: remove BASE_PATH when deployed at utdgrades.com
+      - run: npm run build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
