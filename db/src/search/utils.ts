@@ -127,15 +127,18 @@ export function createWhereString(search: string): string {
   semester: '20', '18', '2018', 'Fall' should all match 'Fall 2018'
   instructor1: 'John', 'Cole' should match 'John Cole'. 'Ali' should match 'Alice' but not 'Salisbury'
    */
-  return search
-    .split(" ")
-    .map((s) => `(
+  // Split into tokens: first on whitespace, then on number/word boundaries (cs1337 => cs 1337)
+  const tokens = search.split(/\s/).flatMap((x) => Array.from(x.matchAll(/\d+|\D+/g), (m) => m[0]));
+  return tokens
+    .map(
+      (s) => `(
       subject LIKE '${s}%' OR
       courseSection LIKE '${s}%' OR
       semester LIKE '%${s}%' OR
       instructor1 LIKE '${s}%' OR
       instructor1 LIKE '% ${s}%'
-    )`)
+    )`
+    )
     .join(" AND ");
 }
 
