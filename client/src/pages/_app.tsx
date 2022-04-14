@@ -2,6 +2,7 @@ import "antd/dist/antd.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Script from "next/script";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./styles.css";
@@ -37,6 +38,26 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           content="See how students did in any given class at UT Dallas. And it's free, forever."
         />
       </Head>
+
+      {process.env.NODE_ENV === "production" ? (
+        <>
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=UA-128111650-1"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-128111650-1');
+        `}
+          </Script>
+        </>
+      ) : (
+        null
+      )}
 
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
