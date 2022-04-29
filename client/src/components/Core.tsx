@@ -59,16 +59,16 @@ function Core({ children }: CoreProps) {
       <Footer>
         <p>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
-          <a href="https://www.acmutd.co">ACM Labs</a> and powered{" "}
+          <a href="https://www.acmutd.co" target={"blank"}>ACM Labs</a> and powered{" "}
           <ThunderboltTwoTone twoToneColor="#ffcc00" /> by{" "}
-          <a href="https://www.utdmercury.com">The Mercury</a>. Raw data available{" "}
-          <a href="https://github.com/bharatari/utd-grades/tree/master/data">for download</a>.
+          <a href="https://www.utdmercury.com" target={"blank"}>The Mercury</a>. Raw data available{" "}
+          <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}>for download</a>.
         </p>
         <p>
-          Designed by <a href="https://www.arimilli.io">Bharat Arimilli</a>. Thanks to{" "}
-          <a href="https://garrettgu.com/">Garrett Gu</a>,{" "}
-          <a href="https://jeffw.xyz/">Jeffrey Wang</a>,{" "}
-          <a href="https://www.linkedin.com/in/josephwickline/">Joseph Wickline</a> and our{" "}
+          Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
+          <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}
+          <a href="https://jeffw.xyz/" target={"blank"}>Jeffrey Wang</a>,{" "}
+          <a href="https://www.linkedin.com/in/josephwickline/" target={"blank"}>Joseph Wickline</a> and our{" "}
           <Popover content={donors}>
             <span style={{ textDecoration: "underline" }}>donors</span>.
           </Popover>
