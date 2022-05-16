@@ -4,3 +4,5 @@ build/
 out/
 *.sqlite3
 tsconfig.tsbuildinfo
+.idea
+.DS_Store
