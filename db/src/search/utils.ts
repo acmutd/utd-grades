@@ -128,7 +128,9 @@ export function createWhereString(search: string): string {
   instructor1: 'John', 'Cole' should match 'John Cole'. 'Ali' should match 'Alice' but not 'Salisbury'
    */
   // Split into tokens: first on whitespace, then on number/word boundaries (cs1337 => cs 1337)
-  const tokens = search.split(/\s/).flatMap((x) => Array.from(x.matchAll(/\d+|\D+/g), (m) => m[0]));
+  const tokens = search
+    .split(/\s/)
+    .flatMap((x) => Array.from(x.matchAll(/[\d.]+|\D+/g), (m) => m[0]));
   return tokens
     .map(
       (s) => `(
