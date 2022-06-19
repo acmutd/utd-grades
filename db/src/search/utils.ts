@@ -126,11 +126,15 @@ export function createWhereString(search: string): string {
   courseSection: '33' should match '3377' but not '1336'
   semester: '20', '18', '2018', 'Fall' should all match 'Fall 2018'
   instructor1: 'John', 'Cole' should match 'John Cole'. 'Ali' should match 'Alice' but not 'Salisbury'
+
+  Split into tokens: first on whitespace, then on other criteria
+  The regex matches all courses.sec (####.xxx) strings, standalone numbers, and standalone non-numeric words
    */
-  // Split into tokens: first on whitespace, then on number/word boundaries (cs1337 => cs 1337)
+
   const tokens = search
     .split(/\s/)
-    .flatMap((x) => Array.from(x.matchAll(/[\d.]+|\D+/g), (m) => m[0]));
+    .flatMap((x) => Array.from(x.matchAll(/\d{4}\.\S*|\d+|\D+/g), (m) => m[0]));
+
   return tokens
     .map(
       (s) => `(
