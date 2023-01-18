@@ -33,11 +33,11 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
     <Popover>
       <p>You can search for:</p>
       <ul>
-        <li>A specific section: CS 1337.501</li>
+        <li>A specific section: CS 1337.002</li>
         <li>A whole course: CS 1337</li>
         <li>A professor&apos;s name: Jason Smith</li>
         <li>A specific semester: CS 1337 Fall 2021</li>
-        <li>Everything together: CS 1337.001 Fall 2021 Jason Smith</li>
+        <li>Everything together: CS 1337.002 Fall 2021 Jason Smith</li>
       </ul>
     </Popover>
   );
