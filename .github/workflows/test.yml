@@ -1,0 +1,26 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-20.04
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "17"
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test
