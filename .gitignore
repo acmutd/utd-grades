@@ -6,3 +6,4 @@ out/
 tsconfig.tsbuildinfo
 .idea
 .DS_Store
+.direnv/
