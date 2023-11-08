@@ -1,6 +1,6 @@
 # UTD Grades
 
-![Deploy to GitHub Pages](https://github.com/darichey/utd-grades/actions/workflows/deploy.yml/badge.svg) <!-- TODO: change repo URL -->
+![Deploy to GitHub Pages](https://github.com/acmutd/utd-grades/actions/workflows/deploy.yml/badge.svg)
 
 UTD Grades is an application for viewing grade distributions at UT Dallas.
 
