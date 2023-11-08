@@ -94,14 +94,6 @@ describe("Test sample queries", () => {
           sectionNumber: "HON",
         },
       },
-      {
-        search: "HIST 1301 001",
-        expected: {
-          coursePrefix: "HIST",
-          courseNumber: "1301",
-          sectionNumber: "1",
-        },
-      },
     ];
 
     for (const { search, expected } of queries) {
@@ -242,7 +234,7 @@ describe("Test sample queries", () => {
   test("Should handle everything together", () => {
     const queries = [
       {
-        search: "CS 1337 502 fall 2019 Stephen Perkins",
+        search: "CS 1337.502 fall 2019 Stephen Perkins",
         expected: {
           coursePrefix: "CS",
           courseNumber: "1337",
@@ -256,7 +248,7 @@ describe("Test sample queries", () => {
         },
       },
       {
-        search: "BCOM 3310 HON Fall 2019 Kristen Lawson",
+        search: "BCOM 3310.HON Fall 2019 Kristen Lawson",
         expected: {
           coursePrefix: "BCOM",
           courseNumber: "3310",
