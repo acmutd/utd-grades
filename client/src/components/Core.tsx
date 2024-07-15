@@ -59,9 +59,7 @@ function Core({ children }: CoreProps) {
       <Footer>
         <p>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
-          <a href="https://www.acmutd.co" target={"blank"}>ACM Labs</a> and powered{" "}
-          <ThunderboltTwoTone twoToneColor="#ffcc00" /> by{" "}
-          <a href="https://www.utdmercury.com" target={"blank"}>The Mercury</a>. Raw data available{" "}
+          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>. Raw data available{" "}
           <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}>for download</a>.
         </p>
         <p>
