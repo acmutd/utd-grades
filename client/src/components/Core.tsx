@@ -1,4 +1,4 @@
-import { HeartTwoTone, ThunderboltTwoTone } from "@ant-design/icons";
+import { HeartTwoTone } from "@ant-design/icons";
 import { Popover } from "antd";
 import type { ReactNode } from "react";
 import styled from "styled-components";
