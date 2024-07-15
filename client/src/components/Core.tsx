@@ -1,4 +1,4 @@
-import { HeartTwoTone, ThunderboltTwoTone } from "@ant-design/icons";
+import { HeartTwoTone } from "@ant-design/icons";
 import { Popover } from "antd";
 import type { ReactNode } from "react";
 import styled from "styled-components";
@@ -59,9 +59,7 @@ function Core({ children }: CoreProps) {
       <Footer>
         <p>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
-          <a href="https://www.acmutd.co" target={"blank"}>ACM Labs</a> and powered{" "}
-          <ThunderboltTwoTone twoToneColor="#ffcc00" /> by{" "}
-          <a href="https://www.utdmercury.com" target={"blank"}>The Mercury</a>. Raw data available{" "}
+          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>. Raw data available{" "}
           <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}>for download</a>.
         </p>
         <p>
