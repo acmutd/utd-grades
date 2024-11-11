@@ -37,6 +37,35 @@ const Footer = styled.div`
   }
 `;
 
+const TrendsLink = styled.a`
+  background: url("/nebula-bg.png") right / cover, black;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 0.5rem;
+  border-radius: 1.5rem;
+  color: white;
+  text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+  transition: transform cubic-bezier(0.4, 0, 0.2, 1) 150ms, box-shadow cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+  &:hover {
+    color: white;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+    transform: scale(1.01);
+  }
+`;
+
+const TrendsText = styled.p`
+  line-height: 1.375rem;
+  margin-bottom: 0;
+`;
+
+const NebulaLogo = styled.img`
+  height: 1.375rem;
+  filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
+`;
+
 interface CoreProps {
   children: ReactNode;
 }
@@ -57,6 +86,10 @@ function Core({ children }: CoreProps) {
     <Container>
       <Body>{children}</Body>
       <Footer>
+        <TrendsLink href="https://trends.utdnebula.com/" target={"blank"}>
+          <NebulaLogo src="/nebula-logo.svg" />
+          <TrendsText>Compare everything in one place with <b>UTD Trends</b></TrendsText>
+        </TrendsLink>
         <p>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
           <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>. Raw data available{" "}
