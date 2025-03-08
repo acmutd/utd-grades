@@ -25,7 +25,7 @@ jobs:
       - run: npm install
 
       # Cache Next output (see https://nextjs.org/docs/messages/no-cache#github-actions)
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.npm
