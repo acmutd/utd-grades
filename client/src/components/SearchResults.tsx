@@ -1,10 +1,12 @@
+import type { RMPInstructor } from "@utd-grades/db";
 import { Col, Row } from "antd";
 import type { NextRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
 import type { SearchQuery } from "../types";
+import { normalizeName } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
@@ -53,6 +55,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
 
   const { data: db } = useDb();
 
+  // this is to get all of the other sections of the same class (for the side bar)
   const {
     data: sections,
     status: sectionsStatus,
@@ -64,6 +67,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     { enabled: !!db }
   );
 
+  // get the section data
   const {
     data: section,
     status: sectionStatus,
@@ -88,6 +92,40 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
         `${section!.catalogNumber} ${section!.subject}` // can't be null because we guard on `section`
       ),
     { enabled: !!section }
+  );
+
+  // some professors will have the same name so we need to get the whole list
+  const normalName: string = normalizeName(
+    `${section?.instructor1?.first} ${section?.instructor1?.last}`
+  );
+
+  const { data: instructors } = useQuery<RMPInstructor[]>(
+    ["instructors", sectionId],
+    () => db!.getInstructorsByName(normalName),
+    { enabled: !!section }
+  );
+
+  // from that list, we need to find the one that holds the session -> update the instructor and course rating
+  const [instructor, setInstructor] = useState<RMPInstructor>();
+
+  const { data: courseRating = null } = useQuery(
+    ["rating", sectionId],
+    () => {
+      if (instructors) {
+        for (const ins of instructors) {
+          const rating = db!.getCourseRating(
+            ins.instructor_id,
+            `${section!.subject}${section!.catalogNumber}`
+          ) as number | null;
+          if (rating) {
+            setInstructor(ins);
+            return rating;
+          }
+        }
+      }
+      return null;
+    },
+    { enabled: !!section && !!instructors }
   );
 
   useEffect(() => {
@@ -158,6 +196,8 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
                 <SearchResultsContent
                   section={section!} // FIXME: need to actually do something if these are null
                   relatedSections={relatedSections!}
+                  instructor={instructor!}
+                  courseRating={courseRating}
                   loadingSection={sectionStatus === "loading"}
                   handleRelatedSectionClick={handleRelatedSectionClick}
                   error={sectionError}

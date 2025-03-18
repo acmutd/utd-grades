@@ -2,3 +2,4 @@
 
 export * from "./search/GradesDatabase";
 export * from "./types/Grades";
+export * from "./types/RMPInstructors";

@@ -1,4 +1,4 @@
-import type { Grades } from "@utd-grades/db";
+import type { Grades, RMPInstructor } from "@utd-grades/db";
 import { Row, Spin } from "antd";
 import {
   BarElement,
@@ -113,12 +113,16 @@ const Stack = styled.div`
 interface SectionContentProps {
   relatedSections: Grades[];
   section: Grades;
+  instructor: RMPInstructor;
+  courseRating: number | null;
   handleRelatedSectionClick: (search: string, id: number) => void;
 }
 
 export default function SectionContent({
   relatedSections,
   section,
+  instructor,
+  courseRating,
   handleRelatedSectionClick,
 }: SectionContentProps) {
   const renderRelatedSections = () => {
@@ -183,10 +187,46 @@ export default function SectionContent({
         <Stat>
           Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
         </Stat>
-        {/* FIXME (median)
-        <Stat> 
-          Average Grade <span style={{ color: "#333333" }}>{averageLetter}</span>
-        </Stat> */}
+
+        <Stat>
+          Would take again{" "}
+          <span style={{ color: "#333333" }}>
+            {instructor?.would_take_again !== undefined && instructor.would_take_again !== -1
+              ? `${instructor.would_take_again} %`
+              : "N/A"}
+          </span>
+        </Stat>
+        <Stat>
+          Quality rating{" "}
+          <span style={{ color: "#333333" }}>
+            {instructor?.quality_rating ? `${instructor.quality_rating}` : "N/A"}
+          </span>
+        </Stat>
+        <Stat>
+          Difficulty rating{" "}
+          <span style={{ color: "#333333" }}>
+            {instructor?.difficulty_rating ? `${instructor.difficulty_rating}` : "N/A"}
+          </span>
+        </Stat>
+        <Stat>
+          Course rating{" "}
+          <span style={{ color: "#333333" }}>{courseRating ? `${courseRating}` : "N/A"}</span>
+        </Stat>
+        <Stat>
+          Tags:{" "}
+          {instructor?.tags ? (
+            instructor.tags.split(",").map((tag, index) => (
+              <span
+                key={index}
+                style={{ backgroundColor: "#111", color: "#fff", marginRight: "5px" }}
+              >
+                {tag}
+              </span>
+            ))
+          ) : (
+            <span style={{ color: "#333333" }}>N/A</span>
+          )}
+        </Stat>
       </Stack>
 
       <Row>
