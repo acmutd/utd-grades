@@ -56,6 +56,7 @@ const GraphContainer = styled.div`
 
 const ProfessorDetailsContainer = styled.div`
   width: 100%;
+  margin-top: 2rem;
 
   @media (max-width: 992px) {
     & {
@@ -140,42 +141,55 @@ const RMPStat = styled.h5`
 `;
 
 const RMPDescpription = styled.p`
-  font-weight: 400;
+  font-family: var(--font-family);
+  font-weight: 500;
+  color: rgb(117, 117, 117);
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 768px) {
     & {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
   }
 
   @media (min-width: 768px) and (max-width: 1200px) {
     & {
-      font-size: 0.7rem;
+      font-size: 0.9rem;
     }
   }
 
   @media (min-width: 1200px) {
     & {
-      font-size: 0.8rem;
+      font-size: 1rem;
     }
   }
 `;
 
 const RMPTag = styled.p`
+  font-family: var(--font-family);
+  font-weight: 500;
+  color: rgb(84, 84, 84);
   border-radius: 1rem;
-  background-color: #f0f0f0;
+  background-color: #f5f5f5;
   padding: 0.5rem 1rem;
   margin-right: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    background-color: #e8e8e8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const RMPHeader = styled.a`
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 1.15rem;
-  text-decoration: underline !important;
-  color: #333 !important;
+  text-decoration: ${props => props.href && props.href !== "#" ? "underline" : "none"} !important;
+  color: ${props => props.href && props.href !== "#" ? "#1890ff" : "#333"} !important;
 
   @media (max-width: 768px) {
     & {
@@ -387,50 +401,53 @@ export default function SectionContent({
         </Col>
       </Row>
 
-      <Row gutter={[16, 4]} style={{ marginBottom: "2rem" }}>
-        <Col xs={24} sm={24} md={24}>
-          <ProfessorDetailsContainer>
+      <ProfessorDetailsContainer>
+        <Row gutter={[16, 4]}>
+          <Col span={24}>
             <RMPHeader
               href={instructor?.url || "#"}
               target={instructor?.url ? "_blank" : "_self"}
             >
-              PROFESSOR DETAILS
+              Professor Details
             </RMPHeader>
-            <Row gutter={[16, 4]}>
-              <Col xs={12} sm={12} md={6}>
-                <RMPStat>{courseRating}</RMPStat>
+          </Col>
+          {instructor && courseRating ? (
+            <>
+              <Col span={12}>
+                <RMPStat>{courseRating ? courseRating : `N/A`}</RMPStat>
                 <RMPDescpription>Course rating</RMPDescpription>
               </Col>
-              <Col xs={12} sm={12} md={6}>
+              <Col span={12}>
                 <RMPStat>
                   {instructor?.difficulty_rating ? instructor.difficulty_rating : `N/A`}
                 </RMPStat>
                 <RMPDescpription>Level of difficulty</RMPDescpription>
               </Col>
-              <Col xs={12} sm={12} md={6}>
+              <Col span={12}>
                 <RMPStat>
                   {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
                 </RMPStat>
                 <RMPDescpription>Would take again</RMPDescpription>
               </Col>
-              <Col xs={12} sm={12} md={6}>
+              <Col span={12}>
                 <RMPStat>{instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
                 <RMPDescpription>Ratings count</RMPDescpription>
               </Col>
+            </>
+          ) : null}
+        </Row>
+
+        {instructor?.tags && (
+          <>
+            <h4 style={{ marginTop: "1.5rem", marginBottom: "0.2rem", fontSize: "1.2rem" }}>Tags</h4>
+            <Row wrap={true} gutter={0}>
+              {instructor.tags.split(",").map((tag) => (
+                <RMPTag key={tag}>{tag}</RMPTag>
+              ))}
             </Row>
-            {instructor?.tags && (
-              <>
-                <h4 style={{ marginTop: "1.5rem", marginBottom: "0.2rem", fontSize: "1.2rem" }}>Tags</h4>
-                <Row wrap={true} gutter={[8, 8]}>
-                  {instructor.tags.split(",").map((tag) => (
-                    <RMPTag key={tag}>{tag}</RMPTag>
-                  ))}
-                </Row>
-              </>
-            )}
-          </ProfessorDetailsContainer>
-        </Col>
-      </Row>
+          </>
+        )}
+      </ProfessorDetailsContainer>
     </Container>
   );
 }
