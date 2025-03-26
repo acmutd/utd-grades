@@ -1,5 +1,5 @@
 import type { Grades, RMPInstructor } from "@utd-grades/db";
-import { Col, Row, Spin } from "antd";
+import { Col, Row} from "antd";
 import {
   BarElement,
   CategoryScale,
@@ -13,7 +13,6 @@ import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
-import SectionCard from "./SectionCard";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
@@ -203,29 +202,29 @@ const Section = styled.span`
   font-weight: 400;
 `;
 
-const OtherSectionsHeader = styled.p`
-  font-family: var(--font-family);
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 16px;
-`;
+// const OtherSectionsHeader = styled.p`
+//   font-family: var(--font-family);
+//   font-weight: 700;
+//   text-transform: uppercase;
+//   font-size: 16px;
+// `;
 
-const OtherSectionsRow = styled(Row)`
-  padding-top: 3rem;
-`;
+// const OtherSectionsRow = styled(Row)`
+//   padding-top: 3rem;
+// `;
 
-const SectionsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-flow: row nowrap;
-  align-content: flex-start;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  padding: 10px;
-  margin-left: -10px;
-  width: 100%;
-`;
+// const SectionsContainer = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   flex-flow: row nowrap;
+//   align-content: flex-start;
+//   overflow-x: auto;
+//   overflow-y: hidden;
+//   -webkit-overflow-scrolling: touch;
+//   padding: 10px;
+//   margin-left: -10px;
+//   width: 100%;
+// `;
 
 const Stack = styled.div`
   display: flex;
@@ -295,35 +294,33 @@ const FlexSmall = styled.div`
 `;
 
 interface SectionContentProps {
-  relatedSections: Grades[];
+  // relatedSections: Grades[];
   section: Grades;
   instructor: RMPInstructor;
   courseRating: number | null;
-  handleRelatedSectionClick: (search: string, id: number) => void;
+  // handleRelatedSectionClick: (search: string, id: number) => void;
 }
 
 export default function SectionContent({
-  relatedSections,
   section,
   instructor,
   courseRating,
-  handleRelatedSectionClick,
 }: SectionContentProps) {
-  const renderRelatedSections = () => {
-    if (relatedSections) {
-      return relatedSections
-        .filter((s) => s.id != section.id)
-        .map((s) => (
-          <SectionCard
-            key={s.id} // FIXME
-            section={s}
-            handleRelatedSectionClick={handleRelatedSectionClick}
-          />
-        ));
-    }
+  // const renderRelatedSections = () => {
+  //   if (relatedSections) {
+  //     return relatedSections
+  //       .filter((s) => s.id != section.id)
+  //       .map((s) => (
+  //         <SectionCard
+  //           key={s.id} // FIXME
+  //           section={s}
+  //           handleRelatedSectionClick={handleRelatedSectionClick}
+  //         />
+  //       ));
+  //   }
 
-    return <Spin />;
-  };
+  //   return <Spin />;
+  // };
 
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist

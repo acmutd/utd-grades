@@ -39,9 +39,9 @@ export default function SearchResultsContent({
   section,
   instructor,
   courseRating,
-  relatedSections,
+  // relatedSections,
   loadingSection,
-  handleRelatedSectionClick,
+  // handleRelatedSectionClick,
   error,
 }: SearchResultsContentProps) {
   if (section) {
@@ -50,8 +50,8 @@ export default function SearchResultsContent({
         section={section}
         instructor={instructor}
         courseRating={courseRating}
-        relatedSections={relatedSections}
-        handleRelatedSectionClick={handleRelatedSectionClick}
+        // relatedSections={relatedSections}
+        // handleRelatedSectionClick={handleRelatedSectionClick}
       />
     );
   } else if (loadingSection) {
