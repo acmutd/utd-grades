@@ -47,7 +47,25 @@ const GraphContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 15px 30px rgba(233, 233, 233, 0.7);
+      box-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
+      border-radius: 5px;
+      padding: 20px;
+    }
+  }
+`;
+
+const ProfessorDetailsContainer = styled.div`
+  width: 100%;
+
+  @media (max-width: 992px) {
+    & {
+      padding-top: 20px;
+    }
+  }
+
+  @media (min-width: 992px) {
+    & {
+      box-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
       border-radius: 5px;
       padding: 20px;
     }
@@ -362,7 +380,7 @@ export default function SectionContent({
       </Stack>
 
       <Row style={{ marginBottom: "2rem" }}>
-        <Col xs={24} sm={24} md={17}>
+        <Col xs={24} sm={24} md={24}>
           <GraphContainer>
             <Bar options={options} data={data} />
           </GraphContainer>
