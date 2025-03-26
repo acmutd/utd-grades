@@ -1,5 +1,5 @@
 import type { Grades, RMPInstructor } from "@utd-grades/db";
-import { Row, Spin } from "antd";
+import { Col, Row, Spin } from "antd";
 import {
   BarElement,
   CategoryScale,
@@ -42,7 +42,6 @@ const GraphContainer = styled.div`
   @media (max-width: 992px) {
     & {
       padding-top: 20px;
-      margin-bottom: -20px;
     }
   }
 
@@ -60,6 +59,7 @@ const Header = styled.h3`
   font-weight: 700;
   font-size: 48px;
   margin-bottom: 0px !important;
+  margin-top: 6px !important;
 `;
 
 const SubHeader = styled.h5`
@@ -67,6 +67,8 @@ const SubHeader = styled.h5`
   font-weight: 600;
   font-size: 22px;
   color: rgb(117, 117, 117);
+  margin-top: 1rem !important;
+  margin-bottom: 0rem !important;
 `;
 
 const Stat = styled.h5`
@@ -74,6 +76,94 @@ const Stat = styled.h5`
   font-weight: 600;
   font-size: 18px;
   color: rgb(117, 117, 117);
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+`;
+
+const RMPScore = styled.span`
+  color: #333333;
+
+  @media (max-width: 992px) {
+    & {
+      font-size: 20px;
+      padding-left: 0.3rem;
+      line-height: 1;
+      font-weight: 550;
+    }
+  }
+
+  @media (min-width: 992px) {
+    & {
+      font-size: 3.5rem;
+      line-height: 0.8;
+      font-weight: bolder;
+    }
+  }
+`;
+
+const RMPStat = styled.h5`
+  font-family: var(--font-family);
+  font-weight: 800;
+  color: #333333;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  @media (max-width: 1200px) {
+    & {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    & {
+      font-size: 1.6rem;
+      line-height: 1.3;
+    }
+  }
+`;
+
+const RMPDescpription = styled.p`
+  font-weight: 400;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
+  @media (max-width: 768px) {
+    & {
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    & {
+      font-size: 0.7rem;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    & {
+      font-size: 0.8rem;
+    }
+  }
+`;
+
+const RMPTag = styled.p`
+  border-radius: 1rem;
+  background-color: #f0f0f0;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+
+const RMPHeader = styled.a`
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: underline !important;
+  color: #333 !important;
+
+  @media (max-width: 768px) {
+    & {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 const Section = styled.span`
@@ -89,7 +179,7 @@ const OtherSectionsHeader = styled.p`
 `;
 
 const OtherSectionsRow = styled(Row)`
-  padding-top: 50px;
+  padding-top: 3rem;
 `;
 
 const SectionsContainer = styled.div`
@@ -108,6 +198,68 @@ const SectionsContainer = styled.div`
 const Stack = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const OrderedStack = styled.div`
+  @media (max-width: 992px) {
+    & {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+  @media (min-width: 992px) {
+    & {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-right: 2rem;
+    }
+  }
+`;
+
+const OrderedFirst = styled.div`
+  @media (min-width: 992px) {
+    & {
+      order: 1;
+    }
+  }
+  @media (max-width: 992px) {
+    & {
+      order: 2;
+    }
+  }
+`;
+
+const OrderedSecond = styled.div`
+  font-family: var(--font-family);
+  color: rgb(117, 117, 117);
+  font-weight: 600;
+  font-size: 18px;
+
+  @media (min-width: 992px) {
+    & {
+      order: 2;
+      text-align: center;
+    }
+  }
+  @media (max-width: 992px) {
+    & {
+      order: 1;
+      align-self: center;
+      padding-top: 1rem;
+    }
+  }
+`;
+
+const FlexSmall = styled.div`
+  @media (min-width: 992px) {
+    & {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 `;
 
 interface SectionContentProps {
@@ -175,65 +327,97 @@ export default function SectionContent({
   return (
     <Container>
       <Stack>
-        <Header>
-          {section.subject} {section.catalogNumber}
-          <Section>.{section.section}</Section>
-        </Header>
-        <SubHeader>
-          {/* FIXME (no professor): non null assertion */}
-          {section.instructor1!.last}, {section.instructor1!.first} -{" "}
-          {`${section.semester.season} ${section.semester.year}`}
-        </SubHeader>
+        <FlexSmall>
+          <Stack>
+            <Header>
+              {section.subject} {section.catalogNumber}
+              <Section>.{section.section}</Section>
+            </Header>
+            <SubHeader>
+              {/* FIXME (no professor): non null assertion */}
+              {section.instructor1!.last}, {section.instructor1!.first} -{" "}
+              {`${section.semester.season} ${section.semester.year}`}
+            </SubHeader>
+          </Stack>
+          <OrderedStack>
+            <OrderedFirst>
+              <RMPScore>{instructor?.quality_rating ? instructor.quality_rating : "N/A"}</RMPScore>
+              <span
+                style={{
+                  fontFamily: "var(--font-family)",
+                  fontWeight: "550",
+                  fontSize: "18px",
+                }}
+              >
+                {instructor?.quality_rating ? "/5" : ""}
+              </span>
+            </OrderedFirst>
+
+            <OrderedSecond>RMP SCORE</OrderedSecond>
+          </OrderedStack>
+        </FlexSmall>
         <Stat>
           Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
         </Stat>
-
-        <Stat>
-          Would take again{" "}
-          <span style={{ color: "#333333" }}>
-            {instructor?.would_take_again !== undefined && instructor.would_take_again !== -1
-              ? `${instructor.would_take_again} %`
-              : "N/A"}
-          </span>
-        </Stat>
-        <Stat>
-          Quality rating{" "}
-          <span style={{ color: "#333333" }}>
-            {instructor?.quality_rating ? `${instructor.quality_rating}` : "N/A"}
-          </span>
-        </Stat>
-        <Stat>
-          Difficulty rating{" "}
-          <span style={{ color: "#333333" }}>
-            {instructor?.difficulty_rating ? `${instructor.difficulty_rating}` : "N/A"}
-          </span>
-        </Stat>
-        <Stat>
-          Course rating{" "}
-          <span style={{ color: "#333333" }}>{courseRating ? `${courseRating}` : "N/A"}</span>
-        </Stat>
-        <Stat>
-          Tags:{" "}
-          {instructor?.tags ? (
-            instructor.tags.split(",").map((tag, index) => (
-              <span
-                key={index}
-                style={{ backgroundColor: "#111", color: "#fff", marginRight: "5px" }}
-              >
-                {tag}
-              </span>
-            ))
-          ) : (
-            <span style={{ color: "#333333" }}>N/A</span>
-          )}
-        </Stat>
       </Stack>
 
-      <Row>
-        <GraphContainer>
-          <Bar options={options} data={data} />
-        </GraphContainer>
+      <Row style={{ marginBottom: "2rem" }}>
+        <Col xs={24} sm={24} md={17}>
+          <GraphContainer>
+            <Bar options={options} data={data} />
+          </GraphContainer>
+        </Col>
+
+        <Col
+          xs={24}
+          md={{ span: 6, offset: 1 }}
+          style={{ marginTop: "auto", marginBottom: "auto" }}
+        >
+          <Row gutter={[16, 4]}>
+            <Col span={24}>
+              <RMPHeader
+                href={instructor?.url || "#"}
+                target={instructor?.url ? "_blank" : "_self"}
+              >
+                PROFESSOR DETAILS
+              </RMPHeader>
+            </Col>
+            <Col span={12}>
+              <RMPStat>{courseRating}</RMPStat>
+              <RMPDescpription>Course rating</RMPDescpription>
+            </Col>
+            <Col span={12}>
+              <RMPStat>
+                {" "}
+                {instructor?.difficulty_rating ? instructor.difficulty_rating : `N/A`}
+              </RMPStat>
+              <RMPDescpription>Level of difficulty</RMPDescpription>
+            </Col>
+            <Col span={12}>
+              <RMPStat>
+                {" "}
+                {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
+              </RMPStat>
+              <RMPDescpription>Would take again</RMPDescpription>
+            </Col>
+            <Col span={12}>
+              <RMPStat> {instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
+              <RMPDescpription>Ratings count</RMPDescpription>
+            </Col>
+          </Row>
+        </Col>
       </Row>
+
+      {instructor?.tags && (
+        <>
+          <h4 style={{ marginBottom: "0.2rem", fontSize: "1.2rem" }}>Tags</h4>
+          <Row wrap={true} gutter={0}>
+            {instructor.tags.split(",").map((tag) => (
+              <RMPTag key={tag}>{tag}</RMPTag>
+            ))}
+          </Row>
+        </>
+      )}
 
       <OtherSectionsRow>
         <OtherSectionsHeader>Other Sections</OtherSectionsHeader>
