@@ -385,64 +385,52 @@ export default function SectionContent({
             <Bar options={options} data={data} />
           </GraphContainer>
         </Col>
-
-        <Col
-          xs={24}
-          md={{ span: 6, offset: 1 }}
-          style={{ marginTop: "auto", marginBottom: "auto" }}
-        >
-          <Row gutter={[16, 4]}>
-            <Col span={24}>
-              <RMPHeader
-                href={instructor?.url || "#"}
-                target={instructor?.url ? "_blank" : "_self"}
-              >
-                PROFESSOR DETAILS
-              </RMPHeader>
-            </Col>
-            {instructor && courseRating ? (
-              <>
-                <Col span={12}>
-                  <RMPStat>{courseRating ? courseRating : `N/A`}</RMPStat>
-                  <RMPDescpription>Course rating</RMPDescpription>
-                </Col>
-                <Col span={12}>
-                  <RMPStat>
-                    {instructor?.difficulty_rating ? instructor.difficulty_rating : `N/A`}
-                  </RMPStat>
-                  <RMPDescpription>Level of difficulty</RMPDescpription>
-                </Col>
-                <Col span={12}>
-                  <RMPStat>
-                    {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
-                  </RMPStat>
-                  <RMPDescpription>Would take again</RMPDescpription>
-                </Col>
-                <Col span={12}>
-                  <RMPStat>{instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
-                  <RMPDescpription>Ratings count</RMPDescpription>
-                </Col>
-              </>
-            ) : null}
-          </Row>
-        </Col>
       </Row>
 
-      {instructor?.tags && (
-        <>
-          <h4 style={{ marginBottom: "0.2rem", fontSize: "1.2rem" }}>Tags</h4>
-          <Row wrap={true} gutter={0}>
-            {instructor.tags.split(",").map((tag) => (
-              <RMPTag key={tag}>{tag}</RMPTag>
-            ))}
-          </Row>
-        </>
-      )}
-
-      <OtherSectionsRow>
-        <OtherSectionsHeader>Other Sections</OtherSectionsHeader>
-        <SectionsContainer>{renderRelatedSections()}</SectionsContainer>
-      </OtherSectionsRow>
+      <Row gutter={[16, 4]} style={{ marginBottom: "2rem" }}>
+        <Col xs={24} sm={24} md={24}>
+          <ProfessorDetailsContainer>
+            <RMPHeader
+              href={instructor?.url || "#"}
+              target={instructor?.url ? "_blank" : "_self"}
+            >
+              PROFESSOR DETAILS
+            </RMPHeader>
+            <Row gutter={[16, 4]}>
+              <Col xs={12} sm={12} md={6}>
+                <RMPStat>{courseRating}</RMPStat>
+                <RMPDescpription>Course rating</RMPDescpription>
+              </Col>
+              <Col xs={12} sm={12} md={6}>
+                <RMPStat>
+                  {instructor?.difficulty_rating ? instructor.difficulty_rating : `N/A`}
+                </RMPStat>
+                <RMPDescpription>Level of difficulty</RMPDescpription>
+              </Col>
+              <Col xs={12} sm={12} md={6}>
+                <RMPStat>
+                  {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
+                </RMPStat>
+                <RMPDescpription>Would take again</RMPDescpription>
+              </Col>
+              <Col xs={12} sm={12} md={6}>
+                <RMPStat>{instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
+                <RMPDescpription>Ratings count</RMPDescpription>
+              </Col>
+            </Row>
+            {instructor?.tags && (
+              <>
+                <h4 style={{ marginTop: "1.5rem", marginBottom: "0.2rem", fontSize: "1.2rem" }}>Tags</h4>
+                <Row wrap={true} gutter={[8, 8]}>
+                  {instructor.tags.split(",").map((tag) => (
+                    <RMPTag key={tag}>{tag}</RMPTag>
+                  ))}
+                </Row>
+              </>
+            )}
+          </ProfessorDetailsContainer>
+        </Col>
+      </Row>
     </Container>
   );
 }
