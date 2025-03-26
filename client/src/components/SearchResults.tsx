@@ -94,7 +94,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     { enabled: !!section }
   );
 
-  // some professors will have the same name so we need to get the whole list
+  // some professors have the same name so we need to get the whole list
   const normalName: string = normalizeName(
     `${section?.instructor1?.first} ${section?.instructor1?.last}`
   );
@@ -107,26 +107,26 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
 
   // from that list, we need to find the one that holds the session -> update the instructor and course rating
   const [instructor, setInstructor] = useState<RMPInstructor>();
+  const [courseRating, setCourseRating] = useState<number | null>(null);
 
-  const { data: courseRating = null } = useQuery(
-    ["rating", sectionId],
-    () => {
-      if (instructors) {
-        for (const ins of instructors) {
-          const rating = db!.getCourseRating(
-            ins.instructor_id,
-            `${section!.subject}${section!.catalogNumber}`
-          ) as number | null;
-          if (rating) {
-            setInstructor(ins);
-            return rating;
-          }
+  useEffect(() => {
+    if (instructors && section) {
+      for (const ins of instructors) {
+        const rating = db!.getCourseRating(
+          ins.instructor_id,
+          `${section.subject}${section.catalogNumber}`
+        );
+        if (rating) {
+          setInstructor(ins);
+          setCourseRating(rating);
+          break;
         }
       }
-      return null;
-    },
-    { enabled: !!section && !!instructors }
-  );
+    } else {
+      setInstructor(undefined);
+      setCourseRating(null);
+    }
+  }, [instructors, section, db]);
 
   useEffect(() => {
     // Automatically select section if there is only one choice
