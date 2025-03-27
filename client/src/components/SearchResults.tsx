@@ -95,13 +95,16 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
   );
 
   // some professors have the same name so we need to get the whole list
-  const normalName: string = normalizeName(
+  const normalName: string[] = normalizeName(
     `${section?.instructor1?.first} ${section?.instructor1?.last}`
   );
 
   const { data: instructors } = useQuery<RMPInstructor[]>(
     ["instructors", sectionId],
-    () => db!.getInstructorsByName(normalName),
+    async () => {
+      const results = await Promise.all(normalName.map((name) => db!.getInstructorsByName(name)));
+      return results.flat();
+    },
     { enabled: !!section }
   );
 

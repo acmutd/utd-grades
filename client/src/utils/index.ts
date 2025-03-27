@@ -95,8 +95,7 @@ export function extractGrades(grades: Grades): UserFriendlyGrades {
 
 // normalize name with RMP standard (from Evan's Python script)
 // https://github.com/emw8105/professor-ratings-script/blob/main/aggregator.py
-export function normalizeName(name: string): string {
-  if (name === "Yu Chung Vincent Ng") return "yu chung ng";
+export function normalizeName(name: string): string[] {
   // Trim leading and trailing spaces
   name = name.trim();
 
@@ -119,11 +118,18 @@ export function normalizeName(name: string): string {
   // Replace hyphens with spaces
   name = name.replace(/-/g, " ");
 
-  // Handle "Last, First" format by swapping and converting to lowercase
-  if (name.includes(", ")) {
-    const [last, first] = name.split(", ", 2);
-    return `${first?.trim().toLowerCase()} ${last?.trim().toLowerCase()}`;
-  } else {
-    return name.trim().toLowerCase();
+  name = name.toLowerCase();
+  if (name.split(/\s+/).filter(Boolean).length >= 3) {
+    const parts = name.split(/\s+/).filter(Boolean);
+    const variations = [name];
+    for (let i = 1; i < parts.length - 1; i++) {
+      const variation = parts
+        .slice(0, i)
+        .concat(parts.slice(i + 1))
+        .join(" ");
+      variations.push(variation);
+    }
+    return variations;
   }
+  return [name];
 }
