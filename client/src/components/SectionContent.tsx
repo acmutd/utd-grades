@@ -410,23 +410,23 @@ export default function SectionContent({
           </Col>
           {instructor && courseRating ? (
             <>
-              <Col span={12}>
+              <Col xs={12} md={6}>
                 <RMPStat>{courseRating ? courseRating : `N/A`}</RMPStat>
                 <RMPDescpription>Course rating</RMPDescpription>
               </Col>
-              <Col span={12}>
+              <Col xs={12} md={6}>
                 <RMPStat>
                   {instructor?.difficulty_rating ? instructor.difficulty_rating : `N/A`}
                 </RMPStat>
                 <RMPDescpription>Level of difficulty</RMPDescpription>
               </Col>
-              <Col span={12}>
+              <Col xs={12} md={6}>
                 <RMPStat>
                   {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
                 </RMPStat>
                 <RMPDescpription>Would take again</RMPDescpription>
               </Col>
-              <Col span={12}>
+              <Col xs={12} md={6}>
                 <RMPStat>{instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
                 <RMPDescpription>Ratings count</RMPDescpription>
               </Col>
