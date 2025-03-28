@@ -3,6 +3,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 import initSqlJs, { Database } from "sql.js";
 import type { GradesRow } from "../types/GradesRow";
+import type { RMPCourseRating, RMPInstructor } from "../types/RMPInstructors";
 
 function reorderName(name: string): string {
   const parts = name.split(", ");
@@ -91,6 +92,7 @@ async function parseCsv(filePath: string): Promise<Record<string, string>[]> {
   }) as Record<string, string>[]; // csv.parse returns `any` for some reason. This should be safe
 }
 
+// Parse CSV raw data files
 async function parseDataDir(dataDir: string): Promise<[Map<string, number>, GradesRow[]]> {
   const strings = new Map<string, number>();
 
@@ -108,6 +110,10 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, number>, Grad
   const grades: GradesRow[] = [];
 
   for (const fileName of await fs.readdir(dataDir)) {
+    if (!fileName.endsWith(".csv")) {
+      continue;
+    }
+
     const semester = path.parse(fileName).name;
     add(semester);
 
@@ -138,6 +144,88 @@ function insertStrings(db: Database, strings: Map<string, number>) {
   stmt.free();
 }
 
+async function insertInstructors(db: Database, jsonFilePath: string) {
+  const fileContents = await fs.readFile(jsonFilePath, "utf-8");
+
+  const parsedData: Record<string, any> = JSON.parse(fileContents);
+
+  const instructors: RMPInstructor[] = [];
+  // insert instructors (but not the course ratings, they will be another table)
+
+  Object.entries(parsedData).forEach(([name, allData]) => {
+    allData.forEach((instructor: RMPInstructor) => {
+      if (instructor.tags) {
+        instructor.tags = Object.values(instructor?.tags)
+          .map((tag) => tag.trim())
+          .join(",");
+      }
+
+      instructors.push({
+        name: name ?? null,
+        rmp_id: instructor.rmp_id ?? null,
+        url: instructor.url ?? null,
+        instructor_id: instructor.instructor_id,
+        quality_rating: instructor.quality_rating ?? null,
+        difficulty_rating: instructor.difficulty_rating ?? null,
+        would_take_again: instructor.would_take_again ?? null,
+        ratings_count: instructor.ratings_count ?? null,
+        tags: instructor.tags ?? null,
+        overall_grade_rating: instructor.overall_grade_rating ?? null,
+        total_grade_count: instructor.total_grade_count ?? null,
+      } as RMPInstructor);
+    });
+  });
+
+  const stmt = db.prepare(`
+    INSERT INTO instructors(name, rmp_id, url, instructor_id, quality_rating, difficulty_rating,would_take_again, ratings_count, tags, overall_grade_rating,total_grade_count)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  for (const instructor of instructors) {
+    stmt.run([
+      instructor.name,
+      instructor.rmp_id,
+      instructor.url,
+      instructor.instructor_id,
+      instructor.quality_rating,
+      instructor.difficulty_rating,
+      instructor.would_take_again,
+      instructor.ratings_count,
+      instructor.tags,
+      instructor.overall_grade_rating,
+      instructor.total_grade_count,
+    ]);
+  }
+
+  stmt.free();
+
+  const courseRatings: RMPCourseRating[] = [];
+  Object.entries(parsedData).forEach(([name, allData]) => {
+    allData.forEach((instructor: RMPInstructor) => {
+      if (instructor.course_ratings) {
+        Object.entries(instructor.course_ratings).forEach(([course_code, rating]) => {
+          courseRatings.push({
+            instructor_name: name,
+            instructor_id: instructor.instructor_id,
+            course_code,
+            rating,
+          });
+        });
+      }
+    });
+  });
+
+  // insert course ratings
+  const stmt1 = db.prepare(`
+    INSERT INTO course_ratings(instructor_name, instructor_id, course_code, rating) VALUES (?, ?, ?, ?)`);
+
+  for (const course of courseRatings) {
+    stmt1.run([course.instructor_name, course.instructor_id, course.course_code, course.rating]);
+  }
+
+  stmt1.free();
+}
+
 async function createDb(): Promise<Uint8Array> {
   const SQL = await initSqlJs();
   const db = new SQL.Database();
@@ -149,8 +237,11 @@ async function createDb(): Promise<Uint8Array> {
 
   db.exec("BEGIN");
 
+  await insertInstructors(db, "../raw_data/matched_professor_data.json");
+
   insertStrings(db, strings);
 
+  // insert instructors
   const stmt = db.prepare(`
     INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);

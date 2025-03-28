@@ -1,10 +1,12 @@
+import type { RMPInstructor } from "@utd-grades/db";
 import { Col, Row } from "antd";
 import type { NextRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
 import type { SearchQuery } from "../types";
+import { normalizeName } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
@@ -53,6 +55,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
 
   const { data: db } = useDb();
 
+  // this is to get all of the other sections of the same class (for the side bar)
   const {
     data: sections,
     status: sectionsStatus,
@@ -64,6 +67,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     { enabled: !!db }
   );
 
+  // get the section data
   const {
     data: section,
     status: sectionStatus,
@@ -89,6 +93,58 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
       ),
     { enabled: !!section }
   );
+
+  // some professors have the same name so we need to get the whole list
+  const normalName: string[] = normalizeName(
+    `${section?.instructor1?.first} ${section?.instructor1?.last}`
+  );
+
+  const { data: instructors } = useQuery<RMPInstructor[]>(
+    ["instructors", sectionId],
+    async () => {
+      const results = await Promise.all(normalName.map((name) => db!.getInstructorsByName(name)));
+      return results.flat();
+    },
+    { enabled: !!section }
+  );
+
+  // from that list, we need to find the one that holds the session -> update the instructor and course rating
+  const [instructor, setInstructor] = useState<RMPInstructor>();
+  const [courseRating, setCourseRating] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (instructors && section) {
+      // when there is only professor that matches the needed name -> set the instructor to that prof
+      // this helps prevent that some of the courses may not be listed in the RMP data but we still want to the prof data
+
+      // however, if there're 2 profs with the same name and the course we're looking for is not listed in either instructor's RMP courses
+      // then we don't know who to return
+      // this will not be a problem when the new RMP data is updated
+      if (instructors.length === 1) {
+        setInstructor(instructors[0]);
+        const rating = db!.getCourseRating(
+          instructors[0]!.instructor_id,
+          `${section.subject}${section.catalogNumber}`
+        );
+        setCourseRating(rating);
+      } else {
+        for (const ins of instructors) {
+          const rating = db!.getCourseRating(
+            ins.instructor_id,
+            `${section.subject}${section.catalogNumber}`
+          );
+          if (rating) {
+            setInstructor(ins);
+            setCourseRating(rating);
+            break;
+          }
+        }
+      }
+    } else {
+      setInstructor(undefined);
+      setCourseRating(null);
+    }
+  }, [instructors, section, db]);
 
   useEffect(() => {
     // Automatically select section if there is only one choice
@@ -158,6 +214,8 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
                 <SearchResultsContent
                   section={section!} // FIXME: need to actually do something if these are null
                   relatedSections={relatedSections!}
+                  instructor={instructor!}
+                  courseRating={courseRating}
                   loadingSection={sectionStatus === "loading"}
                   handleRelatedSectionClick={handleRelatedSectionClick}
                   error={sectionError}

@@ -92,3 +92,44 @@ export function extractGrades(grades: Grades): UserFriendlyGrades {
 
   return ret;
 }
+
+// normalize name with RMP standard (from Evan's Python script)
+// https://github.com/emw8105/professor-ratings-script/blob/main/aggregator.py
+export function normalizeName(name: string): string[] {
+  // Trim leading and trailing spaces
+  name = name.trim();
+
+  // Standardize comma spacing
+  name = name.replace(/\s*,\s*/g, ", ");
+
+  // Remove middle initials
+  // name = name.replace(/\s+[A-Z](\.[A-Z])*\s*$/, "");
+  name = name.replace(/(\b[A-Z])\s+(?=[A-Z][a-z]+)/g, "");
+
+  // Add space between initials (e.g., "J.P." → "J P")
+  name = name.replace(/([A-Z])\.([A-Z])/g, "$1 $2");
+
+  // Remove periods and extra spaces
+  name = name.replace(/[.\s]+/g, " ");
+
+  // Remove different types of apostrophes
+  name = name.replace(/[’'ʻ`]/g, "");
+
+  // Replace hyphens with spaces
+  name = name.replace(/-/g, " ");
+
+  name = name.toLowerCase();
+  if (name.split(/\s+/).filter(Boolean).length >= 3) {
+    const parts = name.split(/\s+/).filter(Boolean);
+    const variations = [name];
+    for (let i = 1; i < parts.length - 1; i++) {
+      const variation = parts
+        .slice(0, i)
+        .concat(parts.slice(i + 1))
+        .join(" ");
+      variations.push(variation);
+    }
+    return variations;
+  }
+  return [name];
+}
