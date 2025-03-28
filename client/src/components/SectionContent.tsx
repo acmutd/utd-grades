@@ -8,7 +8,7 @@ import {
   LinearScale,
   Tooltip as ChartTooltip,
 } from "chart.js";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
@@ -247,60 +247,6 @@ const Stack = styled.div`
   flex-direction: column;
 `;
 
-const OrderedStack = styled.div`
-  @media (max-width: 992px) {
-    & {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-end;
-    }
-  }
-  @media (min-width: 992px) {
-    & {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-  }
-`;
-
-const OrderedFirst = styled.div`
-  @media (min-width: 992px) {
-    & {
-      order: 1;
-      display: flex;
-      align-items: flex-end;
-      line-height: 1;
-    }
-  }
-  @media (max-width: 992px) {
-    & {
-      order: 2;
-    }
-  }
-`;
-
-const OrderedSecond = styled.div`
-  font-family: var(--font-family);
-  color: rgb(117, 117, 117);
-  font-weight: 600;
-  font-size: 18px;
-
-  @media (min-width: 992px) {
-    & {
-      order: 2;
-      text-align: center;
-    }
-  }
-  @media (max-width: 992px) {
-    & {
-      order: 1;
-      align-self: center;
-      padding-top: 1rem;
-    }
-  }
-`;
-
 const FlexSmall = styled.div`
   display: flex;
   flex-direction: row;
@@ -322,7 +268,7 @@ interface SectionContentProps {
   // handleRelatedSectionClick: (search: string, id: number) => void;
 }
 
-export default function SectionContent({
+export default function SectiSonContent({
   section,
   instructor,
   courseRating,
