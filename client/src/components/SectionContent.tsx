@@ -415,14 +415,14 @@ export default function SectiSonContent({
                       borderRadius: "0.5rem",
                       fontSize: "0.75rem",
                       lineHeight: "1rem",
-                      color: "#ffffff",
+                      color: "#000000",
                       whiteSpace: "nowrap",
-                      backgroundColor: "#333333",
+                      backgroundColor: "#ffffff",
                       boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                     }}
                   >
                     See more on
-                    <img src="/rmp-logo.png" alt="RMP" style={{ height: '1.2rem' }} />
+                    <img src="/rmp-logo.png" alt="RMP" style={{ height: '1.1rem' }} />
 
                   </div>
                   <div style={{
