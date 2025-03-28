@@ -114,15 +114,30 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
 
   useEffect(() => {
     if (instructors && section) {
-      for (const ins of instructors) {
+      // when there is only professor that matches the needed name -> set the instructor to that prof
+      // this helps prevent that some of the courses may not be listed in the RMP data but we still want to the prof data
+
+      // however, if there're 2 profs with the same name and the course we're looking for is not listed in either instructor's RMP courses
+      // then we don't know who to return
+      // this will not be a problem when the new RMP data is updated
+      if (instructors.length === 1) {
+        setInstructor(instructors[0]);
         const rating = db!.getCourseRating(
-          ins.instructor_id,
+          instructors[0]!.instructor_id,
           `${section.subject}${section.catalogNumber}`
         );
-        if (rating) {
-          setInstructor(ins);
-          setCourseRating(rating);
-          break;
+        setCourseRating(rating);
+      } else {
+        for (const ins of instructors) {
+          const rating = db!.getCourseRating(
+            ins.instructor_id,
+            `${section.subject}${section.catalogNumber}`
+          );
+          if (rating) {
+            setInstructor(ins);
+            setCourseRating(rating);
+            break;
+          }
         }
       }
     } else {

@@ -1,3 +1,4 @@
+import { LinkOutlined } from "@ant-design/icons";
 import type { Grades, RMPInstructor } from "@utd-grades/db";
 import { Col, Row } from "antd";
 import {
@@ -8,12 +9,11 @@ import {
   LinearScale,
   Tooltip as ChartTooltip,
 } from "chart.js";
-import React, { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
-import { LinkOutlined } from '@ant-design/icons';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
@@ -112,7 +112,7 @@ const RMPScore = styled.span`
 
   @media (min-width: 992px) {
     & {
-      font-size: 3.0rem;
+      font-size: 3rem;
     }
   }
 `;
@@ -177,10 +177,9 @@ const RMPTag = styled.p`
   color: rgb(84, 84, 84);
   border-radius: 1px;
   background-color: #f5f5f5;
-  padding: 0.4rem .4rem;
+  padding: 0.4rem 0.4rem;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
 
   &:hover {
     background-color: #e8e8e8;
@@ -195,7 +194,7 @@ const RMPHeader = styled.a`
   font-size: 1.15rem;
   color: #333333 !important;
   text-decoration: none !important;
-  border-bottom: ${props => props.href && props.href !== "#" ? "1px solid #333333" : "none"};
+  border-bottom: ${(props) => (props.href && props.href !== "#" ? "1px solid #333333" : "none")};
   margin-bottom: 0.5rem;
   transition: color 0.2s ease;
   display: inline-flex;
@@ -269,19 +268,19 @@ interface SectionContentProps {
 }
 
 const getDifficultyColor = (difficulty: number): string => {
-  if (difficulty <= 1) return '#2ecc71'; // Very green
-  if (difficulty <= 2) return '#27ae60'; // Green
-  if (difficulty <= 3) return '#f1c40f'; // Yellow
-  if (difficulty <= 4) return '#e67e22'; // Orange
-  return '#e74c3c'; // Red
+  if (difficulty <= 1) return "#2ecc71"; // Very green
+  if (difficulty <= 2) return "#27ae60"; // Green
+  if (difficulty <= 3) return "#f1c40f"; // Yellow
+  if (difficulty <= 4) return "#e67e22"; // Orange
+  return "#e74c3c"; // Red
 };
 
 const getRMPColor = (rating: number): string => {
-  if (rating >= 4.5) return '#2ecc71'; // Very green
-  if (rating >= 3.75) return '#27ae60'; // Yellow green
-  if (rating >= 3) return '#f1c40f'; // Yellow
-  if (rating >= 2) return '#e67e22'; // Orange
-  return '#e74c3c'; // Red
+  if (rating >= 4.5) return "#2ecc71"; // Very green
+  if (rating >= 3.75) return "#27ae60"; // Yellow green
+  if (rating >= 3) return "#f1c40f"; // Yellow
+  if (rating >= 2) return "#e67e22"; // Orange
+  return "#e74c3c"; // Red
 };
 
 export default function SectiSonContent({
@@ -386,7 +385,6 @@ export default function SectiSonContent({
       <ProfessorDetailsContainer>
         <Row gutter={[16, 4]}>
           <Col span={24}>
-
             <RMPHeader
               href={instructor?.url || "#"}
               target={instructor?.url ? "_blank" : "_self"}
@@ -396,7 +394,7 @@ export default function SectiSonContent({
               ref={rmpLinkRef}
             >
               Professor Details
-              {instructor?.url && <LinkOutlined style={{ fontSize: '1.2em' }} />}
+              {instructor?.url && <LinkOutlined style={{ fontSize: "1.2em" }} />}
               {hovered && (
                 <>
                   <div
@@ -414,28 +412,30 @@ export default function SectiSonContent({
                       color: "#000000",
                       whiteSpace: "nowrap",
                       backgroundColor: "#ffffff",
-                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                      boxShadow:
+                        "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                     }}
                   >
                     See more on
-                    <img src="/rmp-logo.png" alt="RMP" style={{ height: '1.1rem' }} />
-
+                    <img src="/rmp-logo.png" alt="RMP" style={{ height: "1.1rem" }} />
                   </div>
-                  <div style={{
-                    position: "absolute",
-                    bottom: "-5rem",
-                    left: "50%",
-                    borderTopWidth: "8px",
-                    borderRightWidth: "8px",
-                    borderLeftWidth: "8px",
-                    width: "10",
-                    height: "10",
-                  }} />
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "-5rem",
+                      left: "50%",
+                      borderTopWidth: "8px",
+                      borderRightWidth: "8px",
+                      borderLeftWidth: "8px",
+                      width: "10",
+                      height: "10",
+                    }}
+                  />
                 </>
               )}
             </RMPHeader>
           </Col>
-          {instructor && courseRating ? (
+          {instructor ? (
             <>
               <Col xs={12} md={6}>
                 <RMPStat>
@@ -444,7 +444,7 @@ export default function SectiSonContent({
                       {instructor.quality_rating}
                     </span>
                   ) : (
-                    'N/A'
+                    "N/A"
                   )}
                 </RMPStat>
                 <RMPDescpription>RMP Score</RMPDescpription>
@@ -456,7 +456,7 @@ export default function SectiSonContent({
                       {instructor.difficulty_rating}
                     </span>
                   ) : (
-                    'N/A'
+                    "N/A"
                   )}
                 </RMPStat>
                 <RMPDescpription>Level of difficulty</RMPDescpription>
@@ -478,7 +478,7 @@ export default function SectiSonContent({
         {instructor?.tags && (
           <>
             <h4 style={{ marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
-            <Row wrap={true} gutter={0} style={{ gap: '1.0rem' }}>
+            <Row wrap={true} gutter={0} style={{ gap: "1.0rem" }}>
               {instructor.tags.split(",").map((tag) => (
                 <RMPTag key={tag}>{tag}</RMPTag>
               ))}
