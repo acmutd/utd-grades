@@ -304,12 +304,8 @@ export default function SectiSonContent({
 
   //   return <Spin />;
   // };
-  const [hovered, setHovered] = useState<"advising" | "schedule" | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
-  const buttonRefs = {
-    advising: useRef(null),
-    schedule: useRef(null),
-  };
+  const [hovered, setHovered] = useState<"rmpLink" | null>(null);
+  const rmpLinkRef = useRef(null);
 
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
@@ -395,9 +391,9 @@ export default function SectiSonContent({
               href={instructor?.url || "#"}
               target={instructor?.url ? "_blank" : "_self"}
               style={{ position: "relative" }}
-              onMouseEnter={() => setHovered("advising")}
+              onMouseEnter={() => setHovered("rmpLink")}
               onMouseLeave={() => setHovered(null)}
-              ref={buttonRefs.advising}
+              ref={rmpLinkRef}
             >
               Professor Details
               {instructor?.url && <LinkOutlined style={{ fontSize: '1.2em' }} />}
