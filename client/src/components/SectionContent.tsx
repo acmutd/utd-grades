@@ -1,20 +1,21 @@
 import type { Grades, RMPInstructor } from "@utd-grades/db";
-import { Col, Row} from "antd";
+import { Col, Row, Tooltip } from "antd";
 import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
   ChartOptions,
   LinearScale,
-  Tooltip,
+  Tooltip as ChartTooltip,
 } from "chart.js";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
+import { LinkOutlined } from '@ant-design/icons';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
+ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
 const Container = styled.div`
   padding-top: 20px;
@@ -100,21 +101,27 @@ const Stat = styled.h5`
 
 const RMPScore = styled.span`
   color: #333333;
+  line-height: 1;
 
   @media (max-width: 992px) {
     & {
-      font-size: 20px;
-      padding-left: 0.3rem;
-      line-height: 1;
-      font-weight: 550;
+      font-size: 24px;
+      font-weight: 700;
     }
   }
 
   @media (min-width: 992px) {
     & {
-      font-size: 3.5rem;
-      line-height: 0.8;
-      font-weight: bolder;
+      font-size: 3.0rem;
+    }
+  }
+`;
+
+const RMPSubHeader = styled(SubHeader)`
+  @media (max-width: 992px) {
+    & {
+      font-size: 14px;
+      margin-top: 0.5rem !important;
     }
   }
 `;
@@ -168,13 +175,12 @@ const RMPTag = styled.p`
   font-family: var(--font-family);
   font-weight: 500;
   color: rgb(84, 84, 84);
-  border-radius: 1rem;
+  border-radius: 1px;
   background-color: #f5f5f5;
-  padding: 0.5rem 1rem;
-  margin-right: 1rem;
-  margin-bottom: 0.5rem;
+  padding: 0.4rem .4rem;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 
   &:hover {
     background-color: #e8e8e8;
@@ -187,8 +193,18 @@ const RMPHeader = styled.a`
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 1.15rem;
-  text-decoration: ${props => props.href && props.href !== "#" ? "underline" : "none"} !important;
-  color: ${props => props.href && props.href !== "#" ? "#1890ff" : "#333"} !important;
+  color: #333333 !important;
+  text-decoration: none !important;
+  border-bottom: ${props => props.href && props.href !== "#" ? "1px solid #333333" : "none"};
+  margin-bottom: 0.5rem;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover {
+    color: #666666 !important;
+  }
 
   @media (max-width: 768px) {
     & {
@@ -243,8 +259,7 @@ const OrderedStack = styled.div`
     & {
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding-right: 2rem;
+      justify-content: flex-start;
     }
   }
 `;
@@ -253,6 +268,9 @@ const OrderedFirst = styled.div`
   @media (min-width: 992px) {
     & {
       order: 1;
+      display: flex;
+      align-items: flex-end;
+      line-height: 1;
     }
   }
   @media (max-width: 992px) {
@@ -284,11 +302,14 @@ const OrderedSecond = styled.div`
 `;
 
 const FlexSmall = styled.div`
-  @media (min-width: 992px) {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  @media (max-width: 992px) {
     & {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
+      gap: 1rem;
     }
   }
 `;
@@ -368,22 +389,22 @@ export default function SectionContent({
               {`${section.semester.season} ${section.semester.year}`}
             </SubHeader>
           </Stack>
-          <OrderedStack>
-            <OrderedFirst>
-              <RMPScore>{instructor?.quality_rating ? instructor.quality_rating : "N/A"}</RMPScore>
+          <Stack>
+            <Header>
+              <RMPScore>{courseRating ? courseRating : "N/A"}</RMPScore>
               <span
                 style={{
                   fontFamily: "var(--font-family)",
                   fontWeight: "550",
-                  fontSize: "18px",
+                  fontSize: "20px",
+                  color: "gray",
                 }}
               >
-                {instructor?.quality_rating ? "/5" : ""}
+                {courseRating ? "/5" : ""}
               </span>
-            </OrderedFirst>
-
-            <OrderedSecond>RMP SCORE</OrderedSecond>
-          </OrderedStack>
+            </Header>
+            <RMPSubHeader>Course Rating</RMPSubHeader>
+          </Stack>
         </FlexSmall>
         <Stat>
           Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
@@ -401,18 +422,40 @@ export default function SectionContent({
       <ProfessorDetailsContainer>
         <Row gutter={[16, 4]}>
           <Col span={24}>
-            <RMPHeader
-              href={instructor?.url || "#"}
-              target={instructor?.url ? "_blank" : "_self"}
+            <Tooltip 
+              title={
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span>See more on</span>
+                  <img src="/rmp-logo.png" alt="RMP" style={{ height: '1.2em' }} />
+                </div>
+              }
+              overlayInnerStyle={{ 
+                backgroundColor: 'white',
+                color: '#333333',
+                border: '1px solid rgba(233, 233, 233, 0.7)',
+                borderRadius: '1px',
+                padding: '10px',
+
+                fontSize: '14px',
+                fontFamily: 'var(--font-family)',
+                fontWeight: '500',
+              }}
+              
             >
-              Professor Details
-            </RMPHeader>
+              <RMPHeader
+                href={instructor?.url || "#"}
+                target={instructor?.url ? "_blank" : "_self"}
+              >
+                Professor Details
+                {instructor?.url && <LinkOutlined style={{ fontSize: '1.2em' }} />}
+              </RMPHeader>
+            </Tooltip>
           </Col>
           {instructor && courseRating ? (
             <>
               <Col xs={12} md={6}>
-                <RMPStat>{courseRating ? courseRating : `N/A`}</RMPStat>
-                <RMPDescpription>Course rating</RMPDescpription>
+                <RMPStat>{instructor?.quality_rating ? instructor.quality_rating : `N/A`}</RMPStat>
+                <RMPDescpription>RMP Score</RMPDescpription>
               </Col>
               <Col xs={12} md={6}>
                 <RMPStat>
@@ -436,8 +479,8 @@ export default function SectionContent({
 
         {instructor?.tags && (
           <>
-            <h4 style={{ marginTop: "1.5rem", marginBottom: "0.2rem", fontSize: "1.2rem" }}>Tags</h4>
-            <Row wrap={true} gutter={0}>
+            <h4 style={{ marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
+            <Row wrap={true} gutter={0} style={{ gap: '1.0rem' }}>
               {instructor.tags.split(",").map((tag) => (
                 <RMPTag key={tag}>{tag}</RMPTag>
               ))}
