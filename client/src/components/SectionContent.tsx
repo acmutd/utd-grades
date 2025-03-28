@@ -8,7 +8,7 @@ import {
   LinearScale,
   Tooltip as ChartTooltip,
 } from "chart.js";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
@@ -304,6 +304,12 @@ export default function SectiSonContent({
 
   //   return <Spin />;
   // };
+  const [hovered, setHovered] = useState<"advising" | "schedule" | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+  const buttonRefs = {
+    advising: useRef(null),
+    schedule: useRef(null),
+  };
 
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
@@ -384,34 +390,54 @@ export default function SectiSonContent({
       <ProfessorDetailsContainer>
         <Row gutter={[16, 4]}>
           <Col span={24}>
-            <Tooltip 
-              title={
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span>See more on</span>
-                  <img src="/rmp-logo.png" alt="RMP" style={{ height: '1.2em' }} />
-                </div>
-              }
-              overlayInnerStyle={{ 
-                backgroundColor: 'white',
-                color: '#333333',
-                border: '1px solid rgba(233, 233, 233, 0.7)',
-                borderRadius: '1px',
-                padding: '10px',
 
-                fontSize: '14px',
-                fontFamily: 'var(--font-family)',
-                fontWeight: '500',
-              }}
-              
+            <RMPHeader
+              href={instructor?.url || "#"}
+              target={instructor?.url ? "_blank" : "_self"}
+              style={{ position: "relative" }}
+              onMouseEnter={() => setHovered("advising")}
+              onMouseLeave={() => setHovered(null)}
+              ref={buttonRefs.advising}
             >
-              <RMPHeader
-                href={instructor?.url || "#"}
-                target={instructor?.url ? "_blank" : "_self"}
-              >
-                Professor Details
-                {instructor?.url && <LinkOutlined style={{ fontSize: '1.2em' }} />}
-              </RMPHeader>
-            </Tooltip>
+              Professor Details
+              {instructor?.url && <LinkOutlined style={{ fontSize: '1.2em' }} />}
+              {hovered && (
+                <>
+                  <div
+                    style={{
+                      position: "absolute",
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: "0.5rem",
+                      transform: "translate(-10%, -100%)",
+                      zIndex: 1000,
+                      padding: "0.75rem",
+                      borderRadius: "0.5rem",
+                      fontSize: "0.75rem",
+                      lineHeight: "1rem",
+                      color: "#ffffff",
+                      whiteSpace: "nowrap",
+                      backgroundColor: "#333333",
+                      boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                    }}
+                  >
+                    See more on
+                    <img src="/rmp-logo.png" alt="RMP" style={{ height: '1.2rem' }} />
+
+                  </div>
+                  <div style={{
+                    position: "absolute",
+                    bottom: "-5rem",
+                    left: "50%",
+                    borderTopWidth: "8px",
+                    borderRightWidth: "8px",
+                    borderLeftWidth: "8px",
+                    width: "10",
+                    height: "10",
+                  }} />
+                </>
+              )}
+            </RMPHeader>
           </Col>
           {instructor && courseRating ? (
             <>
