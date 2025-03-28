@@ -268,6 +268,22 @@ interface SectionContentProps {
   // handleRelatedSectionClick: (search: string, id: number) => void;
 }
 
+const getDifficultyColor = (difficulty: number): string => {
+  if (difficulty <= 1) return '#2ecc71'; // Very green
+  if (difficulty <= 2) return '#27ae60'; // Green
+  if (difficulty <= 3) return '#f1c40f'; // Yellow
+  if (difficulty <= 4) return '#e67e22'; // Orange
+  return '#e74c3c'; // Red
+};
+
+const getRMPColor = (rating: number): string => {
+  if (rating >= 4.5) return '#2ecc71'; // Very green
+  if (rating >= 3.75) return '#27ae60'; // Yellow green
+  if (rating >= 3) return '#f1c40f'; // Yellow
+  if (rating >= 2) return '#e67e22'; // Orange
+  return '#e74c3c'; // Red
+};
+
 export default function SectiSonContent({
   section,
   instructor,
@@ -400,12 +416,26 @@ export default function SectiSonContent({
           {instructor && courseRating ? (
             <>
               <Col xs={12} md={6}>
-                <RMPStat>{instructor?.quality_rating ? instructor.quality_rating : `N/A`}</RMPStat>
+                <RMPStat>
+                  {instructor?.quality_rating ? (
+                    <span style={{ color: getRMPColor(instructor.quality_rating) }}>
+                      {instructor.quality_rating}
+                    </span>
+                  ) : (
+                    'N/A'
+                  )}
+                </RMPStat>
                 <RMPDescpription>RMP Score</RMPDescpription>
               </Col>
               <Col xs={12} md={6}>
                 <RMPStat>
-                  {instructor?.difficulty_rating ? instructor.difficulty_rating : `N/A`}
+                  {instructor?.difficulty_rating ? (
+                    <span style={{ color: getDifficultyColor(instructor.difficulty_rating) }}>
+                      {instructor.difficulty_rating}
+                    </span>
+                  ) : (
+                    'N/A'
+                  )}
                 </RMPStat>
                 <RMPDescpription>Level of difficulty</RMPDescpription>
               </Col>
