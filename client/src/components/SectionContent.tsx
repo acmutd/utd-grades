@@ -8,7 +8,7 @@ import {
   LinearScale,
   Tooltip as ChartTooltip,
 } from "chart.js";
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
@@ -304,11 +304,8 @@ export default function SectiSonContent({
 
   //   return <Spin />;
   // };
-  const [hovered, setHovered] = useState<"advising" | "schedule" | null>(null);
-  const buttonRefs = {
-    advising: useRef(null),
-    schedule: useRef(null),
-  };
+  const [hovered, setHovered] = useState<"rmpLink" | null>(null);
+  const rmpLinkRef = useRef<HTMLAnchorElement>(null);
 
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
