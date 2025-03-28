@@ -61,6 +61,16 @@ const TrendsText = styled.p`
   margin-bottom: 0;
 `;
 
+const BuiltWithLove = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  font-weight: 550;
+`;
+
 const NebulaLogo = styled.img`
   height: 1.375rem;
   filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
@@ -90,11 +100,10 @@ function Core({ children }: CoreProps) {
           <NebulaLogo src="/nebula-logo.svg" />
           <TrendsText>Compare everything in one place with <b>UTD Trends</b></TrendsText>
         </TrendsLink>
-        <p>
+        <BuiltWithLove>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
-          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>. Raw data available{" "}
-          <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}>for download</a>.
-        </p>
+          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
+        </BuiltWithLove>
         <p>
           Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}
@@ -103,6 +112,9 @@ function Core({ children }: CoreProps) {
           <Popover content={donors}>
             <span style={{ textDecoration: "underline" }}>donors</span>.
           </Popover>
+
+          <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}> Raw data available for download</a>
+
         </p>
       </Footer>
     </Container>
