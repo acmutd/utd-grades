@@ -1,5 +1,5 @@
 import type { Grades, RMPInstructor } from "@utd-grades/db";
-import { Col, Row, Tooltip } from "antd";
+import { Col, Row } from "antd";
 import {
   BarElement,
   CategoryScale,
@@ -304,8 +304,11 @@ export default function SectiSonContent({
 
   //   return <Spin />;
   // };
-  const [hovered, setHovered] = useState<"rmpLink" | null>(null);
-  const rmpLinkRef = useRef(null);
+  const [hovered, setHovered] = useState<"advising" | "schedule" | null>(null);
+  const buttonRefs = {
+    advising: useRef(null),
+    schedule: useRef(null),
+  };
 
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
