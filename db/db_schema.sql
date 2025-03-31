@@ -4,6 +4,34 @@ CREATE TABLE strings
     string VARCHAR                           NOT NULL
 );
 
+CREATE TABLE instructors
+(
+    id     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    rmp_id   VARCHAR,
+    name TEXT                           NOT NULL, 
+    url  TEXT,
+    instructor_id TEXT NOT NULL,
+    quality_rating FLOAT,
+    difficulty_rating FLOAT,
+    would_take_again FLOAT,
+    ratings_count INTEGER,
+    tags TEXT,
+    overall_grade_rating FLOAT,
+    total_grade_count INTEGER
+);
+
+
+CREATE TABLE course_ratings 
+(
+    id     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    instructor_id TEXT REFERENCES instructors(instructor_id),
+    instructor_name TEXT,
+    course_code VARCHAR,
+    rating TEXT
+);
+
+
+
 CREATE TABLE grades
 (
     id              INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,

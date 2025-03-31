@@ -1,4 +1,4 @@
-import type { Grades } from "@utd-grades/db";
+import type { Grades, RMPInstructor } from "@utd-grades/db";
 import { Spin } from "antd";
 import React from "react";
 import styled from "styled-components";
@@ -27,6 +27,8 @@ const Spinner = styled(Spin)`
 
 interface SearchResultsContentProps {
   section: Grades;
+  instructor: RMPInstructor;
+  courseRating: number | null;
   relatedSections: Grades[];
   loadingSection: boolean;
   handleRelatedSectionClick: (search: string, id: number) => void;
@@ -35,17 +37,21 @@ interface SearchResultsContentProps {
 
 export default function SearchResultsContent({
   section,
-  relatedSections,
+  instructor,
+  courseRating,
+  // relatedSections,
   loadingSection,
-  handleRelatedSectionClick,
+  // handleRelatedSectionClick,
   error,
 }: SearchResultsContentProps) {
   if (section) {
     return (
       <SectionContent
         section={section}
-        relatedSections={relatedSections}
-        handleRelatedSectionClick={handleRelatedSectionClick}
+        instructor={instructor}
+        courseRating={courseRating}
+        // relatedSections={relatedSections}
+        // handleRelatedSectionClick={handleRelatedSectionClick}
       />
     );
   } else if (loadingSection) {

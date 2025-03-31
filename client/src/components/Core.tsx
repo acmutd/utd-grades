@@ -61,6 +61,16 @@ const SageText = styled.p`
   margin-bottom: 0;
 `;
 
+const BuiltWithLove = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  font-weight: 550;
+`;
+
 const SageLogo = styled.img`
   height: 1.5rem;
   margin-right: 0.5rem;
@@ -91,6 +101,11 @@ function Core({ children }: CoreProps) {
     <Container>
       <Body>{children}</Body>
       <Footer>
+        <TrendsLink href="https://trends.utdnebula.com/" target={"blank"}>
+          <NebulaLogo src="/nebula-logo.svg" />
+          <TrendsText>Compare everything in one place with <b>UTD Trends</b></TrendsText>
+        </TrendsLink>
+        <BuiltWithLove>
         <SageLink href="https://utdsage.com/" target={"blank"}>
           <SageLogo src="/SAGE-Logo.svg" />
           <SageText>Get AI-powered UTD advising with </SageText>
@@ -98,9 +113,8 @@ function Core({ children }: CoreProps) {
         </SageLink>
         <p>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
-          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>. Raw data available{" "}
-          <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}>for download</a>.
-        </p>
+          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
+        </BuiltWithLove>
         <p>
           Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}
@@ -109,6 +123,9 @@ function Core({ children }: CoreProps) {
           <Popover content={donors}>
             <span style={{ textDecoration: "underline" }}>donors</span>.
           </Popover>
+
+          <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}> Raw data available for download</a>
+
         </p>
       </Footer>
     </Container>

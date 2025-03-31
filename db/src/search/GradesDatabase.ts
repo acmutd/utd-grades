@@ -1,6 +1,7 @@
+import type { RMPInstructor } from "@utd-grades/db";
 import type { Database } from "sql.js";
 import type { Grades } from "../types/Grades";
-import { createWhereString, rowToGrades, SEASONS } from "./utils";
+import { createWhereString, rowToGrades, rowToInstructor, SEASONS } from "./utils";
 
 export class GradesDatabase {
   protected db: Database;
@@ -55,6 +56,35 @@ export class GradesDatabase {
     return grades;
   }
 
+  getInstructorsByName(name: string): RMPInstructor[] {
+    const instructors: RMPInstructor[] = [];
+    const stmt = this.db.prepare(`SELECT * FROM instructors WHERE name LIKE ?`);
+    stmt.bind([name]); // Bind the value properly with wildcards
+
+    while (stmt.step()) {
+      const instructor = rowToInstructor(stmt.getAsObject());
+      if (instructor) {
+        instructors.push(instructor);
+      }
+    }
+
+    stmt.free();
+
+    return instructors;
+  }
+
+  getCourseRating(instructor_id: string, course_code: string): number | null {
+    const stmt = this.db.prepare(
+      `SELECT * FROM course_ratings WHERE instructor_id LIKE ? AND course_code LIKE ?`
+    );
+    stmt.bind([instructor_id, course_code]);
+
+    const result = stmt.step() ? (stmt.getAsObject()["rating"] as number) : null;
+
+    stmt.free();
+    return result;
+  }
+
   /**
    * Provide options for autocomplete (partial) queries
    * @param partialQuery
@@ -65,7 +95,9 @@ export class GradesDatabase {
     const strings: string[] = [];
 
     const stmt = this.db.prepare(
-      `SELECT string FROM autocomplete_strings WHERE ${createWhereString(partialQuery)} ORDER BY priority`
+      `SELECT string FROM autocomplete_strings WHERE ${createWhereString(
+        partialQuery
+      )} ORDER BY priority`
     );
 
     while (stmt.step()) {

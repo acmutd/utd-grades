@@ -1,3 +1,4 @@
+import type { RMPInstructor } from "@utd-grades/db";
 import type { ParamsObject } from "sql.js";
 import type { Grades, Season } from "../types/Grades";
 
@@ -96,6 +97,24 @@ export function rowToGrades(row: ParamsObject): Grades | null {
 
     totalStudents: getTotalStudents(row),
     average: getAverage(row),
+  };
+}
+
+export function rowToInstructor(row: ParamsObject): RMPInstructor | null {
+  return {
+    name: row["name"] as string,
+    rmp_id: row["rmp_id"] as string,
+    url: row["url"] as string,
+    instructor_id: row["instructor_id"] as string,
+    quality_rating: row["quality_rating"] as number,
+
+    difficulty_rating: row["difficulty_rating"] as number,
+    would_take_again: row["would_take_again"] as number,
+    ratings_count: row["ratings_count"] as number,
+    tags: row["tags"] as string,
+    course_ratings: row["course_ratings"] as string,
+    overall_grade_rating: row["overall_grade_rating"] as number,
+    total_grade_count: row["total_grade_count"] as number,
   };
 }
 
