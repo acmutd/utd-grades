@@ -37,26 +37,26 @@ const Footer = styled.div`
   }
 `;
 
-const TrendsLink = styled.a`
-  background: url("/nebula-bg.png") right / cover, black;
+const SageLink = styled.a`
+  background: linear-gradient(90deg, rgba(7,67,37,1) 0%, rgba(22,50,36,1) 100%);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  gap: 0.25rem;
+  padding: 1rem 2rem;
   margin-bottom: 0.5rem;
-  border-radius: 1.5rem;
-  color: white;
+  border-radius: 100rem;
+  color: #5AED86;
   text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
   transition: transform cubic-bezier(0.4, 0, 0.2, 1) 150ms, box-shadow cubic-bezier(0.4, 0, 0.2, 1) 150ms;
   &:hover {
-    color: white;
+    color: #5AED86;
     box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
     transform: scale(1.01);
   }
 `;
 
-const TrendsText = styled.p`
+const SageText = styled.p`
   line-height: 1.375rem;
   margin-bottom: 0;
 `;
@@ -71,10 +71,15 @@ const BuiltWithLove = styled.p`
   font-weight: 550;
 `;
 
-const NebulaLogo = styled.img`
-  height: 1.375rem;
+const SageLogo = styled.img`
+  height: 1.5rem;
+  margin-right: 0.5rem;
   filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
 `;
+
+const SageTextMark = styled.img`
+  height: 1.375rem;
+`
 
 interface CoreProps {
   children: ReactNode;
@@ -96,10 +101,11 @@ function Core({ children }: CoreProps) {
     <Container>
       <Body>{children}</Body>
       <Footer>
-        <TrendsLink href="https://trends.utdnebula.com/" target={"blank"}>
-          <NebulaLogo src="/nebula-logo.svg" />
-          <TrendsText>Compare everything in one place with <b>UTD Trends</b></TrendsText>
-        </TrendsLink>
+        <SageLink href="https://utdsage.com/" target={"blank"}>
+          <SageLogo src="/SAGE-Logo.svg" />
+          <SageText>Get AI-powered UTD advising with </SageText>
+          <SageTextMark src="/SAGE-Textmark.svg" />
+        </SageLink>
         <BuiltWithLove>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
           <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
