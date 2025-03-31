@@ -101,17 +101,12 @@ function Core({ children }: CoreProps) {
     <Container>
       <Body>{children}</Body>
       <Footer>
-        <TrendsLink href="https://trends.utdnebula.com/" target={"blank"}>
-          <NebulaLogo src="/nebula-logo.svg" />
-          <TrendsText>Compare everything in one place with <b>UTD Trends</b></TrendsText>
-        </TrendsLink>
-        <BuiltWithLove>
         <SageLink href="https://utdsage.com/" target={"blank"}>
           <SageLogo src="/SAGE-Logo.svg" />
           <SageText>Get AI-powered UTD advising with </SageText>
           <SageTextMark src="/SAGE-Textmark.svg" />
         </SageLink>
-        <p>
+        <BuiltWithLove>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
           <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
         </BuiltWithLove>
