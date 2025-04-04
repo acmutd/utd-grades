@@ -7,15 +7,18 @@ import styled, { css } from "styled-components";
 // import { getLetterGrade, getLetterGradeColor } from "../utils";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
+  background-color: var(--section-list-background-color);
+  color: var(--text-color);
   padding: 25px;
-  border-right: 1px solid #e8e8e8;
-  border-bottom: 1px solid #e8e8e8;
+  border-top: 1px solid var(--search-border-color) !important; /* Force top border to be red */
+  border-bottom: 1px solid var(--search-border-color) !important; /* Force bottom border to be red */
+  border-right: 1px solid var(--section-list-border-color);
   cursor: pointer;
   transition: all 300ms ease-out;
   font-family: var(--font-family);
 
   &:hover {
-    background-color: #fcfcfc;
+    background-color: var(--card-hover-background-color);
   }
 
   &:first-child {
@@ -23,12 +26,18 @@ const Item = styled(List.Item)<{ selected: boolean }>`
   }
 
   & .ant-list-item-meta-title a {
+    color: var(--text-color);
     font-weight: 600;
     font-family: var(--font-family);
   }
 
   & .ant-list-item-meta {
+    color: var(--text-color);
     margin-bottom: 0px;
+  }
+
+  & .ant-list-item-meta-description {
+    color: var(--text-color);
   }
 
   ${(props) => (props.selected ? selectedStyles : "")}
@@ -36,8 +45,8 @@ const Item = styled(List.Item)<{ selected: boolean }>`
 
 const selectedStyles = css`
   border-right: 6px solid rgb(0, 116, 224) !important;
-  box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
-  background-color: #fcfcfc;
+  box-shadow: inset -5px 0px 20px rgba(0, 0, 0, 0.05);
+  background-color: var(--background-color);
 `;
 
 const Hint = styled(AntPopover)`
@@ -86,6 +95,7 @@ const LoadingItem = styled(List.Item)`
 `;
 
 const IconWrapper = styled.div`
+  color: var(--text-color);
   margin-right: 8;
 `;
 
@@ -101,7 +111,7 @@ interface IconTextProps {
 }
 
 const IconText = ({ icon, child }: IconTextProps) => (
-  <span>
+  <span style={{ color: 'var(--text-color)' }}>
     <IconWrapper>{icon}</IconWrapper>
     {child}
   </span>
@@ -172,6 +182,7 @@ export default function SectionList({ loading, id, data, onClick, error }: Secti
           renderItem={(item) => (
             <Item
               key={item.id}
+              style={{ color: "var(--text-color)" }}
               selected={item.id == id}
               actions={[
                 <IconText

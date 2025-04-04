@@ -74,6 +74,8 @@ const ProfessorDetailsContainer = styled.div`
 `;
 
 const Header = styled.h3`
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 48px;
@@ -85,7 +87,8 @@ const SubHeader = styled.h5`
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 22px;
-  color: rgb(117, 117, 117);
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin-top: 1rem !important;
   margin-bottom: 0rem !important;
 `;
@@ -100,7 +103,7 @@ const Stat = styled.h5`
 `;
 
 const RMPScore = styled.span`
-  color: #333333;
+  color: var(--RMP-score-text-color);
   line-height: 1;
 
   @media (max-width: 992px) {
@@ -129,7 +132,7 @@ const RMPSubHeader = styled(SubHeader)`
 const RMPStat = styled.h5`
   font-family: var(--font-family);
   font-weight: 800;
-  color: #333333;
+  color: var(--text-color);
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 1200px) {
@@ -192,7 +195,7 @@ const RMPHeader = styled.a`
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 1.15rem;
-  color: #333333 !important;
+  color: var(--text-color);
   text-decoration: none !important;
   border-bottom: ${(props) => (props.href && props.href !== "#" ? "1px solid #333333" : "none")};
   margin-bottom: 0.5rem;
@@ -360,7 +363,7 @@ export default function SectiSonContent({
                   fontFamily: "var(--font-family)",
                   fontWeight: "550",
                   fontSize: "20px",
-                  color: "gray",
+                  color: "var(--text-color)",
                 }}
               >
                 {courseRating ? "/5" : ""}
@@ -477,7 +480,7 @@ export default function SectiSonContent({
 
         {instructor?.tags && (
           <>
-            <h4 style={{ marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
+            <h4 style={{color: "var(--text-color)",  marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
             <Row wrap={true} gutter={0} style={{ gap: "1.0rem" }}>
               {instructor.tags.split(",").map((tag) => (
                 <RMPTag key={tag}>{tag}</RMPTag>

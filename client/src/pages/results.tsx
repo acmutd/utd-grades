@@ -4,11 +4,19 @@ import styled from "styled-components";
 import Core from "../components/Core";
 import Header from "../components/Header";
 import SearchResults from "../components/SearchResults";
+import ThemeToggle from "../components/ThemeToggle"; // Import your ThemeToggle component
 
 const Stack = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+`;
+
+const TopRightContainer = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
 `;
 
 export default function ResultsPage() {
@@ -24,6 +32,9 @@ export default function ResultsPage() {
   if (router.asPath !== router.route) {
     return (
       <Core>
+        <TopRightContainer>
+          <ThemeToggle /> {/* Add the theme toggle here */}
+        </TopRightContainer>
         <Stack>
           <Header />
           <SearchResults search={search} sectionId={parseInt(sectionId)} router={router} />

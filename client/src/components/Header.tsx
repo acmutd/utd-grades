@@ -29,7 +29,8 @@ const HeaderText = styled.a`
   & h2 {
     font-family: var(--font-family);
     text-transform: uppercase;
-    color: rgb(78, 78, 78);
+    background-color: var(--background-color);
+    color: var(--text-color);
     font-weight: 300;
     letter-spacing: 2px;
     font-size: 24px;

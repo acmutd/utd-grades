@@ -16,7 +16,6 @@ const Card = styled.div`
   flex-basis: 200px;
   flex: 1;
   cursor: pointer;
-  background-color: white;
 
   &:hover {
     box-shadow: var(--box-shadow-active);
@@ -33,11 +32,9 @@ const Name = styled.p`
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 20px;
-  color: rgba(0, 0, 0, 0.65);
 `;
 
 const Professor = styled.p`
-  color: rgba(0, 0, 0, 0.45);
   font-family: var(--font-family);
   font-size: 14px;
   margin-top: -15px;
