@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "../utils/theme";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { SunOutlined, MoonOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 const ToggleButton = styled.button`
@@ -24,7 +24,7 @@ const ThemeToggle: React.FC = () => {
 
   return (
     <ToggleButton onClick={toggleTheme} aria-label="Toggle Theme">
-      {theme === "light" ? <i><FaSun /></i> : <i><FaMoon /></i>}
+      {theme === "light" ? <i><SunOutlined /></i> : <i><MoonOutlined /></i>}
     </ToggleButton>
   );
 };
