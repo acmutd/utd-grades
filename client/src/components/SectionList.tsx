@@ -7,17 +7,17 @@ import styled, { css } from "styled-components";
 // import { getLetterGrade, getLetterGradeColor } from "../utils";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
-  background-color: var(--section-list-background-color);
+  background-color: var(--background-color);
   color: var(--text-color);
   padding: 25px;
   border-bottom: 1px solid var(--search-border-color) !important; /* Force bottom border to be red */
-  border-right: 1px solid var(--section-list-border-color);
+  border-right: 1px solid var(--search-border-color);
   cursor: pointer;
   transition: all 300ms ease-out;
   font-family: var(--font-family);
 
   &:hover {
-    background-color: var(--card-hover-background-color);
+    background-color: var(--section-list-background-color);
   }
 
   &:first-child {
@@ -45,7 +45,7 @@ const Item = styled(List.Item)<{ selected: boolean }>`
 const selectedStyles = css`
   border-right: 6px solid rgb(0, 116, 224) !important;
   box-shadow: inset -5px 0px 20px rgba(0, 0, 0, 0.05);
-  background-color: var(--background-color);
+  background-color: var(--section-list-background-color);
 `;
 
 const Hint = styled(AntPopover)`
