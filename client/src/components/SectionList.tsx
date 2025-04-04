@@ -10,7 +10,6 @@ const Item = styled(List.Item)<{ selected: boolean }>`
   background-color: var(--section-list-background-color);
   color: var(--text-color);
   padding: 25px;
-  border-top: 1px solid var(--search-border-color) !important; /* Force top border to be red */
   border-bottom: 1px solid var(--search-border-color) !important; /* Force bottom border to be red */
   border-right: 1px solid var(--section-list-border-color);
   cursor: pointer;

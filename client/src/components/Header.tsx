@@ -11,6 +11,7 @@ const Menu = styled(Row)`
 `;
 
 const Back = styled(Button)<{ $dummy?: boolean }>`
+  color: var(--text-color);
   background: none;
   outline: none;
   border: none;

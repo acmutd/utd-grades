@@ -41,7 +41,7 @@ const ResultsContainer = styled(Col)`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 15px 50px rgba(233, 233, 233, 0.7);
+      box-shadow: var(--box-shadow); /* Use dynamic shadow */
     }
   }
 `;
