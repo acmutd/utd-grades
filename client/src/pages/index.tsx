@@ -5,6 +5,7 @@ import styled from "styled-components";
 import FadeIn from "../components/animations/FadeIn";
 import Core from "../components/Core";
 import Search from "../components/Search";
+import ThemeToggle from "../components/ThemeToggle";
 import type { SearchQuery } from "../types";
 
 const Content = styled.div`
@@ -13,6 +14,8 @@ const Content = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
+  background-color: var(--background-color);
+  color: var(--text-color);
 `;
 
 const Main = styled.div`
@@ -24,7 +27,7 @@ const Header = styled.h2`
   font-family: var(--font-family);
   text-transform: uppercase;
   text-align: center;
-  color: rgb(78, 78, 78);
+  color: var(--text-color);
   font-weight: 300;
   letter-spacing: 2px;
   font-size: 26px;
@@ -34,7 +37,7 @@ const Header = styled.h2`
 const Description = styled.p`
   font-family: var(--font-family);
   text-align: center;
-  color: #95989a;
+  color: var(--text-color);
   font-weight: 400;
   font-size: 18px;
   margin-bottom: 30px;
@@ -57,6 +60,7 @@ export default function Home() {
   return (
     <Core>
       <Content>
+        <ThemeToggle />
         <Main>
           <Col lg={{ span: 8, offset: 8 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>

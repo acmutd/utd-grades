@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ThemeProvider } from "../utils/theme";
 import "./styles.css";
 
 const queryClient = new QueryClient({
@@ -59,9 +60,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         null
       )}
 
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+          <Component {...pageProps} />
+      </ThemeProvider>
+        </QueryClientProvider>
     </>
   );
 }

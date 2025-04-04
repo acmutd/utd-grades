@@ -6,7 +6,9 @@ import type { SearchQuery } from "../types";
 import { useDb } from "../utils/useDb";
 
 const autoCompleteStyle: React.CSSProperties = {
+  backgroundColor: "var(--background-color)",
   width: "100%",
+  color: "var(--text-color)",
 };
 
 const Hint = styled(AntPopover)`
@@ -69,7 +71,7 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
   }
 
   return (
-    <AntForm>
+    <AntForm style={{ backgroundColor: "transparent" }}>
       <AutoComplete
         options={options}
         style={autoCompleteStyle}
@@ -83,6 +85,7 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
           name="search"
           size="large"
           placeholder="ex. CS 1337 Fall 2017 Smith"
+          style={autoCompleteStyle}
         />
       </AutoComplete>
       <Hint content={hintContent} placement="bottom">

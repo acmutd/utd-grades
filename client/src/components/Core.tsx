@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
-  min-height: 100%;
+background-color: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -12,8 +14,6 @@ const Container = styled.div`
 `;
 
 const Body = styled.div`
-  width: 100%;
-  height: 100%;
   flex: 1;
   position: relative;
   display: flex;
