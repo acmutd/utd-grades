@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Core from "../components/Core";
 import Header from "../components/Header";
 import SearchResults from "../components/SearchResults";
-import ThemeToggle from "../components/ThemeToggle"; // Import your ThemeToggle component
+import ThemeToggle from "../components/ThemeToggle";
 
 const Stack = styled.div`
   display: flex;
