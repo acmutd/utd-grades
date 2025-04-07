@@ -4,6 +4,8 @@
   "include": ["./**/*.ts", "./**/*.tsx"],
   "exclude": [], // work around https://github.com/vercel/next.js/issues/35857
   "compilerOptions": {
+    "importsNotUsedAsValues": "remove",
+    "preserveValueImports": false,
     "rootDir": "src",
     "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": true,
