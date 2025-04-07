@@ -14,12 +14,8 @@
   --search-border-color-dark: #575757;
 
   /* Card background colors */
-  --section-list-background-color: #ffffff;
-  --section-list-background-color: #383838;
-
-  /* Card hover colors */
-  --card-hover-color-light: #fcfcfc;
-  --card-hover-color-dark: #464242;
+  --section-list-background-color-light: #f1f1f1;
+  --section-list-background-color-dark: #464242;
 
   /* RMP score text colors */
   --RMP-score-text-color-light: #333333;
@@ -48,8 +44,7 @@
   --background-color: var(--background-color-light);
   --text-color: var(--text-color-light);
   --search-border-color: var(--search-border-color-light);
-  --section-list-background-color: var(--section-list-background-color);
-  --card-hover-color: var(--card-hover-color-light);
+  --section-list-background-color: var(--section-list-background-color-light);
   --RMP-score-text-color: var(--RMP-score-text-color-light);
   --box-shadow: var(--box-shadow-light);
 }
@@ -58,8 +53,7 @@
   --background-color: var(--background-color-dark);
   --text-color: var(--text-color-dark);
   --search-border-color: var(--search-border-color-dark);
-  --section-list-background-color: var(--section-list-background-color);
-  --card-hover-color: var(--card-hover-color-dark);
+  --section-list-background-color: var(--section-list-background-color-dark);
   --RMP-score-text-color: var(--RMP-score-text-color-dark);
   --box-shadow: var(--box-shadow-dark);
 }
