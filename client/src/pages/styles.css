@@ -1,18 +1,38 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
 
 :root {
-  --background-color: #ffffff;
-  --text-color: #000000;
-  --search-border-color: #D3D3D3;
+  /* Background colors */
+  --background-color-light: #ffffff;
+  --background-color-dark: #121212;
+
+  /* Text colors */
+  --text-color-light: #000000;
+  --text-color-dark: #ffffff;
+
+  /* Searchar border colors */
+  --search-border-color-light: #D3D3D3;
+  --search-border-color-dark: #575757;
+
+  /* Card background colors */
   --section-list-background-color: #ffffff;
-  --RMP-score-text-color: #333333;
-  --card-hover-color: #fcfcfc;
-  --box-shadow-light: 0 15px 50px rgba(233, 233, 233, 0.7); /* Light mode shadow */
-  --box-shadow-dark: 0 0 10px rgba(255, 255, 255, 0.2); /* Dark mode shadow */
+  --section-list-background-color: #383838;
+
+  /* Card hover colors */
+  --card-hover-color-light: #fcfcfc;
+  --card-hover-color-dark: #464242;
+
+  /* RMP score text colors */
+  --RMP-score-text-color-light: #333333;
+  --RMP-score-text-color-dark: #ffffff;
+
+  /* Box shadow colors */
+  --box-shadow-light: 0 15px 50px rgba(233, 233, 233, 0.7);
+  --box-shadow-dark: 0 0 10px rgba(255, 255, 255, 0.2);
 
 
   --font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
     Cantarell, "Helvetica Neue", sans-serif;
+
   --box-shadow-base: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
     0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07),
     0 32px 64px rgba(0, 0, 0, 0.07);
@@ -25,16 +45,22 @@
 }
 
 [data-theme="light"] {
+  --background-color: var(--background-color-light);
+  --text-color: var(--text-color-light);
+  --search-border-color: var(--search-border-color-light);
+  --section-list-background-color: var(--section-list-background-color);
+  --card-hover-color: var(--card-hover-color-light);
+  --RMP-score-text-color: var(--RMP-score-text-color-light);
   --box-shadow: var(--box-shadow-light);
 }
 
 [data-theme="dark"] {
-  --background-color: #121212;
-  --text-color: #ffffff;
-  --search-border-color: #575757; /* Add this line for dark mode border color */
-  --section-list-background-color: #383838;
-  --RMP-score-text-color: #ffffff;
-  --card-hover-color: #464242;
+  --background-color: var(--background-color-dark);
+  --text-color: var(--text-color-dark);
+  --search-border-color: var(--search-border-color-dark);
+  --section-list-background-color: var(--section-list-background-color);
+  --card-hover-color: var(--card-hover-color-dark);
+  --RMP-score-text-color: var(--RMP-score-text-color-dark);
   --box-shadow: var(--box-shadow-dark);
 }
 
@@ -63,7 +89,7 @@ body {
 .ant-input {
   background-color: var(--background-color);
   color: var(--text-color);
-  border-color: var(--search-border-color); /* Use the border color variable */
+  border-color: var(--search-border-color);
   border-radius: 20px 0 0 20px !important;
 }
 
@@ -75,7 +101,7 @@ body {
 .ant-input-search-button {
   background-color: var(--background-color) !important;
   color: var(--text-color) !important;
-  border-color: var(--search-border-color); /* Use the border color variable */
+  border-color: var(--search-border-color);
   border-radius: 0 20px 20px 0 !important;
   transition: background-color 0.3s ease;
 }
