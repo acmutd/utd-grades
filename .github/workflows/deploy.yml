@@ -41,4 +41,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./client/out
-          # cname: utdgrades.com
+          cname: utdgrades.com
