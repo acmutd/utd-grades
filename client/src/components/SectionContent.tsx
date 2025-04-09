@@ -1,6 +1,6 @@
 import { LinkOutlined } from "@ant-design/icons";
 import type { Grades, RMPInstructor } from "@utd-grades/db";
-import { Col, Row } from "antd";
+import { Col, Collapse, Row } from "antd";
 import {
   BarElement,
   CategoryScale,
@@ -16,6 +16,8 @@ import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
+
+const { Panel } = Collapse;
 
 const Container = styled.div`
   padding-top: 20px;
@@ -56,7 +58,6 @@ const GraphContainer = styled.div`
 
 const ProfessorDetailsContainer = styled.div`
   width: 100%;
-  margin-top: 2rem;
 
   @media (max-width: 992px) {
     & {
@@ -68,7 +69,7 @@ const ProfessorDetailsContainer = styled.div`
     & {
       box-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
       border-radius: 5px;
-      padding: 20px;
+      padding: 5px 20px;
     }
   }
 `;
@@ -381,111 +382,120 @@ export default function SectiSonContent({
           </GraphContainer>
         </Col>
       </Row>
-
-      <ProfessorDetailsContainer>
-        <Row gutter={[16, 4]}>
-          <Col span={24}>
-            <RMPHeader
-              href={instructor?.url || "#"}
-              target={instructor?.url ? "_blank" : "_self"}
-              style={{ position: "relative" }}
-              onMouseEnter={() => setHovered("rmpLink")}
-              onMouseLeave={() => setHovered(null)}
-              ref={rmpLinkRef}
-            >
-              Professor Details
-              {instructor?.url && <LinkOutlined style={{ fontSize: "1.2em" }} />}
-              {hovered && (
-                <>
-                  <div
-                    style={{
-                      position: "absolute",
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "0.5rem",
-                      transform: "translate(-10%, -100%)",
-                      zIndex: 1000,
-                      padding: "0.75rem",
-                      borderRadius: "0.5rem",
-                      fontSize: "0.75rem",
-                      lineHeight: "1rem",
-                      color: "#000000",
-                      whiteSpace: "nowrap",
-                      backgroundColor: "#ffffff",
-                      boxShadow:
-                        "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                    }}
+      {instructor ? (
+        <Collapse ghost defaultActiveKey={["1"]}>
+          <Panel
+            header={<h3 style={{ fontWeight: "700", fontSize: "1rem" }}>More Detail</h3>}
+            key="1"
+          >
+            <ProfessorDetailsContainer>
+              <Row gutter={[16, 4]}>
+                <Col span={24}>
+                  <RMPHeader
+                    href={instructor?.url || "#"}
+                    target={instructor?.url ? "_blank" : "_self"}
+                    style={{ position: "relative" }}
+                    onMouseEnter={() => setHovered("rmpLink")}
+                    onMouseLeave={() => setHovered(null)}
+                    ref={rmpLinkRef}
                   >
-                    See more on
-                    <img src="/rmp-logo.png" alt="RMP" style={{ height: "1.1rem" }} />
-                  </div>
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "-5rem",
-                      left: "50%",
-                      borderTopWidth: "8px",
-                      borderRightWidth: "8px",
-                      borderLeftWidth: "8px",
-                      width: "10",
-                      height: "10",
-                    }}
-                  />
+                    Professor Details
+                    {instructor?.url && <LinkOutlined style={{ fontSize: "1.2em" }} />}
+                    {hovered && (
+                      <>
+                        <div
+                          style={{
+                            position: "absolute",
+                            display: "flex",
+                            alignItems: "flex-start",
+                            gap: "0.5rem",
+                            transform: "translate(-10%, -100%)",
+                            zIndex: 1000,
+                            padding: "0.75rem",
+                            borderRadius: "0.5rem",
+                            fontSize: "0.75rem",
+                            lineHeight: "1rem",
+                            color: "#000000",
+                            whiteSpace: "nowrap",
+                            backgroundColor: "#ffffff",
+                            boxShadow:
+                              "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                          }}
+                        >
+                          See more on
+                          <img src="/rmp-logo.png" alt="RMP" style={{ height: "1.1rem" }} />
+                        </div>
+                        <div
+                          style={{
+                            position: "absolute",
+                            bottom: "-5rem",
+                            left: "50%",
+                            borderTopWidth: "8px",
+                            borderRightWidth: "8px",
+                            borderLeftWidth: "8px",
+                            width: "10",
+                            height: "10",
+                          }}
+                        />
+                      </>
+                    )}
+                  </RMPHeader>
+                </Col>
+
+                <Col xs={12} md={6}>
+                  <RMPStat>
+                    {instructor?.quality_rating ? (
+                      <span style={{ color: getRMPColor(instructor.quality_rating) }}>
+                        {instructor.quality_rating}
+                      </span>
+                    ) : (
+                      "N/A"
+                    )}
+                  </RMPStat>
+                  <RMPDescpription>RMP Score</RMPDescpription>
+                </Col>
+                <Col xs={12} md={6}>
+                  <RMPStat>
+                    {instructor?.difficulty_rating ? (
+                      <span style={{ color: getDifficultyColor(instructor.difficulty_rating) }}>
+                        {instructor.difficulty_rating}
+                      </span>
+                    ) : (
+                      "N/A"
+                    )}
+                  </RMPStat>
+                  <RMPDescpription>Level of difficulty</RMPDescpription>
+                </Col>
+                <Col xs={12} md={6}>
+                  <RMPStat>
+                    {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
+                  </RMPStat>
+                  <RMPDescpription>Would take again</RMPDescpription>
+                </Col>
+                <Col xs={12} md={6}>
+                  <RMPStat>{instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
+                  <RMPDescpription>Ratings count</RMPDescpription>
+                </Col>
+              </Row>
+
+              {instructor?.tags && (
+                <>
+                  <h4 style={{ marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>
+                    Tags
+                  </h4>
+                  <Row wrap={true} gutter={0} style={{ gap: "1.0rem" }}>
+                    {instructor.tags.split(",").map((tag) => (
+                      <RMPTag key={tag}>{tag}</RMPTag>
+                    ))}
+                  </Row>
                 </>
               )}
-            </RMPHeader>
-          </Col>
-          {instructor ? (
-            <>
-              <Col xs={12} md={6}>
-                <RMPStat>
-                  {instructor?.quality_rating ? (
-                    <span style={{ color: getRMPColor(instructor.quality_rating) }}>
-                      {instructor.quality_rating}
-                    </span>
-                  ) : (
-                    "N/A"
-                  )}
-                </RMPStat>
-                <RMPDescpription>RMP Score</RMPDescpription>
-              </Col>
-              <Col xs={12} md={6}>
-                <RMPStat>
-                  {instructor?.difficulty_rating ? (
-                    <span style={{ color: getDifficultyColor(instructor.difficulty_rating) }}>
-                      {instructor.difficulty_rating}
-                    </span>
-                  ) : (
-                    "N/A"
-                  )}
-                </RMPStat>
-                <RMPDescpription>Level of difficulty</RMPDescpription>
-              </Col>
-              <Col xs={12} md={6}>
-                <RMPStat>
-                  {instructor?.would_take_again ? `${instructor.would_take_again}%` : `N/A`}
-                </RMPStat>
-                <RMPDescpription>Would take again</RMPDescpription>
-              </Col>
-              <Col xs={12} md={6}>
-                <RMPStat>{instructor?.ratings_count ? instructor.ratings_count : `N/A`}</RMPStat>
-                <RMPDescpription>Ratings count</RMPDescpription>
-              </Col>
-            </>
-          ) : null}
-        </Row>
-
-        {instructor?.tags && (
-          <>
-            <h4 style={{ marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
-            <Row wrap={true} gutter={0} style={{ gap: "1.0rem" }}>
-              {instructor.tags.split(",").map((tag) => (
-                <RMPTag key={tag}>{tag}</RMPTag>
-              ))}
-            </Row>
-          </>
-        )}
-      </ProfessorDetailsContainer>
+            </ProfessorDetailsContainer>
+          </Panel>
+        </Collapse>
+      ) : (
+        <RMPHeader>No data available</RMPHeader>
+      )}
     </Container>
   );
 }
