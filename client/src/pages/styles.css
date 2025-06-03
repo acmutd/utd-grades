@@ -6,8 +6,11 @@
   --background-color-dark: #121212;
 
   /* Text colors */
-  --text-color-light: #000000;
-  --text-color-dark: #ffffff;
+  --text-color-primary-light: #222222;
+  --text-color-primary-dark: #f2f2f2;
+
+  --text-color-primary-secondary-light: #95989a;
+  --text-color-primary-secondary-dark: #95989a;
 
   /* Searchar border colors */
   --search-border-color-light: #D3D3D3;
@@ -42,7 +45,8 @@
 
 [data-theme="light"] {
   --background-color: var(--background-color-light);
-  --text-color: var(--text-color-light);
+  --text-color-primary: var(--text-color-primary-light);
+  --text-color-secondary: var(--text-color-primary-secondary-light);
   --search-border-color: var(--search-border-color-light);
   --section-list-background-color: var(--section-list-background-color-light);
   --RMP-score-text-color: var(--RMP-score-text-color-light);
@@ -51,7 +55,8 @@
 
 [data-theme="dark"] {
   --background-color: var(--background-color-dark);
-  --text-color: var(--text-color-dark);
+  --text-color-primary: var(--text-color-primary-dark);
+  --text-color-secondary: var(--text-color-primary-secondary-dark);
   --search-border-color: var(--search-border-color-dark);
   --section-list-background-color: var(--section-list-background-color-dark);
   --RMP-score-text-color: var(--RMP-score-text-color-dark);
@@ -65,7 +70,7 @@ body {
 
 body {
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
@@ -82,7 +87,7 @@ body {
 
 .ant-input {
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
   border-color: var(--search-border-color);
   border-radius: 20px 0 0 20px !important;
 }
@@ -94,7 +99,7 @@ body {
 
 .ant-input-search-button {
   background-color: var(--background-color) !important;
-  color: var(--text-color) !important;
+  color: var(--text-color-primary) !important;
   border-color: var(--search-border-color);
   border-radius: 0 20px 20px 0 !important;
   transition: background-color 0.3s ease;

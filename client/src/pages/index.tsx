@@ -15,7 +15,7 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
 `;
 
 const Main = styled.div`
@@ -27,7 +27,7 @@ const Header = styled.h2`
   font-family: var(--font-family);
   text-transform: uppercase;
   text-align: center;
-  color: var(--text-color);
+  color: var(--text-color-primary);
   font-weight: 300;
   letter-spacing: 2px;
   font-size: 26px;
@@ -37,7 +37,7 @@ const Header = styled.h2`
 const Description = styled.p`
   font-family: var(--font-family);
   text-align: center;
-  color: var(--text-color);
+  color: var(--text-color-primary);
   font-weight: 400;
   font-size: 18px;
   margin-bottom: 30px;

@@ -11,7 +11,7 @@ const Menu = styled(Row)`
 `;
 
 const Back = styled(Button)<{ $dummy?: boolean }>`
-  color: var(--text-color);
+  color: var(--text-color-primary);
   background: none;
   outline: none;
   border: none;
@@ -31,7 +31,7 @@ const HeaderText = styled.a`
     font-family: var(--font-family);
     text-transform: uppercase;
     background-color: var(--background-color);
-    color: var(--text-color);
+    color: var(--text-color-primary);
     font-weight: 300;
     letter-spacing: 2px;
     font-size: 24px;

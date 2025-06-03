@@ -8,7 +8,7 @@ import { useDb } from "../utils/useDb";
 const autoCompleteStyle: React.CSSProperties = {
   backgroundColor: "var(--background-color)",
   width: "100%",
-  color: "var(--text-color)",
+  color: "var(--text-color-primary)",
 };
 
 const Hint = styled(AntPopover)`

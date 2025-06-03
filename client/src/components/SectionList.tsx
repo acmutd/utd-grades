@@ -8,7 +8,7 @@ import styled, { css } from "styled-components";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
   padding: 25px;
   border-bottom: 1px solid var(--search-border-color) !important; /* Force bottom border to be red */
   border-right: 1px solid var(--search-border-color);
@@ -25,18 +25,18 @@ const Item = styled(List.Item)<{ selected: boolean }>`
   }
 
   & .ant-list-item-meta-title a {
-    color: var(--text-color);
+    color: var(--text-color-primary);
     font-weight: 600;
     font-family: var(--font-family);
   }
 
   & .ant-list-item-meta {
-    color: var(--text-color);
+    color: var(--text-color-primary);
     margin-bottom: 0px;
   }
 
   & .ant-list-item-meta-description {
-    color: var(--text-color);
+    color: var(--text-color-secondary);
   }
 
   ${(props) => (props.selected ? selectedStyles : "")}
@@ -94,7 +94,7 @@ const LoadingItem = styled(List.Item)`
 `;
 
 const IconWrapper = styled.div`
-  color: var(--text-color);
+  color: var(--text-color-secondary);
   margin-right: 8;
 `;
 
@@ -110,7 +110,7 @@ interface IconTextProps {
 }
 
 const IconText = ({ icon, child }: IconTextProps) => (
-  <span style={{ color: 'var(--text-color)' }}>
+  <span style={{ color: 'var(--text-color-secondary)' }}>
     <IconWrapper>{icon}</IconWrapper>
     {child}
   </span>
@@ -181,7 +181,7 @@ export default function SectionList({ loading, id, data, onClick, error }: Secti
           renderItem={(item) => (
             <Item
               key={item.id}
-              style={{ color: "var(--text-color)" }}
+              style={{ color: "var(--text-color-primary)" }}
               selected={item.id == id}
               actions={[
                 <IconText

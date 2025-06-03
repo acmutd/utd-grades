@@ -75,7 +75,7 @@ const ProfessorDetailsContainer = styled.div`
 
 const Header = styled.h3`
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 48px;
@@ -88,7 +88,7 @@ const SubHeader = styled.h5`
   font-weight: 600;
   font-size: 22px;
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
   margin-top: 1rem !important;
   margin-bottom: 0rem !important;
 `;
@@ -121,6 +121,7 @@ const RMPScore = styled.span`
 `;
 
 const RMPSubHeader = styled(SubHeader)`
+  color: var(--text-color-secondary);
   @media (max-width: 992px) {
     & {
       font-size: 14px;
@@ -132,7 +133,7 @@ const RMPSubHeader = styled(SubHeader)`
 const RMPStat = styled.h5`
   font-family: var(--font-family);
   font-weight: 800;
-  color: var(--text-color);
+  color: var(--text-color-primary);
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 1200px) {
@@ -177,16 +178,15 @@ const RMPDescpription = styled.p`
 const RMPTag = styled.p`
   font-family: var(--font-family);
   font-weight: 500;
-  color: rgb(84, 84, 84);
-  border-radius: 1px;
-  background-color: #f5f5f5;
+  color: #222222;
+  border-radius: 3px;
+  background-color: #F2F2F2;
   padding: 0.4rem 0.4rem;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: #e8e8e8;
-    transform: translateY(-1px);
+    transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 `;
@@ -195,7 +195,7 @@ const RMPHeader = styled.a`
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 1.15rem;
-  color: var(--text-color);
+  color: var(--text-color-primary);
   text-decoration: none !important;
   border-bottom: ${(props) => (props.href && props.href !== "#" ? "1px solid #333333" : "none")};
   margin-bottom: 0.5rem;
@@ -369,8 +369,10 @@ export default function SectiSonContent({
             </Header>
             <SubHeader>
               {/* FIXME (no professor): non null assertion */}
-              {section.instructor1!.last}, {section.instructor1!.first} -{" "}
-              {`${section.semester.season} ${section.semester.year}`}
+              <span style={{ color: "var(--text-color-secondary)" }}>
+                {section.instructor1!.last}, {section.instructor1!.first} -{" "}
+                {`${section.semester.season} ${section.semester.year}`}
+              </span>
             </SubHeader>
           </Stack>
           <Stack>
@@ -381,7 +383,7 @@ export default function SectiSonContent({
                   fontFamily: "var(--font-family)",
                   fontWeight: "550",
                   fontSize: "20px",
-                  color: "var(--text-color)",
+                  color: "var(--text-color-secondary)",
                 }}
               >
                 {courseRating ? "/5" : ""}
@@ -391,7 +393,7 @@ export default function SectiSonContent({
           </Stack>
         </FlexSmall>
         <Stat>
-          Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
+          Total Students <span style={{ color: "var(--text-color-primary)" }}>{section.totalStudents}</span>
         </Stat>
       </Stack>
 
@@ -498,7 +500,7 @@ export default function SectiSonContent({
 
         {instructor?.tags && (
           <>
-            <h4 style={{color: "var(--text-color)",  marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
+            <h4 style={{ color: "var(--text-color-primary)", marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
             <Row wrap={true} gutter={0} style={{ gap: "1.0rem" }}>
               {instructor.tags.split(",").map((tag) => (
                 <RMPTag key={tag}>{tag}</RMPTag>

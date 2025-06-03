@@ -11,7 +11,7 @@ const ToggleButton = styled.button`
   border: none;
   cursor: pointer;
   font-size: 24px;
-  color: var(--text-color);
+  color: var(--text-color-primary);
   transition: color 0.3s;
 
   &:hover {

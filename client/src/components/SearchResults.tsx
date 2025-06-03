@@ -19,7 +19,7 @@ const Container = styled.div`
 
 const ResultsContainer = styled(Col)`
   background-color: var(--background-color);
-  color: var(--text-color);
+  color: var(--text-color-primary);
   padding-bottom: 20px;
   margin-top: 35px;
   border-radius: 5px;
