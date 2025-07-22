@@ -17,7 +17,7 @@ const Content = styled.div`
 
 const Main = styled.div`
   width: 100%;
-  margin-top: 100px;
+  margin-top: 50px;
 `;
 
 const Header = styled.h2`
@@ -28,7 +28,7 @@ const Header = styled.h2`
   font-weight: 300;
   letter-spacing: 2px;
   font-size: 26px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 `;
 
 const Description = styled.p`
@@ -44,6 +44,19 @@ const HeaderBold = styled.span`
   font-weight: 700;
 `;
 
+const SmallFont = styled.span`
+   font-size: 12px;
+`;
+
+const Logo = {
+  height: "36px",
+  width: "36px",
+  marginTop: "-8px",
+
+};
+
+
+
 export default function Home() {
   function handleSubmit({ search }: SearchQuery) {
     (async function () {
@@ -58,16 +71,15 @@ export default function Home() {
     <Core>
       <Content>
         <Main>
-          <Col lg={{ span: 8, offset: 8 }} xs={{ span: 20, offset: 2 }}>
+          <Col lg={{ span: 10, offset: 7}} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
-                <HeaderBold>UTD</HeaderBold> Grades
+                <img src="/ACMDev-logo.png" style={Logo}/> <HeaderBold>UTD</HeaderBold> Grades <SmallFont> by <HeaderBold>ACM</HeaderBold></SmallFont>
               </Header>
             </FadeIn>
             <FadeIn delay={300}>
               <Description>
-                See how students did in any given class. And it&apos;s{" "}
-                <strong>free, forever.</strong>
+                See how students did in any given class. And it's<strong> free, forever.</strong>
               </Description>
             </FadeIn>
             <Search onSubmit={handleSubmit} />
