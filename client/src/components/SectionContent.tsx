@@ -1,6 +1,6 @@
-import { LinkOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, LinkOutlined } from "@ant-design/icons";
 import type { Grades, RMPInstructor } from "@utd-grades/db";
-import { Col, Row } from "antd";
+import { Col, Row, Tooltip } from "antd";
 import {
   BarElement,
   CategoryScale,
@@ -117,7 +117,16 @@ const RMPScore = styled.span`
   }
 `;
 
+const RMPTooltip = styled(Row)`
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem !important;
+  gap: 0.5rem;
+`;
+
 const RMPSubHeader = styled(SubHeader)`
+  margin-top: 0rem !important;
+
   @media (max-width: 992px) {
     & {
       font-size: 14px;
@@ -366,7 +375,15 @@ export default function SectiSonContent({
                 {courseRating ? "/5" : ""}
               </span>
             </Header>
-            <RMPSubHeader>Course Rating</RMPSubHeader>
+            <RMPTooltip>
+              <RMPSubHeader>Course Rating</RMPSubHeader>
+              <Tooltip
+                placement="bottom"
+                title={"Average students' grade for this instructor in this course"}
+              >
+                <InfoCircleOutlined style={{ marginTop: "0.3rem" }} />
+              </Tooltip>
+            </RMPTooltip>
           </Stack>
         </FlexSmall>
         <Stat>
