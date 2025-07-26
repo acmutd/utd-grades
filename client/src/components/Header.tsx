@@ -41,6 +41,12 @@ const HeaderBold = styled.span`
   font-weight: 700;
 `;
 
+const Logo = {
+  height: "36px",
+  width: "36px",
+  marginTop: "-8px",
+};
+
 export default function Header() {
   function goHome() {
     (async function () {
@@ -53,7 +59,7 @@ export default function Header() {
       <Back onClick={goHome} type="ghost" icon={<HomeOutlined />} shape="circle" size="large" />
       <HeaderText href="#" onClick={goHome}>
         <h2>
-          <HeaderBold>UTD</HeaderBold> Grades
+          <img src="/ACMDev-logo.png" style={Logo}/> <HeaderBold>UTD</HeaderBold> Grades
         </h2>
       </HeaderText>
       <Back
