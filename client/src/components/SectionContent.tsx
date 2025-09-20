@@ -9,6 +9,7 @@ import {
   LinearScale,
   Tooltip as ChartTooltip,
 } from "chart.js";
+import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
@@ -434,7 +435,7 @@ export default function SectiSonContent({
                     }}
                   >
                     See more on
-                    <img src="/rmp-logo.png" alt="RMP" style={{ height: "1.1rem" }} />
+                    <Image src="/rmp-logo.png" alt="Rate My Professor Logo" width={88} height={18} style={{ height: "1.1rem" }} />
                   </div>
                   <div
                     style={{

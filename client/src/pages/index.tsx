@@ -1,4 +1,5 @@
 import { Col } from "antd";
+import Image from "next/image";
 import Router from "next/router";
 import React from "react";
 import styled from "styled-components";
@@ -71,10 +72,10 @@ export default function Home() {
     <Core>
       <Content>
         <Main>
-          <Col lg={{ span: 10, offset: 7}} xs={{ span: 20, offset: 2 }}>
+          <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
-                <img src="/ACMDev-logo.png" style={Logo}/> <HeaderBold>UTD</HeaderBold> Grades <SmallFont> by <HeaderBold>ACM</HeaderBold></SmallFont>
+                <Image src="/ACMDev-logo.png" alt="ACM Dev Logo" width={32} height={32} style={Logo} /> <HeaderBold>UTD</HeaderBold> Grades <SmallFont> by <HeaderBold>ACM</HeaderBold></SmallFont>
               </Header>
             </FadeIn>
             <FadeIn delay={300}>
