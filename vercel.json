@@ -5,7 +5,6 @@
   "outputDirectory": "client/out",
   "installCommand": "npm install",
   "framework": null,
-  "functions": {},
   "rewrites": [
     {
       "source": "/(.*)",
