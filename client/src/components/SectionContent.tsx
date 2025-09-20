@@ -47,7 +47,7 @@ const GraphContainer = styled.div`
     & {
       padding-top: 20px;
       height: 30vh;
-      min-height: 100px;
+      min-height: 200px;
       max-height: 300px;
     }
   }
