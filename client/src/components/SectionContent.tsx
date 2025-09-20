@@ -39,16 +39,16 @@ const Container = styled.div`
 
 const GraphContainer = styled.div`
   width: 100%;
-  height: 60vh;
+  height: 50vh;
   min-height: 300px;
-  max-height: 600px;
+  max-height: 400px;
 
   @media (max-width: 992px) {
     & {
       padding-top: 20px;
-      height: 45vh;
-      min-height: 250px;
-      max-height: 400px;
+      height: 30vh;
+      min-height: 100px;
+      max-height: 300px;
     }
   }
 
