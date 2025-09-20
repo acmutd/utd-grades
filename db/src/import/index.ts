@@ -227,10 +227,10 @@ async function insertInstructors(db: Database, jsonFilePath: string) {
 }
 
 async function createDb(): Promise<Uint8Array> {
-  // Configure sql.js for Node.js environment by providing the WASM file directly
+  // setup sql.js using wasm file
   const wasmPath = path.join("../node_modules/sql.js/dist/sql-wasm.wasm");
   const wasmBuffer = await fs.readFile(wasmPath);
-  const wasmBinary = new Uint8Array(wasmBuffer).buffer as ArrayBuffer;
+  const wasmBinary = wasmBuffer.buffer as ArrayBuffer;
   
   const SQL = await initSqlJs({
     wasmBinary
