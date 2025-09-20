@@ -5,9 +5,13 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 /** @type {import('next').NextConfig} */
 module.exports = {
   basePath: process.env.BASE_PATH ?? "",
+  images: {
+    unoptimized: true, // Disable image optimization for static export
+  },
   compiler: {
     styledComponents: true,
   },
+  swcMinify: false, // Fallback to Terser if SWC fails
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.plugins.push(

@@ -1,5 +1,6 @@
 import { HomeOutlined } from "@ant-design/icons";
 import { Button, Row } from "antd";
+import Image from "next/image";
 import Router from "next/router";
 import React from "react";
 import styled from "styled-components";
@@ -10,7 +11,7 @@ const Menu = styled(Row)`
   align-items: center;
 `;
 
-const Back = styled(Button)<{ $dummy?: boolean }>`
+const Back = styled(Button) <{ $dummy?: boolean }>`
   background: none;
   outline: none;
   border: none;
@@ -59,7 +60,7 @@ export default function Header() {
       <Back onClick={goHome} type="ghost" icon={<HomeOutlined />} shape="circle" size="large" />
       <HeaderText href="#" onClick={goHome}>
         <h2>
-          <img src="/ACMDev-logo.png" style={Logo}/> <HeaderBold>UTD</HeaderBold> Grades
+          <Image src="/ACMDev-logo.png" alt="ACM Dev Logo" width={24} height={24} style={Logo} /> <HeaderBold>UTD</HeaderBold> Grades
         </h2>
       </HeaderText>
       <Back
