@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "utd-grades",
-  "buildCommand": "npm run createDb && npm run build --workspace=client",
+  "buildCommand": "npm run build",
   "outputDirectory": "client/out",
   "installCommand": "npm install",
   "framework": null,
