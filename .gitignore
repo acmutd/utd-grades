@@ -7,4 +7,3 @@ tsconfig.tsbuildinfo
 .idea
 .DS_Store
 .direnv/
-package-lock.json
