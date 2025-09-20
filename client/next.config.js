@@ -8,6 +8,7 @@ module.exports = {
   compiler: {
     styledComponents: true,
   },
+  swcMinify: false, // Fallback to Terser if SWC fails
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.plugins.push(

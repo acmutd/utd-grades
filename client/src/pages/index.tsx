@@ -79,7 +79,7 @@ export default function Home() {
             </FadeIn>
             <FadeIn delay={300}>
               <Description>
-                See how students did in any given class. And it's<strong> free, forever.</strong>
+                See how students did in any given class. And it&apos;s<strong> free, forever.</strong>
               </Description>
             </FadeIn>
             <Search onSubmit={handleSubmit} />
