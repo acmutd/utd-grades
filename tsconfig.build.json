@@ -17,7 +17,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
-    "importsNotUsedAsValues": "error",
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,

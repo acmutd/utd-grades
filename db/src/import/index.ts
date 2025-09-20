@@ -227,7 +227,14 @@ async function insertInstructors(db: Database, jsonFilePath: string) {
 }
 
 async function createDb(): Promise<Uint8Array> {
-  const SQL = await initSqlJs();
+  // Configure sql.js for Node.js environment by providing the WASM file directly
+  const wasmPath = path.join("../node_modules/sql.js/dist/sql-wasm.wasm");
+  const wasmBuffer = await fs.readFile(wasmPath);
+  const wasmBinary = new Uint8Array(wasmBuffer).buffer as ArrayBuffer;
+  
+  const SQL = await initSqlJs({
+    wasmBinary
+  });
   const db = new SQL.Database();
 
   const initScript = await fs.readFile("db_schema.sql");
@@ -294,6 +301,6 @@ async function createDb(): Promise<Uint8Array> {
 const DB_PATH = "utdgrades.sqlite3";
 
 const data = await createDb();
-await fs.writeFile(DB_PATH, Buffer.from(data));
+await fs.writeFile(DB_PATH, data);
 
 console.log(`\nDatabase successfully written to ${DB_PATH}`);
