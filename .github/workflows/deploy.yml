@@ -1,9 +1,10 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (DISABLED - Using Vercel)
 
 on:
-  push:
-    branches:
-      - master
+  # Disabled - now using Vercel for deployment
+  # push:
+  #   branches:
+  #     - master
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
