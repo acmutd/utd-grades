@@ -11,10 +11,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "csv-parse": "^5.0.4",
-    "sql.js": "^1.6.2"
+    "csv-parse": "^5.6.0",
+    "sql.js": "^1.13.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.23"
+    "@types/node": "^17.0.45"
   }
 }

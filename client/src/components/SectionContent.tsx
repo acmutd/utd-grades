@@ -39,10 +39,16 @@ const Container = styled.div`
 
 const GraphContainer = styled.div`
   width: 100%;
+  height: 50vh;
+  min-height: 300px;
+  max-height: 400px;
 
   @media (max-width: 992px) {
     & {
       padding-top: 20px;
+      height: 30vh;
+      min-height: 200px;
+      max-height: 300px;
     }
   }
 
@@ -326,6 +332,8 @@ export default function SectiSonContent({
   };
 
   const options: ChartOptions<"bar"> = {
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       tooltip: {
         enabled: true,
