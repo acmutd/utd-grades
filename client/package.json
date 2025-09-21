@@ -1,36 +1,51 @@
 {
   "name": "@utd-grades/client",
   "version": "1.4.0",
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "export": "next export",
     "start": "next start",
-    "lint": "npx eslint src/*"
+    "lint": "npx eslint \"src/**/*.{ts,tsx}\""
   },
   "dependencies": {
-    "@ant-design/icons": "^4.7.0",
+    "@ant-design/icons": "^4.8.3",
     "@utd-grades/db": "^1.0.0",
-    "antd": "^4.19.3",
-    "chart.js": "^3.7.1",
+    "antd": "^4.24.16",
+    "chart.js": "^3.9.1",
     "lodash.debounce": "^4.0.8",
-    "next": "^12.1.1",
+    "next": "^12.3.7",
     "react": "^17.0.2",
-    "react-chartjs-2": "^4.0.1",
+    "react-chartjs-2": "^4.3.1",
     "react-dom": "^17.0.2",
-    "react-query": "^3.34.18",
-    "react-scroll": "^1.8.6",
-    "react-transition-group": "^4.4.2",
-    "styled-components": "^5.3.5"
+    "react-query": "^3.39.3",
+    "react-scroll": "^1.9.3",
+    "react-transition-group": "^4.4.5",
+    "sql.js": "^1.13.0",
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
-    "@types/lodash.debounce": "^4.0.6",
-    "@types/react": "^17.0.43",
-    "@types/react-scroll": "^1.8.3",
-    "@types/styled-components": "^5.1.24",
-    "eslint-config-next": "^12.1.4",
+    "@types/lodash.debounce": "^4.0.9",
+    "@types/react": "^17.0.88",
+    "@types/react-scroll": "^1.8.10",
+    "@types/sql.js": "^1.4.9",
+    "@types/styled-components": "^5.1.34",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^12.3.7",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-jest": "^26.9.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "path": "^0.12.7",
-    "webpack": "^5.70.0"
+    "typescript": "^4.9.5",
+    "webpack": "^5.101.0"
+  },
+  "optionalDependencies": {
+    "@next/swc-linux-x64-gnu": "^12.3.4"
   }
 }
