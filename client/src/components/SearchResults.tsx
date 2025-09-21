@@ -1,7 +1,7 @@
 import type { RMPInstructor } from "@utd-grades/db";
 import { Col, Row } from "antd";
 import type { NextRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
@@ -146,23 +146,7 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     }
   }, [instructors, section, db]);
 
-  useEffect(() => {
-    // Automatically select section if there is only one choice
-    if (sections && sections.length == 1) {
-      handleClick(sections[0]!.id);
-    }
-  }, [sections]);
-
-  function handleSubmit({ search }: SearchQuery) {
-    (async function () {
-      await router.push({
-        pathname: "/results",
-        query: { search },
-      });
-    })();
-  }
-
-  function handleClick(id: number) {
+  const handleClick = useCallback((id: number) => {
     (async function () {
       await router.push({
         pathname: "/results",
@@ -173,6 +157,22 @@ export default function Results({ search, sectionId, router }: ResultsProps) {
     const scrollDistance = window.scrollY + scrollRef.current!.getBoundingClientRect().top;
 
     scroll.scrollTo(scrollDistance);
+  }, [router, search]);
+
+  useEffect(() => {
+    // Automatically select section if there is only one choice
+    if (sections && sections.length == 1) {
+      handleClick(sections[0]!.id);
+    }
+  }, [sections, handleClick]);
+
+  function handleSubmit({ search }: SearchQuery) {
+    (async function () {
+      await router.push({
+        pathname: "/results",
+        query: { search },
+      });
+    })();
   }
 
   function handleRelatedSectionClick(search: string, id: number) {
