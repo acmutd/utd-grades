@@ -112,7 +112,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
   // some professors have the same name so we need to get the whole list
   const normalName: string[] = useMemo(() =>
     section ? normalizeName(`${section.instructor1?.first} ${section.instructor1?.last}`) : [],
-    [section?.instructor1?.first, section?.instructor1?.last]
+    [section]
   );
 
   const { data: instructors } = useQuery<RMPInstructor[]>(
@@ -124,10 +124,10 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     },
     {
       enabled: !!section && !!db && normalName.length > 0,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      cacheTime: 10 * 60 * 1000, // 10 minutes
-      refetchOnWindowFocus: false, // Don't refetch when window gets focus
-      refetchOnReconnect: false, // Don't refetch on network reconnect
+      staleTime: 5 * 60 * 1000,
+      cacheTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
     }
   );
 
@@ -176,7 +176,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       setInstructor(foundInstructor);
       setCourseRating(foundRating);
     }
-  }, [instructors, section?.id, section?.subject, section?.catalogNumber, db]);
+  }, [instructors, section, db]);
 
   const stableRouter = useRef(router);
   const stableSearch = useRef(search);
@@ -215,8 +215,8 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
             smooth: true
           });
         }
-      } catch (error: any) {
-        if (!error?.message?.includes('Abort')) {
+      } catch (error: unknown) {
+        if (error instanceof Error && !error.message.includes('Abort')) {
           console.error('Navigation error:', error);
         }
       } finally {
@@ -226,7 +226,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     []
   );
 
-  const handleClick = useCallback(async (id: number) => {
+  const handleClick = useCallback((id: number) => {
     if (!scrollRef.current) return;
 
     // Don't navigate if we're already on this section
@@ -234,28 +234,27 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       return;
     }
 
-    debouncedNavigate(id);
+    void debouncedNavigate(id);
   }, [sectionId, debouncedNavigate]);
 
 
 
   const handleSubmit = useCallback(({ search }: SearchQuery) => {
-    stableRouter.current.push({
+    void stableRouter.current.push({
       pathname: "/results",
       query: { search },
     }).catch(error => {
       console.error('Navigation error:', error);
     });
-  }, []); // No dependencies - uses stable refs
+  }, []);
 
   const handleRelatedSectionClick = useCallback((search: string, id: number) => {
-    stableRouter.current.push({
+    void stableRouter.current.push({
       pathname: "/results",
       query: { search, sectionId: id },
     }, undefined, { shallow: false, scroll: false }).then(() => {
       if (!scrollRef.current) return;
 
-      // Always scroll to show the graph area
       const contentArea = scrollRef.current;
       const contentRect = contentArea.getBoundingClientRect();
       const targetScrollY = window.scrollY + contentRect.top - 80;
@@ -267,7 +266,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     }).catch(error => {
       console.error('Navigation error:', error);
     });
-  }, []); // No dependencies - uses stable refs
+  }, []);
 
   return (
     <Container>
@@ -309,7 +308,6 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     </Container>
   );
 }, (prevProps, nextProps) => {
-  // Custom comparison to prevent unnecessary re-renders
   return prevProps.search === nextProps.search &&
     prevProps.sectionId === nextProps.sectionId;
 });
