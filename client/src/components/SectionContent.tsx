@@ -10,7 +10,7 @@ import {
   Tooltip as ChartTooltip,
 } from "chart.js";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
 import type { UserFriendlyGrades } from "../types";
@@ -299,28 +299,16 @@ const getRMPColor = (rating: number): string => {
   return "#e74c3c"; // Red
 };
 
-export default function SectiSonContent({
+const SectionContent = React.memo(function SectionContent({
   section,
   instructor,
   courseRating,
 }: SectionContentProps) {
-  // const renderRelatedSections = () => {
-  //   if (relatedSections) {
-  //     return relatedSections
-  //       .filter((s) => s.id != section.id)
-  //       .map((s) => (
-  //         <SectionCard
-  //           key={s.id} // FIXME
-  //           section={s}
-  //           handleRelatedSectionClick={handleRelatedSectionClick}
-  //         />
-  //       ));
-  //   }
-
-  //   return <Spin />;
-  // };
   const [hovered, setHovered] = useState<"rmpLink" | null>(null);
   const rmpLinkRef = useRef<HTMLAnchorElement>(null);
+
+  const handleMouseEnter = useCallback(() => setHovered("rmpLink"), []);
+  const handleMouseLeave = useCallback(() => setHovered(null), []);
 
   const grades = extractGrades(section);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
@@ -415,8 +403,8 @@ export default function SectiSonContent({
               href={instructor?.url || "#"}
               target={instructor?.url ? "_blank" : "_self"}
               style={{ position: "relative" }}
-              onMouseEnter={() => setHovered("rmpLink")}
-              onMouseLeave={() => setHovered(null)}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
               ref={rmpLinkRef}
             >
               Professor Details
@@ -514,4 +502,6 @@ export default function SectiSonContent({
       </ProfessorDetailsContainer>
     </Container>
   );
-}
+});
+
+export default SectionContent;
