@@ -21,11 +21,15 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 const Container = styled.div`
   padding-top: 20px;
   padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 
   @media (max-width: 992px) {
     & {
       padding-left: 25px;
       padding-right: 25px;
+      height: auto;
     }
   }
 
@@ -39,8 +43,8 @@ const Container = styled.div`
 
 const GraphContainer = styled.div`
   width: 100%;
-  height: 50vh;
-  min-height: 300px;
+  flex: 1;
+  min-height: 250px;
   max-height: 400px;
 
   @media (max-width: 992px) {
@@ -49,6 +53,7 @@ const GraphContainer = styled.div`
       height: 30vh;
       min-height: 200px;
       max-height: 300px;
+      flex: none;
     }
   }
 
@@ -63,7 +68,8 @@ const GraphContainer = styled.div`
 
 const ProfessorDetailsContainer = styled.div`
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  flex-shrink: 0;
 
   @media (max-width: 992px) {
     & {
@@ -85,7 +91,7 @@ const Header = styled.h3`
   font-weight: 700;
   font-size: 48px;
   margin-bottom: 0px !important;
-  margin-top: 6px !important;
+  margin-top: 0px !important;
 `;
 
 const SubHeader = styled.h5`
@@ -93,8 +99,16 @@ const SubHeader = styled.h5`
   font-weight: 600;
   font-size: 22px;
   color: rgb(117, 117, 117);
-  margin-top: 1rem !important;
+  margin-top: 0.25rem !important;
   margin-bottom: 0rem !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: 992px) {
+    & {
+      font-size: 18px;
+    }
+  }
 `;
 
 const Stat = styled.h5`
@@ -127,7 +141,7 @@ const RMPScore = styled.span`
 const RMPTooltip = styled(Row)`
   justify-content: center;
   align-items: center;
-  margin-top: 1rem !important;
+  margin-top: 0.25rem !important;
   gap: 0.5rem;
 `;
 
@@ -260,6 +274,14 @@ const Section = styled.span`
 const Stack = styled.div`
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
+
+  @media (max-width: 992px) {
+    &:first-child {
+      flex: 1;
+      min-width: 0; /* Allow text to wrap */
+    }
+  }
 `;
 
 const FlexSmall = styled.div`
@@ -271,6 +293,7 @@ const FlexSmall = styled.div`
   @media (max-width: 992px) {
     & {
       gap: 1rem;
+      flex-wrap: wrap;
     }
   }
 `;
@@ -345,7 +368,7 @@ const SectionContent = React.memo(function SectionContent({
 
   return (
     <Container>
-      <Stack>
+      <Stack style={{ marginBottom: "1rem" }}>
         <FlexSmall>
           <Stack>
             <Header>
@@ -388,7 +411,7 @@ const SectionContent = React.memo(function SectionContent({
         </Stat>
       </Stack>
 
-      <Row style={{ marginBottom: "2rem" }}>
+      <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
           <GraphContainer>
             <Bar options={options} data={data} />
