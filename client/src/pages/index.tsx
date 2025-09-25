@@ -104,7 +104,7 @@ export default function Home() {
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
-                <Image src="/ACMDev-logo.png" alt="ACM Dev Logo" width={52} height={52} style={Logo} />
+                <Image src="/ACMDev-logo.svg" alt="ACM Dev Logo" width={52} height={52} style={Logo} />
                 <div>
                   <HeaderBold>UTD</HeaderBold> GRADES
                   <ByACM>by <HeaderBold>ACM</HeaderBold></ByACM>
