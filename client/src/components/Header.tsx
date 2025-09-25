@@ -35,6 +35,9 @@ const HeaderText = styled.a`
     letter-spacing: 2px;
     font-size: 24px;
     margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 `;
 
@@ -45,7 +48,6 @@ const HeaderBold = styled.span`
 const Logo = {
   height: "36px",
   width: "36px",
-  marginTop: "-8px",
 };
 
 export default function Header() {
@@ -60,7 +62,7 @@ export default function Header() {
       <Back onClick={goHome} type="ghost" icon={<HomeOutlined />} shape="circle" size="large" />
       <HeaderText href="#" onClick={goHome}>
         <h2>
-          <Image src="/ACMDev-logo.png" alt="ACM Dev Logo" width={24} height={24} style={Logo} /> <HeaderBold>UTD</HeaderBold> Grades
+          <Image src="/ACMDev-logo.svg" alt="ACM Dev Logo" width={24} height={24} style={Logo} /> <HeaderBold>UTD</HeaderBold> Grades
         </h2>
       </HeaderText>
       <Back

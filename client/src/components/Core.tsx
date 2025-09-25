@@ -27,12 +27,12 @@ const Footer = styled.div`
   font-family: var(--font-family);
   padding-left: 10px;
   padding-right: 10px;
-  padding-top: 150px;
+  padding-top: 30px;
   padding-bottom: 15px;
 
   @media (max-width: 992px) {
     & {
-      padding-top: 15px;
+      padding-top: 20px;
     }
   }
 `;
@@ -42,8 +42,8 @@ const SageLink = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 1rem 2rem;
-  margin-bottom: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  margin-bottom: 0.3rem;
   border-radius: 100rem;
   color: #5AED86;
   text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
@@ -57,8 +57,9 @@ const SageLink = styled.a`
 `;
 
 const SageText = styled.p`
-  line-height: 1.375rem;
+  line-height: 1.2rem;
   margin-bottom: 0;
+  font-size: 0.9rem;
 `;
 
 const BuiltWithLove = styled.p`
@@ -66,20 +67,29 @@ const BuiltWithLove = styled.p`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
+  font-size: 1rem;
+  margin: 0.3rem 0;
   font-weight: 550;
 `;
 
 const SageLogo = styled.img`
-  height: 1.5rem;
-  margin-right: 0.5rem;
+  height: 1.2rem;
+  margin-right: 0.4rem;
   filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
 `;
 
 const SageTextMark = styled.img`
-  height: 1.375rem;
+  height: 1.2rem;
 `
+
+const CreditsText = styled.p`
+  font-size: 0.9rem;
+  margin: 0.2rem 0;
+  
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
 
 interface CoreProps {
   children: ReactNode;
@@ -110,7 +120,7 @@ function Core({ children }: CoreProps) {
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
           <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
         </BuiltWithLove>
-        <p>
+        <CreditsText>
           Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}
           <a href="https://jeffw.xyz/" target={"blank"}>Jeffrey Wang</a>,{" "}
@@ -121,7 +131,7 @@ function Core({ children }: CoreProps) {
 
           <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}> Raw data available for download</a>
 
-        </p>
+        </CreditsText>
       </Footer>
     </Container>
   );

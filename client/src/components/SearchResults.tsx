@@ -208,7 +208,8 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
         if (scrollRef.current) {
           const contentArea = scrollRef.current;
           const contentRect = contentArea.getBoundingClientRect();
-          const targetScrollY = window.scrollY + contentRect.top - 80; // 80px padding from top
+          const offset = window.innerWidth <= 992 ? 5 : 35;  // diff offsets for mobile vs desktop
+          const targetScrollY = window.scrollY + contentRect.top - offset;
 
           scroll.scrollTo(Math.max(0, targetScrollY), {
             duration: 400,
@@ -257,7 +258,8 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
 
       const contentArea = scrollRef.current;
       const contentRect = contentArea.getBoundingClientRect();
-      const targetScrollY = window.scrollY + contentRect.top - 80;
+      const offset = window.innerWidth <= 992 ? 5 : 35;  // diff offsets for mobile vs desktop
+      const targetScrollY = window.scrollY + contentRect.top - offset;
 
       scroll.scrollTo(Math.max(0, targetScrollY), {
         duration: 400,
