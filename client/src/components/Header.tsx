@@ -35,6 +35,9 @@ const HeaderText = styled.a`
     letter-spacing: 2px;
     font-size: 24px;
     margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 `;
 
@@ -45,7 +48,6 @@ const HeaderBold = styled.span`
 const Logo = {
   height: "36px",
   width: "36px",
-  marginTop: "-8px",
 };
 
 export default function Header() {
