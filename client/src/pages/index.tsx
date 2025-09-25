@@ -21,15 +21,31 @@ const Main = styled.div`
   margin-top: 50px;
 `;
 
-const Header = styled.h2`
+const Header = styled.h1`
   font-family: var(--font-family);
   text-transform: uppercase;
   text-align: center;
   color: rgb(78, 78, 78);
   font-weight: 300;
-  letter-spacing: 2px;
-  font-size: 26px;
+  letter-spacing: 3px;
+  font-size: 48px;
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  
+  @media (max-width: 768px) {
+    font-size: 36px;
+    letter-spacing: 2px;
+    gap: 12px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 28px;
+    letter-spacing: 1px;
+    gap: 8px;
+  }
 `;
 
 const Description = styled.p`
@@ -45,15 +61,28 @@ const HeaderBold = styled.span`
   font-weight: 700;
 `;
 
-const SmallFont = styled.span`
-   font-size: 12px;
+const ByACM = styled.span`
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #95989a;
+  margin-left: 12px;
+  
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin-left: 8px;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin-left: 6px;
+  }
 `;
 
 const Logo = {
-  height: "36px",
-  width: "36px",
-  marginTop: "-8px",
-
+  height: "52px",
+  width: "52px",
+  flexShrink: 0,
 };
 
 
@@ -75,7 +104,11 @@ export default function Home() {
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
-                <Image src="/ACMDev-logo.png" alt="ACM Dev Logo" width={32} height={32} style={Logo} /> <HeaderBold>UTD</HeaderBold> Grades <SmallFont> by <HeaderBold>ACM</HeaderBold></SmallFont>
+                <Image src="/ACMDev-logo.png" alt="ACM Dev Logo" width={52} height={52} style={Logo} />
+                <div>
+                  <HeaderBold>UTD</HeaderBold> GRADES
+                  <ByACM>by <HeaderBold>ACM</HeaderBold></ByACM>
+                </div>
               </Header>
             </FadeIn>
             <FadeIn delay={300}>
