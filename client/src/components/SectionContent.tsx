@@ -299,11 +299,11 @@ const FlexSmall = styled.div`
 `;
 
 interface SectionContentProps {
-  // relatedSections: Grades[];
   section: Grades;
   instructor: RMPInstructor;
   courseRating: number | null;
-  // handleRelatedSectionClick: (search: string, id: number) => void;
+  relatedSections?: Grades[];
+  handleRelatedSectionClick?: (search: string, id: number) => void;
 }
 
 const getDifficultyColor = (difficulty: number): string => {

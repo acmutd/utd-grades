@@ -11,7 +11,7 @@ import { normalizeName } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
-import SectionList from "./SectionList";
+import { SectionList } from "./SectionList";
 
 const Container = styled.div`
   display: block;
@@ -52,7 +52,10 @@ interface ResultsProps {
 }
 
 const Results = React.memo(function Results({ search, sectionId, router }: ResultsProps) {
+  // Track current page for SectionList pagination
+  const [currentPage, setCurrentPage] = useState(1);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasAutoSelected = useRef(false);
 
   const { data: db } = useDb();
 
@@ -73,6 +76,36 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       refetchOnReconnect: false, // Don't refetch on network reconnect
     }
   );
+
+  // Auto-select first section when sections load and no section is selected
+  useEffect(() => {
+    if (sections && sections.length > 0 && !sectionId && !hasAutoSelected.current) {
+      hasAutoSelected.current = true;
+      const firstSection = sections[0];
+      if (firstSection) {
+        void router.push({
+          pathname: "/results",
+          query: { search, sectionId: firstSection.id },
+        }, undefined, { shallow: true });
+      }
+    }
+  }, [sections, sectionId, search, router]);
+
+  // Reset auto-select flag when search changes
+  useEffect(() => {
+    hasAutoSelected.current = false;
+  }, [search]);
+
+  // Update page when sectionId changes (arrow navigation or click)
+  useEffect(() => {
+    if (sections && sections.length > 0) {
+      const idx = sections.findIndex(s => s.id === sectionId);
+      if (idx !== -1) {
+        const newPage = Math.floor(idx / 5) + 1;
+        setCurrentPage(newPage);
+      }
+    }
+  }, [sectionId, sections]);
 
   // get the section data
   const {
@@ -239,8 +272,6 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
   }, [sectionId, debouncedNavigate]);
 
   // Arrow key navigation between sections
-  // TODO: 1. Navigating to another page (bug), 2. Whitespace issues, 3. Show a little tutorial or hint about this feature 
-  // Notes to self: npm install, cd client, npm run dev
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       // Don't handle arrow keys if user is typing in an input field or textarea
@@ -343,6 +374,8 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
                 loading={sectionsStatus === "loading"}
                 id={sectionId}
                 error={sectionsError}
+                page={currentPage}
+                setPage={setCurrentPage}
               />
             </Col>
 
