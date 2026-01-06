@@ -28,9 +28,7 @@ const HeaderText = styled.a`
   display: block;
 
   & h2 {
-    font-family: var(--font-family);
-    text-transform: uppercase;
-    color: rgb(78, 78, 78);
+    color: #E5E5E5;
     font-weight: 300;
     letter-spacing: 2px;
     font-size: 24px;
@@ -42,7 +40,12 @@ const HeaderText = styled.a`
 `;
 
 const HeaderBold = styled.span`
+  font-family: 'Gilroy-Bold', sans-serif;
   font-weight: 700;
+`;
+
+const HeaderLight = styled.span`
+  font-family: 'Gilroy-Light', sans-serif;
 `;
 
 const Logo = {
@@ -62,7 +65,7 @@ export default function Header() {
       <Back onClick={goHome} type="ghost" icon={<HomeOutlined />} shape="circle" size="large" />
       <HeaderText href="#" onClick={goHome}>
         <h2>
-          <Image src="/ACMDev-logo.svg" alt="ACM Dev Logo" width={24} height={24} style={Logo} /> <HeaderBold>UTD</HeaderBold> Grades
+          <Image src="/ACMDev-logo-white.svg" alt="ACM Dev Logo" width={24} height={24} style={Logo} /> <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
         </h2>
       </HeaderText>
       <Back

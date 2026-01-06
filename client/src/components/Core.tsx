@@ -37,31 +37,6 @@ const Footer = styled.div`
   }
 `;
 
-const SageLink = styled.a`
-  background: linear-gradient(90deg, rgba(7,67,37,1) 0%, rgba(22,50,36,1) 100%);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.6rem 1.2rem;
-  margin-bottom: 0.3rem;
-  border-radius: 100rem;
-  color: #5AED86;
-  text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
-  transition: transform cubic-bezier(0.4, 0, 0.2, 1) 150ms, box-shadow cubic-bezier(0.4, 0, 0.2, 1) 150ms;
-  &:hover {
-    color: #5AED86;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
-    transform: scale(1.01);
-  }
-`;
-
-const SageText = styled.p`
-  line-height: 1.2rem;
-  margin-bottom: 0;
-  font-size: 0.9rem;
-`;
-
 const BuiltWithLove = styled.p`
   display: flex;
   align-items: center;
@@ -72,18 +47,9 @@ const BuiltWithLove = styled.p`
   font-weight: 550;
 `;
 
-const SageLogo = styled.img`
-  height: 1.2rem;
-  margin-right: 0.4rem;
-  filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
-`;
-
-const SageTextMark = styled.img`
-  height: 1.2rem;
-`
-
 const CreditsText = styled.p`
-  font-size: 0.9rem;
+  font-family: 'Gilroy-Bold', sans-serif;
+  color: white;
   margin: 0.2rem 0;
   
   @media (max-width: 768px) {
@@ -111,25 +77,20 @@ function Core({ children }: CoreProps) {
     <Container>
       <Body>{children}</Body>
       <Footer>
-        <SageLink href="https://utdsage.com/" target={"blank"}>
-          <SageLogo src="/SAGE-Logo.svg" />
-          <SageText>Get AI-powered UTD advising with </SageText>
-          <SageTextMark src="/SAGE-Textmark.svg" />
-        </SageLink>
-        <BuiltWithLove>
+        {/*<BuiltWithLove>
           Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
           <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
-        </BuiltWithLove>
+        </BuiltWithLove>*/}
         <CreditsText>
-          Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
+         {/*Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}
           <a href="https://jeffw.xyz/" target={"blank"}>Jeffrey Wang</a>,{" "}
           <a href="https://www.linkedin.com/in/josephwickline/" target={"blank"}>Joseph Wickline</a> and our{" "}
           <Popover content={donors}>
             <span style={{ textDecoration: "underline" }}>donors</span>.
-          </Popover>
-
-          <a href="https://github.com/acmutd/utd-grades/tree/master/raw_data" target={"blank"}> Raw data available for download</a>
+          </Popover>*/}
+          See the full source code on our
+          <a href="https://github.com/acmutd/utd-grades" target={"blank"}> GitHub</a>
 
         </CreditsText>
       </Footer>

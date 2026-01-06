@@ -22,10 +22,10 @@ const Main = styled.div`
 `;
 
 const Header = styled.h1`
-  font-family: var(--font-family);
+  font-family: Gilroy, sans-serif;
   text-transform: uppercase;
   text-align: center;
-  color: rgb(78, 78, 78);
+  color: rgb(229, 229, 229);
   font-weight: 300;
   letter-spacing: 3px;
   font-size: 48px;
@@ -49,23 +49,32 @@ const Header = styled.h1`
 `;
 
 const Description = styled.p`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-Regular', sans-serif;
   text-align: center;
   color: #95989a;
   font-weight: 400;
   font-size: 18px;
   margin-bottom: 30px;
+
+   strong {
+    font-family: 'Gilroy-Bold', sans-serif;
+  }
 `;
 
 const HeaderBold = styled.span`
+  font-family: 'Gilroy-Bold', sans-serif;
   font-weight: 700;
+`;
+const HeaderLight = styled.span`
+  font-family: 'Gilroy-Light', sans-serif;
+  font-weight: 300;
 `;
 
 const ByACM = styled.span`
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 1px;
-  color: #95989a;
+  color: #CFD3D5;
   margin-left: 12px;
   
   @media (max-width: 768px) {
@@ -104,16 +113,16 @@ export default function Home() {
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
-                <Image src="/ACMDev-logo.svg" alt="ACM Dev Logo" width={52} height={52} style={Logo} />
+                <Image src="/ACMDev-logo-white.svg" alt="ACM Dev Logo" width={52} height={52} style={Logo} />
                 <div>
-                  <HeaderBold>UTD</HeaderBold> GRADES
+                  <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
                   <ByACM>by <HeaderBold>ACM</HeaderBold></ByACM>
                 </div>
               </Header>
             </FadeIn>
             <FadeIn delay={300}>
               <Description>
-                See how students did in any given class. And it&apos;s<strong> free, forever.</strong>
+                See how students did in any given class. And it&apos;s <strong>free, forever.</strong>
               </Description>
             </FadeIn>
             <Search onSubmit={handleSubmit} />
