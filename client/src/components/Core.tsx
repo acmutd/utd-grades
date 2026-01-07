@@ -1,5 +1,3 @@
-import { HeartTwoTone } from "@ant-design/icons";
-import { Popover } from "antd";
 import type { ReactNode } from "react";
 import styled from "styled-components";
 
@@ -37,7 +35,7 @@ const Footer = styled.div`
   }
 `;
 
-const BuiltWithLove = styled.p`
+/*const BuiltWithLove = styled.p`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +43,7 @@ const BuiltWithLove = styled.p`
   font-size: 1rem;
   margin: 0.3rem 0;
   font-weight: 550;
-`;
+`;*/
 
 const CreditsText = styled.p`
   font-family: 'Gilroy-Bold', sans-serif;
@@ -62,7 +60,7 @@ interface CoreProps {
 }
 
 function Core({ children }: CoreProps) {
-  const donors = (
+  /*const donors = (
     <div style={{ width: "300px" }}>
       <p>
         Thank you to the following people for donating and making this possible (in order of most
@@ -71,7 +69,7 @@ function Core({ children }: CoreProps) {
         donors.
       </p>
     </div>
-  );
+  );*/
 
   return (
     <Container>
