@@ -24,6 +24,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: #4f4f4f20;
 
   @media (max-width: 992px) {
     & {
@@ -46,6 +47,7 @@ const GraphContainer = styled.div`
   flex: 1;
   min-height: 250px;
   max-height: 400px;
+  background-color: #4f4f4f20;
 
   @media (max-width: 992px) {
     & {
@@ -59,7 +61,7 @@ const GraphContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
+      box-shadow: 0 10px 10px rgba(70, 70, 70, 0.7);
       border-radius: 5px;
       padding: 20px;
     }
@@ -70,6 +72,7 @@ const ProfessorDetailsContainer = styled.div`
   width: 100%;
   margin-top: 1rem;
   flex-shrink: 0;
+  background-color: #4f4f4f20;
 
   @media (max-width: 992px) {
     & {
@@ -79,7 +82,7 @@ const ProfessorDetailsContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
+      box-shadow: 0 10px 10px rgba(70, 70, 70, 0.7);
       border-radius: 5px;
       padding: 20px;
     }
@@ -87,18 +90,18 @@ const ProfessorDetailsContainer = styled.div`
 `;
 
 const Header = styled.h3`
-  font-family: var(--font-family);
-  font-weight: 700;
+  font-family: 'Gilroy-Bold', sans-serif;
   font-size: 48px;
   margin-bottom: 0px !important;
   margin-top: 0px !important;
+  color: #DFDFDFff;
 `;
 
 const SubHeader = styled.h5`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-SemiBold', sans-serif;
   font-weight: 600;
   font-size: 22px;
-  color: rgb(117, 117, 117);
+  color: #C8C8C8ff;
   margin-top: 0.25rem !important;
   margin-bottom: 0rem !important;
   word-wrap: break-word;
@@ -112,16 +115,16 @@ const SubHeader = styled.h5`
 `;
 
 const Stat = styled.h5`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-SemiBold', sans-serif;
   font-weight: 600;
   font-size: 18px;
-  color: rgb(117, 117, 117);
+  color: #C8C8C8ff;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 `;
 
 const RMPScore = styled.span`
-  color: #333333;
+  color: #DFDFDFff;
   line-height: 1;
 
   @media (max-width: 992px) {
@@ -159,7 +162,7 @@ const RMPSubHeader = styled(SubHeader)`
 const RMPStat = styled.h5`
   font-family: var(--font-family);
   font-weight: 800;
-  color: #333333;
+  color: #DFDFDF;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 1200px) {
@@ -177,9 +180,9 @@ const RMPStat = styled.h5`
 `;
 
 const RMPDescpription = styled.p`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-Regular', sans-serif;
   font-weight: 500;
-  color: rgb(117, 117, 117);
+  color: #C8C8C8;
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 768px) {
@@ -202,27 +205,40 @@ const RMPDescpription = styled.p`
 `;
 
 const RMPTag = styled.p`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-Regular', sans-serif;
   font-weight: 500;
-  color: rgb(84, 84, 84);
-  border-radius: 1px;
-  background-color: #f5f5f5;
+  color: #ffffff;
+  border-radius: 4px;
+  background-color: #2E2E2E;
   padding: 0.4rem 0.4rem;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: #e8e8e8;
+    background-color: #1c1c1c;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 `;
 
-const RMPHeader = styled.a`
-  font-family: var(--font-family);
+const TagsHeader = styled.h4`
+  font-family: 'Gilroy-Bold', sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
-  color: #333333 !important;
+  color: #DFDFDFff;
+  text-decoration: none;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const RMPHeader = styled.a`
+  font-family: 'Gilroy-Bold', sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #DFDFDFff !important;
   text-decoration: none !important;
   border-bottom: ${(props) => (props.href && props.href !== "#" ? "1px solid #333333" : "none")};
   margin-bottom: 0.5rem;
@@ -232,7 +248,7 @@ const RMPHeader = styled.a`
   gap: 0.5rem;
 
   &:hover {
-    color: #666666 !important;
+    color: #afafafff !important;
   }
 
   @media (max-width: 768px) {
@@ -243,8 +259,9 @@ const RMPHeader = styled.a`
 `;
 
 const Section = styled.span`
-  color: rgb(198, 198, 198);
+  font-family: 'Gilroy-Regular', sans-serif;
   font-weight: 400;
+  color: #c7c7c7ff;
 `;
 
 // const OtherSectionsHeader = styled.p`
@@ -361,6 +378,26 @@ const SectionContent = React.memo(function SectionContent({
         },
       },
     },
+    scales: {
+      x: {
+        grid: {
+          color: "rgba(255,255,255,0.08)",
+          borderColor: "rgba(255,255,255,0.12)",
+        },
+        ticks: {
+          color: "#DFDFDF",
+        },
+      },
+      y: {
+        grid: {
+          color: "rgba(255,255,255,0.08)",
+          borderColor: "rgba(255,255,255,0.12)",
+        },
+        ticks: {
+          color: "#DFDFDF",
+        },
+      },
+    },
   };
 
   // FIXME (median)
@@ -389,7 +426,7 @@ const SectionContent = React.memo(function SectionContent({
                   fontFamily: "var(--font-family)",
                   fontWeight: "550",
                   fontSize: "20px",
-                  color: "gray",
+                  color: "#D0D0D0",
                 }}
               >
                 {courseRating ? "/5" : ""}
@@ -407,7 +444,7 @@ const SectionContent = React.memo(function SectionContent({
           </Stack>
         </FlexSmall>
         <Stat>
-          Total Students <span style={{ color: "#333333" }}>{section.totalStudents}</span>
+          Total Students <span style={{ color: "#ffffff" }}>{section.totalStudents}</span>
         </Stat>
       </Stack>
 
@@ -448,7 +485,7 @@ const SectionContent = React.memo(function SectionContent({
                       lineHeight: "1rem",
                       color: "#000000",
                       whiteSpace: "nowrap",
-                      backgroundColor: "#ffffff",
+                      backgroundColor: "#ffffffff",
                       boxShadow:
                         "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                     }}
@@ -514,7 +551,7 @@ const SectionContent = React.memo(function SectionContent({
 
         {instructor?.tags && (
           <>
-            <h4 style={{ marginTop: "1.5rem", marginBottom: ".8rem", fontSize: "1.2rem" }}>Tags</h4>
+            <TagsHeader>Tags</TagsHeader>
             <Row wrap={true} gutter={0} style={{ gap: "1.0rem" }}>
               {instructor.tags.split(",").map((tag) => (
                 <RMPTag key={tag}>{tag}</RMPTag>

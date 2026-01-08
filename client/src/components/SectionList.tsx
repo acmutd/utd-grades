@@ -8,14 +8,15 @@ import styled, { css } from "styled-components";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
-  border-right: 1px solid #e8e8e8;
-  border-bottom: 1px solid #e8e8e8;
+  border-right: 1px solid #ffffff45;
+  border-bottom: 1px solid #ffffff45;
   cursor: pointer;
   transition: all 300ms ease-out;
   font-family: var(--font-family);
 
   &:hover {
-    background-color: #fcfcfc;
+    background-color: #494949;
+    color: #333333;
   }
 
   &:first-child {
@@ -37,7 +38,7 @@ const Item = styled(List.Item)<{ selected: boolean }>`
 const selectedStyles = css`
   border-right: 6px solid rgb(0, 116, 224) !important;
   box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
-  background-color: #fcfcfc;
+  background-color: #333333;
 `;
 
 const Hint = styled(AntPopover)`
@@ -62,7 +63,7 @@ const Error = styled.p`
   font-family: var(--font-family);
   font-size: 22px;
   text-align: center;
-  color: #a4a4a4;
+  color: #FFFFFF45;
   font-weight: 300;
 `;
 
@@ -72,7 +73,6 @@ const StyledIcon = styled(FrownTwoTone)`
   margin-bottom: 15px;
   margin-left: auto;
   margin-right: auto;
-  display: block !important;
 `;
 
 const LoadingItem = styled(List.Item)`
@@ -87,8 +87,12 @@ const LoadingItem = styled(List.Item)`
 
 const IconWrapper = styled.div`
   margin-right: 8;
+  color: #FFFFFF45;
 `;
 
+const EnrollmentText = styled.span<{ $color?: string }>`
+  color: ${(p) => p.$color || "#DFDFDF"};
+`;
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`
 //   color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
@@ -167,6 +171,7 @@ export default function SectionList({ loading, id, data, onClick, error }: Secti
             showSizeChanger: false,
             current: page,
             onChange: (page) => setPage(page),
+            className: "section-list-pagination",
           }}
           dataSource={data}
           renderItem={(item) => (
@@ -176,7 +181,7 @@ export default function SectionList({ loading, id, data, onClick, error }: Secti
               actions={[
                 <IconText
                   icon={<UserOutlined />}
-                  child={item.totalStudents.toString()}
+                  child={<EnrollmentText>{item.totalStudents.toString()}</EnrollmentText>}
                   key="students-total"
                 />,
                 // FIXME (median)

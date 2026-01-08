@@ -13,7 +13,7 @@ const EmptyContainer = styled.div`
 `;
 
 const Empty = styled.h2`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-Regular';
   color: #a4a4a4;
   font-weight: 300;
   font-size: 26px;

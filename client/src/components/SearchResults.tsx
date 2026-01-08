@@ -22,6 +22,7 @@ const ResultsContainer = styled(Col)`
   padding-bottom: 20px;
   margin-top: 35px;
   border-radius: 5px;
+  background-color: #4f4f4f20;
 
   & .ant-list-pagination {
     padding-left: 10px;
@@ -40,7 +41,7 @@ const ResultsContainer = styled(Col)`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 15px 50px rgba(233, 233, 233, 0.7);
+      box-shadow: none;
     }
   }
 `;

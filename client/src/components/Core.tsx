@@ -55,6 +55,15 @@ const CreditsText = styled.p`
   }
 `;
 
+const GitHubLink = styled.a`
+  color: #1e90ff !important;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 interface CoreProps {
   children: ReactNode;
 }
@@ -87,8 +96,7 @@ function Core({ children }: CoreProps) {
           <Popover content={donors}>
             <span style={{ textDecoration: "underline" }}>donors</span>.
           </Popover>*/}
-          See the full source code on our
-          <a href="https://github.com/acmutd/utd-grades" target={"blank"}> GitHub</a>
+          See the full source code on our <GitHubLink href="https://github.com/acmutd/utd-grades" target="_blank">GitHub</GitHubLink>
 
         </CreditsText>
       </Footer>

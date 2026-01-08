@@ -16,9 +16,11 @@ const Back = styled(Button) <{ $dummy?: boolean }>`
   outline: none;
   border: none;
   cursor: pointer;
-  outline: none;
-  border: none;
   box-shadow: none;
+  color: #ffffff;
+  svg {
+    color: inherit;
+  }
   visibility: ${(props) => (props.$dummy ? "hidden" : "visible")};
 `;
 
