@@ -69,7 +69,7 @@ export default function SearchResultsContent({
   } else {
     return (
       <EmptyContainer>
-        <Empty>Nothing to see here, select a section!</Empty>
+        {/* <Empty>Nothing to see here, select a section!</Empty> */}
       </EmptyContainer>
     );
   }

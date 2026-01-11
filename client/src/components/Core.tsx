@@ -1,6 +1,7 @@
 import { HeartTwoTone } from "@ant-design/icons";
 import { Popover } from "antd";
 import type { ReactNode } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -96,6 +97,57 @@ interface CoreProps {
 }
 
 function Core({ children }: CoreProps) {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (!(event.ctrlKey || event.metaKey)) return;
+
+      const keyIsSlash = event.key === "/" || event.code === "Slash";
+      if (!keyIsSlash) return;
+
+      event.preventDefault();
+
+      const inputEl = document.getElementById("search-bar");
+      let input: HTMLInputElement | null = null;
+
+      if (inputEl) {
+        if (inputEl instanceof HTMLInputElement) {
+          input = inputEl;
+        } else {
+          input = inputEl.querySelector<HTMLInputElement>("input");
+        }
+      }
+
+      if (!input) {
+        input = document.querySelector<HTMLInputElement>(
+          ".ant-input-search input, input#search-bar, input[placeholder^=\"ex. CS\"]"
+        );
+      }
+
+      if (input) {
+        input.focus();
+        try {
+          const len = input.value ? input.value.length : 0;
+          input.setSelectionRange(len, len);
+        } catch (e) {
+          // ignore 
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
   const donors = (
     <div style={{ width: "300px" }}>
       <p>

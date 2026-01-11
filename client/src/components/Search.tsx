@@ -79,6 +79,7 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
         value={searchValue}
       >
         <Input.Search
+          id="search-bar"
           onSearch={(search) => onSubmit({ search })}
           name="search"
           size="large"
