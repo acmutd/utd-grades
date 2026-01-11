@@ -47,7 +47,7 @@ const Footer = styled.div`
 
 const CreditsText = styled.p`
   font-family: 'Gilroy-Bold', sans-serif;
-  color: white;
+  color: var(--muted-text);
   margin: 0.2rem 0;
   
   @media (max-width: 768px) {
@@ -56,7 +56,7 @@ const CreditsText = styled.p`
 `;
 
 const GitHubLink = styled.a`
-  color: #1e90ff !important;
+  color: var(--link-color) !important;
   text-decoration: none;
 
   &:hover {

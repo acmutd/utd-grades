@@ -22,7 +22,11 @@ const ResultsContainer = styled(Col)`
   padding-bottom: 20px;
   margin-top: 35px;
   border-radius: 5px;
-  background-color: #4f4f4f20;
+
+  background-color: var(--card-bg);
+  /* make the results area stand out in light mode */
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
 
   & .ant-list-pagination {
     padding-left: 10px;
@@ -33,15 +37,30 @@ const ResultsContainer = styled(Col)`
     font-family: var(--font-family);
   }
 
+  /* Ensure Ant list/card text inside results uses theme-aware colors
+     (overrides global dark-mode-only rules that leaked into light mode) */
+  & .ant-list-item,
+  & .ant-list-item-meta,
+  & .ant-list-item-meta-title,
+  & .ant-list-item-meta-description,
+  & .ant-typography,
+  & .ant-card {
+    color: var(--text-color) !important;
+    background: transparent !important;
+  }
+
+  & .ant-list-item-meta-description {
+    color: var(--muted-text) !important;
+  }
+
   @media (max-width: 992px) {
     & {
       box-shadow: none;
     }
   }
-
   @media (min-width: 992px) {
     & {
-      box-shadow: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
   }
 `;

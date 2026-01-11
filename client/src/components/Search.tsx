@@ -15,7 +15,7 @@ const Hint = styled(AntPopover)`
   margin-right: auto;
   display: block;
   font-family: 'Gilroy-Regular', sans-serif;
-  color: #95989a;
+  color: var(--muted-text);
 `;
 
 const SageLogo = styled.img`
@@ -65,11 +65,11 @@ const DarkModeSearch = styled(Input.Search)`
 
   .ant-input-group-addon {
     padding: 0;
-    background: #333333;
+    background: var(--card-bg);
   }
   .ant-input {
-    background-color: #333333;
-    color: #ffffff;
+    background-color: var(--card-hover-bg);
+    color: var(--text-color);
     font-family: 'Gilroy', sans-serif;
     height: 44px;
     line-height: 44px;
@@ -78,12 +78,11 @@ const DarkModeSearch = styled(Input.Search)`
   }
 
   .ant-input::placeholder {
-    color: #bfbfbf;
+    color: var(--muted-text);
   }
 
   .ant-input-search-button {
-    background-color: #333333;
-    color: #ffffff; /* ← THIS */
+    background-color: var(--card-hover-bg);
     height: 44px;
     line-height: 44px;
     padding-top: 0;
@@ -91,16 +90,15 @@ const DarkModeSearch = styled(Input.Search)`
   }
 
   .ant-input-search-button .anticon {
-    color: #ffffff; /* ← THIS */
+    color: var(--muted-text);
   }
 
   .ant-input-search-button .anticon svg {
-    fill: #ffffff; /* ← THIS (important) */
+    fill: currentColor;
   }
 
   .ant-input-search-button:hover {
-    background-color: #1a1a1a;
-    border-color: #3a3a3a;
+    opacity: 0.95;
   }
 `;
 

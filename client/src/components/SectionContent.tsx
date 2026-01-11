@@ -24,7 +24,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #4f4f4f20;
+  background-color: var(--card-bg);
 
   @media (max-width: 992px) {
     & {
@@ -47,7 +47,7 @@ const GraphContainer = styled.div`
   flex: 1;
   min-height: 250px;
   max-height: 400px;
-  background-color: #4f4f4f20;
+  background-color: var(--card-bg);
 
   @media (max-width: 992px) {
     & {
@@ -61,7 +61,7 @@ const GraphContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 10px 10px rgba(70, 70, 70, 0.7);
+      box-shadow: 0 5px 10px rgba(70, 70, 70, 0.7);
       border-radius: 5px;
       padding: 20px;
     }
@@ -72,7 +72,7 @@ const ProfessorDetailsContainer = styled.div`
   width: 100%;
   margin-top: 1rem;
   flex-shrink: 0;
-  background-color: #4f4f4f20;
+  background-color: var(--card-bg);
 
   @media (max-width: 992px) {
     & {
@@ -82,7 +82,7 @@ const ProfessorDetailsContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 10px 10px rgba(70, 70, 70, 0.7);
+      box-shadow: 0 5px 10px rgba(70, 70, 70, 0.7);
       border-radius: 5px;
       padding: 20px;
     }
@@ -94,14 +94,14 @@ const Header = styled.h3`
   font-size: 48px;
   margin-bottom: 0px !important;
   margin-top: 0px !important;
-  color: #DFDFDFff;
+  color: var(--text-color);
 `;
 
 const SubHeader = styled.h5`
   font-family: 'Gilroy-SemiBold', sans-serif;
   font-weight: 600;
   font-size: 22px;
-  color: #C8C8C8ff;
+  color: var(--muted-text);
   margin-top: 0.25rem !important;
   margin-bottom: 0rem !important;
   word-wrap: break-word;
@@ -118,13 +118,13 @@ const Stat = styled.h5`
   font-family: 'Gilroy-SemiBold', sans-serif;
   font-weight: 600;
   font-size: 18px;
-  color: #C8C8C8ff;
+  color: var(--muted-text);
   margin-top: 0px !important;
   margin-bottom: 0px !important;
 `;
 
 const RMPScore = styled.span`
-  color: #DFDFDFff;
+  color: var(--text-color);
   line-height: 1;
 
   @media (max-width: 992px) {
@@ -162,7 +162,7 @@ const RMPSubHeader = styled(SubHeader)`
 const RMPStat = styled.h5`
   font-family: var(--font-family);
   font-weight: 800;
-  color: #DFDFDF;
+  color: var(--text-color);
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 1200px) {
@@ -182,7 +182,7 @@ const RMPStat = styled.h5`
 const RMPDescpription = styled.p`
   font-family: 'Gilroy-Regular', sans-serif;
   font-weight: 500;
-  color: #C8C8C8;
+  color: var(--muted-text);
   margin-top: 0px !important;
   margin-bottom: 0px !important;
   @media (max-width: 768px) {
@@ -207,15 +207,15 @@ const RMPDescpription = styled.p`
 const RMPTag = styled.p`
   font-family: 'Gilroy-Regular', sans-serif;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--text-color);
   border-radius: 4px;
-  background-color: #2E2E2E;
+  background-color: var(--card-bg);
   padding: 0.4rem 0.4rem;
   transition: all 0.2s ease-in-out;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: #1c1c1c;
+    background-color: var(--card-hover-bg);
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
@@ -225,7 +225,7 @@ const TagsHeader = styled.h4`
   font-family: 'Gilroy-Bold', sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
-  color: #DFDFDFff;
+  color: var(--text-color);
   text-decoration: none;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
@@ -238,9 +238,9 @@ const RMPHeader = styled.a`
   font-family: 'Gilroy-Bold', sans-serif;
   font-weight: 700;
   font-size: 1.15rem;
-  color: #DFDFDFff !important;
+  color: var(--text-color) !important;
   text-decoration: none !important;
-  border-bottom: ${(props) => (props.href && props.href !== "#" ? "1px solid #333333" : "none")};
+  border-bottom: ${(props) => (props.href && props.href !== "#" ? "1px solid var(--rmp-link-underline)" : "none")};
   margin-bottom: 0.5rem;
   transition: color 0.2s ease;
   display: inline-flex;
@@ -248,7 +248,7 @@ const RMPHeader = styled.a`
   gap: 0.5rem;
 
   &:hover {
-    color: #afafafff !important;
+    color: var(--muted-text) !important;
   }
 
   @media (max-width: 768px) {
@@ -359,46 +359,29 @@ const SectionContent = React.memo(function SectionContent({
     datasets: [{ backgroundColor: getColors(keys), data: values }],
   };
 
-  const options: ChartOptions<"bar"> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      tooltip: {
-        enabled: true,
-        mode: "nearest",
-        intersect: true,
-        callbacks: {
-          label: (context) => {
-            const count = context.parsed.y;
-            return [
-              `Students: ${count}`,
-              `Percentage: ${((count / section.totalStudents) * 100).toFixed(2)}%`,
-            ];
-          },
-        },
+// READ: I had to hardcode the colors to a color in between light and dark mode here because using CSS variables in ChartJS options was not working properly. If someone has a better solution, please help.
+const options: ChartOptions<"bar"> = {
+  scales: {
+    x: {
+      grid: {
+        color: "#87878747",
+        borderColor: "#87878747",
+      },
+      ticks: {
+        color: "#868686",
       },
     },
-    scales: {
-      x: {
-        grid: {
-          color: "rgba(255,255,255,0.08)",
-          borderColor: "rgba(255,255,255,0.12)",
-        },
-        ticks: {
-          color: "#DFDFDF",
-        },
+    y: {
+      grid: {
+        color: "#87878747",
+        borderColor: "#87878747",
       },
-      y: {
-        grid: {
-          color: "rgba(255,255,255,0.08)",
-          borderColor: "rgba(255,255,255,0.12)",
-        },
-        ticks: {
-          color: "#DFDFDF",
-        },
+      ticks: {
+        color: "#868686",
       },
     },
-  };
+  },
+};
 
   // FIXME (median)
   // const averageLetter = getLetterGrade(section.average);
@@ -426,7 +409,7 @@ const SectionContent = React.memo(function SectionContent({
                   fontFamily: "var(--font-family)",
                   fontWeight: "550",
                   fontSize: "20px",
-                  color: "#D0D0D0",
+                  color: "var(--muted-text)",
                 }}
               >
                 {courseRating ? "/5" : ""}
@@ -444,7 +427,7 @@ const SectionContent = React.memo(function SectionContent({
           </Stack>
         </FlexSmall>
         <Stat>
-          Total Students <span style={{ color: "#ffffff" }}>{section.totalStudents}</span>
+          Total Students <span style={{ color: "var(--text-color)" }}>{section.totalStudents}</span>
         </Stat>
       </Stack>
 
@@ -483,9 +466,9 @@ const SectionContent = React.memo(function SectionContent({
                       borderRadius: "0.5rem",
                       fontSize: "0.75rem",
                       lineHeight: "1rem",
-                      color: "#000000",
+                      color: "var(--text-color)",
                       whiteSpace: "nowrap",
-                      backgroundColor: "#ffffffff",
+                      backgroundColor: "var(--card-bg)",
                       boxShadow:
                         "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
                     }}

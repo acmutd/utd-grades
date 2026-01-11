@@ -8,16 +8,11 @@ import styled, { css } from "styled-components";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
-  border-right: 1px solid #ffffff45;
-  border-bottom: 1px solid #ffffff45;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 300ms ease-out;
   font-family: var(--font-family);
-
-  &:hover {
-    background-color: #494949;
-    color: #333333;
-  }
 
   &:first-child {
     border-top-left-radius: 5px;
@@ -26,6 +21,13 @@ const Item = styled(List.Item)<{ selected: boolean }>`
   & .ant-list-item-meta-title a {
     font-weight: 600;
     font-family: var(--font-family);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  & .ant-list-item-meta-title a:hover {
+    color: var(--link-color);
+    text-decoration: none;
   }
 
   & .ant-list-item-meta {
@@ -36,9 +38,9 @@ const Item = styled(List.Item)<{ selected: boolean }>`
 `;
 
 const selectedStyles = css`
-  border-right: 6px solid rgb(0, 116, 224) !important;
+  border-right: 6px solid var(--link-color) !important;
   box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
-  background-color: #333333;
+  background-color: var(--card-bg);
 `;
 
 const Hint = styled(AntPopover)`
@@ -47,7 +49,7 @@ const Hint = styled(AntPopover)`
   margin-right: auto;
   display: block;
   font-family: var(--font-family);
-  color: #95989a;
+  color: var(--muted-text);
 `;
 
 const Popover = styled.div`
@@ -63,7 +65,7 @@ const Error = styled.p`
   font-family: var(--font-family);
   font-size: 22px;
   text-align: center;
-  color: #FFFFFF45;
+  color: var(--muted-text);
   font-weight: 300;
 `;
 
@@ -73,6 +75,7 @@ const StyledIcon = styled(FrownTwoTone)`
   margin-bottom: 15px;
   margin-left: auto;
   margin-right: auto;
+  display: block;
 `;
 
 const LoadingItem = styled(List.Item)`
@@ -85,13 +88,14 @@ const LoadingItem = styled(List.Item)`
   }
 `;
 
+ /*For the person icon*/
 const IconWrapper = styled.div`
   margin-right: 8;
-  color: #FFFFFF45;
+  color: var(--muted-text);
 `;
 
 const EnrollmentText = styled.span<{ $color?: string }>`
-  color: ${(p) => p.$color || "#DFDFDF"};
+  color: ${(p) => p.$color || "var(--text-color)"};
 `;
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`

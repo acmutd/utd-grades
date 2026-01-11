@@ -27,26 +27,65 @@
 }
 
 :root {--font-family: var(--font-family);
-  --box-shadow-base: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
-    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07),
+/* Defines global and dark mode theme variables (light mode is further down) */
+  /* Core colors */
+  --bg-color: #1B1B1B;
+  --text-color: #DFDFDF;
+  --muted-text: #ffffff86;
+  --link-color: #7f99e5;
+
+  /* UI surfaces */
+  --card-bg: #333333;
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  /* Shadows */
+  --box-shadow-base:
+    0 1px 2px rgba(0, 0, 0, 0.07),
+    0 2px 4px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.07),
+    0 8px 16px rgba(0, 0, 0, 0.07),
+    0 16px 32px rgba(0, 0, 0, 0.07),
     0 32px 64px rgba(0, 0, 0, 0.07);
-  --box-shadow-inactive: 0 1px 1px rgba(151, 151, 151, 0.11), 0 2px 2px rgba(151, 151, 151, 0.11),
-    0 4px 4px rgba(151, 151, 151, 0.11), 0 6px 8px rgba(151, 151, 151, 0.11),
+
+  --box-shadow-inactive:
+    0 1px 1px rgba(151, 151, 151, 0.11),
+    0 2px 2px rgba(151, 151, 151, 0.11),
+    0 4px 4px rgba(151, 151, 151, 0.11),
+    0 6px 8px rgba(151, 151, 151, 0.11),
     0 8px 16px rgba(151, 151, 151, 0.11);
-  --box-shadow-active: 0 2px 1px rgba(151, 151, 151, 0.09), 0 4px 2px rgba(151, 151, 151, 0.09),
-    0 8px 4px rgba(151, 151, 151, 0.09), 0 16px 8px rgba(151, 151, 151, 0.09),
+
+  --box-shadow-active:
+    0 2px 1px rgba(151, 151, 151, 0.09),
+    0 4px 2px rgba(151, 151, 151, 0.09),
+    0 8px 4px rgba(151, 151, 151, 0.09),
+    0 16px 8px rgba(151, 151, 151, 0.09),
     0 32px 16px rgba(151, 151, 151, 0.09);
+
+  /* helper theme variables for components */
+  --card-hover-bg: #494949;
+  --tag-hover-bg: #1c1c1c;
+  --rmp-link-underline: #333333;
+    
+}
+
+[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #1a1a1a;
+  --muted-text: #555555;
+  --link-color: #1e40af;
+
+  --card-bg: #ffffff;
+  --border-color: rgba(0, 0, 0, 0.12);
+  --card-hover-bg: #e6e6e9;
+  --tag-hover-bg: #e6e6e9;
+  --rmp-link-underline: rgba(0,0,0,0.08);
 }
 
 html,
 body {
   height: 100%;
-  background-color: #1B1B1B; /* dark mode */
-  color: #DFDFDF; /* readable default text color on dark background */
-}
-
-body {
-  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
 }
@@ -69,11 +108,6 @@ body {
 .ant-input-search-button {
   border-radius: 0 20px 20px 0 !important;
   border: none !important;
-}
-
-/* Ensure links and Ant Design text are readable on dark background */
-a, a:link, a:visited {
-  color: #e6f0ff;
 }
 
 .ant-list-item, .ant-list-item-meta, .ant-list-item-meta-title, .ant-list-item-meta-description {
