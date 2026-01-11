@@ -298,11 +298,11 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
 
       let newIndex = -1;
 
-      if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      if (event.key === "ArrowLeft") {
         // Navigate to previous section
         newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
         event.preventDefault();
-      } else if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      } else if (event.key === "ArrowRight") {
         // Navigate to next section
         newIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : currentIndex;
         event.preventDefault();

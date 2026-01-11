@@ -12,6 +12,8 @@
   --box-shadow-active: 0 2px 1px rgba(151, 151, 151, 0.09), 0 4px 2px rgba(151, 151, 151, 0.09),
     0 8px 4px rgba(151, 151, 151, 0.09), 0 16px 8px rgba(151, 151, 151, 0.09),
     0 32px 16px rgba(151, 151, 151, 0.09);
+  --ant-wave-shadow-color: rgb(198, 198, 198);
+  --antd-wave-shadow-color: rgb(198, 198, 198);
 }
 
 html,
@@ -30,15 +32,108 @@ body {
   width: 100%;
 }
 
+.ant-input,
+.ant-input-search-button {
+  height: 40px !important; 
+}
+
 .ant-input {
   border-radius: 20px 0 0 20px !important;
 }
 
+.ant-input:hover,
 .ant-input:focus {
   outline: none !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgb(116, 116, 116) !important;
+  box-shadow: none !important;
+  border-width: 1px !important; 
+
 }
 
 .ant-input-search-button {
   border-radius: 0 20px 20px 0 !important;
+  border-color: rgb(198, 198, 198 ) !important;
+  border-width: 1px !important; 
+  color: #333 !important;
+}
+
+.ant-input-search-button:hover,
+.ant-input-search-button:focus {
+  border-color: rgb(116, 116, 116) !important;
+  color: #333 !important;
+}
+
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper:focus-within,
+.ant-input-affix-wrapper-focused {
+  border-color: rgb(198, 198, 198) !important;
+  box-shadow: none !important;
+}
+
+.ant-btn {
+  --ant-wave-shadow-color: rgb(198, 198, 198);
+  --antd-wave-shadow-color: rgb(198, 198, 198);
+}
+
+.ant-btn:focus,
+.ant-btn:active,
+.ant-btn:focus-visible {
+  outline: none !important;
+  border-color: rgb(198, 198, 198) !important;
+}
+
+.ant-wave,
+.ant-wave-holder,
+.ant-click-animating-node,
+.ant-click-animating {
+  --ant-wave-shadow-color: rgb(198, 198, 198) !important;
+  --antd-wave-shadow-color: rgb(198, 198, 198) !important;
+}
+
+.ant-btn-primary,
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background-color: rgb(198, 198, 198 ) !important;
+  border-color: rgb(198, 198, 198 ) !important;
+  color: #333 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: rgb(198, 198, 198 ) !important;
+}
+
+.ant-menu-item-active {
+  background-color: rgb(198, 198, 198 ) !important;
+}
+
+.ant-card-bordered {
+  border: 1px solid rgb(198, 198, 198 ) !important;
+}
+
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: rgb(198, 198, 198 ) !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  background-color: rgb(198, 198, 198 ) !important;
+  border-color: rgb(198, 198, 198 ) !important;
+  color: #333 !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
+  background-color: rgb(217, 217, 217) !important;
+  border-color: rgb(217, 217, 217) !important;
+  color: #333 !important;
+}
+
+.ant-radio-button-wrapper:hover {
+  color: #333 !important;
+}
+
+a {
+  color: #333;
+}
+
+a:hover {
+  color: #555;
 }

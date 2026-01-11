@@ -35,7 +35,7 @@ const Item = styled(List.Item)<{ selected: boolean }>`
 `;
 
 const selectedStyles = css`
-  border-right: 6px solid rgb(0, 116, 224) !important;
+  border-right: 6px solid #333 !important;
   box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
   background-color: #fcfcfc;
 `;
@@ -102,9 +102,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
   min-width: 28px;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid ${props => props.active ? 'rgb(0, 116, 224)' : '#d9d9d9'};
-  background: ${props => props.active ? 'rgb(0, 116, 224)' : props.disabled ? '#f5f5f5' : '#fff'};
-  color: ${props => props.active ? '#fff' : props.disabled ? '#bfbfbf' : 'rgba(0, 0, 0, 0.85)'};
+  border: 1px solid ${props => props.active ? 'rgb(198, 198, 198 )' : '#d9d9d9'};
+  background: ${props => props.active ? 'rgb(198, 198, 198 )' : props.disabled ? '#f5f5f5' : '#fff'};
+  color: ${props => props.active ? '#333' : props.disabled ? '#bfbfbf' : 'rgba(0, 0, 0, 0.85)'};
   border-radius: 2px;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   font-family: var(--font-family);
@@ -115,8 +115,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 
   &:hover {
     ${props => !props.disabled && !props.active && css`
-      border-color: rgb(0, 116, 224);
-      color: rgb(0, 116, 224);
+      border-color: rgb(198, 198, 198 );
+      color: #333;
+      background: #fafafa;
     `}
   }
 
