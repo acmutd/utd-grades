@@ -114,14 +114,14 @@ function Core({ children }: CoreProps) {
 
       event.preventDefault();
 
-      let inputEl = document.getElementById("search-bar") as HTMLElement | null;
+      const inputEl = document.getElementById("search-bar");
       let input: HTMLInputElement | null = null;
 
       if (inputEl) {
         if (inputEl instanceof HTMLInputElement) {
           input = inputEl;
         } else {
-          input = inputEl.querySelector("input") as HTMLInputElement | null;
+          input = inputEl.querySelector<HTMLInputElement>("input");
         }
       }
 
