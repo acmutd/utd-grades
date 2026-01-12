@@ -360,27 +360,45 @@ const SectionContent = React.memo(function SectionContent({
 
 // READ: I had to hardcode the colors to a color in between light and dark mode here because using CSS variables in ChartJS options was not working properly. If someone has a better solution, please help.
 const options: ChartOptions<"bar"> = {
-  scales: {
-    x: {
-      grid: {
-        color: "#87878747",
-        borderColor: "#87878747",
-      },
-      ticks: {
-        color: "#868686",
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        enabled: true,
+        mode: "nearest",
+        intersect: true,
+        callbacks: {
+          label: (context) => {
+            const count = context.parsed.y;
+            return [
+              `Students: ${count}`,
+              `Percentage: ${((count / section.totalStudents) * 100).toFixed(2)}%`,
+            ];
+          },
+        },
       },
     },
-    y: {
-      grid: {
-        color: "#87878747",
-        borderColor: "#87878747",
+    scales: {
+      x: {
+        grid: {
+          color: "#87878747",
+          borderColor: "#87878747",
+        },
+        ticks: {
+          color: "#868686",
+        },
       },
-      ticks: {
-        color: "#868686",
+      y: {
+        grid: {
+          color: "#87878747",
+          borderColor: "#87878747",
+        },
+        ticks: {
+          color: "#868686",
+        },
       },
     },
-  },
-};
+  };
 
   // FIXME (median)
   // const averageLetter = getLetterGrade(section.average);
