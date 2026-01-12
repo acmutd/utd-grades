@@ -36,7 +36,8 @@
 
   /* UI surfaces */
   --card-bg: #333333;
-  --border-color: rgba(255, 255, 255, 0.08);
+  --border-color: #ffffff14;
+  --select-tag: #cfcfcf;
 
   /* Shadows */
   --box-shadow-base:
@@ -74,7 +75,9 @@
   --muted-text: #555555;
   --link-color: #1e40af;
 
+  
   --card-bg: #ffffff;
+  --select-tag: #333333;
   --border-color: rgba(0, 0, 0, 0.12);
   --card-hover-bg: #e6e6e9;
   --tag-hover-bg: #e6e6e9;

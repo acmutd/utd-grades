@@ -44,7 +44,6 @@ const Container = styled.div`
 
 const GraphContainer = styled.div`
   width: 100%;
-  flex: 1;
   min-height: 250px;
   max-height: 400px;
   background-color: var(--card-bg);
@@ -316,11 +315,11 @@ const FlexSmall = styled.div`
 `;
 
 interface SectionContentProps {
-  // relatedSections: Grades[];
   section: Grades;
   instructor: RMPInstructor;
   courseRating: number | null;
-  // handleRelatedSectionClick: (search: string, id: number) => void;
+  relatedSections?: Grades[];
+  handleRelatedSectionClick?: (search: string, id: number) => void;
 }
 
 const getDifficultyColor = (difficulty: number): string => {
@@ -434,7 +433,7 @@ const options: ChartOptions<"bar"> = {
       <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
           <GraphContainer>
-            <Bar options={options} data={data} />
+            <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
           </GraphContainer>
         </Col>
       </Row>

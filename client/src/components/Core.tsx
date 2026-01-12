@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -69,16 +69,58 @@ interface CoreProps {
 }
 
 function Core({ children }: CoreProps) {
-  /*const donors = (
-    <div style={{ width: "300px" }}>
-      <p>
-        Thank you to the following people for donating and making this possible (in order of most
-        monetary support): Anthony-Tien Huynh, Adam Butcher, Paul Denino, Thomas Sowders, Xavier
-        Brown, Enza Denino, David Garvin, Alastair Feille, Andrew Vaccaro and other anonymous
-        donors.
-      </p>
-    </div>
-  );*/
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (!(event.ctrlKey || event.metaKey)) return;
+
+      const keyIsSlash = event.key === "/" || event.code === "Slash";
+      if (!keyIsSlash) return;
+
+      event.preventDefault();
+
+      const inputEl = document.getElementById("search-bar");
+      let input: HTMLInputElement | null = null;
+
+      if (inputEl) {
+        if (inputEl instanceof HTMLInputElement) {
+          input = inputEl;
+        } else {
+          input = inputEl.querySelector<HTMLInputElement>("input");
+        }
+      }
+
+      if (!input) {
+        input = document.querySelector<HTMLInputElement>(
+          ".ant-input-search input, input#search-bar, input[placeholder^=\"ex. CS\"]"
+        );
+      }
+
+      if (input) {
+        input.focus();
+        try {
+          const len = input.value ? input.value.length : 0;
+          input.setSelectionRange(len, len);
+        } catch (e) {
+          // ignore 
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
 
   return (
     <Container>

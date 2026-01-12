@@ -22,6 +22,18 @@ const Back = styled(Button) <{ $dummy?: boolean }>`
     color: inherit;
   }
   visibility: ${(props) => (props.$dummy ? "hidden" : "visible")};
+  &:hover,
+  &:focus,
+  &:active {
+    color: rgb(198, 198, 198) !important;
+    background: none !important;
+  }
+
+  &:hover .anticon,
+  &:focus .anticon,
+  &:active .anticon {
+    color: rgb(198, 198, 198) !important;
+  }
 `;
 
 const Toggle = styled(Button)`
