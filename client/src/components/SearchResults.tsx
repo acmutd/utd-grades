@@ -346,6 +346,60 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [sections, sectionId, handleClick]);
+  // Arrow key navigation between sections
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Don't handle arrow keys if user is typing in an input field or textarea
+      const target = event.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      // Only handle arrow keys when a section is selected
+      if (!sections || sections.length === 0 || !sectionId) {
+        return;
+      }
+
+      // Find the current section index
+      const currentIndex = sections.findIndex((s) => s.id === sectionId);
+      
+      if (currentIndex === -1) {
+        return;
+      }
+
+      let newIndex = -1;
+
+      if (event.key === "ArrowLeft") {
+        // Navigate to previous section
+        newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+        event.preventDefault();
+      } else if (event.key === "ArrowRight") {
+        // Navigate to next section
+        newIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : currentIndex;
+        event.preventDefault();
+      }
+
+    // Navigate to the new section if index changed
+          if (newIndex !== -1 && newIndex !== currentIndex) {
+            const target = sections[newIndex];
+            if (target && typeof target.id === "number") {
+              handleClick(target.id);
+            }
+          }
+        };
+
+    // Add event listener
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [sections, sectionId, handleClick]);
 
   const handleSubmit = useCallback(({ search }: SearchQuery) => {
     void stableRouter.current.push({
@@ -372,7 +426,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
         duration: 400,
         smooth: true
       });
-    }).catch(error => {
+    }).catch((error: unknown) => {
       console.error('Navigation error:', error);
     });
   }, []);

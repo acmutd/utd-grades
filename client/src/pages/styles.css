@@ -98,14 +98,23 @@ body {
   width: 100%;
 }
 
+.ant-input,
+.ant-input-search-button {
+  height: 40px !important; 
+}
+
 .ant-input {
   border-radius: 20px 0 0 20px !important;
   border: none !important;
 }
 
+.ant-input:hover,
 .ant-input:focus {
   outline: none !important;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+  border-color: rgb(116, 116, 116) !important;
+  box-shadow: none !important;
+  border-width: 1px !important; 
+
 }
 
 .ant-input-search-button {

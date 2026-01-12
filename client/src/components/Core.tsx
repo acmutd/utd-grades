@@ -1,4 +1,7 @@
-import { useEffect, type ReactNode } from "react";
+import { HeartTwoTone } from "@ant-design/icons";
+import { Popover } from "antd";
+import type { ReactNode } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -120,7 +123,16 @@ function Core({ children }: CoreProps) {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
+  const donors = (
+    <div style={{ width: "300px" }}>
+      <p>
+        Thank you to the following people for donating and making this possible (in order of most
+        monetary support): Anthony-Tien Huynh, Adam Butcher, Paul Denino, Thomas Sowders, Xavier
+        Brown, Enza Denino, David Garvin, Alastair Feille, Andrew Vaccaro and other anonymous
+        donors.
+      </p>
+    </div>
+  );
 
   return (
     <Container>
