@@ -1,8 +1,7 @@
-import { Col } from "antd";
+import { Col, Segmented } from "antd";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
 import styled from "styled-components";
 import FadeIn from "../components/animations/FadeIn";
 import Core from "../components/Core";
@@ -95,19 +94,33 @@ const Logo = {
   flexShrink: 0,
 };
 
-const PageToggle = styled(Button)`
+const ThemeSegmented = styled(Segmented)`
   position: absolute;
   top: 20px;
   right: 20px;
-  background: none;
+  background: var(--toggle-bg);
   border: none;
+  border-radius: 999px;
   box-shadow: none;
-  color: var(--muted-text);
+  color: var(--card-bg);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
   svg { width: 18px; height: 18px; }
+
+    .ant-segmented-item {
+    background: none;  
+    border-radius: 999px;
+    padding: 4px 14px;
+    color: var(--text-color);
+    opacity: 0.5;
+    font-weight: 500;
+  }
+
+  .ant-segmented-item-selected {
+    background: var(--result-container-bg);
+    opacity: 1;
+  }
 `;
 
 
@@ -145,25 +158,42 @@ export default function Home() {
   }
 
   return (
-    <Core>
+    <Core showSageAd={true}>
       <Content>
-        <PageToggle
-          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
-          type="ghost"
-          shape="circle"
-          size="large"
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        >
-          {theme === "light" ? (
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.79 1.8-1.78zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zm7.03-2.03l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79zM17.24 4.84l1.8-1.79L19.83 1.2l-1.79 1.79-0.8 1.85zM12 6a6 6 0 100 12 6 6 0 000-12z" fill="currentColor" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />
-            </svg>
-          )}
-        </PageToggle>
+        <ThemeSegmented
+          value={theme}
+          onChange={(value) => setTheme(value as "light" | "dark")}
+          options={[
+            {
+              value: "light",
+              label: (
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden>
+                    <path
+                      d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.79 1.8-1.78zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zm7.03-2.03l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79zM12 6a6 6 0 100 12 6 6 0 000-12z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Light
+                </span>
+              ),
+            },
+            {
+              value: "dark",
+              label: (
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden>
+                    <path
+                      d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Dark
+                </span>
+              ),
+            },
+          ]}
+        />
         <Main>
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
@@ -177,7 +207,7 @@ export default function Home() {
                 />
                 <div>
                   <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
-                  <ByACM>by <HeaderBold>ACM</HeaderBold></ByACM>
+                  <ByACM>by <HeaderBold>ACM Dev</HeaderBold></ByACM>
                 </div>
               </Header>
             </FadeIn>

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import SageAd from "./SageAd";
 
 const Container = styled.div`
   min-height: 100%;
@@ -67,9 +68,57 @@ const GitHubLink = styled.a`
 
 interface CoreProps {
   children: ReactNode;
+  showSageAd?: boolean;
 }
 
-function Core({ children }: CoreProps) {
+function Core({ children, showSageAd = false }: CoreProps) {
+  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+
+  // Initialize theme on start
+  useEffect(() => {
+    const initTheme = () => {
+      // Check localStorage first
+      const saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") {
+        setTheme(saved);
+        document.documentElement.setAttribute("data-theme", saved);
+        return;
+      }
+
+      // Check system preference
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        setTheme("dark");
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+        setTheme("light");
+        document.documentElement.setAttribute("data-theme", "light");
+      } else {
+        // Default to light
+        setTheme("light");
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    };
+
+    initTheme();
+  }, []);
+
+  useEffect(() => {
+    const handleThemeChange = (e: StorageEvent) => {
+      if (e.key === "theme" && (e.newValue === "light" || e.newValue === "dark")) {
+        setTheme(e.newValue);
+        document.documentElement.setAttribute("data-theme", e.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleThemeChange);
+    return () => window.removeEventListener("storage", handleThemeChange);
+  }, []);
+
+  useEffect(() => {
+    if (theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+    }
+  }, [theme]);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
@@ -126,10 +175,7 @@ function Core({ children }: CoreProps) {
     <Container>
       <Body>{children}</Body>
       <Footer>
-        {/*<BuiltWithLove>
-          Built with <HeartTwoTone twoToneColor="#eb2f96" /> by{" "}
-          <a href="https://www.acmutd.co" target={"blank"}>ACM Dev</a>
-        </BuiltWithLove>*/}
+        {showSageAd && <SageAd />}
         <CreditsText>
          {/*Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}

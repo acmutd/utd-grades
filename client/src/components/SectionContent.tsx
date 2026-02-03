@@ -46,7 +46,7 @@ const GraphContainer = styled.div`
   width: 100%;
   min-height: 250px;
   max-height: 400px;
-  background-color: var(--card-bg);
+  background-color: var(--result-container-bg);
 
   @media (max-width: 992px) {
     & {
@@ -60,7 +60,7 @@ const GraphContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 5px 10px rgba(70, 70, 70, 0.7);
+      box-shadow: 0 1px 5px rgba(70, 70, 70, 0.17);
       border-radius: 5px;
       padding: 20px;
     }
@@ -71,7 +71,7 @@ const ProfessorDetailsContainer = styled.div`
   width: 100%;
   margin-top: 1rem;
   flex-shrink: 0;
-  background-color: var(--card-bg);
+  background-color: var(--result-container-bg);
 
   @media (max-width: 992px) {
     & {
@@ -81,7 +81,7 @@ const ProfessorDetailsContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 5px 10px rgba(70, 70, 70, 0.7);
+      box-shadow: 0 1px 5px rgba(70, 70, 70, 0.17);
       border-radius: 5px;
       padding: 20px;
     }

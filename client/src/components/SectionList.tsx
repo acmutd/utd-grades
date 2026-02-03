@@ -107,9 +107,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
   min-width: 28px;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid ${props => props.active ? 'rgb(198, 198, 198 )' : '#d9d9d9'};
-  background: ${props => props.active ? 'rgb(198, 198, 198 )' : props.disabled ? '#f5f5f5' : '#fff'};
-  color: ${props => props.active ? '#333' : props.disabled ? '#bfbfbf' : 'rgba(0, 0, 0, 0.85)'};
+  border: 1px solid ${props => props.active ? 'var(--pagination-border-active)' : 'var(--pagination-border)'};
+  background: ${props => props.active ? 'var(--pagination-bg-active)' : props.disabled ? 'var(--pagination-bg-disabled)' : 'var(--pagination-bg)'};
+  color: ${props => props.active ? 'var(--pagination-text-active)' : props.disabled ? 'var(--pagination-text-disabled)' : 'var(--pagination-text)'};
   border-radius: 2px;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   font-family: var(--font-family);
@@ -120,9 +120,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 
   &:hover {
     ${props => !props.disabled && !props.active && css`
-      border-color: rgb(198, 198, 198 );
-      color: #333;
-      background: #fafafa;
+      border-color: var(--pagination-hover-border);
+      color: var(--pagination-hover-text);
+      background: var(--pagination-hover-bg);
     `}
   }
 
