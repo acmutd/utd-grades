@@ -33,12 +33,15 @@
   --text-color: #DFDFDF;
   --muted-text: #ffffff86;
   --link-color: #7f99e5;
+  --description-color: #95989a;
+  --header-color: #cfcfcf;
 
   /* UI surfaces */
   --card-bg: #333333;
   --border-color: #ffffff14;
-  --select-tag: #cfcfcf;
+  --select-tag: #cdcdcd;
   --result-container-bg: #ffffff14;
+  --search-placeholder: #959595;
 
   /* Pagination */
   --pagination-border: #d9d9d9;
@@ -82,8 +85,6 @@
   --card-hover-bg: #494949;
   --tag-hover-bg: #1c1c1c;
   --rmp-link-underline: #333333;
-  --toggle-bg: #4f4e4e;
-    
 }
 
 [data-theme="light"] {
@@ -91,16 +92,18 @@
   --text-color: #1a1a1a;
   --muted-text: #555555;
   --link-color: #1e40af;
+  --description-color: #95989a;
+  --header-color: #4e4e4e;
 
   
   --card-bg: #ffffff;
-  --select-tag: #333333;
+  --select-tag: #696969;
   --border-color: rgba(0, 0, 0, 0.12);
   --card-hover-bg: #e6e6e9;
   --tag-hover-bg: #e6e6e9;
   --rmp-link-underline: rgba(0,0,0,0.08);
   --result-container-bg: #fdfdfdfd;
-  --toggle-bg: #f5f3f3;
+  --search-placeholder: #c6c6c6;
   
   --pagination-border: rgba(0, 0, 0, 0.15);
   --pagination-border-active: #e1e1e1;

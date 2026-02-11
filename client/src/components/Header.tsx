@@ -1,5 +1,5 @@
 import { HomeOutlined } from "@ant-design/icons";
-import { Button, Row, Segmented } from "antd";
+import { Button, Row } from "antd";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
@@ -38,32 +38,72 @@ const Back = styled(Button) <{ $dummy?: boolean }>`
   }
 `;
 
-const ThemeSegmented = styled(Segmented)`
-  position: relative;
-  background: var(--toggle-bg);
-  border: none;
-  border-radius: 999px;
-  box-shadow: none;
-  color: var(--card-bg);
-  display: inline-flex;
+const ThemeToggle = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  svg { width: 18px; height: 18px; }
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid var(--toggle-border, #e4e4e7);
+  background: var(--toggle-bg, #ffffff);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-  .ant-segmented-item {
-    background: none;  
-    border-radius: 999px;
-    padding: 4px 14px;
-    color: var(--text-color);
-    opacity: 0.5;
-    font-weight: 500;
+  &:hover {
+    background: var(--toggle-hover-bg, #f4f4f5);
+    color: var(--toggle-hover-color, #333333);
   }
 
-  .ant-segmented-item-selected {
-    background: var(--result-container-bg);
-    opacity: 1;
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #727272;
+    }
   }
 `;
+
+const SunIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+);
 
 
 
@@ -74,7 +114,7 @@ const HeaderText = styled.a`
   display: block;
 
   & h2 {
-    color: var(--text-color);
+    color: var(--header-color);
     font-weight: 300;
     letter-spacing: 2px;
     font-size: 24px;
@@ -108,6 +148,10 @@ export default function Header() {
     return "light";
   });
 
+  const toggleTheme = () => {
+      setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+    };
+
   useEffect(() => {
     try {
       document.documentElement.setAttribute("data-theme", theme);
@@ -138,40 +182,9 @@ export default function Header() {
           <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
         </h2>
       </HeaderText>
-        <ThemeSegmented
-          value={theme}
-          onChange={(value) => setTheme(value as "light" | "dark")}
-          options={[
-            {
-              value: "light",
-              label: (
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden>
-                    <path
-                      d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.79 1.8-1.78zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zm7.03-2.03l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79zM12 6a6 6 0 100 12 6 6 0 000-12z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  Light
-                </span>
-              ),
-            },
-            {
-              value: "dark",
-              label: (
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                  <svg viewBox="0 0 24 24" width={16} height={16} aria-hidden>
-                    <path
-                      d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  Dark
-                </span>
-              ),
-            },
-          ]}
-        />
+        <ThemeToggle onClick={toggleTheme} aria-label="Toggle Dark Mode">
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+        </ThemeToggle>
     </Menu>
   );
 }

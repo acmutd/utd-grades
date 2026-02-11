@@ -49,7 +49,7 @@ const Hint = styled(AntPopover)`
   margin-right: auto;
   display: block;
   font-family: var(--font-family);
-  color: var(--muted-text);
+  color: var(--description-color);
 `;
 
 const Popover = styled.div`
@@ -91,7 +91,7 @@ const LoadingItem = styled(List.Item)`
  /*For the person icon*/
 const IconWrapper = styled.div`
   margin-right: 8;
-  color: var(--muted-text);
+  color: var(--description-color);
 `;
 
 const PaginationContainer = styled.div`
@@ -133,7 +133,7 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 
 
 const EnrollmentText = styled.span<{ $color?: string }>`
-  color: ${(p) => p.$color || "var(--text-color)"};
+  color: ${(p) => p.$color || "var(--description-color)"};
 `;
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`

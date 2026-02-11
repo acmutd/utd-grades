@@ -22,10 +22,6 @@ const ResultsContainer = styled(Col)`
   padding-bottom: 20px;
   margin-top: 35px;
   border-radius: 5px;
-
-  background-color: var(--card-bg);
-  /* make the results area stand out in light mode */
-  border: 1px solid var(--border-color);
   color: var(--text-color);
 
   & .ant-list-pagination {
@@ -37,14 +33,7 @@ const ResultsContainer = styled(Col)`
     font-family: var(--font-family);
   }
 
-  /* Ensure Ant list/card text inside results uses theme-aware colors
-     (overrides global dark-mode-only rules that leaked into light mode) */
-  & .ant-list-item,
-  & .ant-list-item-meta,
-  & .ant-list-item-meta-title,
-  & .ant-list-item-meta-description,
-  & .ant-typography,
-  & .ant-card {
+  & .ant-list-item-meta-title, .ant-card {
     color: var(--text-color) !important;
     background: transparent !important;
   }
