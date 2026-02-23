@@ -72,39 +72,19 @@ interface CoreProps {
 }
 
 function Core({ children, showSageAd = false }: CoreProps) {
-  const [theme, setTheme] = useState<"light" | "dark" | null>(null);
+  const [, setTheme] = useState<"light" | "dark" | null>(null);
 
   // Initialize theme on start
   useEffect(() => {
-    const initTheme = () => {
-      // Check localStorage first
-      const saved = localStorage.getItem("theme");
-      if (saved === "light" || saved === "dark") {
-        setTheme(saved);
-        document.documentElement.setAttribute("data-theme", saved);
-        return;
-      }
-
-      // Check system preference
-      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        setTheme("dark");
-        document.documentElement.setAttribute("data-theme", "dark");
-      } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-        setTheme("light");
-        document.documentElement.setAttribute("data-theme", "light");
-      } else {
-        // Default to light
-        setTheme("light");
-        document.documentElement.setAttribute("data-theme", "light");
-      }
-    };
-
-    initTheme();
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const theme = prefersDark ? "dark" : "light";
+    setTheme(theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, []);
 
   useEffect(() => {
     const handleThemeChange = (e: StorageEvent) => {
-      if (e.key === "theme" && (e.newValue === "light" || e.newValue === "dark")) {
+      if ((e.newValue === "light" || e.newValue === "dark")) {
         setTheme(e.newValue);
         document.documentElement.setAttribute("data-theme", e.newValue);
       }
@@ -113,12 +93,7 @@ function Core({ children, showSageAd = false }: CoreProps) {
     window.addEventListener("storage", handleThemeChange);
     return () => window.removeEventListener("storage", handleThemeChange);
   }, []);
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-    }
-  }, [theme]);
+  
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;

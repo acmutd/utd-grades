@@ -49,13 +49,13 @@ const ThemeToggle = styled.button`
   height: 36px;
   border-radius: 9999px;
   border: 1px solid var(--toggle-border, #e4e4e7);
-  background: var(--toggle-bg, #ffffff);
+  background: var(--toggle-bg);
   color: var(--text-color);
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: var(--toggle-hover-bg, #f4f4f5);
+    background: var(--toggle-hover-bg);
     color: var(--toggle-hover-color, #333333);
   }
 
@@ -64,7 +64,7 @@ const ThemeToggle = styled.button`
     height: 16px;
   }
 
-  @media (prefers-color-scheme: dark) {
+  @media (prefers-color-scheme: light) {
     border-color: rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.05);
     
