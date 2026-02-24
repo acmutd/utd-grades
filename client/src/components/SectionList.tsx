@@ -8,15 +8,11 @@ import styled, { css } from "styled-components";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
   padding: 25px;
-  border-right: 1px solid #e8e8e8;
-  border-bottom: 1px solid #e8e8e8;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 300ms ease-out;
   font-family: var(--font-family);
-
-  &:hover {
-    background-color: #fcfcfc;
-  }
 
   &:first-child {
     border-top-left-radius: 5px;
@@ -25,6 +21,13 @@ const Item = styled(List.Item)<{ selected: boolean }>`
   & .ant-list-item-meta-title a {
     font-weight: 600;
     font-family: var(--font-family);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  & .ant-list-item-meta-title a:hover {
+    color: var(--link-color);
+    text-decoration: none;
   }
 
   & .ant-list-item-meta {
@@ -35,9 +38,9 @@ const Item = styled(List.Item)<{ selected: boolean }>`
 `;
 
 const selectedStyles = css`
-  border-right: 6px solid #333 !important;
+  border-right: 6px solid var(--select-tag) !important;
   box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
-  background-color: #fcfcfc;
+  background-color: var(--card-bg);
 `;
 
 const Hint = styled(AntPopover)`
@@ -46,7 +49,7 @@ const Hint = styled(AntPopover)`
   margin-right: auto;
   display: block;
   font-family: var(--font-family);
-  color: #95989a;
+  color: var(--description-color);
 `;
 
 const Popover = styled.div`
@@ -62,7 +65,7 @@ const Error = styled.p`
   font-family: var(--font-family);
   font-size: 22px;
   text-align: center;
-  color: #a4a4a4;
+  color: var(--muted-text);
   font-weight: 300;
 `;
 
@@ -72,7 +75,7 @@ const StyledIcon = styled(FrownTwoTone)`
   margin-bottom: 15px;
   margin-left: auto;
   margin-right: auto;
-  display: block !important;
+  display: block;
 `;
 
 const LoadingItem = styled(List.Item)`
@@ -85,8 +88,10 @@ const LoadingItem = styled(List.Item)`
   }
 `;
 
+ /*For the person icon*/
 const IconWrapper = styled.div`
   margin-right: 8;
+  color: var(--description-color);
 `;
 
 const PaginationContainer = styled.div`
@@ -102,9 +107,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
   min-width: 28px;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid ${props => props.active ? 'rgb(198, 198, 198 )' : '#d9d9d9'};
-  background: ${props => props.active ? 'rgb(198, 198, 198 )' : props.disabled ? '#f5f5f5' : '#fff'};
-  color: ${props => props.active ? '#333' : props.disabled ? '#bfbfbf' : 'rgba(0, 0, 0, 0.85)'};
+  border: 1px solid ${props => props.active ? 'var(--pagination-border-active)' : 'var(--pagination-border)'};
+  background: ${props => props.active ? 'var(--pagination-bg-active)' : props.disabled ? 'var(--pagination-bg-disabled)' : 'var(--pagination-bg)'};
+  color: ${props => props.active ? 'var(--pagination-text-active)' : props.disabled ? 'var(--pagination-text-disabled)' : 'var(--pagination-text)'};
   border-radius: 2px;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   font-family: var(--font-family);
@@ -115,9 +120,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 
   &:hover {
     ${props => !props.disabled && !props.active && css`
-      border-color: rgb(198, 198, 198 );
-      color: #333;
-      background: #fafafa;
+      border-color: var(--pagination-hover-border);
+      color: var(--pagination-hover-text);
+      background: var(--pagination-hover-bg);
     `}
   }
 
@@ -126,6 +131,10 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
   }
 `;
 
+
+const EnrollmentText = styled.span<{ $color?: string }>`
+  color: ${(p) => p.$color || "var(--description-color)"};
+`;
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`
 //   color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
@@ -213,7 +222,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
       const currentPageData = data.slice(startIndex, endIndex);
 
       return (
-        <>
+                <>
           <List<Grades>
             itemLayout="vertical"
             size="large"
@@ -225,7 +234,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                 actions={[
                   <IconText
                     icon={<UserOutlined />}
-                    child={item.totalStudents.toString()}
+                    child={<EnrollmentText>{item.totalStudents.toString()}</EnrollmentText>}
                     key="students-total"
                   />,
                   // FIXME (median)

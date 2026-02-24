@@ -11,7 +11,7 @@ import { normalizeName } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
-import { SectionList } from "./SectionList";
+import {SectionList} from "./SectionList";
 
 const Container = styled.div`
   display: block;
@@ -22,6 +22,7 @@ const ResultsContainer = styled(Col)`
   padding-bottom: 20px;
   margin-top: 35px;
   border-radius: 5px;
+  color: var(--text-color);
 
   & .ant-list-pagination {
     padding-left: 10px;
@@ -32,15 +33,23 @@ const ResultsContainer = styled(Col)`
     font-family: var(--font-family);
   }
 
+  & .ant-list-item-meta-title, .ant-card {
+    color: var(--text-color) !important;
+    background: transparent !important;
+  }
+
+  & .ant-list-item-meta-description {
+    color: var(--muted-text) !important;
+  }
+
   @media (max-width: 992px) {
     & {
       box-shadow: none;
     }
   }
-
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 15px 50px rgba(233, 233, 233, 0.7);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
   }
 `;
@@ -52,7 +61,7 @@ interface ResultsProps {
 }
 
 const Results = React.memo(function Results({ search, sectionId, router }: ResultsProps) {
-  // Track current page for SectionList pagination
+    // Track current page for SectionList pagination
   const [currentPage, setCurrentPage] = useState(1);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasAutoSelected = useRef(false);
@@ -106,6 +115,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       }
     }
   }, [sectionId, sections]);
+
 
   // get the section data
   const {
@@ -325,6 +335,60 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [sections, sectionId, handleClick]);
+  // Arrow key navigation between sections
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Don't handle arrow keys if user is typing in an input field or textarea
+      const target = event.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      // Only handle arrow keys when a section is selected
+      if (!sections || sections.length === 0 || !sectionId) {
+        return;
+      }
+
+      // Find the current section index
+      const currentIndex = sections.findIndex((s) => s.id === sectionId);
+      
+      if (currentIndex === -1) {
+        return;
+      }
+
+      let newIndex = -1;
+
+      if (event.key === "ArrowLeft") {
+        // Navigate to previous section
+        newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+        event.preventDefault();
+      } else if (event.key === "ArrowRight") {
+        // Navigate to next section
+        newIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : currentIndex;
+        event.preventDefault();
+      }
+
+    // Navigate to the new section if index changed
+          if (newIndex !== -1 && newIndex !== currentIndex) {
+            const target = sections[newIndex];
+            if (target && typeof target.id === "number") {
+              handleClick(target.id);
+            }
+          }
+        };
+
+    // Add event listener
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [sections, sectionId, handleClick]);
 
   const handleSubmit = useCallback(({ search }: SearchQuery) => {
     void stableRouter.current.push({
@@ -376,6 +440,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
                 error={sectionsError}
                 page={currentPage}
                 setPage={setCurrentPage}
+                
               />
             </Col>
 

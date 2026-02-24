@@ -14,14 +14,62 @@ const Hint = styled(AntPopover)`
   margin-left: auto;
   margin-right: auto;
   display: block;
-  font-family: var(--font-family);
+  font-family: 'Gilroy-Regular', sans-serif;
   color: #95989a;
 `;
 
 const Popover = styled.div`
-  font-family: var(--font-family);
+  font-family: 'Gilroy-Regular', sans-serif;
   width: 375px;
 `;
+
+const DarkModeSearch = styled(Input.Search)`
+
+  .ant-input-group {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgb(198, 198, 198);
+  }
+
+  .ant-input-group-addon {
+    padding: 0;
+    background: transparent;
+  }
+  .ant-input {
+    background-color: transparent;
+    color: var(--text-color);
+    font-family: 'Gilroy', sans-serif;
+    height: 44px;
+    line-height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .ant-input::placeholder {
+    color: var(--search-placeholder);
+  }
+
+  .ant-input-search-button {
+    background-color: transparent;
+    height: 44px;
+    line-height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .ant-input-search-button .anticon {
+    color: #95989a;
+  }
+
+  .ant-input-search-button .anticon svg {
+    fill: currentColor;
+  }
+
+  .ant-input-search-button:hover {
+    opacity: 0.95;
+  }
+`;
+
 
 interface SearchProps {
   onSubmit: (query: SearchQuery) => void;
@@ -78,8 +126,7 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
         onChange={(value: unknown) => onChange(value as string)}
         value={searchValue}
       >
-        <Input.Search
-          id="search-bar"
+        <DarkModeSearch
           onSearch={(search) => onSubmit({ search })}
           name="search"
           size="large"

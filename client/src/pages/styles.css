@@ -1,28 +1,132 @@
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+@font-face {
+  font-family: 'Gilroy-Light';
+  src: url('/fonts/Gilroy-Light.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
 
-:root {
-  --font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-    Cantarell, "Helvetica Neue", sans-serif;
-  --box-shadow-base: 0 1px 2px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.07),
-    0 4px 8px rgba(0, 0, 0, 0.07), 0 8px 16px rgba(0, 0, 0, 0.07), 0 16px 32px rgba(0, 0, 0, 0.07),
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: url('/fonts/Gilroy-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-SemiBold';
+  src: url('/fonts/Gilroy-SemiBold.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url('/fonts/Gilroy-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {--font-family: var(--font-family);
+/* Defines global and dark mode theme variables (light mode is further down) */
+  /* Core colors */
+  --bg-color: #1B1B1B;
+  --text-color: #DFDFDF;
+  --muted-text: #ffffff86;
+  --link-color: #7f99e5;
+  --description-color: #95989a;
+  --header-color: #cfcfcf;
+
+  /* UI surfaces */
+  --card-bg: #333333;
+  --border-color: #ffffff14;
+  --select-tag: #cdcdcd;
+  --result-container-bg: #ffffff14;
+  --search-placeholder: #959595;
+  --section-card-shadow: 0 5px 5px rgba(21, 21, 21, 0.319);
+
+  /* Pagination */
+  --pagination-border: #d9d9d9;
+  --pagination-border-active: rgb(198, 198, 198);
+  --pagination-bg: #4d4d4d;
+  --pagination-bg-disabled: #282828;
+  --pagination-bg-active: #e5e5e5;
+
+  --pagination-text: #e0e0e0;
+  --pagination-text-disabled: #bfbfbf;
+  --pagination-text-active: #1a1a1a;
+
+  --pagination-hover-bg: #c3c3c3;
+  --pagination-hover-text: #333;
+  --pagination-hover-border: rgb(198, 198, 198);
+
+  /* Shadows */
+  --box-shadow-base:
+    0 1px 2px rgba(0, 0, 0, 0.07),
+    0 2px 4px rgba(0, 0, 0, 0.07),
+    0 4px 8px rgba(0, 0, 0, 0.07),
+    0 8px 16px rgba(0, 0, 0, 0.07),
+    0 16px 32px rgba(0, 0, 0, 0.07),
     0 32px 64px rgba(0, 0, 0, 0.07);
-  --box-shadow-inactive: 0 1px 1px rgba(151, 151, 151, 0.11), 0 2px 2px rgba(151, 151, 151, 0.11),
-    0 4px 4px rgba(151, 151, 151, 0.11), 0 6px 8px rgba(151, 151, 151, 0.11),
+
+  --box-shadow-inactive:
+    0 1px 1px rgba(151, 151, 151, 0.11),
+    0 2px 2px rgba(151, 151, 151, 0.11),
+    0 4px 4px rgba(151, 151, 151, 0.11),
+    0 6px 8px rgba(151, 151, 151, 0.11),
     0 8px 16px rgba(151, 151, 151, 0.11);
-  --box-shadow-active: 0 2px 1px rgba(151, 151, 151, 0.09), 0 4px 2px rgba(151, 151, 151, 0.09),
-    0 8px 4px rgba(151, 151, 151, 0.09), 0 16px 8px rgba(151, 151, 151, 0.09),
+
+  --box-shadow-active:
+    0 2px 1px rgba(151, 151, 151, 0.09),
+    0 4px 2px rgba(151, 151, 151, 0.09),
+    0 8px 4px rgba(151, 151, 151, 0.09),
+    0 16px 8px rgba(151, 151, 151, 0.09),
     0 32px 16px rgba(151, 151, 151, 0.09);
-  --ant-wave-shadow-color: rgb(198, 198, 198);
-  --antd-wave-shadow-color: rgb(198, 198, 198);
+
+  /* helper theme variables for components */
+  --card-hover-bg: #494949;
+  --tag-hover-bg: #1c1c1c;
+  --rmp-link-underline: #333333;
+}
+
+[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #1a1a1a;
+  --muted-text: #555555;
+  --link-color: #1e40af;
+  --description-color: #95989a;
+  --header-color: #4e4e4e;
+
+  
+  --card-bg: #ffffff;
+  --select-tag: #696969;
+  --border-color: rgba(0, 0, 0, 0.12);
+  --card-hover-bg: #e6e6e9;
+  --tag-hover-bg: #e6e6e9;
+  --rmp-link-underline: rgba(0,0,0,0.08);
+  --result-container-bg: #fdfdfdfd;
+  --search-placeholder: #c6c6c6;
+  --section-card-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
+  
+  --pagination-border: rgba(0, 0, 0, 0.15);
+  --pagination-border-active: #e1e1e1;
+  --pagination-bg: #ffffff;
+  --pagination-bg-disabled: #f0f0f0;
+  --pagination-bg-active: #1a1a1a;
+
+  --pagination-text: #1a1a1a;
+  --pagination-text-disabled: #999999;
+  --pagination-text-active: #ffffff;
+
+  --pagination-hover-bg: #f5f5f5;
+  --pagination-hover-text: #1a1a1a;
+  --pagination-hover-border: #1a1a1a;
 }
 
 html,
 body {
   height: 100%;
-}
-
-body {
-  font-family: sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
 }
@@ -39,6 +143,7 @@ body {
 
 .ant-input {
   border-radius: 20px 0 0 20px !important;
+  border: none !important;
 }
 
 .ant-input:hover,
@@ -52,88 +157,14 @@ body {
 
 .ant-input-search-button {
   border-radius: 0 20px 20px 0 !important;
-  border-color: rgb(198, 198, 198 ) !important;
-  border-width: 1px !important; 
-  color: #333 !important;
+  border: none !important;
 }
 
-.ant-input-search-button:hover,
-.ant-input-search-button:focus {
-  border-color: rgb(116, 116, 116) !important;
-  color: #333 !important;
+.ant-list-item, .ant-list-item-meta, .ant-list-item-meta-title, .ant-list-item-meta-description {
+  color: #ffffff86;
 }
 
-.ant-input-affix-wrapper:hover,
-.ant-input-affix-wrapper:focus-within,
-.ant-input-affix-wrapper-focused {
-  border-color: rgb(198, 198, 198) !important;
-  box-shadow: none !important;
-}
-
-.ant-btn {
-  --ant-wave-shadow-color: rgb(198, 198, 198);
-  --antd-wave-shadow-color: rgb(198, 198, 198);
-}
-
-.ant-btn:focus,
-.ant-btn:active,
-.ant-btn:focus-visible {
-  outline: none !important;
-  border-color: rgb(198, 198, 198) !important;
-}
-
-.ant-wave,
-.ant-wave-holder,
-.ant-click-animating-node,
-.ant-click-animating {
-  --ant-wave-shadow-color: rgb(198, 198, 198) !important;
-  --antd-wave-shadow-color: rgb(198, 198, 198) !important;
-}
-
-.ant-btn-primary,
-.ant-btn-primary:hover,
-.ant-btn-primary:focus {
-  background-color: rgb(198, 198, 198 ) !important;
-  border-color: rgb(198, 198, 198 ) !important;
-  color: #333 !important;
-}
-
-.ant-menu-item-selected {
-  background-color: rgb(198, 198, 198 ) !important;
-}
-
-.ant-menu-item-active {
-  background-color: rgb(198, 198, 198 ) !important;
-}
-
-.ant-card-bordered {
-  border: 1px solid rgb(198, 198, 198 ) !important;
-}
-
-.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
-  background-color: rgb(198, 198, 198 ) !important;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-  background-color: rgb(198, 198, 198 ) !important;
-  border-color: rgb(198, 198, 198 ) !important;
-  color: #333 !important;
-}
-
-.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover {
-  background-color: rgb(217, 217, 217) !important;
-  border-color: rgb(217, 217, 217) !important;
-  color: #333 !important;
-}
-
-.ant-radio-button-wrapper:hover {
-  color: #333 !important;
-}
-
-a {
-  color: #333;
-}
-
-a:hover {
-  color: #555;
+/* Ant Design default text color overrides for dark mode */
+.ant-typography, .ant-typography a, .ant-typography p {
+  color: #DFDFDF;
 }

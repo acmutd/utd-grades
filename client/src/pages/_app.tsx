@@ -26,6 +26,18 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
   return (
     <>
+      <Script id="theme-init" strategy="beforeInteractive">
+      {`
+        try {
+            const theme = localStorage.getItem("theme") === "light"
+            ? "light"
+            : "dark";
+
+            document.documentElement.dataset.theme = theme;
+          } catch {}
+        `}
+      </Script>
+
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <link rel="apple-touch-icon" sizes="180x180" href={`${basePath}/apple-touch-icon.png`} />
