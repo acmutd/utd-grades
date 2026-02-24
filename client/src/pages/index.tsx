@@ -34,6 +34,12 @@ const Header = styled.h1`
   align-items: center;
   justify-content: center;
   gap: 16px;
+
+  @media (max-width: 1212px){
+  font-size: 36px;
+  gap: 12px;
+  letter-spacing: 2px;
+}
   
   @media (max-width: 768px) {
     font-size: 36px;
@@ -46,6 +52,12 @@ const Header = styled.h1`
     letter-spacing: 1px;
     gap: 8px;
   }
+     @media (max-width: 380px) {
+    font-size: 20px;
+    letter-spacing: 1px;
+    gap: 8px;
+  }
+    
 `;
 
 const Description = styled.p`
@@ -58,6 +70,9 @@ const Description = styled.p`
 
    strong {
     font-family: 'Gilroy-Bold', sans-serif;
+  }
+    @media (max-width: 320px) {
+    font-size: 14px;
   }
 `;
 
@@ -86,6 +101,8 @@ const ByACM = styled.span`
     font-size: 12px;
     margin-left: 6px;
   }
+
+   
 `;
 
 const Logo = {
@@ -130,6 +147,23 @@ const ThemeToggle = styled.button`
     }
   }
 `;
+
+const LogoWrapper = styled.div`
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
+
+  @media (max-width: 480px) {
+    width: 34px;
+    height: 34px;
+  }
+`;
+
 
 const SunIcon = () => (
   <svg
@@ -209,6 +243,7 @@ export default function Home() {
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
+                <LogoWrapper>
                 <Image
                   src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
                   alt="ACM Dev Logo"
@@ -216,6 +251,8 @@ export default function Home() {
                   height={52}
                   style={Logo}
                 />
+                </LogoWrapper>
+
                 <div>
                   <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
                   <ByACM>by <HeaderBold>ACM Dev</HeaderBold></ByACM>
