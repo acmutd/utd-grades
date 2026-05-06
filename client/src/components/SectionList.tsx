@@ -7,6 +7,7 @@ import styled, { css } from "styled-components";
 // import { getLetterGrade, getLetterGradeColor } from "../utils";
 
 const Item = styled(List.Item)<{ selected: boolean }>`
+  width: 100%;
   padding: 25px;
   border-right: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
@@ -135,6 +136,13 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 const EnrollmentText = styled.span<{ $color?: string }>`
   color: ${(p) => p.$color || "var(--text-color)"};
 `;
+
+const CourseName = styled.div`
+  margin-top: 0.15rem;
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--muted-text);
+`;
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`
 //   color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
@@ -227,6 +235,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
             itemLayout="vertical"
             size="large"
             dataSource={currentPageData}
+            style={{ width: "100%", minWidth: "100%" }}
             renderItem={(item) => (
               <Item
                 key={item.id}
@@ -254,6 +263,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   title={
                     <a href="#">
                       {item.subject} {item.catalogNumber}.{item.section}
+                      {item.courseName ? <CourseName>{item.courseName}</CourseName> : null}
                     </a>
                   }
                   // FIXME (no professor): non null assertion

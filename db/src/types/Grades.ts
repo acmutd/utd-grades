@@ -13,6 +13,7 @@ export type Grades = Modify<
     semester: Semester;
     subject: string;
     catalogNumber: string;
+    courseName: string | null;
     section: string;
     instructor1: Instructor | null;
     instructor2: Instructor | null;

@@ -1,0 +1,495 @@
+Subject,Catalog Nbr,Section,A+,A,A-,B+,B,B-,C+,C,C-,D+,D,D-,F,CR,I,NC,W,P,Instructor 1,Instructor 2,Instructor 3,Instructor 4,Instructor 5,Instructor 6,instructor_id,instructor_name_normalized,title
+ACCT,2302,5U1,2,4,,4,10,,4,9,,2,1,,,,,,1,,"Zolton, Kathy","Johnson, Jennifer G","Zhou, Junfei",,,,kxz121730,kathy zolton,Introductory Management Accounting 
+ACCT,3312,5U1,4,9,4,9,1,4,,,1,,,,,,,,,,"Johnson, Jennifer G","Zhou, Junfei",,,,,jxj091000,jennifer johnson,Fundamentals of Accounting Analytics 
+ACCT,3331,5U1,3,2,1,1,1,,5,,1,2,1,,1,,,,1,,"Zhou, Yibin","Chen, Hangu",,,,,yxz066000,yibin zhou,Intermediate Financial Accounting I 
+ACCT,3350,5U1,4,5,3,,3,3,4,4,1,2,,,,,,,,,"Gamino, John P",,,,,,jpg140630,john gamino,Fundamentals of Taxation 
+ACCT,4334,5U1,,1,4,3,6,1,3,1,1,,,,1,,,,,,"Hes, Christopher","Zhou, Junfei",,,,,cah041000,christopher hess,Auditing 
+ACCT,6202,0W1,,13,12,15,13,6,3,2,,,,,2,,,,1,,"Janakiraman, Surya N","Ai, Lanru",,,,,suryaj,surya janakiraman,Accounting for Managerial Decision Making and Control 
+ACCT,6301,5U1,,9,1,,,,,,,,,,,,,,,,"Solcher, Steven J",,,,,,sjs107020,steven solcher,Financial Accounting 
+ACCT,6305,0W1,,3,5,4,2,1,1,,,,,,,,,,,,"Janakiraman, Surya N","Ai, Lanru",,,,,suryaj,surya janakiraman,Accounting for Managers 
+ACCT,6338,0W1,,6,,1,10,,,4,,,,,,,,,4,,"Goodrich, Mary Beth W",,,,,,goodrich,mary beth goodrich,Accounting Systems Integration and Configuration 
+ACCT,6344,0W1,,14,22,4,6,6,1,,,,,,,,,,1,,"Gurun, Umit G","Yayvak, Berk",,,,,ugg041000,umit gurun,Financial Statement Analysis 
+ACCT,6353,PPA,,7,9,7,1,2,,,,,,,,,,,,,"Solcher, Steven J",,,,,,sjs107020,steven solcher,
+ACCT,6365,5U1,,8,5,13,7,4,8,2,,,,,1,,,,,,"Cheng, Samuel",,,,,,sxc109021,samuel cheng,Governmental and Not-For-Profit Accounting 
+ACCT,6367,5U1,,23,12,1,6,1,,1,,,,,1,,,,,,"Gamino, John P","Frost, Sandra M",,,,,jpg140630,john gamino,Multijurisdictional Taxation 
+ACCT,6377,5U1,,45,9,1,1,,,,,,,,,,,,,,"Ballew, Gregory","Liu, Ruichao",,,,,geb011100,gregory ballew,Corporate Governance 
+ACCT,6384,0W1,,39,10,3,4,2,,2,,,,,1,,,,,,"Kromer, Jeffrey R","Chen, Hangu",,,,,jrk013000,jeffrey kromer,Analytical Reviews Using Audit Software 
+ACCT,6392,5U1,,5,25,5,17,10,6,2,,,,,,,,,,,"Hes, Christopher",,,,,,cah041000,christopher hess,Advanced Auditing 
+ACCT,6394,XH1,,20,,,,,,,,,,,,,,,,,"McNulty, Diane S","Hemmig, Ray",,,,,dmcnulty,diane mcnulty,
+ACN,6395,0W1,,20,,,,,,,,,,,,,,,,,"Hooge, Kimberley D",,,,,,koh170030,kimberley orsten hooge,Cognitive Psychology 
+AMS,2300,091,4,2,,,,,,3,,,1,,2,,,,,,"Hammonds, Kyle",,,,,,kxh230016,kyle hammonds,American Popular Culture 
+AMS,3316,0W1,11,6,1,1,,,1,,,,,,,,,,2,,"Winstead, Elizabeth L",,,,,,lwm061000,elizabeth winstead,Interpersonal Communication 
+AMS,3350,0W1,6,2,1,2,,,,,,,,,,,,,3,,"Winstead, Elizabeth L",,,,,,lwm061000,elizabeth winstead,Crisis Communication 
+ANGM,2309,0W1,1,11,1,,2,,,,2,,,,2,,,,,,"Fechter, Todd A","Khamsehnezhad, Mozhdeh",,,,,taf051000,todd fechter,Drawing for Animation 
+ANGM,3305,0W1,,2,1,4,2,3,2,3,2,,,,5,,,,,,"Manriquez, Robert J",,,,,,rjm107020,,Computer Animation I 
+ANGM,3306,0W1,1,5,8,3,4,2,1,1,,,,,1,,,,1,,"Lewis, Timothy M",,,,,,tml062000,timothy lewis,Modeling and Texturing I 
+ANGM,3307,0W1,,4,4,,2,2,,2,,,,,1,,,,,,"McCord, Peter A",,,,,,pam062000,peter mccord,Lighting and Composition I 
+ANGM,3308,0W1,7,5,1,1,3,4,1,2,,1,,,2,,,,1,,"Porritt, Joseph L",,,,,,jxp154530,,Rigging I 
+ANGM,3338,0W1,7,3,7,2,1,,,1,1,,,,3,,,,,,"Griffin, Troy",,,,,,txg121730,troy griffin,Motion Design I 
+ANGM,3367,0W1,2,5,7,2,3,,2,,1,,1,,1,,,,,,"Lewis, Timothy M",,,,,,tml062000,timothy lewis,Level Design I 
+ANGM,3368,0W1,5,4,2,4,2,2,2,1,1,1,,2,1,,,,1,,"Chandler, Adam W",,,,,,awc051000,adam chandler,Scripting for Games I 
+ARTS,1301,0W1,34,5,1,2,,1,1,1,,1,,,1,,,,,,"Wilder, James E","Daneshvarkashkooli, Marjan","Takaloubighash, Maryam",,,,jew042000,james wilder,Exploration of the Arts 
+ARTS,3379,0W1,,5,2,1,3,,,,,,,,4,,,,,,"Loving, Emily A",,,,,,exl097120,emily loving,Photography  New Media 
+ARTS,3383,0W1,,3,2,2,,,1,,,1,,,1,,,,,,"Higgins-Stirrup, Brynn",,,,,,bxh230012,brynn higgins stirrup,Digital Drawing 
+ATCM,2300,0W1,7,3,3,3,,3,2,2,2,,,1,,,,,,,"Martinez Ochoa, Angelica M","Welwood, Samantha F",,,,,amm180028,,Introduction to TechnoCulture 
+ATCM,2300,0W2,11,9,3,,1,,,,,,,,1,,,,1,,"Khatri, Hamida","Rahman, Mohammad K",,,,,hxk200055,,Introduction to TechnoCulture 
+ATCM,2302,0U1,2,3,2,2,,2,,,1,,,,,,,,,,"Ashouri, Shaghayegh",,,,,,sxa210030,shaghayegh ashouri,Design I 
+ATCM,2321,0W1,,,7,3,4,2,1,,1,,,,,,,,,,"Whitlock, Kathryn","Vo, Angelene H",,,,,kgw150030,,Reading Media Critically 
+ATCM,2330,0W1,,,1,,2,3,,,2,,,,2,,,,,,"Nielsen, Christina R","Ayodabo, Sunday J",,,,,crn022000,christina nielsen,Digital Art and Social Practice 
+ATCM,2350,0U1,3,4,2,,1,,,,,,,,,,,,,,"Yu, Yiding",,,,,,yxy180033,yiding yu,Time-Based Media 
+ATCM,3301,0W2,,6,3,,1,,2,1,,,,,3,,,,,,"Chowdhury, Nusrat Zahan","Rahman, Maruf",,,,,nxc190022,,Writing for ATEC 
+ATCM,3337,0W1,7,,,1,,,,,2,,,,1,,,,1,,"Wood, Harold G",,,,,,hgw021000,harold wood,Interaction Design I 
+ATCM,3350,0W1,4,3,3,,2,,1,1,,,,1,1,,,,,,"Hewitt, Sharon A",,,,,,sxh090220,sharon hewitt,Digital Video Production I 
+ATCM,3388,0W1,5,5,7,,,1,,,,,,,,,,,,,"Fraley, James M","Hernandez, Luke A",,,,,jmf210007,james fraley,Social Influence and Persuasive Design 
+ATCM,4319,0S1,,23,1,,2,,,,,,,,1,,,,,,"McComber, Sean J",,,,,,sxm129130,sean mccomber,Topics in Animation 
+ATCM,4326,0W1,8,4,1,2,,,1,,1,,,,1,,,,,,"Heaslip, Audra","Cole, Abby",,,,,axh027000,audra heaslip,Mediated Textuality 
+ATCM,4330,0W1,,3,3,2,1,,,1,,1,1,,1,,,,,,"Nielsen, Christina R","Amartey, Belinda",,,,,crn022000,christina nielsen,Culture Jamming 
+ATCM,4350,0W1,2,1,2,2,1,1,1,,1,,,,2,,,,,,"Hewitt, Sharon A",,,,,,sxh090220,sharon hewitt,Digital Video Production II 
+ATCM,4384,551,4,12,,,,,,,,,,,,,,,,,"Sen Gupta, Karl S",,,,,,kss140330,karl sengupta,Ethics in New Media  Technology  and Communication 
+AUD,6216,0U1,,10,3,1,1,,,,,,,,,,,,,,"Cokely, Carol G",,,,,,cgc016200,,Audiologic Rehabilitation for Adults 
+AUD,6352,0U1,,27,,,2,,,,,,,,,,,,,,"Clark, Jackie L","Crow, Sarah E",,,,,jclark,jackie clark,Audiology in the Medical and Public Health Systems 
+AUD,7240,5U1,,3,3,4,3,,,,,,,,,,,,,,"Griffiths, Scott K",,,,,,skg180000,,Auditory Processing Disorders and other Advanced Topics in Audiology 
+AUD,7280,064,,,,,,,,,,,,,,,,,,15,"Fowler-Brookman, Stephanie L","Mosley, Cornetta",,,,,slr150030,,Doctoral Practicum in Audiology 
+AUD,7280,070,,,,,,,,,,,,,,,,,,14,"Clark, Jackie L",,,,,,jclark,jackie clark,Doctoral Practicum in Audiology 
+AUD,7325,5U1,,14,,,,,,,,,,,,,,,,,"Thibodeau, Linda K","Mosley, Cornetta","Qi, Shuang",,,,thib,linda thibodeau,Intensive Auditory Rehabilitation for Adult Hearing Loss 
+AUD,8V97,064,,,,,,,,,,,,,,,,,,14,"Cokely, Carol G",,,,,,cgc016200,carol cokely,
+BA,1320,0U1,2,3,3,2,3,2,,,,,,,,,,,,,"Blueshtein, Moran","Zhang, Qiyan",,,,,mxb135230,moran blueshtein,Business in a Global World 
+BA,4090,091,,,,,,,,,,,,,,35,,,,,"Henderson, Thomas C",,,,,,,thomas henderson,
+BA,4090,092,,,,,,,,,,,,,,23,,,,,"Gamino, John P",,,,,,jpg140630,john gamino,
+BA,4090,0U1,,,,,,,,,,,,,,24,,1,,,"Henderson, Thomas C",,,,,,,thomas henderson,
+BA,4090,0U2,,,,,,,,,,,,,,19,,2,1,,"Gamino, John P",,,,,,jpg140630,john gamino,
+BA,4095,0W1,,,,,,,,,,,,,,37,,,,,"Owens, Dawn M",,,,,,dmo130130,dawn owens,
+BA,4095,0W2,,,,,,,,,,,,,,10,,,,,"Owens, Dawn M",,,,,,dmo130130,dawn owens,
+BA,4V90,0U3,,,,,,,,,,,,,,28,,,,,"Henderson, Thomas C",,,,,,,thomas henderson,
+BA,4V90,593,,,,,,,,,,,,,,20,,,,,"Henderson, Thomas C",,,,,,,thomas henderson,
+BCOM,3300,051,1,6,12,3,8,3,,1,1,,,,3,,,,,,"Ali, Shazia",,,,,,shazia,ali shazia,Business Communication 
+BCOM,4300,0U2,,2,6,3,5,2,,1,1,,,,,,,,,,"Fry, Jennifer L",,,,,,jlf130030,jennifer fry,Advanced Professional Communication 
+BCOM,4300,0U4,1,,4,5,6,2,2,1,1,2,,,,,,,1,,"Harrison, Megan",,,,,,mkh160330,megan harrison,Advanced Professional Communication 
+BCOM,4300,5U1,4,5,3,1,,,,,,,,,,,,,1,,"McCrady, Victoria D",,,,,,vdm130030,victoria mccrady,Advanced Professional Communication 
+BCOM,4300,5U2,2,8,9,8,4,5,1,,1,,,,,,,,,,"Moore, Sarah E",,,,,,sem054000,sarah moore,Advanced Professional Communication 
+BIOL,2111,0U1,19,3,4,4,3,3,2,,,,,,1,,,,1,,"Sarcar, Subha",,,,,,sns064000,subha sarcar,Introduction to Modern Biology Workshop I 
+BIOL,2112,0U1,13,11,3,,8,4,2,2,,1,1,1,6,,,,,,"Wu, Zhuoru","Xu, Linyi",,,,,zxw190014,,Introduction to Modern Biology Workshop II 
+BIOL,2281,3U1,3,4,5,2,,1,1,,,,,,,,,,1,,"Lin, Wen J","Briggs, Alyssa A","Dalvi, Hrishikesh H","Liu, Junyu","Liu, Yihan","Maity, Tuhina",wenju,wen ju lin,Introductory Biology Laboratory 
+BIOL,2281,3U2,,3,,3,1,3,,,,,,,,,,,,,"Lin, Wen J","Briggs, Alyssa A","Liu, Junyu","Liu, Yihan","Maity, Tuhina","Basu, Ujjaini",wenju,wen ju lin,Introductory Biology Laboratory 
+BIOL,2281,3U3,2,1,1,2,3,2,1,,2,,1,,1,,,,,,"Lin, Wen J","Briggs, Alyssa A","Dalvi, Hrishikesh H","Liu, Junyu","Liu, Yihan","Maity, Tuhina",wenju,wen ju lin,Introductory Biology Laboratory 
+BIOL,2311,0U1,19,3,4,4,3,3,2,,,,,,1,,,,1,,"Sarcar, Subha","Camp, John M",,,,,sns064000,subha sarcar,Introduction to Modern Biology I 
+BIOL,2312,0U1,13,11,3,,8,4,2,2,,1,1,1,6,,,,,,"Wu, Zhuoru","Tiwari, Suman","Thomas, Nathaniel","Xu, Linyi",,,zxw190014,,Introduction to Modern Biology II 
+BIOL,3101,0U1,49,37,18,43,22,16,11,9,4,2,1,3,1,,,,,,"Srikanth, Uma",,,,,,ukrish,uma srikanth,Classical and Molecular Genetics Workshop 
+BIOL,3102,0U1,2,1,1,2,4,2,1,,,,,,,,,,,,"Sarcar, Subha",,,,,,sns064000,subha sarcar,Eukaryotic Molecular and Cell Biology Workshop 
+BIOL,3161,0U1,7,7,15,11,10,7,2,2,,2,,,1,,,,,,"Candas, Mehmet","Boyd, Stefanie D",,,,,candas,mehmet candas,Biochemistry Workshop I 
+BIOL,3162,0U1,,5,3,3,8,3,,1,1,,,,1,,,,,,"Candas, Mehmet","Boyd, Stefanie D",,,,,candas,mehmet candas,Biochemistry Workshop II 
+BIOL,3203,1U1,9,3,,,,,,,,,,,,,,,,,"Gomez, Amy Jo M","Bonde, Namrata Dinesh","Wickramasinghe, Piumi B",,,,amh240001,amy macbey gomez,Introduction to Microbiology Lab 
+BIOL,3203,1U2,8,3,,,,,,,,,,,,,,,,,"Gomez, Amy Jo M","Wickramasinghe, Piumi B","Bonde, Namrata Dinesh",,,,amh240001,amy macbey gomez,Introduction to Microbiology Lab 
+BIOL,3301,0U1,49,37,18,43,22,16,11,9,4,2,1,3,1,,,,1,,"Srikanth, Uma","Afolami, Olufemi Ifeoluwa","Salaudeen, Ibrahim O","Maiti, Dibyo","Patel, Umar J","Maity, Subhajit",ukrish,uma srikanth,Classical and Molecular Genetics 
+BIOL,3302,0U1,2,1,1,2,4,2,1,,,,,,,,,,,,"Sarcar, Subha","Yamauchi, Stephanie A",,,,,sns064000,subha sarcar,Eukaryotic Molecular and Cell Biology 
+BIOL,3303,0U1,,6,7,4,7,4,4,2,,1,,,,,,,,,"Boyd, Stefanie D",,,,,,sdb074000,stefanie boyd,Introduction to Microbiology 
+BIOL,3318,0U1,15,16,9,1,,1,,1,,,,,,,,,,,"Gomez, Amy Jo M","Chacon Castro, Maria Del Carmen","Elhawary, Ezzeldin N",,,,amh240001,amy macbey gomez,Forensic Biology 
+BIOL,3361,0U1,6,5,11,9,9,7,2,2,,2,,,1,,,,1,,"Boyd, Stefanie D","Candas, Mehmet",,,,,sdb074000,stefanie boyd,Biochemistry I 
+BIOL,3362,0U1,,4,1,3,8,3,,1,1,,,,1,,,,,,"Boyd, Stefanie D","Candas, Mehmet","Petter, Andrew T","Sunder Singh, Jacqulene Preethi",,,sdb074000,stefanie boyd,Biochemistry II 
+BIOL,3380,3U1,1,2,4,2,2,1,1,2,2,,,,2,,,,,,"Rippel, Scott A","Pickett, Elizabeth A","Shi, Zhan",,,,rippel,scott rippel,Biochemistry Laboratory 
+BIOL,3380,3U3,1,1,2,,3,,1,,1,1,2,1,1,,,,,,"Rippel, Scott A","Pickett, Elizabeth A","Zhi, Jiahe",,,,rippel,scott rippel,Biochemistry Laboratory 
+BIOL,3380,3U4,,1,4,2,1,1,,1,1,1,1,1,1,,,,,,"Pickett, Elizabeth A","Rippel, Scott A","Falah, Rafah M",,,,eaw016100,elizabeth pickett,Biochemistry Laboratory 
+BIOL,3455,3U1,,1,3,3,4,3,,4,3,2,1,1,,,,,2,,"Ramirez, Ruben D",,,,,,rdr092000,ruben ramirez,Human Anatomy and Physiology with Lab I 
+BIOL,3456,3U1,,2,1,1,3,3,3,,,,,,,,,,,,"Yu, Wen-Ho","Zhang, Nan",,,,,why061000,wen ho yu,Human Anatomy and Physiology with Lab II 
+BIOL,3V00,0W1,9,16,7,1,2,,,,,,,1,,,,,,,"Candas, Mehmet",,,,,,candas,mehmet candas,Topics in Biological Sciences 
+BIOL,4380,3U1,3,3,2,2,2,1,1,1,,,,,,,,,,,"Sadat, Eva L","Konakalla, Anisha Reddy","Joshi, Ketki","Shryock, Douglas G","Hari Prasad, Vineeth",,exs190014,eva sadat,Cell and Molecular Biology Laboratory 
+BIS,2190,0W1,1,3,2,2,2,5,,,,,,,2,,,,,,"Dornback, Sarah",,,,,,sxd220144,sarah dornback,Library Research Skills 
+BIS,3320,0U1,3,5,2,1,1,3,,,,,,,,,,,,,"Wright, David A",,,,,,wright,david wright,The Nature of Intellectual Inquiry 
+BLAW,2301,5U1,,6,2,2,4,4,4,1,5,,2,,,,,,2,,"Betanzos, Christina L",,,,,,clb120030,christina betanzos,Business and Public Law 
+BMEN,3200,0U1,,18,1,2,1,1,,,1,,,,,,,,,,"Rivera, Christian","Kang, Gu Eon","Stout, Angeloh M",,,,cxr210008,christian rivera,Biomedical Engineering Fundamentals and Design 
+BMEN,3302,051,1,2,,2,1,3,3,2,,,,,,,,,,,"Ali, Tariq M","Kian Pour, Bahareh",,,,,tma051000,tariq ali,Bioengineering Signals and Systems 
+BMEN,3320,051,1,2,2,2,,2,1,1,,,,,,,,,,,"Ali, Tariq M","Kian Pour, Bahareh",,,,,tma051000,tariq ali,Electrical and Electronic Circuits in Biomedical Engineering 
+BMEN,4388,0U1,,4,6,4,8,5,2,,1,,,,,,,,,,"Polk, Todd W",,,,,,twp017000,todd polk,Senior Design Project I 
+BPS,4305,5U1,1,9,6,4,,,,,,,,,,,,,,,"Song, You-Xiang",,,,,,yxs190035,,Strategic Management 
+BPS,4395,5U1,5,35,,5,,,,,,,,,,,,,,,"Henderson, Thomas C",,,,,,txh093000,tom henderson,Capstone Senior Project - Business 
+BPS,4395,5U2,32,10,5,,,,,,,,,,,,,,,,"Stogsdill, Robert",,,,,,rws180002,robert stogsdill,Capstone Senior Project - Business 
+BPS,6310,0W1,,17,1,1,1,,,1,,,,,,,,,,,"Kaplan, Marilyn R",,,,,,mkaplan,marilyn kaplan,Strategic Management 
+BPS,6310,GW1,,6,3,2,3,1,,,,,,,,,,,,,"Choi, Emily",,,,,,exc113230,emily choi,
+BPS,7303,0U1,,15,,,,,,,,,,,,,,,,,"Watson, John M",,,,,,jmw077000,john watson,Doctoral Teaching and Writing Seminar 
+BUAN,4090,091,,,,,,,,,,,,,,28,,,,,"Akarte, Prajakti V",,,,,,pva150330,prajakti akarte,
+BUAN,4090,0U1,,,,,,,,,,,,,,23,,,,,"Akarte, Prajakti V",,,,,,pva150330,prajakti akarte,
+BUAN,6009,091,,,,,,,,,,,,,,,,,,33,"Shekhar, Gaurav",,,,,,gxs150130,gaurav shekhar,
+BUAN,6009,0U1,,,,,,,,,,,,,,,,,,61,"Shekhar, Gaurav",,,,,,gxs150130,gaurav shekhar,
+BUAN,6009,SU1,,,,,,,,,,,,,2,,,,,19,"Hefley, William E",,,,,,weh150130,william hefley,
+BUAN,6312,0W1,,3,2,2,2,1,,2,,,,,1,,,,,,"Blueshtein, Moran","Zhang, Qiyan",,,,,mxb135230,moran blueshtein,Applied Econometrics and Time Series Analysis 
+BUAN,6312,SW1,,5,2,1,2,,,,,,,,,,,,,,"Blueshtein, Moran",,,,,,mxb135230,moran blueshtein,
+BUAN,6320,5U1,,12,7,3,4,,,,,,,,,,,,,,"El-khodari, Gasan E","Pujari, Shrutika",,,,,gxe051000,gasan elkhodari,Database Foundations for Business Analytics 
+BUAN,6337,0W1,,2,2,2,3,3,,,,,,,,,,,,,"Subramanian, Upender","Ding, Yuchen","Saremi, Ehsan",,,,uxs092000,upender subramanian,Predictive Analytics for Data Science 
+BUAN,6340,SW1,,5,4,1,,,,,,,,,,,,,,,"Koju, Vijay",,,,,,vxk220074,vijay koju,
+BUAN,6341,SW1,,7,,2,,3,,1,,,,,2,,,,,,"Smashnov, Uri",,,,,,uxs051000,uri smashnov,
+BUAN,6344,0W1,,4,1,1,4,,,,,,,,,,,,,,"Mehra, Amit","Chen, Luoying",,,,,axm078200,amit mehra,Web Analytics 
+BUAN,6359,5U1,,4,,1,2,2,1,1,,,,,1,,,,,,"Ramezani, Rasoul","Kurucak, Abdurrahman",,,,,rxr145930,rasoul ramezani,Advanced Statistics for Data Science 
+BUAN,6398,5U1,,6,3,3,5,3,,,,,,,,,,,,,"Nguyen, Hien T","Tahergandomabadi, Mohammadmahdi",,,,,htn170130,hien nguyen,Prescriptive Analytics 
+BUAN,6398,SU1,,8,2,3,2,3,,2,,,,,,,,,,,"Nguyen, Hien T",,,,,,htn170130,hien nguyen,
+BUAN,6398,SW1,,3,2,4,1,,,,,,,,,,,,,,"Sethi, Avanti P",,,,,,,avanti sethi,
+BUAN,6V98,0U1,,,,,,,,,,,,,,,,,,23,"Shekhar, Gaurav",,,,,,gxs150130,gaurav shekhar,
+CE,2301,0U1,6,,1,2,2,,2,1,,,,,,,,,,,"Fahimi, Babak","Koech, Mercy C",,,,,bxf102000,babak fahimi,Electrical Network Analysis 
+CE,3161,0W1,,3,2,4,1,,,,,,,,,,,,,,"Mezenner, Rabah","Islam, Farzana",,,,,rxm129730,rabah mezenner,Social Issues and Ethics in Engineering 
+CE,3201,0U1,1,5,,1,,,,1,,,2,,,,,,,,"Nikoubin Boroujeni, Tooraj","Khalesidoost, Sina","Datta, Rajesh K",,,,txn190011,tooraj nikoubin,Electrical and Computer Engineering Fundamentals-I Laboratory 
+CE,3303,0H1,2,1,1,1,2,1,,1,1,,,,2,,,,,,"Kehtarnavaz, Nasser","Dai, Jiazhi",,,,,nxk019000,nasser kehtarnavaz,Discrete-Time Signals and Systems 
+CE,3311,5U1,,,2,3,2,,5,1,,,,,,,,,,,"Lee, Hoi","Yao, Yifan","Ghosh, Prosenjit Kumar",,,,hxl054000,hoi lee,Electronic Circuits 
+CE,4389,0U1,,7,,4,,,,,,,,,,,,,,,"Tacca, Marco",,,,,,mtacca,marco tacca,Senior Design Project II 
+CHEM,1111,1U2,3,2,3,1,1,,,1,,,,,4,,,,,,"Cortes, Sergio","Brown, Monet R","Budhathoki, Prakriti","Borah, Kongkona","Ullah, Najeeb","Mazhar, Noreen",scortes,sergio cortes,General Chemistry Laboratory I 
+CHEM,1112,1U1,5,4,3,,,1,1,1,1,1,,,1,,,,,,"Abeykoon, Nimali C","Gaspar, Miguel A","Ghafari, Mozhdeh","Igie, Nosakhare F","Iqbal, Nafees","Umer, Arslan",nxa124430,nimali abeykoon,General Chemistry Laboratory II 
+CHEM,1112,1U2,5,5,,2,2,1,,1,,1,,,,,,,,,"Abeykoon, Nimali C","Koirala, Shailendra","Mir Sharifian, Arefehsadat","Najjari, Aryan","Qasimi, Nazer Hossain","Odeyemi, Isaiah O",nxa124430,nimali abeykoon,General Chemistry Laboratory II 
+CHEM,1311,0U1,3,1,6,6,6,3,1,1,3,1,,1,6,,,,2,,"Sra, Amandeep K","Shende, Prapti M","Subramanian, Yaamini",,,,aks057000,amandeep sra,General Chemistry I 
+CHEM,1312,0U1,5,10,10,8,11,17,5,10,9,,3,1,6,,,,,,"Huang, Yu","Bonnand, Evan F","Howlett, Thomas S",,,,yxh091220,yu huang,General Chemistry II 
+CHEM,2233,3U1,11,5,2,,,,,,,,,,,,,,,,"Cortes, Sergio","Neal, Henry","Deo, Nitish Kumar","Al-Kharji, Noora M","Rajapaksha Mudiyanselage, Gaveshika Madushani Rajapaksha","Ehrman, Ryanne N",scortes,sergio cortes,Introductory Organic Chemistry Laboratory 
+CHEM,2323,0U1,11,12,4,3,6,4,6,3,5,4,8,,10,,,,,,"Tran, Daniel N",,,,,,dnt019000,daniel tran,Introductory Organic Chemistry I 
+CHEM,2325,0U1,7,2,2,1,5,4,6,4,4,1,1,,3,,,,,,"Sibert, John W",,,,,,sibertj,john sibert,Introductory Organic Chemistry II 
+CHEM,3361,0U1,,2,4,2,1,1,,,,,,,,,,,,,"Boyd, Stefanie D","Candas, Mehmet",,,,,sdb074000,stefanie boyd,Biochemistry I 
+CHEM,8V91,039,,,,,,,,,,,,,,,,,1,10,"Meloni, Gabriele",,,,,,gxm152330,gabriele meloni,
+CHEM,8V91,046,,,,,,,,,,,,,,,,,,10,"Fasan, Rudi",,,,,,,rudi fasan,
+CLDP,3342,0W1,,18,,,4,,,1,,,1,,,,,,,,"Bonner, Deborah","Gholap, Neha P",,,,,dbonner,deborah bonner,Exceptional Children 
+COMD,5340,0H1,,21,,,3,,,,,,,,,,,,,,"Neale, Hannah D","Cullinan, McKenzie B",,,,,hxp121030,hannah pourchot neale,Articulation Disorders 
+COMD,6101,0W1,,,,,,,,,,,,,,,,,,11,"Dean, Lucinda L",,,,,,lxl018300,,Childhood Apraxia of Speech 
+COMD,6106,0W1,,,,,,,,,,,,,,,,,,10,"Sale, Felicity F",,,,,,ffs013000,,Medical SLP 
+COMD,6109,0W1,,,,,,,,,,,,,,,,,,12,"Kenedi, A Helen I",,,,,,kenedi,,Tracheostomy and Mechanical Ventilation 
+COMD,6112,0W1,,,,,,,,,,,,,,,,,,18,"Walsh, Diane G",,,,,,dxg022000,diane walsh,Counseling in Communication Disorders 
+COMD,6240,0U1,,15,,,,,,,,,,,,,,,,,"Touchstone, Emily W",,,,,,exw010200,emily touchstone,Professional Issues in Speech Language Pathology 
+COMD,6320,0U1,,19,,,3,,,,,,,,,,,,,,"Carter, Jessica A","Smith, Irma E",,,,,jar032000,,Motor Speech Disorders 
+COMD,7303,0U1,,89,,,14,,,1,,,,,,,,,,,"Dean, Lucinda L","Kenedi, A Helen I",,,,,lxl018300,,Dysphagia 
+COMD,7323,0U1,,13,,,3,,,,,,,,,,,,,,"Sweeney, Melissa H",,,,,,msweeney,,Auditory-Verbal Methods 
+COMD,7V68,0U1,,54,,,,,,,,,,,,,,,,,"Sale, Felicity F",,,,,,ffs013000,,Cognitive Rehabilitation 
+COMD,7V86,0U1,,24,1,,,,,,,,,,,,,,,,"Rich, Judith B","Sharma, Susmi",,,,,jbm014600,,Special Topics in Language 
+COMM,1311,0H1,10,2,,1,,,,,,,,,,,,,1,,"Tanner, Lari J",,,,,,ljt130130,lari tanner,
+COMM,1311,0W1,6,2,1,6,1,,1,1,,1,,1,3,,,,,,"Sova, Melodee L",,,,,,mls230004,melodee sova,Survey of Oral and Technology-based Communication 
+COMM,1311,0W2,5,4,5,3,5,,1,,,,,,1,,,,,,"Fraley, James M",,,,,,jmf210007,james fraley,Survey of Oral and Technology-based Communication 
+COMM,1311,0W3,,11,8,,,,,,1,,,1,,,,,,,"Mckee-Williams, Candie D",,,,,,cdm230002,candie mckee williams,Survey of Oral and Technology-based Communication 
+COMM,1315,0W1,13,3,1,1,,1,,,,,,,1,,,,,,"Saenz, Michael A",,,,,,mas130030,michael saenz,Public Speaking 
+COMM,3352,0W1,,14,,1,1,1,2,,,1,,,,,,,,,"Johnson, Janet L",,,,,,jlj065000,janet johnson,Media and Culture 
+COMM,4380,0S1,,10,2,6,2,2,,2,1,,,,2,,,,,,"King, Carie S",,,,,,cxl085200,carie king,Communication and Culture in Japan 
+CRIM,1307,0U1,2,,6,1,1,,,,,,,1,,,,,,,"Lee, Jaebom","Olszewski, Hailey",,,,,jxl230009,,Introduction to Crime and Criminology 
+CRIM,3301,0W1,7,7,5,2,2,,,,,,,,1,,,,,,"Manuel, Samantha A",,,,,,sam160130,samantha manuel,Theories of Justice 
+CRIM,3302,0W1,3,6,3,1,,,,,1,,,,,,,,,,"Hong, Sunmin",,,,,,sxh220001,,Advanced Criminology 
+CRIM,3310,0W1,,15,4,6,7,3,,2,,,1,1,1,,,,,,"Yoon, Minyeong","Escobedo, Allison E",,,,,mxy230003,,Youth Crime and Justice 
+CRIM,6314,5U1,,11,1,,,,,,,,,,,,,,,,"Getty, Ryan M","Wang, Wenyi",,,,,rmg075000,,Policing 
+CRWT,2301,0W2,6,3,1,,2,1,,,,,,,,,,,,,"Baker, Matthew W",,,,,,mwb190002,matthew baker,Introduction to Creative Writing 
+CRWT,3306,5W1,3,8,,,,,,1,,,,,,,,,,,"Martinez, Manuel L",,,,,,mlm160630,manuel martinez,Fiction Workshop 
+CRWT,3354,0W1,1,7,4,,1,1,,,,,,,,,,,,,"Goldberg, Paula",,,,,,pxg180023,paula goldberg,Screenwriting Workshop 
+CRWT,3354,5W2,,11,1,1,1,,,,,,,,,,,,,,"Goldberg, Paula",,,,,,pxg180023,paula goldberg,Screenwriting Workshop 
+CS,1325,0U1,,2,5,2,,2,,1,,,,1,,,,,,,"Feng, Ranran","Hatfield, Cody R",,,,,rxf090020,ranran feng,Introduction to Programming 
+CS,1335,5U1,,5,5,2,,,,,,,,,,,,,,,"Davis, Chris I","Miao, Miao",,,,,cid021000,chris davis,Computer Science I for Non-majors 
+CS,1337,0U1,1,1,4,3,1,3,2,2,,,,,1,,,,,,"Gupta, Neeraj K","Ou, Yuzhe",,,,,nkg140130,neeraj gupta,Computer Science I 
+CS,1337,5W1,1,4,7,5,5,2,2,2,1,1,,,3,,,,1,,"Dollinger, Scott M","Bansal, Rishita",,,,,smd013000,scott dollinger,Computer Science I 
+CS,2305,0U1,3,4,3,4,7,2,1,1,,,,,2,,,,,,"Chitturi, Bhadrachalam","Xu, Ruoyu",,,,,chalam,chitturi bhadrachalam,Discrete Mathematics for Computing I 
+CS,2336,5U1,8,23,2,2,9,,1,1,,,,,1,,,,,,"Khan, Kamran Z","Zhang, Yue","Mao, Ruiyu",,,,kkhan,ziaullah khan,Computer Science II 
+CS,2340,0U1,5,4,5,2,3,5,1,2,2,,1,,,,,,,,"Karami, Gity","Golivand Darvishvand, Fateme",,,,,gxk180009,gity karami,Computer Architecture 
+CS,3305,0W1,,1,6,3,6,3,1,6,1,,,,1,,,,,,"Ntafos, Simeon C","Aggarwal, Alakh",,,,,ntafos,simeon ntafos,Discrete Mathematics for Computing II 
+CS,3305,5U1,,4,,4,1,2,1,,,,,,,,,,1,,"Chitturi, Bhadrachalam",Jishnu J,,,,,chalam,chitturi bhadrachalam,Discrete Mathematics for Computing II 
+CS,3341,0U1,,3,,,2,2,5,4,1,1,1,2,2,,,,,,"Guo, Huizhen","Zhao, Kun","Kim, Jimi",,,,hxg190020,huizhen guo,Probability and Statistics in Computer Science and Software Engineering 
+CS,3345,0U1,4,6,2,3,3,3,3,2,1,1,,,3,,,,,,"Zhao, Yi","Tenali, Pranuthi",,,,,zhao,yi zhao,Data Structures and Introduction to Algorithmic Analysis 
+CS,3354,0U1,,1,1,4,5,10,2,4,4,1,3,,,,,,,,"Paulk, Mark C","Rathnasuriya, Ravishka S","Chen, Zizhao",,,,mcp130030,mark paulk,Software Engineering 
+CS,3377,0U1,8,12,5,3,4,2,1,1,,1,,,,,,,1,,"Feng, Ranran","Sipai, Sushila","Dasgupta, Sopam",,,,rxf090020,ranran feng,Systems Programming in UNIX and Other Environments 
+CS,4141,6U1,9,4,2,1,,1,,,,,,,,,,,,,"Nguyen, Nhut","Ocampo Diaz, Gerardo",,,,,nhutnn,nhut nguyen,Digital Systems Laboratory 
+CS,4141,6U2,3,7,6,,2,,,,,,,,,,,,,,"Nguyen, Nhut","Alshomar, Ahmad",,,,,nhutnn,nhut nguyen,Digital Systems Laboratory 
+CS,4337,0U1,4,7,3,7,7,3,1,5,1,2,1,1,2,,,,,,"Omer, Jalal S","Hatfield, Cody R","Zhao, Yichen",,,,jso016000,jalal omer,Programming Language Paradigms 
+CS,4341,0U1,,2,2,3,5,4,5,3,5,,10,2,,,,,,,"Nguyen, Nhut","Omidi, Zahra",,,,,nhutnn,nhut nguyen,Digital Logic and Computer Design 
+CS,4347,0U2,6,4,2,2,9,2,5,3,5,1,3,,,,,,,,"Omer, Jalal S","Birashk, Amin","Mohan, Sudharssan T",,,,jso016000,jalal omer,Database Systems 
+CS,4348,0U1,1,5,4,6,6,3,,1,1,,1,,2,,,,,,"Prakash, Ravi","Nik Khah, Arman",Jishnu J,,,,ravip,ravi prakash,Operating Systems Concepts 
+CS,4348,0U2,1,3,5,1,3,,,,,,1,,1,,,,1,,"Mittal, Neeraj","Sipai, Sushila",,,,,nxm020100,neeraj mittal,Operating Systems Concepts 
+CS,4349,0U1,,15,1,,12,,,2,,,1,,,,,,,,"Guo, Yunhui","Lu, Yangxiao",,,,,yxg220013,yunhui guo,Advanced Algorithm Design and Analysis 
+CS,4352,0S1,10,7,,,,,,,,,,,,,,,,,"Orrick, Erika D",,,,,,edo042000,erika orrick,Introduction to Human-Computer Interaction 
+CS,4352,0W1,3,24,14,6,8,2,,1,,,,,,,,,1,,"Kumar, Pushpa S","Guo, Hung-Jui","Singhal, Yatharth",,,,pkumar,pushpa kumar,
+CS,4365,5U1,14,16,,8,4,3,2,2,,,,,1,,,,,,"Khan, Kamran Z","Mao, Ruiyu","Zhang, Yue",,,,kkhan,ziaullah khan,Artificial Intelligence 
+CS,4375,5U1,11,11,9,11,6,2,5,,,,,,,,,,,,"Nagar, Anurag","Wang, Guanghua","Su, Ke",,,,axn112530,anurag nagar,Introduction to Machine Learning 
+CS,4376,0U1,1,2,3,4,2,3,2,3,2,,2,1,,,,,,,"Chung, Lawrence","Pham, To Kim Bao",,,,,chung,lawrence chung,Object-Oriented Design 
+CS,4384,0U1,,19,9,10,7,4,1,5,6,,1,,,,,,2,,"Davis, Chris I","Lee, Jaeseong","Xu, Ouyang",,,,cid021000,chris davis,Automata Theory 
+CS,4390,0U1,,4,2,4,6,5,6,1,2,1,,,3,,,,3,,"Gupta, Neeraj K","Das, Souvik","Rathnasuriya, Ravishka S",,,,nkg140130,neeraj gupta,Computer Networks 
+CS,4485,0W1,10,5,,,2,1,,,,,,,,,,,,,"Razo-Razo, Miguel Angel",,,,,,mrazora,miguel razo,Computer Science Project 
+CS,6301,0U1,,37,,,,,,,,,,,,,,,,,"Thuraisingham, Bhavani M","Bin Munir, Muhaimin",,,,,bxt043000,bhavani thuraisingham,Special Topics in Computer Science 
+CS,6314,0U1,,16,3,,,1,1,,,,,,,,,,,,"Karami, Gity","He, Kaiyu",,,,,gxk180009,gity karami,Web Programming Languages 
+CS,6350,0U1,,10,6,2,,,,,,,,,,,,,,,"Nagar, Anurag","Su, Ke",,,,,axn112530,anurag nagar,Big Data Management and Analytics 
+CS,6364,0U1,,13,4,6,2,,,,,,,,,,,,,,"Schweitzer, Haim","Mao, Wei",,,,,haim,haim schweitzer,Artificial Intelligence 
+CS,6375,5U1,,8,4,2,5,1,,,,,,,,,,,1,,"Schweitzer, Haim","Mao, Wei",,,,,haim,haim schweitzer,Machine Learning 
+CS,6375,MU1,,11,3,1,,,,,,,,,,,,,,,"Nagar, Anurag",,,,,,axn112530,anurag nagar,
+DANC,1305,0W1,,15,2,4,1,1,,1,,,,,1,,,,,,"Saba, Monica M",,,,,,msaba,monica saba,Introduction to World Dance Forms 
+DANC,1310,0W1,7,14,,,5,,,1,,,,,1,,,,1,,"Johnson, Melissa A",,,,,,maj140430,melissa johnson,Understanding Dance 
+DBUA,7415,SS1,,3,3,3,1,,,,,,,,,,,,,,"Singh, Harpreet",,,,,,hxs104000,harpreet singh,
+ECON,2301,0U1,4,1,,4,,,,2,1,1,2,,1,,,,,,"Islam, Azharul",,,,,,axi190001,azharul islam,Principles of Macroeconomics 
+ECON,4381,0U1,1,3,1,1,4,,,2,,,,,,,,,,,"Grover, William C",,,,,,wcg071000,william grover,History of Economic Ideas 
+ECS,3390,051,4,3,2,3,3,,,,,,,,2,,,,,,"Glauser, Janece B",,,,,,jbg130030,janece glauser,Professional and Technical Communication 
+ECS,3390,052,10,6,2,,,1,,,,,,,,,,,,,"Mckee-Williams, Candie D",,,,,,cdm230002,candie mckee williams,Professional and Technical Communication 
+ECS,3390,091,10,3,1,,,,1,1,,,1,,,,,,,,"Scally, Deborah A",,,,,,das,deborah scally,Professional and Technical Communication 
+ECS,3390,0S1,16,3,,,,,,,,,,,,,,,,,"Montgomery, Christina F",,,,,,cxm190022,christina montgomery,Professional and Technical Communication 
+ECS,3390,0W1,,11,3,1,1,1,,,,,,,,,,,,,"Johnson, Janet L",,,,,,jlj065000,janet johnson,Professional and Technical Communication 
+ECS,3390,0W2,1,8,1,2,1,2,1,1,,,,,,,,,,,"Johnson, Janet L",,,,,,jlj065000,janet johnson,Professional and Technical Communication 
+ECSC,4078,0U1,,,,,,,,,,,,,,33,,,,,"Stewart, Mary Ann C",,,,,,mas051000,,Engineering and Computer Science Internship 
+ECSC,4V78,0U1,,,,,,,,,,,,,,12,,,,,"Stewart, Mary Ann C",,,,,,mas051000,,Engineering and Computer Science Internship 
+ECSC,5177,0U1,,,,,,,,,,,,,,,,,,102,"Stewart, Mary Ann C",,,,,,mas051000,,CS IPP Assignment 
+ECSC,5179,0U1,,,,,,,,,,,,,1,,,,,66,"Stewart, Mary Ann C",,,,,,mas051000,,ENG IPP Assignment 
+EE,3161,0W1,,4,4,2,1,2,1,1,,,,,,,,,,,"Mezenner, Rabah","Islam, Farzana",,,,,rxm129730,rabah mezenner,Social Issues and Ethics in Engineering 
+EE,3202,0U1,,3,,3,2,2,,,,,,,,,,,1,,"Kiasaleh, Kamran","Tayeb Naimi, Shideh",,,,,kamran,kamran kiasaleh,Electrical and Computer Engineering Fundamentals-II Laboratory 
+EE,3302,0H1,1,,,,3,1,,1,1,,1,,2,,,,,,"Kehtarnavaz, Nasser","Dai, Jiazhi",,,,,nxk019000,nasser kehtarnavaz,Signals and Systems 
+EE,3311,5U1,,1,2,4,2,1,3,,,,,,1,,,,,,"Lee, Hoi","Yao, Yifan","Ghosh, Prosenjit Kumar",,,,hxl054000,hoi lee,Electronic Circuits 
+EE,4205,0U1,2,5,2,1,2,,1,2,,,1,,,,,,,,"Akin, Bilal","Jena, Sritam","Kim, Jeonghwan",,,,bxa123330,bilal akin,Electrical and Computer Engineering Laboratory in Power Electronics and Energy Systems 
+EE,4388,0U1,,6,9,1,2,,,,,,,,,,,,,,"Tacca, Marco",,,,,,mtacca,marco tacca,Senior Design Project I 
+EE,4389,0U1,3,7,,3,,,,,,,,,,,,,,,"Tacca, Marco",,,,,,mtacca,marco tacca,Senior Design Project II 
+EEMF,6372,5U1,,8,4,,1,1,1,,,,,,,,,,,,"Tinker, Mark T",,,,,,mtinker,mark tinker,Semiconductor Process Integration 
+EEOP,6314,0W1,,13,,5,,,,,,,,,,,,,1,,"Tamil, Lakshman S",,,,,,laxman,lakshman tamil,Principles of Fiber and Integrated Optics 
+ENGR,2300,0W1,2,6,11,2,6,3,3,1,2,1,1,1,1,,,,1,,"Al-Dhahir, Naofal M","Mahmoud, Mohamed H","Dhole, Sameer R",,,,nxa028000,naofal al dhahir,Linear Algebra for Engineers 
+ENGR,3300,0U1,,3,,5,12,6,3,9,2,,1,1,1,,,,,,"Ali, Mohammed Z","Xie, Hao",,,,,mohammed,ali mohammed,Advanced Engineering Mathematics 
+ENGR,3341,0U1,2,2,1,1,,4,1,,1,,,1,,,,,,,"Fonseka, John P","Hewawaduge, Dhanushki B",,,,,kjp,john fonseka,Probability Theory and Statistics 
+ENTP,3301,0U1,,2,7,10,2,2,2,1,,,,,,,,,,,"Nichols, Paul M",,,,,,pxn120030,paul nichols,Innovation and Entrepreneurship 
+ENTP,3360,0W1,1,1,2,1,4,,,1,,,,,,,,,,,"Pedigo, Madison F",,,,,,mfp013000,madison pedigo,Entrepreneurial Finance 
+ENTP,4335,0W1,1,,2,2,1,5,2,,1,,,,,,,,,,"Edsel, Alexander D",,,,,,ade012000,alexander edsel,Digital and Internet Marketing 
+ENTP,6370,0W1,,4,8,5,13,,,2,,,,,1,,,,,,"Kimzey, Jackie R","Liu, Yilin",,,,,jxk092000,jackie kimzey,Innovation and Entrepreneurship 
+ENTP,6375,5U1,,8,5,4,2,1,,,,,,,,,,,,,"Nichols, Paul M",,,,,,pxn120030,paul nichols,Technology and New Product Development 
+ENVR,2302,0W1,3,3,1,3,3,1,,,,,,,,,,,,,"Chowdhury, Yeamin Faria","Adeuga, Adewole M",,,,,yxc200012,,The Global Environment 
+EPPS,2302,0W1,5,1,5,1,1,3,1,,,,,,1,,,,,,"Noe, Ricardo","Thakar, Rahul A","Alfa, Victor L",,,,rxn200000,ricardo noe,Methods of Quantitative Analysis in the Social and Policy Sciences 
+EPPS,6300,051,,4,5,2,,,,,,,,,,,,,,,"Nevin, Andrew S","Medhi, Kashmiri",,,,,asn220005,,EPPS Policy Lab 
+EPPS,6317,051,,31,,,,,,,,,,,,,,,,,"Qiu, Fang","Lyu, Haitao",,,,,ffqiu,fang qiu,Python Programming for Social Science 
+FILM,1303,0W1,2,8,8,6,3,4,1,,1,,,,1,,,,,,"Prakash, Arya","Okwulogu, Maureen",,,,,axp200037,arya prakash,Transnational Film and Video 
+FILM,2332,051,6,2,2,1,,1,1,,,,,,,,,,1,,"Wellborn, Brecken H","Hay, Celia",,,,,bhw200001,brecken wellborn,Understanding Film 
+FILM,2332,0W1,7,17,3,1,,1,2,1,,,,,2,,,,,,"Cooper, Dalton W",,,,,,dwc200005,dalton cooper,Understanding Film 
+FIN,3300,0W1,,45,,,12,,,,,,1,,1,,,,,,"Lynch, Julie","Hu, Jiawei",,,,,jxl180030,julie lynch,Personal Finance 
+FIN,3305,5U1,,3,,,6,,,1,,,,,,,,,,,"Lowrance, Daniel S",,,,,,dsl230000,daniel lowrance,Real Estate Principles 
+FIN,3320,0U1,3,2,2,,1,,2,2,2,,,,,,,,,,"Park, Taeyoung",,,,,,txp200031,taeyoung park,Business Finance 
+FIN,3320,0U2,4,2,,2,2,,1,,1,,2,,1,,,,,,"Hamzeh, Alireza",,,,,,axh190064,alireza hamzeh,Business Finance 
+FIN,3320,0W1,2,6,7,,10,3,1,14,1,,2,,3,,,,1,,"Manzi, Jeff",,,,,,jxm158130,jeffrey manzi,Business Finance 
+FIN,3320,0W2,,8,9,4,12,1,1,11,,,,,2,,,,,,"Manzi, Jeff",,,,,,jxm158130,jeffrey manzi,Business Finance 
+FIN,3360,0W1,,2,9,8,14,3,,1,,,,,,,,,,,"Pedigo, Madison F",,,,,,mfp013000,madison pedigo,Entrepreneurial Finance 
+FIN,3390,0U1,1,5,4,2,5,2,7,5,4,1,1,8,1,,,,,,"El-Ashmawi, Amal H",,,,,,ahe013000,amal el ashmawi,Introduction to Financial Modeling 
+FIN,4080,091,,,,,,,,,,,,,,44,,,1,,"Nishi, Hirofumi",,,,,,hxn210016,hirofumi nishi,
+FIN,4080,0U1,,,,,,,,,,,,,,42,,,,,"Nishi, Hirofumi",,,,,,hxn210016,hirofumi nishi,
+FIN,4300,0U1,1,3,7,4,1,,,,,,,,,,,,1,,"Nguyen, Nam H",,,,,,nhn150030,nam nguyen,Investment Management 
+FIN,4303,0U1,,2,,1,1,2,2,1,1,1,,,,,,,,,"Ballew, Gregory",,,,,,geb011100,gregory ballew,Investment Strategies 
+FIN,4310,0U1,,,2,,2,2,2,4,,1,,,,,,,,,"He, Jianyao",,,,,,jxh180061,,Intermediate Financial Management 
+FIN,4V80,0U3,,,,,,,,,,,,,,30,,,,,"Nishi, Hirofumi",,,,,,hxn210016,hirofumi nishi,
+FIN,4V80,593,,,,,,,,,,,,,,25,,,,,"Nishi, Hirofumi",,,,,,hxn210016,hirofumi nishi,
+FIN,6301,0W1,,9,10,2,3,4,3,2,,,,,1,,,,3,,"Nishi, Hirofumi","Sadeghi, Ali",,,,,hxn210016,,Financial Management 
+FIN,6301,XH1,,13,2,5,,,,,,,,,,,,,,,"Reichert, Carolyn A",,,,,,carolyn,carolyn reichert,
+FIN,6307,0W1,,7,3,1,5,2,,,,,,,,,,,,,"Ma, Liping","Zhang, Qiyan",,,,,lxm133730,liping ma,Mathematical Methods for Finance 
+FIN,6308,0W1,,9,3,1,3,1,1,1,,,,,,,,,,,"Lewin, Peter",,,,,,plewin,peter lewin,Regulation of Business and Financial Markets 
+FIN,6322,0W1,,18,3,1,4,1,,,,,,,,,,,,,"DeCourcy, George A",,,,,,gad075000,george decourcy,Real Estate Finance and Investment 
+FIN,6352,5U1,,4,6,2,4,1,1,1,,,,,,,,,,,"Davis, Richard L",,,,,,rld170030,richard davis,Financial Modeling for Valuation 
+FIN,6353,5W1,,3,2,2,2,1,,,,,,,,,,,,,"Baranchuk, Nina","Chai, Maoyuan",,,,,nxb043000,nina baranchuk,Financial Modeling for Investment Analysis 
+FIN,6360,5W1,,10,1,1,2,,1,,,,,,,,,,,,"Kaur, Dupinderjeet","Chai, Maoyuan",,,,,dxk110730,dupinderjeet kaur,Derivatives Markets 
+FIN,6V98,0U1,,,,,,,,,,,,,,,,,,16,"Reichert, Carolyn A",,,,,,carolyn,carolyn reichert,
+FTEC,6002,FW1,,,,,,,,,,,,,,,,,,13,"Kieschnick, Robert L",,,,,,rkiesch,robert kieschnick,
+FTEC,6V99,FW1,,16,,,,,,,,,,,,,,,,,"Kieschnick, Robert L",,,,,,rkiesch,robert kieschnick,
+GEOG,2302,0W1,2,4,3,2,1,,,,,,,,1,,,,,,"Chowdhury, Yeamin Faria","Adeuga, Adewole M",,,,,yxc200012,,The Global Environment 
+GEOG,2303,0W1,3,8,4,3,,,1,,,,,,1,,,,,,"Kulsum, Umme",,,,,,uxk220007,,World Regional Geography 
+GEOS,1303,0W1,8,3,6,3,2,,,,,1,,,,,,,,,"Griffin, William R","Karimi, Fatemeh",,,,,griffin,william griffin,Physical Geology 
+GEOS,2302,0W1,2,6,,,1,,1,,,,1,,1,,,,,,"Chowdhury, Yeamin Faria","Adeuga, Adewole M",,,,,yxc200012,,The Global Environment 
+GEOS,3300,0S1,1,5,2,5,2,1,,1,,,,,,,,,,,"Sickmann, Zachary","Butler, Kristina L",,,,,zxs220011,zachary sickmann,Field Geology I 
+GEOS,4300,0S1,,4,3,5,6,,,,,,,,,,,,,,"Sickmann, Zachary",,,,,,zxs220011,zachary sickmann,Field Geology II 
+GISC,6387,5U1,,14,1,,,,,,,,,,,,,,,,"Gamarra Pacheco, Jose A",,,,,,jag220006,jose gamarra pacheco,Geospatial Sciences Workshop 
+GOVT,2305,0U1,3,3,3,,3,4,,,1,,,,,,,,,,"Shin, Hanna","Subramanian, Venkatesh","Pillai, Maitreyi M",,,,hxs180008,,American National Government 
+GOVT,2305,0U2,2,4,10,5,2,1,,,,,,,,,,,,,"Chang, Gary","Zhao, Xingyuan","Singh, Sonali",,,,gxc180016,,American National Government 
+GOVT,2306,0U1,,10,6,5,,5,1,1,,,,,,,,,,,"Shafiq, Sadman","Dao, Minh T",,,,,sxs220117,,State and Local Government 
+GOVT,2306,0U2,7,7,16,3,3,,,2,,,,,,,,,1,,"Medhi, Kashmiri","Cincotta, Mamie G",,,,,kxm190003,kashmiri medhi,State and Local Government 
+HDCD,6370,0H1,,9,1,,,,,,,,,,,,,,,,"Bales, Alexandra H",,,,,,ahw170030,,Intervention with Young Children 
+HIST,1301,0W1,9,54,2,9,5,4,3,1,1,1,,,1,,,,,,"Pettengill, Ryan S","Armstrong, Jennifer J","Hill, Travis B",,,,rsp120030,ryan pettengill,U S  History Survey to Civil War 
+HIST,1302,0W1,7,29,17,6,5,6,3,2,2,1,1,2,1,,,,2,,"Schulze, Jeffrey M","Gee, Taylor N","Li, Ang","Tijani, Kehinde O",,,jxs072200,jeffrey schulze,U S  History Survey from Civil War 
+HIST,4344,0W1,1,2,9,2,3,4,,,,,,,4,,,,1,,"Pfister, Debra H",,,,,,dhpf,debra pfister,Topics in European History 
+HIST,4378,0W1,2,18,1,2,2,,1,,,,,,2,,,,,,"Pettengill, Ryan S",,,,,,rsp120030,ryan pettengill,Topics in American History 
+HLTH,1301,0W1,,,2,4,1,,1,,,,1,,1,,,,,,"Baetge, Claire",,,,,,cxb170330,claire baetge,Introduction to Kinesiology 
+HLTH,3300,0U1,,1,5,5,7,3,3,4,3,,2,,,,,,,,"Byrnes, Kathleen A",,,,,,kab019000,kathleen byrnes,Pre-Health Professional Development 
+HLTH,4304,0U1,,23,2,1,1,,,1,,,,,,,,,,,"Byrnes, Kathleen A",,,,,,kab019000,kathleen byrnes,Health Professions Internship 
+HMGT,3301,0U1,1,3,4,,2,,,1,,,,,,,,,,,"Robb, Horace A",,,,,,hxr220017,horace robb,Introduction to Healthcare Management 
+HMGT,3301,0W1,,47,,,1,,,,,,,,,,,,,,"Aubrey, Lea E",,,,,,lec110030,lea aubrey,Introduction to Healthcare Management 
+HMGT,4090,091,,,,,,,,,,,,,,15,,,,,"Tesmer, Kristin M","Thurgood, Keith L",,,,,kmj063000,kristin tesmer,
+HMGT,4090,0U1,,,,,,,,,,,,,,10,,,,,"Tesmer, Kristin M","Thurgood, Keith L",,,,,kmj063000,kristin tesmer,
+HMGT,6320,CH1,,26,1,,,,,,,,,,,,,,,,"Jacob, Stephen B",,,,,,,stephen jacob,
+HMGT,6325,0W2,,22,5,2,1,,,,,,,,,,,,1,,"Thurgood, Keith L","Huang, He",,,,,klt160130,keith thurgood,Healthcare Operations Management 
+HMGT,6331,5U1,,12,,,4,,,,,,,,,,,,,,"Malaise, Michael",,,,,,mhm130430,michael malaise,Healthcare Economics 
+HMGT,6401,AH1,,39,,,,,,,,,,,,,,,,,"Kaiser, Robert C","Taylor, Donald E","Mccracken, John F",,,,,robert kaiser,
+HMGT,6402,AH1,,38,,,,,,,,,,,,,1,,,,"Mccracken, John F","Taylor, Donald E","Convery, Paul",,,,,john mccracken,
+HMGT,6412,AH1,,18,,,,,,,,,,,,,,,,,"Taylor, Donald E",,,,,,det190000,donald taylor,
+HUMA,1301,0S1,5,3,1,1,,,,,,,,,1,,,,,,"Warren, Shilyh J","Bennett, Jason H",,,,,sjw120030,shilyh warren,Exploration of the Humanities 
+IMS,3310,0U1,3,18,2,11,14,1,,6,1,,,,,,,,,,"Henderson, Thomas C",,,,,,txh093000,tom henderson,International Business 
+IMS,6316,GW1,,3,4,3,3,,,,,,,,,,,,1,,"Akarte, Prajakti V",,,,,,pva150330,prajakti akarte,
+IMS,6354,GW1,,18,1,,2,,,,,,,,,,,,,,"Svatek, Samantha",,,,,,,samantha svatek,
+IMS,6360,0W1,,22,19,5,7,1,1,1,,,,,,,,,1,,"Skuza, Agnieszka","Shen, Jia",,,,,axo027000,agnieszka olsztynska,International Strategy Analysis and Techniques 
+IMS,6365,0W1,,14,7,10,9,3,2,1,,,,,,,,,,,"Musekura, Celestin",,,,,,cxm120430,,Cross-Cultural Management Analysis 
+IMS,6365,AW1,,10,1,,,,1,,,,,,,,,,,,"Dowse, Eileen",,,,,,,eileen dowse,
+IMS,6365,CW1,,21,2,,,,,,,,,,,,,,,,"Skuza, Agnieszka",,,,,,,agnieszka skuza,
+ISIS,3335,0W1,9,7,12,3,2,,,,,,,,,,,,1,,"Rosa, Jonathan",,,,,,jxr172530,jonathan rosa,United States and East Asia 
+ISNS,2359,0W1,73,13,7,3,3,2,,2,3,,,,5,,,,,,"Pujana, Ignacio","Karimi, Fatemeh",,,,,pujana,ignacio pujana,Earthquakes and Volcanoes 
+ISNS,2367,0W1,19,27,7,3,6,2,1,2,2,,2,,3,,,,,,"Pujana, Ignacio","Crowley, Clinton W",,,,,pujana,ignacio pujana,The Oceans 
+ISNS,2367,0W2,7,18,14,2,8,1,1,,,,,,1,,,,,,"Pujana, Ignacio","Crowley, Clinton W",,,,,pujana,ignacio pujana,The Oceans 
+ITSS,3300,5U1,,11,12,12,9,4,2,3,,,1,,1,,,,1,,"Owens, Sean M","Ghosh, Debapratim",,,,,smo150330,sean owens,Information Technology for Business 
+ITSS,3311,5U1,,5,3,3,4,2,2,3,,,,,1,,,,,,"Maru, Vatsal K","Anand, Punya I",,,,,vkm220000,vatsal maru,Introduction to Programming 
+ITSS,3390,5U1,1,2,3,3,3,2,1,,,2,,,,,,,,,"Neal, Angela","Liu, Yihong",,,,,aan052000,angela neal,Web Design and Development for Business Applications 
+ITSS,4090,091,,,,,,,,,,,,,,125,,,,,"Stephens, Timothy G",,,,,,tgs170130,timothy stephens,
+ITSS,4090,0U1,,,,,,,,,,,,,,112,,,,,"Stephens, Timothy G",,,,,,tgs170130,timothy stephens,
+ITSS,4300,5U1,1,5,7,15,4,12,9,2,1,2,1,,,,,,,,"Ceverha, Paul W","Pujari, Shrutika",,,,,pwc230000,paul ceverha,Database Fundamentals 
+ITSS,4330,5U1,1,6,5,7,10,11,3,1,3,,2,,,,,,,,"Khan, Taimur A","Liu, Yihong",,,,,txk123530,taimur khan,Systems Analysis and Design 
+ITSS,4340,0U1,,2,3,,4,3,3,6,,,,,,,,,,,"Thompson, Luell O",,,,,,lot013000,luell thompson,Enterprise Resource Planning 
+ITSS,4351,5U1,,47,,2,,,1,,,,,,,,,,,,"Johnston, Walter L",,,,,,wlj031000,walter johnston,Foundations of Business Intelligence 
+ITSS,4352,5U1,,5,10,6,7,4,1,1,,,,,1,,,,,,"Neal, Angela","Liu, Yihong",,,,,aan052000,angela neal,Introduction to Web Analytics 
+ITSS,4360,5U1,1,2,5,1,2,8,2,3,2,,,,,,,,,,"Ginevich, Rostislav A","Goswami, Garima",,,,,rxg172930,rostislav ginevich,Network and Information Security 
+ITSS,4370,5U1,,4,3,10,20,10,2,3,1,,,,,,,,,,"Young, John G",,,,,,jgy190000,john young,Information Technology Infrastructure 
+ITSS,4381,5U1,,8,14,6,14,1,6,2,,1,,,,,,,,,"Maru, Vatsal K","Anand, Punya I",,,,,vkm220000,vatsal maru,Object Oriented Programming with Python 
+ITSS,4V90,0U3,,,,,,,,,,,,,,10,,,,,"Stephens, Timothy G",,,,,,tgs170130,timothy stephens,
+LIT,1301,0W1,17,5,,2,1,,,,,,,,,,,,2,,"Ingrao, Peter J",,,,,,jingrao,peter ingrao,Introduction to Literature 
+LIT,3319,0W1,10,2,,,1,,,1,,,,,,,,,,,"Ingrao, Peter J",,,,,,jingrao,peter ingrao,Contexts 
+LIT,3330,0W1,4,4,2,4,3,,,,,,,,,,,,,,"Saunders, Joy",,,,,,jxs230049,joy saunders,Linguistics 
+MAS,6102,051,,,,,,,,,,,,,,,,,1,14,"An, Constance",,,,,,cfa220003,constance an,Professional Development 
+MAS,6V98,0U1,,,,,,,,,,,,,,,,,,30,"Widdifield, David S","Fierst, John",,,,,dsw180001,david widdifield,
+MATH,1314,0S1,4,5,,1,1,1,,,,,,,1,,,,,,"Alvarado, Iris",,,,,,ila180000,iris alvarado,
+MATH,1325,0U1,3,1,2,,1,,3,3,,,5,,4,,,,2,,"Biswas, Saikat","Goni, Hazera","Pathirana, Menu H",,,,sxb230137,saikat biswas,Applied Calculus I 
+MATH,1325,551,1,1,3,1,2,,,1,,,,,1,,,,,,"Patel, Jigarkumar S","Harikumar, Rohin",,,,,jsp061000,jigarkumar patel,Applied Calculus I 
+MATH,1326,091,1,1,1,1,1,1,,,,,,1,3,,,,1,,"Patel, Jigarkumar S","Khandelwal, Abinash",,,,,jsp061000,jigarkumar patel,Applied Calculus II 
+MATH,1326,0U1,2,2,2,3,,3,3,1,2,1,,1,2,,,,3,,"Mussa, Derege H","Zafar, Safi Ur Rahman","Zhu, Weixi",,,,dxm146130,derege mussa,Applied Calculus II 
+MATH,2312,0U1,1,2,2,3,3,1,,1,,1,,,,,,,,,"Duruoha, Adannah","Kudasinghe Patabendi Gedara He, Rachindra V","Tamim, Mohammad Ali",,,,axd180037,adannah duruoha,Precalculus 
+MATH,2413,051,,2,1,2,2,3,1,1,1,,,,3,,,,,,"Dahal, Rabin",,,,,,rxd153030,rabin dahal,Differential Calculus 
+MATH,2413,0U1,1,,2,3,3,2,4,1,,2,1,1,1,,,,1,,"Rakotomalala, Diarisoa Mihaja Andriamanisa","Cao, Jianpeng","Cash, Cole S",,,,dmr150130,diarisoa rakotomalala,Differential Calculus 
+MATH,2414,0U1,1,1,,3,5,5,5,,5,1,7,,5,,,,,,"Aman, Kelly C","Ramarolahy, Rija Tonny Christian","Rajapakshage, Himasha Miurangi W","Stack, Jason C","Taskin, Fariha",,kxa143530,kelly aman,Integral Calculus 
+MATH,2415,0U2,3,4,,1,4,1,,1,1,,,,1,,,,,,"Makarenkov, Oleg",,,,,,oxm130230,oleg makarenkov,Calculus of Several Variables 
+MATH,2417,0U1,,,1,2,2,2,1,,1,,1,,1,,,,,,"Sultana, Nasrin","Alabbadi, Ismail","Abbadi, Soufiane",,,,nxs190039,nasrin sultana,Calculus I 
+MATH,2418,0U1,1,1,1,1,2,3,6,,,,1,,1,,,,,,"Adabrah, Anani Komla",,,,,,aaa130530,anani adabrah,Linear Algebra 
+MATH,2418,0U2,7,5,1,7,2,6,1,2,2,1,1,,3,,,,1,,"Murza, Adrian C","Ghanem, Ziad G","He, Meng","Liu, Jingzhou","Sarkar, Soham","Mrad, Preskella",acm170730,adrian murza,Linear Algebra 
+MATH,2419,0U1,,2,,,1,,,2,12,,,,1,,,,,,"Eydelzon, Anatoly","Yang, Jie","Tong, Ran",,,,axe031000,anatoly eydelzon,Calculus II 
+MATH,2420,0U1,4,4,7,1,1,2,,2,4,,1,,2,,,,,,"Paudel, Ajaya B",,,,,,abp062000,ajaya paudel,Differential Equations with Applications 
+MATH,3351,0U1,3,3,1,2,1,1,3,,,1,1,,3,,,,1,,"Ramakrishna, Viswanath","Murad, Mohammad Hassan",,,,,vish,viswanath ramakrishna,Advanced Calculus 
+MECH,2330,051,,1,1,,2,1,2,2,1,1,,1,3,,,,,,"Thamban, P L Stephan",,,,,,stephan,p l stephan thamban,Dynamics 
+MECH,3105,1W1,,4,1,2,1,,1,1,3,,2,,,,,,1,,"Rios, Oziel",,,,,,oxr106020,oziel rios,Computer Aided Design Laboratory 
+MECH,3305,0W1,,1,3,1,1,1,2,3,1,,1,,,,,,,,"Rios, Oziel",,,,,,oxr106020,oziel rios,Computer Aided Design 
+MECH,3315,0U1,,6,1,3,2,1,,,,,,,1,,,,,,"Anderson, William C",,,,,,wca140030,william anderson,Fluid Mechanics 
+MECH,3320,0W1,4,3,3,3,7,4,3,3,7,,,1,1,,,,,,"Fadda, Dani Z","Rahimi, Hootan",,,,,dzf091000,dani fadda,Heat Transfer 
+MECH,3340,0W1,1,5,1,3,5,2,3,1,3,,1,,2,,,,1,,"Park, Wooram","Rahimi, Hootan",,,,,wxp103020,wooram park,System Dynamics Modeling and Analysis 
+MECH,3350,0W1,2,1,6,1,1,1,1,4,1,,,1,1,,,,,,"Rios, Oziel",,,,,,oxr106020,oziel rios,Kinematics and Dynamics of Mechanical Systems 
+MECH,3351,0H1,4,1,,8,5,3,2,3,2,,,,2,,,,,,"Malik, Arif S",,,,,,axm154531,arif malik,Design of Mechanical Systems 
+MECH,4340,0W1,,7,1,,11,7,2,2,1,,,,1,,,,,,"Park, Wooram",,,,,,wxp103020,wooram park,Mechanical Vibrations 
+MECH,4381,0U1,,2,15,17,6,5,,2,,,,,1,,,,,,"Hart, Robert A","Tjahjono, Nathaniel S",,,,,rxh124630,robert hart,Senior Design Project I 
+MECH,4382,0U1,3,12,,4,,,,,,,,,,,,,,,"Hart, Robert A",,,,,,rxh124630,robert hart,Senior Design Project II 
+MECH,6V95,0U1,,10,,,,,,,,,,,,,,,,,"Qian, Dong","Fadda, Dani Z",,,,,dxq120430,dong qian,Topics in Mechanical Engineering 
+MECO,6303,0W1,,17,6,10,6,4,1,2,,,,,,,,,,,"Lewin, Peter","Sadeghi, Ali",,,,,plewin,peter lewin,Business Economics 
+MECO,6303,AW1,,12,3,3,1,,,,,,,,,,,,,,"Kiser, Stephen L",,,,,,slk012100,stephen kiser,
+MIS,6009,091,,,,,,,,,,,,,,,,,,23,"Thouin, Mark F",,,,,,mxt083000,mark thouin,
+MIS,6009,0U1,,,,,,,,,,,,,,,,,,98,"Thouin, Mark F",,,,,,mxt083000,mark thouin,
+MIS,6308,0W1,,18,4,1,14,,,,,,,,,,,,1,,"Raghunathan, Srinivasan","Chen, Luoying",,,,,sraghu,srinivasan raghunathan,System Analysis and Project Management 
+MIS,6308,5U1,,9,5,1,3,2,,,,,,,,,,,,,"Sivaramakrishnan, Sriram","Chen, Luoying",,,,,sxs230045,sriram sivaramakrishnan,System Analysis and Project Management 
+MIS,6313,5W1,,28,13,3,3,,,,,,,,,,,,,,"Sivaramakrishnan, Sriram","Sun, Kai",,,,,sxs230045,sriram sivaramakrishnan,Managing IT in the Analytics Age 
+MIS,6313,GW1,,13,10,8,4,,,,,,,,,,,,2,,"Wiant, Russell",,,,,,,russell wiant,
+MIS,6326,0W1,,6,4,1,1,,,,,,,,,,,,,,"Ryu, Young U","Goswami, Garima",,,,,ryoung,young ryu,Data Management 
+MIS,6330,5U1,,2,3,7,2,2,,,,,,,,,,,,,"Shroff, Tejas N","Goswami, Garima",,,,,tns190000,tejas shroff,Cybersecurity Fundamentals 
+MIS,6344,0W1,,4,7,6,4,,,,,,,,,,,,,,"Mehra, Amit","Chen, Luoying",,,,,axm078200,amit mehra,Web Analytics 
+MIS,6349,5U1,,6,13,1,,,,,,,,,,,,,,,"Shroff, Tejas N","Pujari, Shrutika",,,,,tns190000,tejas shroff,Digital Consulting Project 
+MIS,6363,0W1,,31,3,2,3,2,,2,,,,,3,,,,,,"Calisir, Engin","Goswami, Garima",,,,,exc030100,engin calisir,Cloud Computing Fundamentals 
+MIS,6380,0U1,,3,4,4,,,,,,,,,,,,,,,"Islam, Naser","Anand, Punya I",,,,,nxi110630,naser islam,Data Visualization 
+MIS,6382,5W1,,8,7,5,6,,,,,,,,,,,,,,"Neouchi, Rabih","Anand, Punya I",,,,,rxn200012,rabih neouchi,Object Oriented Programming in Python 
+MIS,6V98,0U1,,,,,,,,,,,,,,,,,,28,"Thouin, Mark F",,,,,,mxt083000,mark thouin,
+MKT,3300,0U1,9,7,5,3,3,2,,1,,,,,1,,,,,,"Chiong, Khai X",,,,,,kxc173030,khai chiong,Principles of Marketing 
+MKT,3300,0U2,7,8,,1,,,,,,,,,1,,,,1,,"Chiong, Khai X",,,,,,kxc173030,khai chiong,Principles of Marketing 
+MKT,3300,0W1,,9,5,8,13,2,6,4,,,,,1,,,,,,"Wu, Fang","Miao, Jin",,,,,fxw052000,fang wu,Principles of Marketing 
+MKT,3330,0U1,,7,3,1,,1,2,1,,,,,1,,,,,,"Amirpour, Semiramis",,,,,,sxa130731,semiramis amirpour,Introduction to Professional Selling 
+MKT,4090,091,,,,,,,,,,,,,,28,,,,,"Haworth, Julie B",,,,,,haworth,julie haworth,
+MKT,4090,0U1,,,,,,,,,,,,,,20,,,1,,"Haworth, Julie B",,,,,,haworth,julie haworth,
+MKT,4330,0W1,4,4,6,3,1,4,2,3,,1,1,1,1,,,,1,,"Edsel, Alexander D",,,,,,ade012000,alexander edsel,Digital and Internet Marketing 
+MKT,4334,5U1,1,9,4,2,,,,1,,,,,,,,,,,"Mabruk, Zayd N",,,,,,znm071000,zayd mabruk,Social Media Marketing 
+MKT,4360,5U1,,15,31,1,,,,,,,,,,,,,,,"Johnson, Quincy",,,,,,qfj061000,quincy johnson,Social Impact Marketing 
+MKT,4V90,593,,,,,,,,,,,,,,10,,,,,"Haworth, Julie B",,,,,,haworth,julie haworth,
+MKT,6301,0W1,,14,5,5,14,10,,1,,,,,,,,,2,,"Pahwa, Parneet",,,,,,pxp030100,parneet pahwa,Marketing Management 
+MKT,6301,CW1,,9,2,2,,,,,,,,,,,,,,,"Reichmuth, Gary",,,,,,gar220001,gary reichmuth,
+MKT,6301,CW2,,22,,,,,,,,,,,,,,,,,"Munch, James",,,,,,,james munch,
+MKT,6301,MBP,,6,3,8,10,,,,,,,,,,,,,,"Rajaratnam, Daniel",,,,,,dxr143430,daniel rajaratnam,
+MKT,6301,XH1,,18,1,1,,,,,,,,,,,,,,,"Reichmuth, Gary",,,,,,gar220001,gary reichmuth,
+MKT,6309,0W1,,1,4,4,3,,1,,,,,,,,,,,,"Rajaratnam, Daniel",,,,,,dxr143430,daniel rajaratnam,Marketing Data Analysis and Research 
+MKT,6310,0W1,,3,3,5,3,1,2,,,,,,,,,,,,"Biswas, Abhijit","Lim, Taewook",,,,,axb019100,abhijit biswas,Consumer Behavior Science and Practice 
+MKT,6321,0W1,,7,1,6,2,1,,,,,,,,,,,,,"Edsel, Alexander D",,,,,,ade012000,alexander edsel,Interactive and Digital Marketing 
+MKT,6332,0W1,,2,3,6,4,4,2,,,,,,,,,,,,"Biswas, Abhijit","Lim, Taewook",,,,,axb019100,abhijit biswas,Advertising and Promotional Strategy 
+MKT,6339,0W1,,3,1,4,3,1,,,,,,,,,,,1,,"Rajaratnam, Daniel",,,,,,dxr143430,daniel rajaratnam,Capstone Marketing Decision Making 
+MKT,6352,0W1,,7,,1,3,2,,4,,,,,,,,,1,,"Tirone, Guido",,,,,,gxt170001,guido tirone,Marketing Web Analytics and Insights 
+MKT,6V98,0U1,,,,,,,,,,,,,,,,,,11,"Edsel, Alexander D",,,,,,ade012000,alexander edsel,
+MUSI,1306,0W1,25,7,2,4,3,,2,1,1,,,,,,,,,,"Rushing, Katrina C","Kalkanli, Ogulcan",,,,,kxr220042,katrina rushing,Understanding Music 
+MUSI,2315,5U1,,8,1,1,,,,,,,,,,,,,,,"Hodan, Daniel M",,,,,,dmh017000,daniel hodan,Guitar I 
+NATS,5100,091,,,,,,,,,,,,,,,,,,16,"Krawietz, Paul",,,,,,pxk210042,,Professional Development in the Natural Sciences and Mathematics 
+NSC,3361,0U2,4,5,3,1,2,3,3,2,,3,,2,,,,,2,,"Raboune, Siham","Gayluak, Ynaluak J","Ashshareef, Salma",,,,sxr180071,siham raboune,Introduction to Neuroscience 
+NSC,3361,0U3,3,2,3,3,3,1,,,,,,,,,,,,,"Marks, William","West, Reyanne M",,,,,wxm180005,william marks,Introduction to Neuroscience 
+NSC,4351,0W1,,35,3,,1,,,,,,,,,,,,,,"Shareef, Safi Ullah","Mendez, Skylar A","Porras, Abi",,,,sms170009,safiullah shareef,Medical Neuroscience 
+NSC,4352,0U1,1,1,4,2,,1,1,1,,1,,,2,,,,,,"Raboune, Siham","Hudson, Rachael N",,,,,sxr180071,siham raboune,Cellular Neuroscience 
+NSC,4354,0U1,1,2,2,3,1,1,1,,,,,,,,,,,,"Sultana, Rukhsana",,,,,,rxs170431,rukhsana sultana,Integrative Neuroscience 
+NSC,4382,0W1,2,12,15,3,2,1,1,,,,,,1,,,,,,"Jahangiri, Faisal R","Suzaki, Aoi","Ramos Freitas, Lindsey E",,,,frj190000,faisal jahangiri,Neurobiology of Emotion 
+OB,6249,CW1,,23,,,,,,,,,,,,,,,,,"Warner, Lizette",,,,,,,lizette warner,
+OB,6253,CW1,,,,,,,,,,,,,,,,,,19,"Hicks, Robert F",,,,,,,robert hicks,
+OB,6301,0W1,,22,9,5,2,3,3,,,,,,1,,,,,,"Hasenhuttl, Maria","Shen, Jia",,,,,h1562,maria hasenhuttl,Organizational Behavior 
+OB,6301,CH1,,16,4,,1,,,,,,,,,,,,,,"Nugent, Kim S",,,,,,,kim nugent,
+OB,6331,CW1,,20,,,,,,,,,,,,,,,,,"Hasenhuttl, Maria",,,,,,h1562,maria hasenhuttl,
+OB,6334,CW1,,22,7,2,2,,,1,,,,,2,,,,,,"Bianco-Mathis, Virginia",,,,,,,virginia bianco mathis,
+OB,6344,CW1,,31,2,4,2,1,,,,,,,,,,,,,"Norton, Larry W",,,,,,,larry norton,
+OB,6348,CW1,,21,5,,2,1,,,,,,,1,,,,,,"Narro, Amber J",,,,,,,amber narro,
+OB,6351,CW1,,14,5,2,2,,,,,,,,,,,,,,"Warner, Lizette",,,,,,,lizette warner,
+OB,6352,CW1,,18,1,,,,,,,,,,,,,,,,"Warner, Lizette",,,,,,,lizette warner,
+OB,6382,CW1,,23,1,,,,,1,,,,,1,,,,,,"Plaisance Bryan, Suzette T",,,,,,,suzette plaisance bryan,
+OB,6382,CW2,,22,1,,,,,,,,,,,,,,,,"Plaisance Bryan, Suzette T",,,,,,,suzette plaisance bryan,
+OB,6384,CW1,,25,2,1,,,,,,,,,,,,,,,"Honeycutt, James",,,,,,jxh190022,james honeycutt,
+OBHR,3310,0U1,11,8,11,5,5,3,1,,1,,,1,,,,,,,"Kim, Hwayoung",,,,,,hxk200056,hwayoung kim,Organizational Behavior 
+OBHR,3330,5U1,9,4,11,2,2,1,,,,,,,,,,,,,"Thomas, Alayna G",,,,,,agt160030,alayna thomas,Introduction to Human Resource Management 
+OBHR,4090,0U1,,,,,,,,,,,,,,13,,,,,"Weekley, Jeffrey A",,,,,,,jeffrey weekley,
+OBHR,4300,0U1,11,,,,,,,,,,,,,,,,,,"Edgington, Kyle D",,,,,,kde081000,kyle edgington,Management of Non-Profit Organizations 
+OPRE,3310,0U2,8,5,7,9,8,,3,3,,,1,,,,,,1,,"Du, Haokun",,,,,,hxd180022,haokun du,Supply Chain and Operations Management 
+OPRE,3310,5U1,6,8,3,8,6,3,5,,,,,,,,,,1,,"Zhang, Minmin",,,,,,mxz180015,minmin zhang,Supply Chain and Operations Management 
+OPRE,3310,5W1,4,10,10,8,2,8,1,1,,,,,,,,,,,"Alborz, Shawn",,,,,,sxa063000,shawn alborz,Supply Chain and Operations Management 
+OPRE,3330,0W1,8,6,5,7,8,5,5,2,,1,1,,,,,,,,"Alborz, Shawn",,,,,,sxa063000,shawn alborz,Project Management 
+OPRE,3333,0W1,,8,10,5,4,1,5,5,4,,1,,4,,,,,,"Enayaty Ahangar, Negin","Shahsavand, Parisa",,,,,nxe180001,negin enayaty ahangar,Quantitative Business Analysis 
+OPRE,3333,0W2,2,5,3,6,7,3,4,3,3,2,1,,2,,,,4,,"Enayaty Ahangar, Negin","Shahsavand, Parisa",,,,,nxe180001,negin enayaty ahangar,Quantitative Business Analysis 
+OPRE,3333,5U1,8,3,2,3,6,2,2,2,,2,2,1,1,,,,,,"Whalen, Tristan G","Jiang, Shanlin",,,,,tgw100020,tristan whalen,Quantitative Business Analysis 
+OPRE,3360,0W1,23,10,5,7,8,5,3,1,2,1,,,1,,,,,,"Ahadi, Khatereh","Tahergandomabadi, Mohammadmahdi",,,,,kxa180010,khatereh ahadi,Managerial Methods in Decision Making Under Uncertainty 
+OPRE,3360,5U1,1,6,5,6,6,1,2,4,1,4,3,3,2,,,,,,"Whalen, Tristan G","Jiang, Shanlin",,,,,tgw100020,tristan whalen,Managerial Methods in Decision Making Under Uncertainty 
+OPRE,4090,091,,,,,,,,,,,,,,12,,,,,"Brussolo, Monica E",,,,,,meb049000,monica brussolo,
+OPRE,6009,0U1,,,,,,,,,,,,,,,,,,31,"Widdifield, David S","Fierst, John",,,,,dsw180001,david widdifield,
+OPRE,6301,0W1,,10,7,8,6,3,1,,,,,,,,,,2,,"Brussolo, Monica E","Kurucak, Abdurrahman",,,,,meb049000,monica brussolo,Statistics and Data Analysis 
+OPRE,6301,CH1,,20,6,3,2,,,,,,,,,,,,,,"Kim, Dohyeong",,,,,,dxk132530,dohyeong kim,
+OPRE,6302,0W1,,9,2,2,10,2,4,3,,,,,,,,,3,,"Leach, Sonia E","Bu, Like",,,,,sel120030,sonia leach,Operations Management 
+OPRE,6302,MBP,,8,6,8,5,,,,,,,,,,,,,,"Subramoniam, Ramesh",,,,,,rxs179630,ramesh subramoniam,
+OPRE,6332,5U1,,4,3,3,1,3,2,1,,,,,1,,,,,,"Ramanathan, Kannan","Chaparla, Grashma Srihita",,,,,kxr087000,kannan ramanathan,Spreadsheet Modeling and Analytics 
+OPRE,6362,0W1,,6,9,3,4,,1,,,,,,,,,,,,"Alborz, Shawn",,,,,,sxa063000,shawn alborz,Project Management in Engineering and Operations 
+OPRE,6364,PW1,,13,5,1,1,,,,,,,,,,,,,,"Rajamani, Divakar",,,,,,dxr020100,divakar rajamani,
+OPRE,6378,5W1,,4,3,6,,1,,,,,,,,,,,,,"Widdifield, David S",,,,,,dsw180001,david widdifield,Supply Chain Strategy 
+OPRE,6379,PW1,,21,2,2,1,,,,,,,,,,,,,,"Rajamani, Divakar",,,,,,dxr020100,divakar rajamani,
+OPRE,6V98,0U1,,,,,,,,,,,,,,,,,,14,"Fierst, John","Widdifield, David S",,,,,,john fierst,
+PA,2325,0S1,,22,,,,,,,,,,,,,,,,,"Benavides, Teodoro J",,,,,,tjb051000,teodoro benavides,Introduction to Public and Nonprofit Management 
+PA,3310,0S1,,15,,,,,,,,,,,,,,,,,"McCaskill, John R",,,,,,jrm094020,john mccaskill,Managing Government Organizations 
+PA,6313,5U1,,10,,,6,,,,,,,,,,,,,,"Johnson, Daniel A",,,,,,daj240002,,Public Policymaking and Institutions 
+PA,6326,0W1,,29,,,1,,,,,,,,,,,,,,"McCaskill, John R",,,,,,jrm094020,john mccaskill,Decision Tools for Managers 
+PA,6345,5U1,,9,2,,,,,,,,,,,,,,,,"Benavides, Abraham",,,,,,axb220062,,Human Resources Management 
+PA,6369,5U1,,11,5,,,1,,,,,,,,,,,,,"Hutcheson, Patricia L",,,,,,plh073000,patricia hutcheson,Grant Writing and Management 
+PA,8330,HN1,,30,1,2,,,1,,,,,,,,,,,,"Shute, William H","Chin, Michelle L",,,,,whs170030,william shute,
+PA,8331,HN1,,31,2,1,,,,,,,,,,,,,,,"Chin, Michelle L",,,,,,mlc140530,michelle chin,
+PA,8332,HN1,,,,,,,,,,,,,,,,,,34,"Ramanathan, Subhasri","Chin, Michelle L",,,,,,subhasri ramanathan,
+PHIL,1301,0W1,,4,10,5,5,6,2,2,4,,2,1,3,,,,2,,"Campos, Laura Graciela","Brown, Derek W",,,,,lxc230018,laura campos,Introduction to Philosophy 
+PHYS,1101,1U1,4,18,2,,1,,,,,,,,,,,,,,"Khan, Amena L","Desai, Amogh N",,,,,axk140130,amena khan,College Physics Laboratory I 
+PHYS,1102,1U1,12,1,,,,,,,,,,,,,,,,,"Mac Alevey, Paul J","Shrestha, Samyak",,,,,paulmac,paul macalevey,College Physics Laboratory II 
+PHYS,1301,0U1,4,12,2,2,3,3,1,,,,1,,,,,,,,"Khan, Amena L","Kapte, Isha Sunil","Arabiat, Aya H",,,,axk140130,amena khan,College Physics I 
+PHYS,1302,0H1,6,2,2,,1,1,2,2,,,,,1,,,,,,"Kadala, Roger H","Seifi, Melodee O","Kajla, Rohit",,,,rxk220001,roger kadala,College Physics II 
+PHYS,1302,0U1,2,1,2,2,2,1,,1,,,,,,,,,,,"Malko, Anton","Smith, Sean S","Zhao, Kehui",,,,avm074000,anton malko,College Physics II 
+PHYS,2125,1U1,8,6,1,,,1,,,,,,,,,,,,,"Khan, Amena L","Magadi Shivalingaiah, Meghraj",,,,,axk140130,amena khan,Physics Laboratory I 
+PHYS,2126,1U1,6,4,1,,,1,,,,,,1,,,,,,,"Mac Alevey, Paul J","Ruwali, Shisir",,,,,paulmac,paul macalevey,Physics Laboratory II 
+PHYS,2126,1U2,19,3,1,,,,,,,,,,,,,,,,"Mac Alevey, Paul J","Palos, Rylee K","Ahmad, Faiz",,,,paulmac,paul macalevey,Physics Laboratory II 
+PHYS,2325,0H1,5,8,5,,5,1,1,5,1,,1,2,5,,,,,,"Slinker, Jason D","Ali, Akbar","McNally, Christina M",,,,jds107020,jason slinker,Mechanics 
+PHYS,2326,0U1,1,8,17,4,6,2,1,1,1,,,,,,,,1,,"Gartstein, Yuri","Aker, Adam","Bera, Avijit",,,,yxg037000,yuri gartstein,Electromagnetism and Waves 
+PHYS,3411,0U1,,,,1,,1,1,3,1,3,,,,,,,,,"Mac Alevey, Paul J","Lochridge, Matthew D",,,,,paulmac,paul macalevey,Theoretical Physics 
+PSCI,3303,0S1,3,12,2,,,,,,,,,,2,,,,,,"Gray, Thomas R",,,,,,txg171430,thomas gray,Civil Liberties 
+PSCI,4306,0U1,3,3,2,6,5,1,,,,1,,1,2,,,,,,"Elmore, Naela","Peressotti, Giuseppe","Adjadeh, John-Paul E",,,,nxm153530,,Protest and Social Movements 
+PSCI,4396,001,1,4,1,,3,,3,2,,,2,,,,,,,,"Grover, William C",,,,,,wcg071000,william grover,Selected Topics in Government and Politics 
+PSY,2301,0S1,,5,2,1,,,1,,,,,1,1,,,,,,"Brody, Salena M",,,,,,smb051000,salena brody,Introduction to Psychology 
+PSY,2301,0W1,18,15,13,7,1,5,1,2,,1,1,2,3,,,,,,"Ybarra, Regina K","Gu, Pan",,,,,rky190000,regina ybarra,Introduction to Psychology 
+PSY,2317,0W1,,9,11,5,2,1,,,,,1,,,,,,,,"Fearon, Danielle","Behboudi, Mohammad Hossein",,,,,dxf220005,danielle fearon,Statistics for Psychology 
+PSY,3310,0U1,4,8,2,,,,1,,,,,,,,,,,,"Heinrich, Melissa D","Liu, Yilin",,,,,mdh190005,melissa heinrich,Child Development 
+PSY,3331,0W1,21,23,12,2,1,2,2,,1,1,1,,4,,,,1,,"Shirvani, Forouz","Telidevara, Amrita Kaushik",,,,,fxk024000,forouz shirvani,Social Psychology 
+PSY,3342,0W1,,43,,,6,,,4,,,1,,,,,,,,"Bonner, Deborah","Gholap, Neha P",,,,,dbonner,deborah bonner,Exceptional Children 
+PSY,3360,0W1,,9,16,12,22,6,5,4,9,,1,2,4,,,,1,,"Drew, Linda M","Delfosse, Camille M",,,,,lmd102020,linda drew,Historical Perspectives on Psychology  Mind and Machines since 1600 
+PSY,3361,0U1,,6,1,1,1,1,,,,,,,1,,,,,,"Devora, Paulina V","Brown, Tracy",,,,,pvd200000,,Cognitive Psychology 
+PSY,3392,0W1,6,10,3,5,5,7,3,2,1,1,,,1,,,,,,"Poucher, Jesse W","Carrico, Sara M",,,,,jwp082000,jesse poucher,Research Design and Analysis 
+PSY,3393,0U1,,4,,,8,,,2,,,,,2,,,,1,,"Macphail, Donald C","Eisenberg, LuLu A",,,,,dcm200000,,Experimental Projects in Psychology 
+PSY,3393,0W1,,6,7,8,2,1,,,,,,,,,,,,,"Fearon, Danielle","Sanchez, Patricia Monique",,,,,dxf220005,danielle fearon,Experimental Projects in Psychology 
+PSY,4343,0W1,42,16,10,7,6,2,5,1,,1,,1,1,,,,,,"Ybarra, Regina K","Kulkarni, Maitreyee",,,,,rky190000,regina ybarra,Abnormal Psychology 
+PSY,4394,0U1,,,,,,,,,,,,,,17,,,,,"Choate, Michael J",,,,,,mchoate,michael choate,Internship in Psychology 
+PSY,4395,0U1,,,,,,,,,,,,,,20,,,,,"Choate, Michael J",,,,,,mchoate,michael choate,Co-op Fieldwork 
+REAL,6322,0W1,,10,,2,,,,,,,,,,,,,,,"DeCourcy, George A",,,,,,gad075000,george decourcy,Real Estate Finance and Investment 
+RHET,1302,0S1,9,3,2,,,,,,,,,,1,,,,,,"Anwesha, Swati",,,,,,sax210000,swati anwesha,
+RHET,1302,0W1,,11,5,,,,,,,,,,1,,,,,,"Alem, Hosanna G",,,,,,hga140130,hosanna alem,Rhetoric 
+RHET,1302,0W2,3,5,1,1,,2,,,,,,,1,,,,1,,"Morgan, George D",,,,,,gdm190002,george morgan,Rhetoric 
+RHET,1302,0W3,2,1,3,2,,2,,,1,,,,1,,,,,,"Walker, Jason",,,,,,jaw140030,jason walker,Rhetoric 
+SE,4381,0U1,1,1,5,6,7,3,3,4,3,2,1,,1,,,,,,"Paulk, Mark C","Nanda, Souradeep",,,,,mcp130030,mark paulk,Software Project Planning and Management 
+SE,6388,MU1,,8,6,,1,,,,,,,,,,,,,,"Zhao, Yi","Song, Xiaoyu",,,,,zhao,yi zhao,
+SOC,1301,5U1,1,5,4,3,1,1,,1,,,1,,,,,,,,"Elsafadi, Hoda O",,,,,,hoe180000,,Introduction to Sociology 
+SOC,1306,0S1,11,6,1,,,,,,1,,,,,,,,,,"Lanham, Carol C",,,,,,ccl054000,carol lanham,Contemporary Social Issues 
+SOC,4372,0U1,,2,1,6,5,,1,,,,,,,,,,,,"Briggs-Megafu, Tamnala E",,,,,,teb200000,,Health and Illness 
+SPAU,3340,0H1,,5,,,7,,,1,,,2,,,,,,,,"Neale, Hannah D","Cullinan, McKenzie B",,,,,hxp121030,hannah pourchot neale,Articulation Disorders 
+SPAU,3341,0W1,,2,1,1,4,1,,1,,1,,,,,,,,,"Fowler-Brookman, Stephanie L",,,,,,slr150030,,Audiology 
+SPAU,3343,0U1,3,6,,,1,,,1,,,,,,,,,1,,"Mehta, Sonya","Thomas, Abbey L",,,,,sxm053100,sonya mehta,Phonetics and Phonology 
+STAT,2332,0U1,3,2,2,1,1,1,2,2,2,1,,1,1,,,,,,"Jiang, Shengjie","Kim, Sungbum",,,,,sxj220069,shengjie jiang,Introductory Statistics for Life Sciences 

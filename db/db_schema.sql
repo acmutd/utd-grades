@@ -57,6 +57,7 @@ CREATE TABLE grades
     semesterId      INTEGER                           NOT NULL REFERENCES strings (id),
     subjectId       INTEGER                           NOT NULL REFERENCES strings (id),
     catalogNumberId INTEGER                           NOT NULL REFERENCES strings (id),
+    courseNameId    INTEGER REFERENCES strings (id),
     sectionId       INTEGER                           NOT NULL REFERENCES strings (id),
     instructor1Id   INTEGER REFERENCES strings (id),
     instructor2Id   INTEGER REFERENCES strings (id),
@@ -90,34 +91,39 @@ SELECT grades.id AS gradesId,
        semester.string AS semester,
        subject.string AS subject,
        catalogNumber.string AS catalogNumber,
+    courseName.string AS courseName,
        section.string AS section,
        instructor1.string AS instructor1
 FROM grades
          INNER JOIN strings semester ON semester.id = grades.semesterId
          INNER JOIN strings subject ON subject.id = grades.subjectId
          INNER JOIN strings catalogNumber ON catalogNumber.id = grades.catalogNumberId
+      LEFT JOIN strings courseName ON courseName.id = grades.courseNameId
          INNER JOIN strings section ON section.id = grades.sectionId
          INNER JOIN strings instructor1 ON instructor1.id = grades.instructor1Id;
 
 -- FIXME: grades_strings is no longer an appropriate name, since autocomplete now use autocomplete_strings
-CREATE VIEW grades_strings(id,subject,courseSection,semester,instructor1) AS
+CREATE VIEW grades_strings(id,subject,courseSection,courseName,semester,instructor1) AS
 SELECT gradesId,
        subject,
        catalogNumber || '.' || section,
+    courseName,
        semester,
        instructor1
 FROM grades_populated;
 
-CREATE VIEW autocomplete_strings(priority,string,subject,courseSection,semester,instructor1) AS
+CREATE VIEW autocomplete_strings(priority,string,subject,courseSection,courseName,semester,instructor1) AS
 -- CS 1337.001 Fall 2020 Firstname Lastname
 SELECT 4,
        subject       || ' ' ||
        catalogNumber || '.' ||
        section       || ' ' ||
+    COALESCE(courseName || ' ', '') ||
        semester      || ' ' ||
        instructor1,
        subject,
        catalogNumber || '.' || section,
+    courseName,
        semester,
        instructor1
 from grades_populated
@@ -126,10 +132,12 @@ UNION
 SELECT 3,
        subject       || ' ' ||
        catalogNumber || ' ' ||
+    COALESCE(courseName || ' ', '') ||
        semester      || ' ' ||
        instructor1,
        subject,
        catalogNumber,
+    courseName,
        semester,
        instructor1
 FROM grades_populated
@@ -138,9 +146,11 @@ UNION
 SELECT 2,
        subject || ' ' ||
        catalogNumber || ' ' ||
+    COALESCE(courseName || ' ', '') ||
        instructor1,
        subject,
        catalogNumber,
+    courseName,
        '',
        instructor1
 from grades_populated
@@ -149,9 +159,11 @@ UNION
 SELECT 1,
        subject       || ' ' ||
        catalogNumber || ' ' ||
+    COALESCE(courseName || ' ', '') ||
        semester,
        subject,
        catalogNumber,
+    courseName,
        semester,
        ''
 FROM grades_populated
@@ -159,9 +171,11 @@ UNION
 -- CS 1337
 SELECT 0,
        subject || ' ' ||
-       catalogNumber,
+    catalogNumber || ' ' ||
+    COALESCE(courseName, ''),
        subject,
        catalogNumber,
+    courseName,
        '',
        ''
 FROM grades_populated;

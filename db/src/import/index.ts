@@ -50,11 +50,23 @@ function gradesRow(
     return null;
   }
 
+  function getOptionalStringIdForColumn(...columnCandidates: string[]): number | null {
+    const rowValue = columnCandidates
+      .map((column) => csvRow[column]?.trim())
+      .find((value) => value !== undefined && value !== "");
+    if (!rowValue) {
+      return null;
+    }
+
+    return strings.get(rowValue.trim()) ?? null;
+  }
+
   return {
     id,
     semester: strings.get(semester)!,
     subject: getStringIdForColumn("Subject"),
     catalogNumber: getStringIdForColumn("Catalog Number", "Catalog Nbr"), // some semesters have "Catalog Number", some have "Catalog Nbr"
+    courseName: getOptionalStringIdForColumn("Course Name", "Course Title", "title"),
     section: getStringIdForColumn("Section"),
     aPlus: parseNum(csvRow["A+"]),
     a: parseNum(csvRow["A"]),
@@ -96,6 +108,27 @@ async function parseCsv(filePath: string): Promise<Record<string, string>[]> {
 async function parseDataDir(dataDir: string): Promise<[Map<string, number>, GradesRow[]]> {
   const strings = new Map<string, number>();
 
+  function extractSemesterName(fileName: string): string {
+    const parsed = path.parse(fileName).name;
+    
+    // Handle enhanced_grades_[YY][SEASON].csv pattern
+    const enhancedMatch = parsed.match(/enhanced_grades_enhanced_grades_(\d{2})([fsu])/i);
+    if (enhancedMatch && enhancedMatch[1] && enhancedMatch[2]) {
+      const yearSuffix = enhancedMatch[1];
+      const seasonChar = enhancedMatch[2].toLowerCase();
+      
+      const fullYear = parseInt(yearSuffix, 10) + 2000;
+      const seasonMap: Record<string, string> = { f: "Fall", s: "Spring", u: "Summer" };
+      const season = seasonMap[seasonChar];
+      
+      return `${season} ${fullYear}`;
+    }
+    
+    // Fall back to original logic for legacy filenames
+    const semesterMatch = parsed.match(/(Spring|Summer|Fall)\s+\d{4}/i);
+    return semesterMatch ? semesterMatch[0] : parsed;
+  }
+
   function add(s: string | undefined, modify?: (s: string) => string) {
     if (s) {
       if (modify) {
@@ -109,12 +142,26 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, number>, Grad
 
   const grades: GradesRow[] = [];
 
-  for (const fileName of await fs.readdir(dataDir)) {
+  const allCsvFiles = (await fs.readdir(dataDir)).filter((fileName) => fileName.endsWith(".csv"));
+  const preferredCsvFileBySemester = new Map<string, string>();
+
+  for (const fileName of allCsvFiles) {
+    const semester = extractSemesterName(fileName);
+    const existing = preferredCsvFileBySemester.get(semester);
+    const isEnhanced = fileName.toLowerCase().startsWith("enhanced_grades_");
+    const existingIsEnhanced = existing?.toLowerCase().startsWith("enhanced_grades_") ?? false;
+
+    if (!existing || (isEnhanced && !existingIsEnhanced)) {
+      preferredCsvFileBySemester.set(semester, fileName);
+    }
+  }
+
+  for (const fileName of preferredCsvFileBySemester.values()) {
     if (!fileName.endsWith(".csv")) {
       continue;
     }
 
-    const semester = path.parse(fileName).name;
+    const semester = extractSemesterName(fileName);
     add(semester);
 
     for (const csvRow of await parseCsv(path.join(dataDir, fileName))) {
@@ -127,6 +174,7 @@ async function parseDataDir(dataDir: string): Promise<[Map<string, number>, Grad
 
       add(csvRow["Subject"]);
       add(csvRow["Catalog Number"] ?? csvRow["Catalog Nbr"]);
+      add(csvRow["Course Name"] ?? csvRow["Course Title"] ?? csvRow["title"], (s) => s.trim());
       add(csvRow["Section"]);
 
       grades.push(gradesRow(grades.length, csvRow, semester, strings));
@@ -250,8 +298,8 @@ async function createDb(): Promise<Uint8Array> {
 
   // insert instructors
   const stmt = db.prepare(`
-    INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, courseNameId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
   for (const grades of allGrades) {
     stmt.getAsObject([
@@ -278,6 +326,7 @@ async function createDb(): Promise<Uint8Array> {
       grades.semester,
       grades.subject,
       grades.catalogNumber,
+      grades.courseName,
       grades.section,
       grades.instructor1,
       grades.instructor2,

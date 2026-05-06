@@ -6,6 +6,7 @@ export interface GradesRow {
   semester: number;
   subject: number;
   catalogNumber: number;
+  courseName: number | null;
   section: number;
   aPlus: number;
   a: number;

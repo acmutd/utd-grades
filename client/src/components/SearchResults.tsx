@@ -7,7 +7,7 @@ import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
 import type { SearchQuery } from "../types";
-import { normalizeName } from "../utils/index";
+import { compareSectionRecency, getCourseTitleMatchRank, getSectionSearchRank, normalizeName, normalizeSortValue } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
@@ -97,11 +97,33 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     }
   );
 
+  const rankedSections = useMemo(() => {
+    if (!sections) {
+      return sections;
+    }
+
+    return [...sections].sort((a, b) => {
+      const titleRankA = getCourseTitleMatchRank(a.courseName, search);
+      const titleRankB = getCourseTitleMatchRank(b.courseName, search);
+      const searchRankA = getSectionSearchRank(a, search);
+      const searchRankB = getSectionSearchRank(b, search);
+      const titleA = normalizeSortValue(a.courseName);
+      const titleB = normalizeSortValue(b.courseName);
+
+      return (
+        titleRankA - titleRankB ||
+        (titleRankA !== Number.POSITIVE_INFINITY && titleRankB !== Number.POSITIVE_INFINITY
+          ? titleA.localeCompare(titleB) || compareSectionRecency(a, b)
+          : searchRankA - searchRankB || compareSectionRecency(a, b))
+      );
+    });
+  }, [sections, search]);
+
   // Auto-select first section when sections load and no section is selected
   useEffect(() => {
-    if (sections && sections.length > 0 && !sectionId && !hasAutoSelected.current) {
+    if (rankedSections && rankedSections.length > 0 && !sectionId && !hasAutoSelected.current) {
       hasAutoSelected.current = true;
-      const firstSection = sections[0];
+      const firstSection = rankedSections[0];
       if (firstSection) {
         void router.push({
           pathname: "/results",
@@ -109,7 +131,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
         }, undefined, { shallow: true });
       }
     }
-  }, [sections, sectionId, search, router]);
+  }, [rankedSections, sectionId, search, router]);
 
   // Reset auto-select flag when search changes
   useEffect(() => {
@@ -118,14 +140,14 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
 
   // Update page when sectionId changes (arrow navigation or click)
   useEffect(() => {
-    if (sections && sections.length > 0) {
-      const idx = sections.findIndex(s => s.id === sectionId);
+    if (rankedSections && rankedSections.length > 0) {
+      const idx = rankedSections.findIndex(s => s.id === sectionId);
       if (idx !== -1) {
         const newPage = Math.floor(idx / 5) + 1;
         setCurrentPage(newPage);
       }
     }
-  }, [sectionId, sections]);
+  }, [sectionId, rankedSections]);
 
 
   // get the section data
@@ -306,12 +328,12 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       }
 
       // Only handle arrow keys when a section is selected
-      if (!sections || sections.length === 0 || !sectionId) {
+      if (!rankedSections || rankedSections.length === 0 || !sectionId) {
         return;
       }
 
       // Find the current section index
-      const currentIndex = sections.findIndex((s) => s.id === sectionId);
+      const currentIndex = rankedSections.findIndex((s) => s.id === sectionId);
       
       if (currentIndex === -1) {
         return;
@@ -325,13 +347,13 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
         event.preventDefault();
       } else if (event.key === "ArrowRight") {
         // Navigate to next section
-        newIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : currentIndex;
+        newIndex = currentIndex < rankedSections.length - 1 ? currentIndex + 1 : currentIndex;
         event.preventDefault();
       }
 
     // Navigate to the new section if index changed
           if (newIndex !== -1 && newIndex !== currentIndex) {
-            const target = sections[newIndex];
+            const target = rankedSections[newIndex];
             if (target && typeof target.id === "number") {
               handleClick(target.id);
             }
@@ -345,7 +367,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [sections, sectionId, handleClick]);
+  }, [rankedSections, sectionId, handleClick]);
   // Arrow key navigation between sections
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -444,7 +466,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
           <Row>
             <Col lg={6} xs={24}>
               <SectionList
-                data={sections}
+                data={rankedSections}
                 onClick={handleClick}
                 loading={sectionsStatus === "loading"}
                 id={sectionId}

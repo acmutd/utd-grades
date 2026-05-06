@@ -3,6 +3,7 @@ import debounce from "lodash.debounce";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import type { SearchQuery } from "../types";
+import { getSearchStringRank } from "../utils/index";
 import { useDb } from "../utils/useDb";
 
 const autoCompleteStyle: React.CSSProperties = {
@@ -115,9 +116,10 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
       <ul>
         <li>A specific section: CS 1337.002</li>
         <li>A whole course: CS 1337</li>
+        <li>A course name: Computer Science I</li>
         <li>A professor&apos;s name: Jason Smith</li>
         <li>A specific semester: CS 1337 Fall 2021</li>
-        <li>Everything together: CS 1337.002 Fall 2021 Jason Smith</li>
+        <li>Everything together: CS 1337.002 Computer Science I Fall 2021 Jason Smith</li>
       </ul>
     </Popover>
   );
@@ -132,7 +134,10 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
       debounce((partialQuery: string) => {
         if (db && partialQuery) {
           const strings = db.getSectionStrings(partialQuery);
-          setOptions(strings.map((value) => ({ value })));
+          const rankedStrings = [...strings].sort(
+            (a, b) => getSearchStringRank(a, partialQuery) - getSearchStringRank(b, partialQuery) || a.localeCompare(b)
+          );
+          setOptions(rankedStrings.map((value) => ({ value })));
         }
       }, 300),
     [db]

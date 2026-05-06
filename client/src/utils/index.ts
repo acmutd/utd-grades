@@ -133,3 +133,126 @@ export function normalizeName(name: string): string[] {
   }
   return [name];
 }
+
+function normalizeSearchValue(value: string): string {
+  return value.toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+export function normalizeSortValue(value: string | null | undefined): string {
+  return normalizeSearchValue(value ?? "");
+}
+
+export function getCourseTitleMatchRank(courseName: string | null | undefined, query: string): number {
+  const normalizedQuery = normalizeSearchValue(query);
+  const normalizedCourseName = normalizeSearchValue(courseName ?? "");
+
+  if (!normalizedQuery || !normalizedCourseName) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  if (normalizedCourseName === normalizedQuery) {
+    return 0;
+  }
+
+  if (
+    normalizedCourseName.startsWith(`${normalizedQuery} `) ||
+    normalizedCourseName.startsWith(`${normalizedQuery}-`) ||
+    normalizedCourseName.startsWith(`${normalizedQuery}:`)
+  ) {
+    return 1;
+  }
+
+  const index = normalizedCourseName.indexOf(normalizedQuery);
+  if (index !== -1) {
+    return 2 + index / 1000;
+  }
+
+  return Number.POSITIVE_INFINITY;
+}
+
+export function getSearchStringRank(value: string, query: string): number {
+  const normalizedValue = normalizeSearchValue(value);
+  const normalizedQuery = normalizeSearchValue(query);
+
+  if (!normalizedQuery) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  if (normalizedValue === normalizedQuery) {
+    return 0;
+  }
+
+  const index = normalizedValue.indexOf(normalizedQuery);
+  if (index === -1) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  return index + normalizedValue.length / 100000;
+}
+
+export function getSectionSearchRank(
+  section: Pick<Grades, "courseName" | "subject" | "catalogNumber" | "section" | "instructor1">,
+  query: string
+): number {
+  const normalizedQuery = normalizeSearchValue(query);
+  if (!normalizedQuery) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  const normalizedCourseName = normalizeSearchValue(section.courseName ?? "");
+  const normalizedCode = normalizeSearchValue(`${section.subject} ${section.catalogNumber}`);
+  const normalizedSectionCode = normalizeSearchValue(`${section.subject} ${section.catalogNumber}.${section.section}`);
+  const normalizedInstructor = normalizeSearchValue(
+    `${section.instructor1?.first ?? ""} ${section.instructor1?.last ?? ""}`
+  );
+
+  if (normalizedCourseName === normalizedQuery) {
+    return 0;
+  }
+
+  if (normalizedCourseName.startsWith(`${normalizedQuery} `) ||
+    normalizedCourseName.startsWith(`${normalizedQuery}-`) ||
+    normalizedCourseName.startsWith(`${normalizedQuery}:`)) {
+    return 1;
+  }
+
+  if (normalizedCode === normalizedQuery || normalizedSectionCode === normalizedQuery) {
+    return 1.5;
+  }
+
+  if (normalizedCode.startsWith(normalizedQuery) || normalizedSectionCode.startsWith(normalizedQuery)) {
+    return 2;
+  }
+
+  const courseNameIndex = normalizedCourseName.indexOf(normalizedQuery);
+  if (courseNameIndex !== -1) {
+    return 3 + courseNameIndex / 1000 + normalizedCourseName.length / 100000;
+  }
+
+  const codeIndex = normalizedCode.indexOf(normalizedQuery);
+  if (codeIndex !== -1) {
+    return 4 + codeIndex / 1000;
+  }
+
+  const instructorIndex = normalizedInstructor.indexOf(normalizedQuery);
+  if (instructorIndex !== -1) {
+    return 5 + instructorIndex / 1000;
+  }
+
+  return Number.POSITIVE_INFINITY;
+}
+
+export function compareSectionRecency(
+  a: Pick<Grades, "semester" | "catalogNumber" | "subject" | "section" | "courseName">,
+  b: Pick<Grades, "semester" | "catalogNumber" | "subject" | "section" | "courseName">
+): number {
+  const seasonRank = { Spring: 0, Summer: 1, Fall: 2 } as const;
+  return (
+    b.semester.year - a.semester.year ||
+    seasonRank[b.semester.season] - seasonRank[a.semester.season] ||
+    a.catalogNumber.localeCompare(b.catalogNumber) ||
+    a.subject.localeCompare(b.subject) ||
+    a.section.localeCompare(b.section) ||
+    (a.courseName ?? "").localeCompare(b.courseName ?? "")
+  );
+}
