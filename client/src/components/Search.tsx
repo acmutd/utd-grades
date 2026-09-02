@@ -108,9 +108,10 @@ const DarkModeSearch = styled(Input.Search)`
 interface SearchProps {
   onSubmit: (query: SearchQuery) => void;
   initialSearchValue?: string;
+  showSage?: boolean;
 }
 
-export default function Search({ onSubmit, initialSearchValue: initialSearch = "" }: SearchProps) {
+export default function Search({ onSubmit, initialSearchValue: initialSearch = "", showSage = true }: SearchProps) {
   const hintContent = (
     <Popover>
       <p>You can search for:</p>
@@ -178,13 +179,15 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
         </span>
       </Hint>
 
-      <div style={{ marginTop: "16px", textAlign: "center" }}>
-        <SageLink href="https://utdsage.com/" target="_blank">
-          <SageLogo src="/SAGE-Logo.svg" />
-          <SageText>Get AI-powered UTD advising with </SageText>
-          <SageTextMark src="/SAGE-Textmark.svg" />
-        </SageLink>
-      </div>
+      {showSage && (
+        <div style={{ marginTop: "16px", textAlign: "center" }}>
+          <SageLink href="https://utdsage.com/" target="_blank">
+            <SageLogo src="/SAGE-Logo.svg" />
+            <SageText>Get AI-powered UTD advising with </SageText>
+            <SageTextMark src="/SAGE-Textmark.svg" />
+          </SageLink>
+        </div>
+      )}
 
     </AntForm>
   );
