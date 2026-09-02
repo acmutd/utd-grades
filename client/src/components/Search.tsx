@@ -3,6 +3,7 @@ import debounce from "lodash.debounce";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import type { SearchQuery } from "../types";
+import { getSearchStringRank } from "../utils/index";
 import { useDb } from "../utils/useDb";
 
 const autoCompleteStyle: React.CSSProperties = {
@@ -18,6 +19,39 @@ const Hint = styled(AntPopover)`
   color: #95989a;
 `;
 
+const SageLogo = styled.img`
+  height: 1.2rem;
+  margin-right: 0.4rem;
+  filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
+`;
+
+const SageTextMark = styled.img`
+  height: 1.2rem;
+`;
+const SageLink = styled.a`
+  background: linear-gradient(90deg, rgba(7,67,37,1) 0%, rgba(22,50,36,1) 100%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.6rem 1.2rem;
+  margin-bottom: 0.3rem;
+  border-radius: 100rem;
+  color: #5AED86;
+  text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+  transition: transform cubic-bezier(0.4, 0, 0.2, 1) 150ms, box-shadow cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+  &:hover {
+    color: #5AED86;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
+    transform: scale(1.01);
+  }
+`;
+
+const SageText = styled.p`
+  line-height: 1.2rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+`;
 const Popover = styled.div`
   font-family: 'Gilroy-Regular', sans-serif;
   width: 375px;
@@ -74,18 +108,20 @@ const DarkModeSearch = styled(Input.Search)`
 interface SearchProps {
   onSubmit: (query: SearchQuery) => void;
   initialSearchValue?: string;
+  showSage?: boolean;
 }
 
-export default function Search({ onSubmit, initialSearchValue: initialSearch = "" }: SearchProps) {
+export default function Search({ onSubmit, initialSearchValue: initialSearch = "", showSage = true }: SearchProps) {
   const hintContent = (
     <Popover>
       <p>You can search for:</p>
       <ul>
         <li>A specific section: CS 1337.002</li>
         <li>A whole course: CS 1337</li>
+        <li>A course name: Computer Science I</li>
         <li>A professor&apos;s name: Jason Smith</li>
         <li>A specific semester: CS 1337 Fall 2021</li>
-        <li>Everything together: CS 1337.002 Fall 2021 Jason Smith</li>
+        <li>Everything together: CS 1337.002 Computer Science I Fall 2021 Jason Smith</li>
       </ul>
     </Popover>
   );
@@ -100,7 +136,10 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
       debounce((partialQuery: string) => {
         if (db && partialQuery) {
           const strings = db.getSectionStrings(partialQuery);
-          setOptions(strings.map((value) => ({ value })));
+          const rankedStrings = [...strings].sort(
+            (a, b) => getSearchStringRank(a, partialQuery) - getSearchStringRank(b, partialQuery) || a.localeCompare(b)
+          );
+          setOptions(rankedStrings.map((value) => ({ value })));
         }
       }, 300),
     [db]
@@ -139,6 +178,17 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
           <span style={{ textDecoration: "underline" }}>Pretty much anything.</span>
         </span>
       </Hint>
+
+      {showSage && (
+        <div style={{ marginTop: "16px", textAlign: "center" }}>
+          <SageLink href="https://utdsage.com/" target="_blank">
+            <SageLogo src="/SAGE-Logo.svg" />
+            <SageText>Get AI-powered UTD advising with </SageText>
+            <SageTextMark src="/SAGE-Textmark.svg" />
+          </SageLink>
+        </div>
+      )}
+
     </AntForm>
   );
 }

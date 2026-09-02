@@ -7,10 +7,12 @@
   "scripts": {
     "build": "npx tsc --build",
     "createDb": "node build/import/index.js",
+    "syncEnhancedCsvs": "node scripts/syncEnhancedCsvs.mjs",
     "lint": "npx eslint src/*",
     "test": "jest"
   },
   "dependencies": {
+    "@google-cloud/storage": "^7.17.1",
     "csv-parse": "^5.6.0",
     "sql.js": "^1.13.0"
   },

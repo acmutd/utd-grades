@@ -24,6 +24,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  background-color: var(--card-bg);
 
   @media (max-width: 992px) {
     & {
@@ -45,6 +46,7 @@ const GraphContainer = styled.div`
   width: 100%;
   min-height: 250px;
   max-height: 400px;
+  background-color: var(--card-bg);
 
   @media (max-width: 992px) {
     & {
@@ -69,6 +71,7 @@ const ProfessorDetailsContainer = styled.div`
   width: 100%;
   margin-top: 1rem;
   flex-shrink: 0;
+  background-color: var(--card-bg);
 
   @media (max-width: 992px) {
     & {
@@ -102,6 +105,24 @@ const SubHeader = styled.h5`
   margin-bottom: 0rem !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
+
+  @media (max-width: 992px) {
+    & {
+      font-size: 18px;
+    }
+  }
+`;
+
+const CourseName = styled.h5`
+  font-family: 'Gilroy-SemiBold', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--muted-text);
+  margin-top: 0.2rem !important;
+  margin-bottom: 0rem !important;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 
   @media (max-width: 992px) {
     & {
@@ -173,6 +194,15 @@ const RMPStat = styled.h5`
       line-height: 1.3;
     }
   }
+`;
+
+const RMPPlaceholder = styled.p`
+  font-family: var(--font-family);
+  font-weight: 400;
+  color: var(--muted-text);
+  font-size: 0.95rem;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0px !important;
 `;
 
 const RMPDescpription = styled.p`
@@ -288,12 +318,10 @@ const Stack = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  min-width: 0;
 
-  @media (max-width: 992px) {
-    &:first-child {
-      flex: 1;
-      min-width: 0; /* Allow text to wrap */
-    }
+  &:first-child {
+    flex: 1;
   }
 `;
 
@@ -409,6 +437,7 @@ const options: ChartOptions<"bar"> = {
               {section.subject} {section.catalogNumber}
               <Section>.{section.section}</Section>
             </Header>
+            {section.courseName ? <CourseName>{section.courseName}</CourseName> : null}
             <SubHeader>
               {/* FIXME (no professor): non null assertion */}
               {section.instructor1!.last}, {section.instructor1!.first} -{" "}
@@ -505,6 +534,7 @@ const options: ChartOptions<"bar"> = {
                 </>
               )}
             </RMPHeader>
+            {!instructor && <RMPPlaceholder>N/A</RMPPlaceholder>}
           </Col>
           {instructor ? (
             <>

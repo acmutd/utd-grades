@@ -40,13 +40,13 @@ const Header = styled.h1`
   gap: 12px;
   letter-spacing: 2px;
 }
-  
+
   @media (max-width: 768px) {
     font-size: 36px;
     letter-spacing: 2px;
     gap: 12px;
   }
-  
+
   @media (max-width: 480px) {
     font-size: 28px;
     letter-spacing: 1px;
@@ -57,7 +57,7 @@ const Header = styled.h1`
     letter-spacing: 1px;
     gap: 8px;
   }
-    
+
 `;
 
 const Description = styled.p`
@@ -91,18 +91,18 @@ const ByACM = styled.span`
   letter-spacing: 1px;
   color: rgb(159, 159, 159);
   margin-left: 12px;
-  
+
   @media (max-width: 768px) {
     font-size: 14px;
     margin-left: 8px;
   }
-  
+
   @media (max-width: 480px) {
     font-size: 12px;
     margin-left: 6px;
   }
 
-   
+
 `;
 
 const Logo = {
@@ -140,7 +140,7 @@ const ThemeToggle = styled.button`
   @media (prefers-color-scheme: light) {
     border-color: rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.05);
-    
+
     &:hover {
       background: rgba(255, 255, 255, 0.1);
       color: #727272;
@@ -264,7 +264,7 @@ export default function Home() {
                 See how students did in any given class. And it&apos;s <strong>free, forever.</strong>
               </Description>
             </FadeIn>
-            <Search onSubmit={handleSubmit} />
+            <Search onSubmit={handleSubmit} showSage={false} />
           </Col>
         </Main>
       </Content>
