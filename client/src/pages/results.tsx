@@ -23,7 +23,7 @@ export default function ResultsPage() {
   // https://github.com/zeit/next.js/issues/8259
   if (router.asPath !== router.route) {
     return (
-      <Core>
+      <Core showSageAd={false}>
         <Stack>
           <Header />
           <SearchResults search={search} sectionId={parseInt(sectionId)} router={router} />

@@ -9,6 +9,8 @@ const Menu = styled(Row)`
   padding: 30px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `;
 
 const Back = styled(Button) <{ $dummy?: boolean }>`
@@ -36,30 +38,83 @@ const Back = styled(Button) <{ $dummy?: boolean }>`
   }
 `;
 
-const Toggle = styled(Button)`
-  background: none;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  box-shadow: none;
-  color: var(--muted-text);
-  display: inline-flex;
+const ThemeToggle = styled.button`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid var(--toggle-border, #e4e4e7);
+  background: var(--toggle-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--toggle-hover-bg);
+    color: var(--toggle-hover-color, #333333);
+  }
+
   svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #727272;
+    }
   }
 `;
 
+const SunIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+);
+
+
+
 const HeaderText = styled.a`
-  margin-right: auto;
-  margin-left: auto;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: block;
 
   & h2 {
-    color: var(--text-color);
+    color: var(--header-color);
     font-weight: 300;
     letter-spacing: 2px;
     font-size: 24px;
@@ -69,6 +124,7 @@ const HeaderText = styled.a`
     gap: 8px;
   }
 `;
+
 
 const HeaderBold = styled.span`
   font-family: 'Gilroy-Bold', sans-serif;
@@ -86,11 +142,15 @@ const Logo = {
 
 export default function Header() {
   const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") return "dark";
+    if (typeof window === "undefined") return "light";
     const saved = localStorage.getItem("theme");
     if (saved === "light" || saved === "dark") return saved;
-    return "dark";
+    return "light";
   });
+
+  const toggleTheme = () => {
+      setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+    };
 
   useEffect(() => {
     try {
@@ -122,23 +182,9 @@ export default function Header() {
           <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
         </h2>
       </HeaderText>
-      <Toggle
-        onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
-        type="ghost"
-        shape="circle"
-        size="large"
-        aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-      >
-        {theme === "light" ? (
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-            <path d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.79 1.8-1.78zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zm7.03-2.03l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79zM17.24 4.84l1.8-1.79L19.83 1.2l-1.79 1.79-0.8 1.85zM12 6a6 6 0 100 12 6 6 0 000-12z" fill="currentColor" />
-          </svg>
-        ) : (
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />
-          </svg>
-        )}
-      </Toggle>
+        <ThemeToggle onClick={toggleTheme} aria-label="Toggle Dark Mode">
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+        </ThemeToggle>
     </Menu>
   );
 }

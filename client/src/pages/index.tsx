@@ -2,7 +2,6 @@ import { Col } from "antd";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
 import styled from "styled-components";
 import FadeIn from "../components/animations/FadeIn";
 import Core from "../components/Core";
@@ -26,7 +25,7 @@ const Header = styled.h1`
   font-family: Gilroy, sans-serif;
   text-transform: uppercase;
   text-align: center;
-  color: var(--text-color);
+  color: var(--header-color);
   font-weight: 300;
   letter-spacing: 3px;
   font-size: 48px;
@@ -35,6 +34,12 @@ const Header = styled.h1`
   align-items: center;
   justify-content: center;
   gap: 16px;
+
+  @media (max-width: 1212px){
+  font-size: 36px;
+  gap: 12px;
+  letter-spacing: 2px;
+}
   
   @media (max-width: 768px) {
     font-size: 36px;
@@ -47,18 +52,27 @@ const Header = styled.h1`
     letter-spacing: 1px;
     gap: 8px;
   }
+     @media (max-width: 380px) {
+    font-size: 20px;
+    letter-spacing: 1px;
+    gap: 8px;
+  }
+    
 `;
 
 const Description = styled.p`
   font-family: 'Gilroy-Regular', sans-serif;
   text-align: center;
-  color: var(--muted-text);
+  color: var(--description-color);
   font-weight: 400;
   font-size: 18px;
   margin-bottom: 30px;
 
    strong {
     font-family: 'Gilroy-Bold', sans-serif;
+  }
+    @media (max-width: 320px) {
+    font-size: 14px;
   }
 `;
 
@@ -75,7 +89,7 @@ const ByACM = styled.span`
   font-size: 16px;
   font-weight: 400;
   letter-spacing: 1px;
-  color: var(--muted-text);
+  color: rgb(159, 159, 159);
   margin-left: 12px;
   
   @media (max-width: 768px) {
@@ -87,6 +101,8 @@ const ByACM = styled.span`
     font-size: 12px;
     margin-left: 6px;
   }
+
+   
 `;
 
 const Logo = {
@@ -95,20 +111,89 @@ const Logo = {
   flexShrink: 0,
 };
 
-const PageToggle = styled(Button)`
+const ThemeToggle = styled.button`
   position: absolute;
   top: 20px;
   right: 20px;
-  background: none;
-  border: none;
-  box-shadow: none;
-  color: var(--muted-text);
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
-  svg { width: 18px; height: 18px; }
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid var(--toggle-border, #e4e4e7);
+  background: var(--toggle-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--toggle-hover-bg);
+    color: var(--toggle-hover-color, #333333);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (prefers-color-scheme: light) {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #727272;
+    }
+  }
 `;
+
+const LogoWrapper = styled.div`
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
+
+  @media (max-width: 480px) {
+    width: 34px;
+    height: 34px;
+  }
+`;
+
+
+const SunIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+    />
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+    />
+  </svg>
+);
 
 
 
@@ -135,6 +220,10 @@ export default function Home() {
     }
   }, [theme]);
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+  };
+
   function handleSubmit({ search }: SearchQuery) {
     (async function () {
       await Router.push({
@@ -145,29 +234,16 @@ export default function Home() {
   }
 
   return (
-    <Core>
+    <Core showSageAd={true}>
       <Content>
-        <PageToggle
-          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
-          type="ghost"
-          shape="circle"
-          size="large"
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        >
-          {theme === "light" ? (
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M6.76 4.84l-1.8-1.79L3.17 4.83l1.79 1.79 1.8-1.78zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zm7.03-2.03l1.79 1.79 1.79-1.79-1.79-1.79-1.79 1.79zM17.24 4.84l1.8-1.79L19.83 1.2l-1.79 1.79-0.8 1.85zM12 6a6 6 0 100 12 6 6 0 000-12z" fill="currentColor" />
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />
-            </svg>
-          )}
-        </PageToggle>
+        <ThemeToggle onClick={toggleTheme} aria-label="Toggle Dark Mode">
+          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+        </ThemeToggle>
         <Main>
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
               <Header>
+                <LogoWrapper>
                 <Image
                   src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
                   alt="ACM Dev Logo"
@@ -175,9 +251,11 @@ export default function Home() {
                   height={52}
                   style={Logo}
                 />
+                </LogoWrapper>
+
                 <div>
                   <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
-                  <ByACM>by <HeaderBold>ACM</HeaderBold></ByACM>
+                  <ByACM>by <HeaderBold>ACM Dev</HeaderBold></ByACM>
                 </div>
               </Header>
             </FadeIn>

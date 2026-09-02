@@ -50,7 +50,7 @@ const Hint = styled(AntPopover)`
   margin-right: auto;
   display: block;
   font-family: var(--font-family);
-  color: var(--muted-text);
+  color: var(--description-color);
 `;
 
 const Popover = styled.div`
@@ -92,7 +92,7 @@ const LoadingItem = styled(List.Item)`
  /*For the person icon*/
 const IconWrapper = styled.div`
   margin-right: 8;
-  color: var(--muted-text);
+  color: var(--description-color);
 `;
 
 const PaginationContainer = styled.div`
@@ -108,9 +108,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
   min-width: 28px;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid ${props => props.active ? 'rgb(198, 198, 198 )' : '#d9d9d9'};
-  background: ${props => props.active ? 'rgb(198, 198, 198 )' : props.disabled ? '#f5f5f5' : '#fff'};
-  color: ${props => props.active ? '#333' : props.disabled ? '#bfbfbf' : 'rgba(0, 0, 0, 0.85)'};
+  border: 1px solid ${props => props.active ? 'var(--pagination-border-active)' : 'var(--pagination-border)'};
+  background: ${props => props.active ? 'var(--pagination-bg-active)' : props.disabled ? 'var(--pagination-bg-disabled)' : 'var(--pagination-bg)'};
+  color: ${props => props.active ? 'var(--pagination-text-active)' : props.disabled ? 'var(--pagination-text-disabled)' : 'var(--pagination-text)'};
   border-radius: 2px;
   cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
   font-family: var(--font-family);
@@ -121,9 +121,9 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 
   &:hover {
     ${props => !props.disabled && !props.active && css`
-      border-color: rgb(198, 198, 198 );
-      color: #333;
-      background: #fafafa;
+      border-color: var(--pagination-hover-border);
+      color: var(--pagination-hover-text);
+      background: var(--pagination-hover-bg);
     `}
   }
 
@@ -134,14 +134,7 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 
 
 const EnrollmentText = styled.span<{ $color?: string }>`
-  color: ${(p) => p.$color || "var(--text-color)"};
-`;
-
-const CourseName = styled.div`
-  margin-top: 0.15rem;
-  font-family: var(--font-family);
-  font-size: 14px;
-  color: var(--muted-text);
+  color: ${(p) => p.$color || "var(--description-color)"};
 `;
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`

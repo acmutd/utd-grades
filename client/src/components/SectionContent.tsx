@@ -60,7 +60,7 @@ const GraphContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 5px 10px rgba(70, 70, 70, 0.7);
+      box-shadow: var(--section-card-shadow);
       border-radius: 5px;
       padding: 20px;
     }
@@ -81,7 +81,7 @@ const ProfessorDetailsContainer = styled.div`
 
   @media (min-width: 992px) {
     & {
-      box-shadow: 0 5px 10px rgba(70, 70, 70, 0.7);
+      box-shadow: var(--section-card-shadow);
       border-radius: 5px;
       padding: 20px;
     }

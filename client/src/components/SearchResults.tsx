@@ -22,6 +22,7 @@ const ResultsContainer = styled(Col)`
   padding-bottom: 20px;
   margin-top: 35px;
   border-radius: 5px;
+  color: var(--text-color);
 
   background-color: var(--card-bg);
   /* make the results area stand out in light mode */
@@ -37,14 +38,7 @@ const ResultsContainer = styled(Col)`
     font-family: var(--font-family);
   }
 
-  /* Ensure Ant list/card text inside results uses theme-aware colors
-     (overrides global dark-mode-only rules that leaked into light mode) */
-  & .ant-list-item,
-  & .ant-list-item-meta,
-  & .ant-list-item-meta-title,
-  & .ant-list-item-meta-description,
-  & .ant-typography,
-  & .ant-card {
+  & .ant-list-item-meta-title, .ant-card {
     color: var(--text-color) !important;
     background: transparent !important;
   }
@@ -148,6 +142,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       }
     }
   }, [sectionId, rankedSections]);
+
 
 
   // get the section data
@@ -368,6 +363,60 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [rankedSections, sectionId, handleClick]);
+  // Arrow key navigation between sections
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Don't handle arrow keys if user is typing in an input field or textarea
+      const target = event.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      // Only handle arrow keys when a section is selected
+      if (!sections || sections.length === 0 || !sectionId) {
+        return;
+      }
+
+      // Find the current section index
+      const currentIndex = sections.findIndex((s) => s.id === sectionId);
+      
+      if (currentIndex === -1) {
+        return;
+      }
+
+      let newIndex = -1;
+
+      if (event.key === "ArrowLeft") {
+        // Navigate to previous section
+        newIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+        event.preventDefault();
+      } else if (event.key === "ArrowRight") {
+        // Navigate to next section
+        newIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : currentIndex;
+        event.preventDefault();
+      }
+
+    // Navigate to the new section if index changed
+          if (newIndex !== -1 && newIndex !== currentIndex) {
+            const target = sections[newIndex];
+            if (target && typeof target.id === "number") {
+              handleClick(target.id);
+            }
+          }
+        };
+
+    // Add event listener
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [sections, sectionId, handleClick]);
   // Arrow key navigation between sections
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

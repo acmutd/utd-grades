@@ -33,11 +33,31 @@
   --text-color: #DFDFDF;
   --muted-text: #ffffff86;
   --link-color: #7f99e5;
+  --description-color: #95989a;
+  --header-color: #cfcfcf;
 
   /* UI surfaces */
   --card-bg: #333333;
   --border-color: #ffffff14;
-  --select-tag: #cfcfcf;
+  --select-tag: #cdcdcd;
+  --result-container-bg: #ffffff14;
+  --search-placeholder: #959595;
+  --section-card-shadow: 0 5px 5px rgba(21, 21, 21, 0.319);
+
+  /* Pagination */
+  --pagination-border: #d9d9d9;
+  --pagination-border-active: rgb(198, 198, 198);
+  --pagination-bg: #4d4d4d;
+  --pagination-bg-disabled: #282828;
+  --pagination-bg-active: #e5e5e5;
+
+  --pagination-text: #e0e0e0;
+  --pagination-text-disabled: #bfbfbf;
+  --pagination-text-active: #1a1a1a;
+
+  --pagination-hover-bg: #c3c3c3;
+  --pagination-hover-text: #333;
+  --pagination-hover-border: rgb(198, 198, 198);
 
   /* Shadows */
   --box-shadow-base:
@@ -66,7 +86,6 @@
   --card-hover-bg: #494949;
   --tag-hover-bg: #1c1c1c;
   --rmp-link-underline: #333333;
-    
 }
 
 [data-theme="light"] {
@@ -74,14 +93,33 @@
   --text-color: #1a1a1a;
   --muted-text: #555555;
   --link-color: #1e40af;
+  --description-color: #95989a;
+  --header-color: #4e4e4e;
 
   
   --card-bg: #ffffff;
-  --select-tag: #333333;
+  --select-tag: #696969;
   --border-color: rgba(0, 0, 0, 0.12);
   --card-hover-bg: #e6e6e9;
   --tag-hover-bg: #e6e6e9;
   --rmp-link-underline: rgba(0,0,0,0.08);
+  --result-container-bg: #fdfdfdfd;
+  --search-placeholder: #c6c6c6;
+  --section-card-shadow: 0 15px 15px rgba(233, 233, 233, 0.7);
+  
+  --pagination-border: rgba(0, 0, 0, 0.15);
+  --pagination-border-active: #e1e1e1;
+  --pagination-bg: #ffffff;
+  --pagination-bg-disabled: #f0f0f0;
+  --pagination-bg-active: #1a1a1a;
+
+  --pagination-text: #1a1a1a;
+  --pagination-text-disabled: #999999;
+  --pagination-text-active: #ffffff;
+
+  --pagination-hover-bg: #f5f5f5;
+  --pagination-hover-text: #1a1a1a;
+  --pagination-hover-border: #1a1a1a;
 }
 
 html,
@@ -129,31 +167,4 @@ body {
 /* Ant Design default text color overrides for dark mode */
 .ant-typography, .ant-typography a, .ant-typography p {
   color: #DFDFDF;
-}
-
-/* Section list pagination overrides (1- 5 ... 40) */
-
-.section-list-pagination .ant-pagination-item {
-  color: #DFDFDF;
-  border-color: rgba(255,255,255,0.08);
-  background: transparent;
-}
-
-.section-list-pagination .ant-pagination-item-active {
-  background: #333333;
-  color: #ffffff;
-  border-color: #0074e0;
-}
-
-.section-list-pagination .ant-pagination-prev, .section-list-pagination .ant-pagination-next {
-  color: #DFDFDF;
-}
-
-.section-list-pagination .ant-pagination-disabled {
-  color: rgba(255, 255, 255, 0.25);
-}
-
-/* Ensure pagination links/numbers inherit the light color (anchors inside Ant components) */
-.section-list-pagination .ant-pagination-item a {
-  color: #DFDFDF !important;
 }
