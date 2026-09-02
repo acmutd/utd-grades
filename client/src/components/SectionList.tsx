@@ -136,6 +136,14 @@ const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>
 const EnrollmentText = styled.span<{ $color?: string }>`
   color: ${(p) => p.$color || "var(--description-color)"};
 `;
+
+const CourseName = styled.div`
+  margin-top: 0.15rem;
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--muted-text);
+`;
+
 // FIXME (median)
 // const AverageWrapper = styled.div<{ average: number }>`
 //   color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
@@ -286,7 +294,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
               >
                 <LeftOutlined />
               </PaginationButton>
-              
+
               {pageNumbers.map((pageNum) => (
                 <PaginationButton
                   key={pageNum}
@@ -297,7 +305,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   {pageNum}
                 </PaginationButton>
               ))}
-              
+
               <PaginationButton
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
