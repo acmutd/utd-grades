@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tailwind preflight is disabled (see tailwind.config.js) so it doesn't reset antd's own
+   component styles. But its utilities still assume this one preflight rule: without it,
+   `border`/`border-b`/etc. only set a width with no border-style, so the border stays
+   invisible (browsers default border-style to "none"). antd's own CSS already sets
+   box-sizing: border-box globally, so only the border reset is actually needed here. */
+*,
+::before,
+::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
 @font-face {
   font-family: 'Gilroy-Light';
   src: url('/fonts/Gilroy-Light.ttf') format('truetype');

@@ -111,10 +111,10 @@ const options: ChartOptions<"bar"> = {
       <div className="mb-4 flex flex-shrink-0 flex-col">
         <div className="flex flex-row items-start justify-between max-992:flex-wrap max-992:gap-4">
           <div className="flex min-w-0 flex-shrink-0 flex-col first:flex-1">
-            <h1 className="mb-0 mt-0 font-gilroy-bold text-[48px] text-fg">
+            <h3 className="mb-0 mt-0 font-gilroy-bold text-[48px] text-fg">
               {section.subject} {section.catalogNumber}
               <span className="font-gilroy-regular font-normal text-[#c7c7c7]">.{section.section}</span>
-            </h1>
+            </h3>
             {section.courseName ? (
               <h5 className="mb-0 mt-[0.2rem] break-words font-gilroy-semibold text-[22px] font-semibold text-muted max-992:text-[18px]">
                 {section.courseName}
@@ -127,7 +127,7 @@ const options: ChartOptions<"bar"> = {
             </h5>
           </div>
           <div className="flex min-w-0 flex-shrink-0 flex-col first:flex-1">
-            <h1 className="mb-0 mt-0 font-gilroy-bold text-[48px] text-fg">
+            <h3 className="mb-0 mt-0 font-gilroy-bold text-[48px] text-fg">
               <span className="leading-none text-fg max-992:text-[24px] max-992:font-bold min-992:text-[3rem]">
                 {courseRating ? courseRating : "N/A"}
               </span>
@@ -141,7 +141,7 @@ const options: ChartOptions<"bar"> = {
               >
                 {courseRating ? "/5" : ""}
               </span>
-            </h1>
+            </h3>
             <Row className="mt-[0.25rem] items-center justify-center gap-2">
               <h5 className="mb-0 mt-0 break-words font-gilroy-semibold text-[22px] font-semibold text-muted max-992:mt-2 max-992:text-[14px] min-992:mt-0">
                 Course Rating
@@ -162,13 +162,13 @@ const options: ChartOptions<"bar"> = {
 
       <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
-          <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-md min-992:p-5 min-992:shadow-section-card">
+          <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
             <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
           </div>
         </Col>
       </Row>
 
-      <div className="mt-4 w-full flex-shrink-0 bg-card max-992:pt-5 min-992:rounded-md min-992:p-5 min-992:shadow-section-card">
+      <div className="mt-4 w-full flex-shrink-0 bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
         <Row gutter={[16, 4]}>
           <Col span={24}>
             <a
@@ -179,7 +179,7 @@ const options: ChartOptions<"bar"> = {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               ref={rmpLinkRef}
-              className={`mb-2 inline-flex items-center gap-2 font-gilroy-bold text-[1.15rem] font-bold !text-fg !no-underline transition-colors duration-200 hover:!text-muted max-768:text-[0.8rem] ${
+              className={`mb-2 inline-flex items-center gap-2 font-gilroy-bold text-[1.15rem] font-bold !text-fg !no-underline [transition:color_0.2s_ease] hover:!text-muted max-768:text-[0.8rem] ${
                 instructor?.url && instructor.url !== "#" ? "border-b border-b-rmp-underline" : "border-b-0"
               }`}
             >
@@ -289,7 +289,7 @@ const options: ChartOptions<"bar"> = {
               {instructor.tags.split(",").map((tag) => (
                 <p
                   key={tag}
-                  className="rounded font-gilroy-regular font-medium text-fg shadow-[0_2px_4px_rgba(0,0,0,0.1)] transition-all duration-200 ease-in-out hover:-translate-y-px hover:bg-card-hover hover:shadow-[0_4px_8px_rgba(0,0,0,0.15)]"
+                  className="rounded font-gilroy-regular font-medium text-fg shadow-[0_2px_4px_rgba(0,0,0,0.1)] [transition:all_0.2s_ease-in-out] hover:-translate-y-px hover:bg-card-hover hover:shadow-[0_4px_8px_rgba(0,0,0,0.15)]"
                   style={{ padding: "0.4rem 0.4rem", backgroundColor: "var(--card-bg)" }}
                 >
                   {tag}

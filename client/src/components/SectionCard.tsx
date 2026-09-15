@@ -14,7 +14,7 @@ export default function SectionCard({ section, handleRelatedSectionClick }: Sect
         onClick={() =>
           handleRelatedSectionClick(`${section.subject} ${section.catalogNumber}`, section.id)
         }
-        className="relative mb-5 mr-5 flex-1 cursor-pointer rounded-md bg-white p-5 shadow-inactive transition-all duration-300 hover:shadow-active max-768:w-full"
+        className="relative mb-5 mr-5 flex-1 cursor-pointer rounded-md bg-white p-5 shadow-inactive [transition:all_0.3s] hover:shadow-active max-768:w-full"
         style={{ minWidth: "180px" }}
       >
         <p className="text-[20px] font-semibold text-black/65 [font-family:var(--font-family)]">

@@ -467,7 +467,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
         <Col
           lg={{ span: 20, offset: 2 }}
           xs={{ span: 24, offset: 0 }}
-          className="results-container mt-[35px] rounded-md border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+          className="results-container mt-[35px] rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
         >
           <Row>
             <Col lg={6} xs={24}>
