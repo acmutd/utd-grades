@@ -8,9 +8,6 @@ module.exports = {
   images: {
     unoptimized: true, // Disable image optimization for static export
   },
-  compiler: {
-    styledComponents: true,
-  },
   swcMinify: false, // Fallback to Terser if SWC fails
   webpack: (config, { isServer }) => {
     if (!isServer) {

@@ -1,23 +1,20 @@
 import type { ReactNode } from "react";
-import styled, { type Keyframes } from "styled-components";
-
-const Wrapper = styled.div<AnimationProps>`
-  animation: ${(props) => props.keyframes} 300ms ease-out;
-  animation-delay: ${(props) => props.delay}ms;
-  animation-fill-mode: backwards;
-`;
 
 interface AnimationProps {
-  keyframes: Keyframes;
+  animation: "fadeIn" | "slideUp";
   delay: number;
   children: ReactNode;
 }
 
-export default function Animation({ keyframes, delay, children }: AnimationProps) {
+export default function Animation({ animation, delay, children }: AnimationProps) {
   return (
     // Use random key to force animation to play on re-render
-    <Wrapper key={Math.random()} keyframes={keyframes} delay={delay}>
+    <div
+      key={Math.random()}
+      className={animation === "fadeIn" ? "animate-fadeIn" : "animate-slideUp"}
+      style={{ animationDelay: `${delay}ms` }}
+    >
       {children}
-    </Wrapper>
+    </div>
   );
 }

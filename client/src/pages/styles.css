@@ -1,3 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tailwind preflight is disabled (see tailwind.config.js) so it doesn't reset antd's own
+   component styles. But its utilities still assume this one preflight rule: without it,
+   `border`/`border-b`/etc. only set a width with no border-style, so the border stays
+   invisible (browsers default border-style to "none"). antd's own CSS already sets
+   box-sizing: border-box globally, so only the border reset is actually needed here. */
+*,
+::before,
+::after {
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
 @font-face {
   font-family: 'Gilroy-Light';
   src: url('/fonts/Gilroy-Light.ttf') format('truetype');
@@ -167,4 +184,142 @@ body {
 /* Ant Design default text color overrides for dark mode */
 .ant-typography, .ant-typography a, .ant-typography p {
   color: #DFDFDF;
+}
+
+/* Deep Ant Design internal-DOM overrides that don't map to a single element's own
+   Tailwind className. Everything else in the app is styled with Tailwind utilities
+   directly in JSX; these four classes are the pragmatic escape hatch. */
+
+.search-input-dark .ant-input-group {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgb(198, 198, 198);
+}
+
+.search-input-dark .ant-input-group-addon {
+  padding: 0;
+  background: transparent;
+}
+
+.search-input-dark .ant-input {
+  background-color: transparent;
+  color: var(--text-color);
+  font-family: 'Gilroy', sans-serif;
+  height: 44px;
+  line-height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.search-input-dark .ant-input::placeholder {
+  color: var(--search-placeholder);
+}
+
+.search-input-dark .ant-input-search-button {
+  background-color: transparent;
+  height: 44px;
+  line-height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.search-input-dark .ant-input-search-button .anticon {
+  color: #95989a;
+}
+
+.search-input-dark .ant-input-search-button .anticon svg {
+  fill: currentColor;
+}
+
+.search-input-dark .ant-input-search-button:hover {
+  opacity: 0.95;
+}
+
+.section-list-item {
+  width: 100%;
+  padding: 25px;
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 300ms ease-out;
+  font-family: var(--font-family);
+}
+
+.section-list-item:first-child {
+  border-top-left-radius: 5px;
+}
+
+.section-list-item .ant-list-item-meta-title a {
+  font-weight: 600;
+  font-family: var(--font-family);
+  color: inherit;
+  text-decoration: none;
+}
+
+.section-list-item .ant-list-item-meta-title a:hover {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.section-list-item .ant-list-item-meta {
+  margin-bottom: 0px;
+}
+
+.section-list-item--selected {
+  border-right: 6px solid var(--select-tag) !important;
+  box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
+  background-color: var(--card-bg);
+}
+
+.section-list-loading-item.section-list-loading-item.section-list-loading-item {
+  padding-top: 40px;
+  border: none !important;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.header-back-btn {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: none;
+  color: var(--text-color);
+}
+
+.header-back-btn svg {
+  color: inherit;
+}
+
+.header-back-btn:hover,
+.header-back-btn:focus,
+.header-back-btn:active {
+  color: rgb(198, 198, 198) !important;
+  background: none !important;
+}
+
+.header-back-btn:hover .anticon,
+.header-back-btn:focus .anticon,
+.header-back-btn:active .anticon {
+  color: rgb(198, 198, 198) !important;
+}
+
+.results-container .ant-list-pagination {
+  padding-left: 10px;
+}
+
+.results-container .ant-list-pagination li {
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+}
+
+.results-container .ant-list-item-meta-title,
+.results-container .ant-card {
+  color: var(--text-color) !important;
+  background: transparent !important;
+}
+
+.results-container .ant-list-item-meta-description {
+  color: var(--muted-text) !important;
 }

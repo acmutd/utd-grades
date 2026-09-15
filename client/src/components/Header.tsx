@@ -3,77 +3,6 @@ import { Button, Row } from "antd";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-
-const Menu = styled(Row)`
-  padding: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const Back = styled(Button) <{ $dummy?: boolean }>`
-  background: none;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  box-shadow: none;
-  color: var(--text-color);
-  svg {
-    color: inherit;
-  }
-  visibility: ${(props) => (props.$dummy ? "hidden" : "visible")};
-  &:hover,
-  &:focus,
-  &:active {
-    color: rgb(198, 198, 198) !important;
-    background: none !important;
-  }
-
-  &:hover .anticon,
-  &:focus .anticon,
-  &:active .anticon {
-    color: rgb(198, 198, 198) !important;
-  }
-`;
-
-const ThemeToggle = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 9999px;
-  border: 1px solid var(--toggle-border, #e4e4e7);
-  background: var(--toggle-bg);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: var(--toggle-hover-bg);
-    color: var(--toggle-hover-color, #333333);
-  }
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  @media (prefers-color-scheme: light) {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #727272;
-    }
-  }
-`;
 
 const SunIcon = () => (
   <svg
@@ -81,6 +10,7 @@ const SunIcon = () => (
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth={2}
+    className="h-4 w-4"
   >
     <path
       strokeLinecap="round"
@@ -96,6 +26,7 @@ const MoonIcon = () => (
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth={2}
+    className="h-4 w-4"
   >
     <path
       strokeLinecap="round"
@@ -104,36 +35,6 @@ const MoonIcon = () => (
     />
   </svg>
 );
-
-
-
-const HeaderText = styled.a`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  display: block;
-
-  & h2 {
-    color: var(--header-color);
-    font-weight: 300;
-    letter-spacing: 2px;
-    font-size: 24px;
-    margin-bottom: 0px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-`;
-
-
-const HeaderBold = styled.span`
-  font-family: 'Gilroy-Bold', sans-serif;
-  font-weight: 700;
-`;
-
-const HeaderLight = styled.span`
-  font-family: 'Gilroy-Light', sans-serif;
-`;
 
 const Logo = {
   height: "36px",
@@ -168,10 +69,21 @@ export default function Header() {
   }
 
   return (
-    <Menu>
-      <Back onClick={goHome} type="ghost" icon={<HomeOutlined />} shape="circle" size="large" />
-      <HeaderText href="#" onClick={goHome}>
-        <h2>
+    <Row className="flex w-full items-center justify-between p-[30px]">
+      <Button
+        onClick={goHome}
+        type="ghost"
+        icon={<HomeOutlined />}
+        shape="circle"
+        size="large"
+        className="header-back-btn"
+      />
+      <a
+        href="#"
+        onClick={goHome}
+        className="absolute left-1/2 block -translate-x-1/2"
+      >
+        <h2 className="mb-0 flex items-center gap-2 text-[24px] font-light tracking-[2px] text-header">
           <Image
             src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
             alt="ACM Dev Logo"
@@ -179,12 +91,17 @@ export default function Header() {
             height={24}
             style={Logo}
           />
-          <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
+          <span className="font-gilroy-bold font-bold">UTD</span>{" "}
+          <span className="font-gilroy-light">GRADES</span>
         </h2>
-      </HeaderText>
-        <ThemeToggle onClick={toggleTheme} aria-label="Toggle Dark Mode">
-          {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        </ThemeToggle>
-    </Menu>
+      </a>
+      <button
+        onClick={toggleTheme}
+        aria-label="Toggle Dark Mode"
+        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg [transition:all_0.2s_ease] hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333] [@media(prefers-color-scheme:light)]:border-white/10 [@media(prefers-color-scheme:light)]:bg-white/5 [@media(prefers-color-scheme:light)]:hover:bg-white/10 [@media(prefers-color-scheme:light)]:hover:text-[#727272]"
+      >
+        {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+      </button>
+    </Row>
   );
 }
