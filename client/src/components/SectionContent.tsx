@@ -108,7 +108,7 @@ const options: ChartOptions<"bar"> = {
 
   return (
     <div className="flex h-screen flex-col bg-card pb-[50px] pt-5 max-992:h-auto max-992:px-[25px] min-992:px-[50px]">
-      <div className="mb-4 flex flex-shrink-0 flex-col">
+      <div className="mb-4 flex min-w-0 flex-shrink-0 flex-col first:flex-1">
         <div className="flex flex-row items-start justify-between max-992:flex-wrap max-992:gap-4">
           <div className="flex min-w-0 flex-shrink-0 flex-col first:flex-1">
             <h3 className="mb-0 mt-0 font-gilroy-bold text-[48px] text-fg">

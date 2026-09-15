@@ -1,22 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
-  // Overridden (not extended): this app's existing CSS was written desktop-first with
-  // ad hoc max-width breakpoints. These mirror the exact pixel values already in use so
-  // porting away from styled-components doesn't shift any responsive behavior.
-  screens: {
-    "max-320": { max: "320px" },
-    "max-380": { max: "380px" },
-    "max-480": { max: "480px" },
-    "max-768": { max: "768px" },
-    "max-992": { max: "992px" },
-    "max-1200": { max: "1200px" },
-    "max-1212": { max: "1212px" },
-    "min-768": { min: "768px" },
-    "min-992": { min: "992px" },
-    "min-1200": { min: "1200px" },
-  },
   theme: {
+    // Overridden (not extended): this app's existing CSS was written desktop-first with
+    // ad hoc max-width breakpoints. These mirror the exact pixel values already in use so
+    // porting away from styled-components doesn't shift any responsive behavior.
+    // NOTE: must live under `theme`, not top-level — Tailwind 3.4 does not treat a
+    // top-level `screens` key as shorthand for `theme.screens` (it's silently ignored).
+    screens: {
+      "max-320": { max: "320px" },
+      "max-380": { max: "380px" },
+      "max-480": { max: "480px" },
+      "max-768": { max: "768px" },
+      "max-992": { max: "992px" },
+      "max-1200": { max: "1200px" },
+      "max-1212": { max: "1212px" },
+      "min-768": { min: "768px" },
+      "min-992": { min: "992px" },
+      "min-1200": { min: "1200px" },
+    },
     extend: {
       colors: {
         bg: "var(--bg-color)",
