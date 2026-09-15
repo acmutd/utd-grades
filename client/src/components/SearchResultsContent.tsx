@@ -1,29 +1,7 @@
 import type { Grades, RMPInstructor } from "@utd-grades/db";
 import { Spin } from "antd";
 import React from "react";
-import styled from "styled-components";
 import SectionContent from "./SectionContent";
-
-const LoadingContainer = styled.div`
-  padding: 50px;
-`;
-
-const EmptyContainer = styled.div`
-  padding: 50px;
-`;
-
-const Empty = styled.h2`
-  font-family: 'Gilroy-Regular';
-  color: var(--muted-text);
-  font-weight: 300;
-  font-size: 26px;
-`;
-
-const Spinner = styled(Spin)`
-  margin-left: auto;
-  margin-right: auto;
-  display: block !important;
-`;
 
 interface SearchResultsContentProps {
   section: Grades;
@@ -56,21 +34,23 @@ export default function SearchResultsContent({
     );
   } else if (loadingSection) {
     return (
-      <LoadingContainer>
-        <Spinner />
-      </LoadingContainer>
+      <div className="p-[50px]">
+        <Spin className="mx-auto !block" />
+      </div>
     );
   } else if (error) {
     return (
-      <EmptyContainer>
-        <Empty>We had trouble loading that for you, please try again.</Empty>
-      </EmptyContainer>
+      <div className="p-[50px]">
+        <h2 className="font-gilroy-regular text-[26px] font-light text-muted">
+          We had trouble loading that for you, please try again.
+        </h2>
+      </div>
     );
   } else {
     return (
-      <EmptyContainer>
-        {/* <Empty>Nothing to see here, select a section!</Empty> */}
-      </EmptyContainer>
+      <div className="p-[50px]">
+        {/* <h2>Nothing to see here, select a section!</h2> */}
+      </div>
     );
   }
 }

@@ -5,59 +5,12 @@ import type { NextRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
-import styled from "styled-components";
 import type { SearchQuery } from "../types";
 import { compareSectionRecency, getCourseTitleMatchRank, getSectionSearchRank, normalizeName, normalizeSortValue } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
 import {SectionList} from "./SectionList";
-
-const Container = styled.div`
-  display: block;
-  position: relative;
-`;
-
-const ResultsContainer = styled(Col)`
-  padding-bottom: 20px;
-  margin-top: 35px;
-  border-radius: 5px;
-  color: var(--text-color);
-
-  background-color: var(--card-bg);
-  /* make the results area stand out in light mode */
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-
-  & .ant-list-pagination {
-    padding-left: 10px;
-  }
-
-  & .ant-list-pagination li {
-    margin-bottom: 10px;
-    font-family: var(--font-family);
-  }
-
-  & .ant-list-item-meta-title, .ant-card {
-    color: var(--text-color) !important;
-    background: transparent !important;
-  }
-
-  & .ant-list-item-meta-description {
-    color: var(--muted-text) !important;
-  }
-
-  @media (max-width: 992px) {
-    & {
-      box-shadow: none;
-    }
-  }
-  @media (min-width: 992px) {
-    & {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-  }
-`;
 
 interface ResultsProps {
   search: string;
@@ -503,7 +456,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
   }, []);
 
   return (
-    <Container>
+    <div className="relative block">
       <Row>
         <Col lg={{ span: 8, offset: 8 }} sm={{ span: 18, offset: 3 }} xs={{ span: 20, offset: 2 }}>
           <Search onSubmit={handleSubmit} initialSearchValue={search} showSage={true} />
@@ -511,7 +464,11 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       </Row>
 
       <Row>
-        <ResultsContainer lg={{ span: 20, offset: 2 }} xs={{ span: 24, offset: 0 }}>
+        <Col
+          lg={{ span: 20, offset: 2 }}
+          xs={{ span: 24, offset: 0 }}
+          className="results-container mt-[35px] rounded-md border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+        >
           <Row>
             <Col lg={6} xs={24}>
               <SectionList
@@ -540,9 +497,9 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
               </div>
             </Col>
           </Row>
-        </ResultsContainer>
+        </Col>
       </Row>
-    </Container>
+    </div>
   );
 }, (prevProps, nextProps) => {
   return prevProps.search === nextProps.search &&

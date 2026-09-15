@@ -1,7 +1,6 @@
-import { AutoComplete, Form as AntForm, Input, Popover as AntPopover } from "antd";
+import { AutoComplete, Form as AntForm, Input, Popover } from "antd";
 import debounce from "lodash.debounce";
 import React, { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
 import type { SearchQuery } from "../types";
 import { getSearchStringRank } from "../utils/index";
 import { useDb } from "../utils/useDb";
@@ -9,101 +8,6 @@ import { useDb } from "../utils/useDb";
 const autoCompleteStyle: React.CSSProperties = {
   width: "100%",
 };
-
-const Hint = styled(AntPopover)`
-  margin-top: 25px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  font-family: 'Gilroy-Regular', sans-serif;
-  color: #95989a;
-`;
-
-const SageLogo = styled.img`
-  height: 1.2rem;
-  margin-right: 0.4rem;
-  filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
-`;
-
-const SageTextMark = styled.img`
-  height: 1.2rem;
-`;
-const SageLink = styled.a`
-  background: linear-gradient(90deg, rgba(7,67,37,1) 0%, rgba(22,50,36,1) 100%);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.6rem 1.2rem;
-  margin-bottom: 0.3rem;
-  border-radius: 100rem;
-  color: #5AED86;
-  text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
-  transition: transform cubic-bezier(0.4, 0, 0.2, 1) 150ms, box-shadow cubic-bezier(0.4, 0, 0.2, 1) 150ms;
-  &:hover {
-    color: #5AED86;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
-    transform: scale(1.01);
-  }
-`;
-
-const SageText = styled.p`
-  line-height: 1.2rem;
-  margin-bottom: 0;
-  font-size: 0.9rem;
-`;
-const Popover = styled.div`
-  font-family: 'Gilroy-Regular', sans-serif;
-  width: 375px;
-`;
-
-const DarkModeSearch = styled(Input.Search)`
-
-  .ant-input-group {
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgb(198, 198, 198);
-  }
-
-  .ant-input-group-addon {
-    padding: 0;
-    background: transparent;
-  }
-  .ant-input {
-    background-color: transparent;
-    color: var(--text-color);
-    font-family: 'Gilroy', sans-serif;
-    height: 44px;
-    line-height: 44px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .ant-input::placeholder {
-    color: var(--search-placeholder);
-  }
-
-  .ant-input-search-button {
-    background-color: transparent;
-    height: 44px;
-    line-height: 44px;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .ant-input-search-button .anticon {
-    color: #95989a;
-  }
-
-  .ant-input-search-button .anticon svg {
-    fill: currentColor;
-  }
-
-  .ant-input-search-button:hover {
-    opacity: 0.95;
-  }
-`;
-
 
 interface SearchProps {
   onSubmit: (query: SearchQuery) => void;
@@ -113,7 +17,7 @@ interface SearchProps {
 
 export default function Search({ onSubmit, initialSearchValue: initialSearch = "", showSage = true }: SearchProps) {
   const hintContent = (
-    <Popover>
+    <div className="w-[375px] font-gilroy-regular">
       <p>You can search for:</p>
       <ul>
         <li>A specific section: CS 1337.002</li>
@@ -123,7 +27,7 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
         <li>A specific semester: CS 1337 Fall 2021</li>
         <li>Everything together: CS 1337.002 Computer Science I Fall 2021 Jason Smith</li>
       </ul>
-    </Popover>
+    </div>
   );
 
   const [searchValue, setSearchValue] = useState(initialSearch);
@@ -165,27 +69,41 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
         onChange={(value: unknown) => onChange(value as string)}
         value={searchValue}
       >
-        <DarkModeSearch
+        <Input.Search
+          className="search-input-dark"
           onSearch={(search) => onSubmit({ search })}
           name="search"
           size="large"
           placeholder="ex. CS 1337 Fall 2017 Smith"
         />
       </AutoComplete>
-      <Hint content={hintContent} placement="bottom">
+      <Popover
+        className="mx-auto mt-[25px] block font-gilroy-regular text-[#95989a]"
+        content={hintContent}
+        placement="bottom"
+      >
         <span style={{ textAlign: "center" }}>
           Need to know what you can enter?{" "}
           <span style={{ textDecoration: "underline" }}>Pretty much anything.</span>
         </span>
-      </Hint>
+      </Popover>
 
       {showSage && (
         <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <SageLink href="https://utdsage.com/" target="_blank">
-            <SageLogo src="/SAGE-Logo.svg" />
-            <SageText>Get AI-powered UTD advising with </SageText>
-            <SageTextMark src="/SAGE-Textmark.svg" />
-          </SageLink>
+          <a
+            href="https://utdsage.com/"
+            target="_blank"
+            rel="noreferrer"
+            className="mb-1 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[rgba(7,67,37,1)] to-[rgba(22,50,36,1)] px-5 py-2.5 text-[#5AED86] shadow-[0_2px_6px_rgb(0_0_0_/_0.2)] transition-[transform,box-shadow] duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] [text-shadow:0_0_4px_rgb(0_0_0_/_0.6)] hover:scale-[1.01] hover:text-[#5AED86] hover:shadow-[0_2px_8px_rgb(0_0_0_/_0.2)]"
+          >
+            <img
+              src="/SAGE-Logo.svg"
+              alt=""
+              className="mr-1.5 h-[1.2rem] drop-shadow-[0_0_4px_rgb(0_0_0_/_0.6)]"
+            />
+            <p className="mb-0 text-[0.9rem] leading-[1.2rem]">Get AI-powered UTD advising with </p>
+            <img src="/SAGE-Textmark.svg" alt="Sage" className="h-[1.2rem]" />
+          </a>
         </div>
       )}
 

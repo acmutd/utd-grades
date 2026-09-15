@@ -1,46 +1,20 @@
-import styled from "styled-components";
-
-const SageLogo = styled.img`
-  height: 1.2rem;
-  margin-right: 0.4rem;
-  filter: drop-shadow(0 0 4px rgb(0 0 0 / 0.6));
-`;
-
-const SageTextMark = styled.img`
-  height: 1.2rem;
-`;
-const SageLink = styled.a`
-  background: linear-gradient(90deg, rgba(7,67,37,1) 0%, rgba(22,50,36,1) 100%);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.6rem 1.2rem;
-  margin-bottom: 0.3rem;
-  border-radius: 100rem;
-  color: #5AED86;
-  text-shadow: 0 0 4px rgb(0 0 0 / 0.6);
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
-  transition: transform cubic-bezier(0.4, 0, 0.2, 1) 150ms, box-shadow cubic-bezier(0.4, 0, 0.2, 1) 150ms;
-  &:hover {
-    color: #5AED86;
-    box-shadow: 0 2px 8px rgb(0 0 0 / 0.2);
-    transform: scale(1.01);
-  }
-`;
-
-const SageText = styled.p`
-  line-height: 1.2rem;
-  margin-bottom: 0;
-  font-size: 0.9rem;
-`;
-
 export default function SageAd() {
-return(
+  return (
     <div style={{ marginTop: "16px", textAlign: "center" }}>
-        <SageLink href="https://utdsage.com/" target="_blank">
-          <SageLogo src="/SAGE-Logo.svg" />
-          <SageText>Get AI-powered UTD advising with </SageText>
-          <SageTextMark src="/SAGE-Textmark.svg" />
-        </SageLink>
+      <a
+        href="https://utdsage.com/"
+        target="_blank"
+        rel="noreferrer"
+        className="mb-1 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[rgba(7,67,37,1)] to-[rgba(22,50,36,1)] px-5 py-2.5 text-[#5AED86] shadow-[0_2px_6px_rgb(0_0_0_/_0.2)] transition-[transform,box-shadow] duration-150 ease-[cubic-bezier(0.4,0,0.2,1)] [text-shadow:0_0_4px_rgb(0_0_0_/_0.6)] hover:scale-[1.01] hover:text-[#5AED86] hover:shadow-[0_2px_8px_rgb(0_0_0_/_0.2)]"
+      >
+        <img
+          src="/SAGE-Logo.svg"
+          alt=""
+          className="mr-1.5 h-[1.2rem] drop-shadow-[0_0_4px_rgb(0_0_0_/_0.6)]"
+        />
+        <p className="mb-0 text-[0.9rem] leading-[1.2rem]">Get AI-powered UTD advising with </p>
+        <img src="/SAGE-Textmark.svg" alt="Sage" className="h-[1.2rem]" />
+      </a>
     </div>
-      )}
+  );
+}

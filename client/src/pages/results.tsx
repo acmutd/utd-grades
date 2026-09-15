@@ -1,15 +1,8 @@
 import { useRouter } from "next/router";
 import React from "react";
-import styled from "styled-components";
 import Core from "../components/Core";
 import Header from "../components/Header";
 import SearchResults from "../components/SearchResults";
-
-const Stack = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
 
 export default function ResultsPage() {
   const router = useRouter();
@@ -24,10 +17,10 @@ export default function ResultsPage() {
   if (router.asPath !== router.route) {
     return (
       <Core showSageAd={false}>
-        <Stack>
+        <div className="flex w-full flex-col">
           <Header />
           <SearchResults search={search} sectionId={parseInt(sectionId)} router={router} />
-        </Stack>
+        </div>
       </Core>
     );
   }

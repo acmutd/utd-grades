@@ -2,108 +2,10 @@ import { Col } from "antd";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import FadeIn from "../components/animations/FadeIn";
 import Core from "../components/Core";
 import Search from "../components/Search";
 import type { SearchQuery } from "../types";
-
-const Content = styled.div`
-  display: block;
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-`;
-
-const Main = styled.div`
-  width: 100%;
-  margin-top: 50px;
-`;
-
-const Header = styled.h1`
-  font-family: Gilroy, sans-serif;
-  text-transform: uppercase;
-  text-align: center;
-  color: var(--header-color);
-  font-weight: 300;
-  letter-spacing: 3px;
-  font-size: 48px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-
-  @media (max-width: 1212px){
-  font-size: 36px;
-  gap: 12px;
-  letter-spacing: 2px;
-}
-
-  @media (max-width: 768px) {
-    font-size: 36px;
-    letter-spacing: 2px;
-    gap: 12px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 28px;
-    letter-spacing: 1px;
-    gap: 8px;
-  }
-     @media (max-width: 380px) {
-    font-size: 20px;
-    letter-spacing: 1px;
-    gap: 8px;
-  }
-
-`;
-
-const Description = styled.p`
-  font-family: 'Gilroy-Regular', sans-serif;
-  text-align: center;
-  color: var(--description-color);
-  font-weight: 400;
-  font-size: 18px;
-  margin-bottom: 30px;
-
-   strong {
-    font-family: 'Gilroy-Bold', sans-serif;
-  }
-    @media (max-width: 320px) {
-    font-size: 14px;
-  }
-`;
-
-const HeaderBold = styled.span`
-  font-family: 'Gilroy-Bold', sans-serif;
-  font-weight: 700;
-`;
-const HeaderLight = styled.span`
-  font-family: 'Gilroy-Light', sans-serif;
-  font-weight: 300;
-`;
-
-const ByACM = styled.span`
-  font-size: 16px;
-  font-weight: 400;
-  letter-spacing: 1px;
-  color: rgb(159, 159, 159);
-  margin-left: 12px;
-
-  @media (max-width: 768px) {
-    font-size: 14px;
-    margin-left: 8px;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-    margin-left: 6px;
-  }
-
-
-`;
 
 const Logo = {
   height: "52px",
@@ -111,66 +13,13 @@ const Logo = {
   flexShrink: 0,
 };
 
-const ThemeToggle = styled.button`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 9999px;
-  border: 1px solid var(--toggle-border, #e4e4e7);
-  background: var(--toggle-bg);
-  color: var(--text-color);
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: var(--toggle-hover-bg);
-    color: var(--toggle-hover-color, #333333);
-  }
-
-  svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  @media (prefers-color-scheme: light) {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #727272;
-    }
-  }
-`;
-
-const LogoWrapper = styled.div`
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-  }
-
-  @media (max-width: 480px) {
-    width: 34px;
-    height: 34px;
-  }
-`;
-
-
 const SunIcon = () => (
   <svg
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth={2}
+    className="h-4 w-4"
   >
     <path
       strokeLinecap="round"
@@ -186,6 +35,7 @@ const MoonIcon = () => (
     viewBox="0 0 24 24"
     stroke="currentColor"
     strokeWidth={2}
+    className="h-4 w-4"
   >
     <path
       strokeLinecap="round"
@@ -194,8 +44,6 @@ const MoonIcon = () => (
     />
   </svg>
 );
-
-
 
 export default function Home() {
   const [theme, setTheme] = useState<"light" | "dark">(() => {
@@ -235,15 +83,19 @@ export default function Home() {
 
   return (
     <Core showSageAd={true}>
-      <Content>
-        <ThemeToggle onClick={toggleTheme} aria-label="Toggle Dark Mode">
+      <div className="relative flex w-full items-center">
+        <button
+          onClick={toggleTheme}
+          aria-label="Toggle Dark Mode"
+          className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg transition-all duration-200 ease-in-out hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333] [@media(prefers-color-scheme:light)]:border-white/10 [@media(prefers-color-scheme:light)]:bg-white/5 [@media(prefers-color-scheme:light)]:hover:bg-white/10 [@media(prefers-color-scheme:light)]:hover:text-[#727272]"
+        >
           {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        </ThemeToggle>
-        <Main>
+        </button>
+        <div className="mt-[50px] w-full">
           <Col lg={{ span: 10, offset: 7 }} xs={{ span: 20, offset: 2 }}>
             <FadeIn delay={0}>
-              <Header>
-                <LogoWrapper>
+              <h1 className="mb-5 flex items-center justify-center gap-4 text-center font-gilroy text-[48px] font-light uppercase tracking-[3px] text-header max-1212:gap-3 max-1212:text-[36px] max-1212:tracking-[2px] max-768:gap-3 max-768:text-[36px] max-768:tracking-[2px] max-480:gap-2 max-480:text-[28px] max-480:tracking-[1px] max-380:gap-2 max-380:text-[20px] max-380:tracking-[1px]">
+                <div className="h-[52px] w-[52px] flex-shrink-0 max-768:h-10 max-768:w-10 max-480:h-[34px] max-480:w-[34px]">
                 <Image
                   src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
                   alt="ACM Dev Logo"
@@ -251,23 +103,25 @@ export default function Home() {
                   height={52}
                   style={Logo}
                 />
-                </LogoWrapper>
+                </div>
 
                 <div>
-                  <HeaderBold>UTD</HeaderBold> <HeaderLight>GRADES</HeaderLight>
-                  <ByACM>by <HeaderBold>ACM Dev</HeaderBold></ByACM>
+                  <span className="font-gilroy-bold font-bold">UTD</span> <span className="font-gilroy-light font-light">GRADES</span>
+                  <span className="ml-3 text-[16px] font-normal tracking-[1px] text-[rgb(159,159,159)] max-768:ml-2 max-768:text-[14px] max-480:ml-1.5 max-480:text-[12px]">
+                    by <span className="font-gilroy-bold font-bold">ACM Dev</span>
+                  </span>
                 </div>
-              </Header>
+              </h1>
             </FadeIn>
             <FadeIn delay={300}>
-              <Description>
+              <p className="mb-[30px] text-center text-[18px] font-gilroy-regular font-normal text-description [&_strong]:font-gilroy-bold max-320:text-[14px]">
                 See how students did in any given class. And it&apos;s <strong>free, forever.</strong>
-              </Description>
+              </p>
             </FadeIn>
             <Search onSubmit={handleSubmit} showSage={false} />
           </Col>
-        </Main>
-      </Content>
+        </div>
+      </div>
     </Core>
   );
 }
