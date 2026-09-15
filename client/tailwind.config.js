@@ -7,14 +7,20 @@ module.exports = {
     // porting away from styled-components doesn't shift any responsive behavior.
     // NOTE: must live under `theme`, not top-level — Tailwind 3.4 does not treat a
     // top-level `screens` key as shorthand for `theme.screens` (it's silently ignored).
+    // NOTE: order matters. Tailwind emits screens in declaration order, and for
+    // equal-specificity rules the later one in the stylesheet wins. Multiple max-width
+    // breakpoints can be simultaneously true at one viewport (e.g. a 300px-wide phone
+    // matches max-320, max-380, ..., max-1212 all at once), so the narrower/more-specific
+    // max-* must be declared LAST to correctly win over the wider ones. min-* breakpoints
+    // are the opposite (mobile-first), so they stay smallest-to-largest.
     screens: {
-      "max-320": { max: "320px" },
-      "max-380": { max: "380px" },
-      "max-480": { max: "480px" },
-      "max-768": { max: "768px" },
-      "max-992": { max: "992px" },
-      "max-1200": { max: "1200px" },
       "max-1212": { max: "1212px" },
+      "max-1200": { max: "1200px" },
+      "max-992": { max: "992px" },
+      "max-768": { max: "768px" },
+      "max-480": { max: "480px" },
+      "max-380": { max: "380px" },
+      "max-320": { max: "320px" },
       "min-768": { min: "768px" },
       "min-992": { min: "992px" },
       "min-1200": { min: "1200px" },

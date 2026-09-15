@@ -143,7 +143,7 @@ const options: ChartOptions<"bar"> = {
               </span>
             </h3>
             <Row className="mt-[0.25rem] items-center justify-center gap-2">
-              <h5 className="mb-0 mt-0 break-words font-gilroy-semibold text-[22px] font-semibold text-muted max-992:mt-2 max-992:text-[14px] min-992:mt-0">
+              <h5 className="mb-0 mt-0 break-words font-gilroy-semibold text-[22px] font-semibold text-muted max-992:mt-2 max-992:text-[14px]">
                 Course Rating
               </h5>
               <Tooltip

@@ -12,7 +12,7 @@ interface IconTextProps {
 
 const IconText = ({ icon, child }: IconTextProps) => (
   <span>
-    <span className="text-description">{icon}</span>
+    <div className="text-description">{icon}</div>
     {child}
   </span>
 );
