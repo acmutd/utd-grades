@@ -1,70 +1,6 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import SageAd from "./SageAd";
-
-const Container = styled.div`
-  min-height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-const Body = styled.div`
-  width: 100%;
-  height: 100%;
-  flex: 1;
-  position: relative;
-  display: flex;
-  align-items: stretch;
-`;
-
-const Footer = styled.div`
-  text-align: center;
-  width: 100%;
-  display: block;
-  font-family: var(--font-family);
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 30px;
-  padding-bottom: 15px;
-
-  @media (max-width: 992px) {
-    & {
-      padding-top: 20px;
-    }
-  }
-`;
-
-/*const BuiltWithLove = styled.p`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  margin: 0.3rem 0;
-  font-weight: 550;
-`;*/
-
-const CreditsText = styled.p`
-  font-family: 'Gilroy-Bold', sans-serif;
-  color: var(--muted-text);
-  margin: 0.2rem 0;
-  
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const GitHubLink = styled.a`
-  color: var(--link-color) !important;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 interface CoreProps {
   children: ReactNode;
@@ -93,7 +29,7 @@ function Core({ children, showSageAd = false }: CoreProps) {
     window.addEventListener("storage", handleThemeChange);
     return () => window.removeEventListener("storage", handleThemeChange);
   }, []);
-  
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
@@ -134,7 +70,7 @@ function Core({ children, showSageAd = false }: CoreProps) {
           const len = input.value ? input.value.length : 0;
           input.setSelectionRange(len, len);
         } catch (e) {
-          // ignore 
+          // ignore
         }
       }
     };
@@ -147,11 +83,11 @@ function Core({ children, showSageAd = false }: CoreProps) {
   }, []);
 
   return (
-    <Container>
-      <Body>{children}</Body>
-      <Footer>
+    <div className="relative flex min-h-full w-full flex-col">
+      <div className="flex h-full w-full flex-1 items-stretch">{children}</div>
+      <div className="w-full px-2.5 pb-[15px] pt-[30px] text-center font-[family-name:var(--font-family)] max-992:pt-5">
         {showSageAd && <SageAd />}
-        <CreditsText>
+        <p className="my-[0.2rem] font-gilroy-bold text-muted max-768:hidden">
          {/*Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}
           <a href="https://jeffw.xyz/" target={"blank"}>Jeffrey Wang</a>,{" "}
@@ -159,11 +95,18 @@ function Core({ children, showSageAd = false }: CoreProps) {
           <Popover content={donors}>
             <span style={{ textDecoration: "underline" }}>donors</span>.
           </Popover>*/}
-          See the full source code on our <GitHubLink href="https://github.com/acmutd/utd-grades" target="_blank">GitHub</GitHubLink>
-
-        </CreditsText>
-      </Footer>
-    </Container>
+          See the full source code on our{" "}
+          <a
+            href="https://github.com/acmutd/utd-grades"
+            target="_blank"
+            rel="noreferrer"
+            className="!text-link no-underline hover:underline"
+          >
+            GitHub
+          </a>
+        </p>
+      </div>
+    </div>
   );
 }
 

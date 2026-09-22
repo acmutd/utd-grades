@@ -1,154 +1,9 @@
 import { FrownTwoTone, UserOutlined, LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import type { Grades } from "@utd-grades/db";
-import { List, Popover as AntPopover, Spin } from "antd";
+import { List, Popover, Spin } from "antd";
 import React, { ReactNode} from "react";
-import styled, { css } from "styled-components";
 // FIXME (median)
 // import { getLetterGrade, getLetterGradeColor } from "../utils";
-
-const Item = styled(List.Item)<{ selected: boolean }>`
-  width: 100%;
-  padding: 25px;
-  border-right: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-  cursor: pointer;
-  transition: all 300ms ease-out;
-  font-family: var(--font-family);
-
-  &:first-child {
-    border-top-left-radius: 5px;
-  }
-
-  & .ant-list-item-meta-title a {
-    font-weight: 600;
-    font-family: var(--font-family);
-    color: inherit;
-    text-decoration: none;
-  }
-
-  & .ant-list-item-meta-title a:hover {
-    color: var(--link-color);
-    text-decoration: none;
-  }
-
-  & .ant-list-item-meta {
-    margin-bottom: 0px;
-  }
-
-  ${(props) => (props.selected ? selectedStyles : "")}
-`;
-
-const selectedStyles = css`
-  border-right: 6px solid var(--select-tag) !important;
-  box-shadow: inset -5px 0px 10px rgba(0, 0, 0, 0.05);
-  background-color: var(--card-bg);
-`;
-
-const Hint = styled(AntPopover)`
-  margin-top: 25px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  font-family: var(--font-family);
-  color: var(--description-color);
-`;
-
-const Popover = styled.div`
-  font-family: var(--font-family);
-  width: 200px;
-`;
-
-const EmptyContainer = styled.div`
-  padding: 30px;
-`;
-
-const Error = styled.p`
-  font-family: var(--font-family);
-  font-size: 22px;
-  text-align: center;
-  color: var(--muted-text);
-  font-weight: 300;
-`;
-
-const StyledIcon = styled(FrownTwoTone)`
-  font-size: 42px;
-  width: 43px;
-  margin-bottom: 15px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-`;
-
-const LoadingItem = styled(List.Item)`
-  &&& {
-    padding-top: 40px;
-    border: none !important;
-    display: flex;
-    justify-content: center;
-    align-self: center;
-  }
-`;
-
- /*For the person icon*/
-const IconWrapper = styled.div`
-  margin-right: 8;
-  color: var(--description-color);
-`;
-
-const PaginationContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px 10px;
-  font-family: var(--font-family);
-`;
-
-const PaginationButton = styled.button<{ active?: boolean; disabled?: boolean }>`
-  min-width: 28px;
-  height: 28px;
-  padding: 0 8px;
-  border: 1px solid ${props => props.active ? 'var(--pagination-border-active)' : 'var(--pagination-border)'};
-  background: ${props => props.active ? 'var(--pagination-bg-active)' : props.disabled ? 'var(--pagination-bg-disabled)' : 'var(--pagination-bg)'};
-  color: ${props => props.active ? 'var(--pagination-text-active)' : props.disabled ? 'var(--pagination-text-disabled)' : 'var(--pagination-text)'};
-  border-radius: 2px;
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-  font-family: var(--font-family);
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    ${props => !props.disabled && !props.active && css`
-      border-color: var(--pagination-hover-border);
-      color: var(--pagination-hover-text);
-      background: var(--pagination-hover-bg);
-    `}
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-
-const EnrollmentText = styled.span<{ $color?: string }>`
-  color: ${(p) => p.$color || "var(--description-color)"};
-`;
-
-const CourseName = styled.div`
-  margin-top: 0.15rem;
-  font-family: var(--font-family);
-  font-size: 14px;
-  color: var(--muted-text);
-`;
-
-// FIXME (median)
-// const AverageWrapper = styled.div<{ average: number }>`
-//   color: ${(p) => getLetterGradeColor(getLetterGrade(p.average))};
-//   font-weight: bold;
-// `;
 
 interface IconTextProps {
   icon: ReactNode;
@@ -157,7 +12,7 @@ interface IconTextProps {
 
 const IconText = ({ icon, child }: IconTextProps) => (
   <span>
-    <IconWrapper>{icon}</IconWrapper>
+    <div className="text-description">{icon}</div>
     {child}
   </span>
 );
@@ -193,32 +48,40 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
   };
 
   const popover = (
-    <Popover>
+    <div className="w-[200px] [font-family:var(--font-family)]">
       <p>
         Because of FERPA restrictions, grade data for certain classes — in particular, classes with
         a small number of students — is unavailable.
       </p>
-    </Popover>
+    </div>
   );
 
   const emptyMessage = (
-    <EmptyContainer>
-      <StyledIcon />
-      <Error>We weren&apos;t able to find that. Try searching for something else!</Error>
-      <Hint content={popover} placement="bottom">
+    <div className="p-[30px]">
+      <FrownTwoTone className="mx-auto mb-[15px] block w-[43px] text-[42px]" />
+      <p className="text-center text-[22px] font-light text-muted [font-family:var(--font-family)]">
+        We weren&apos;t able to find that. Try searching for something else!
+      </p>
+      <Popover
+        className="mx-auto mt-[25px] block text-description [font-family:var(--font-family)]"
+        content={popover}
+        placement="bottom"
+      >
         <span style={{ textAlign: "center" }}>
           Still can&apos;t find what you&apos;re looking for?{" "}
           <span style={{ textDecoration: "underline" }}>Learn more.</span>
         </span>
-      </Hint>
-    </EmptyContainer>
+      </Popover>
+    </div>
   );
 
   const errorMessage = (
-    <EmptyContainer>
-      <StyledIcon />
-      <Error>We had trouble getting that for you, please try again.</Error>
-    </EmptyContainer>
+    <div className="p-[30px]">
+      <FrownTwoTone className="mx-auto mb-[15px] block w-[43px] text-[42px]" />
+      <p className="text-center text-[22px] font-light text-muted [font-family:var(--font-family)]">
+        We had trouble getting that for you, please try again.
+      </p>
+    </div>
   );
 
   if (data) {
@@ -238,13 +101,13 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
             dataSource={currentPageData}
             style={{ width: "100%", minWidth: "100%" }}
             renderItem={(item) => (
-              <Item
+              <List.Item
                 key={item.id}
-                selected={item.id == id}
+                className={`section-list-item ${item.id == id ? "section-list-item--selected" : ""}`}
                 actions={[
                   <IconText
                     icon={<UserOutlined />}
-                    child={<EnrollmentText>{item.totalStudents.toString()}</EnrollmentText>}
+                    child={<span className="text-description">{item.totalStudents.toString()}</span>}
                     key="students-total"
                   />,
                   // FIXME (median)
@@ -264,7 +127,11 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   title={
                     <a href="#">
                       {item.subject} {item.catalogNumber}.{item.section}
-                      {item.courseName ? <CourseName>{item.courseName}</CourseName> : null}
+                      {item.courseName ? (
+                        <div className="mt-[0.15rem] text-[14px] text-muted [font-family:var(--font-family)]">
+                          {item.courseName}
+                        </div>
+                      ) : null}
                     </a>
                   }
                   // FIXME (no professor): non null assertion
@@ -272,11 +139,11 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                     item.semester.season
                   } ${item.semester.year}`}
                 />
-              </Item>
+              </List.Item>
             )}
           />
           {totalPages > 1 && (
-            <PaginationContainer>
+            <div className="flex items-center justify-center gap-2 px-2.5 py-4 [font-family:var(--font-family)]">
               <PaginationButton
                 disabled={page === 1}
                 onClick={() => setPage(1)}
@@ -323,7 +190,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
               >
                 <DoubleRightOutlined />
               </PaginationButton>
-            </PaginationContainer>
+            </div>
           )}
         </>
       );
@@ -337,9 +204,9 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
           pageSize: 5,
         }}
       >
-        <LoadingItem>
+        <List.Item className="section-list-loading-item">
           <Spin />
-        </LoadingItem>
+        </List.Item>
       </List>
     );
   } else if (error) {
@@ -347,4 +214,26 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
   } else {
     return emptyMessage;
   }
+}
+
+interface PaginationButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  active?: boolean;
+}
+
+function PaginationButton({ active, disabled, className, children, ...rest }: PaginationButtonProps) {
+  return (
+    <button
+      disabled={disabled}
+      className={`flex h-7 min-w-[28px] items-center justify-center rounded-sm border px-2 text-[14px] [font-family:var(--font-family)] focus:outline-none ${
+        active
+          ? "border-pagination-border-active bg-pagination-bg-active text-pagination-text-active cursor-pointer"
+          : disabled
+          ? "cursor-not-allowed border-pagination-border bg-pagination-bg-disabled text-pagination-text-disabled"
+          : "cursor-pointer border-pagination-border bg-pagination-bg text-pagination-text hover:border-pagination-hover-border hover:bg-pagination-hover-bg hover:text-pagination-hover-text"
+      } ${className ?? ""}`}
+      {...rest}
+    >
+      {children}
+    </button>
+  );
 }
