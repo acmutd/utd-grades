@@ -256,3 +256,17 @@ export function compareSectionRecency(
     (a.courseName ?? "").localeCompare(b.courseName ?? "")
   );
 }
+
+export function getFallbackSection(target: Grades, candidates: Grades[]): Grades | undefined {
+  if (target.totalStudents > 0) return undefined;
+
+  return candidates
+    .filter(
+      (s) =>
+        s.id !== target.id &&
+        s.totalStudents > 0 &&
+        s.instructor1?.last === target.instructor1?.last &&
+        s.instructor1?.first === target.instructor1?.first
+    )
+    .sort(compareSectionRecency)[0];
+}

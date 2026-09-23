@@ -13,7 +13,7 @@ import Image from "next/image";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
-import { compareSectionRecency, extractGrades, getColors } from "../utils";
+import { extractGrades, getColors, getFallbackSection } from "../utils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
@@ -53,20 +53,10 @@ const SectionContent = React.memo(function SectionContent({
   const handleMouseEnter = useCallback(() => setHovered("rmpLink"), []);
   const handleMouseLeave = useCallback(() => setHovered(null), []);
 
-  // new/future sections have no grades so fall back to the last time this same instructor taught this same course
-  const fallbackSection = useMemo(() => {
-    if (section.totalStudents > 0 || !relatedSections?.length) return undefined;
-
-    return relatedSections
-      .filter(
-        (s) =>
-          s.id !== section.id &&
-          s.totalStudents > 0 &&
-          s.instructor1?.last === section.instructor1?.last &&
-          s.instructor1?.first === section.instructor1?.first
-      )
-      .sort(compareSectionRecency)[0];
-  }, [section, relatedSections]);
+  const fallbackSection = useMemo(
+    () => getFallbackSection(section, relatedSections ?? []),
+    [section, relatedSections]
+  );
 
   const gradesSection = fallbackSection ?? section;
 

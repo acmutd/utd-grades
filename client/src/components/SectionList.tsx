@@ -1,7 +1,8 @@
 import { FrownTwoTone, UserOutlined, LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import type { Grades } from "@utd-grades/db";
-import { List, Popover, Spin } from "antd";
-import React, { ReactNode} from "react";
+import { List, Popover, Spin, Tooltip } from "antd";
+import React, { ReactNode, useMemo } from "react";
+import { getFallbackSection } from "../utils";
 // FIXME (median)
 // import { getLetterGrade, getLetterGradeColor } from "../utils";
 
@@ -30,6 +31,20 @@ interface SectionListProps {
 export function SectionList({ loading, id, data, onClick, error, page, setPage }: SectionListProps) {
   const pageSize = 5;
   const totalPages = data ? Math.ceil(data.length / pageSize) : 0;
+
+  // sections with no grades yet (new/future offerings) -- map each to the last
+  // time the same instructor taught it, so the sidebar can flag it
+  const fallbackById = useMemo(() => {
+    const map = new Map<number, Grades>();
+    if (!data) return map;
+
+    for (const item of data) {
+      const fallback = getFallbackSection(item, data);
+      if (fallback) map.set(item.id, fallback);
+    }
+
+    return map;
+  }, [data]);
 
   // Calculate which pages to show (max 3 pages)
   const getPageNumbers = () => {
@@ -100,47 +115,64 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
             size="large"
             dataSource={currentPageData}
             style={{ width: "100%", minWidth: "100%" }}
-            renderItem={(item) => (
-              <List.Item
-                key={item.id}
-                className={`section-list-item ${item.id == id ? "section-list-item--selected" : ""}`}
-                actions={[
-                  <IconText
-                    icon={<UserOutlined />}
-                    child={<span className="text-description">{item.totalStudents.toString()}</span>}
-                    key="students-total"
-                  />,
-                  // FIXME (median)
-                  // <IconText
-                  //   icon={<BarChartOutlined />}
-                  //   child={
-                  //     <AverageWrapper average={item.average}>
-                  //       {getLetterGrade(item.average)}
-                  //     </AverageWrapper>
-                  //   }
-                  //   key="average"
-                  // />,
-                ]}
-                onClick={() => onClick(item.id)}
-              >
-                <List.Item.Meta
-                  title={
-                    <a href="#">
-                      {item.subject} {item.catalogNumber}.{item.section}
-                      {item.courseName ? (
-                        <div className="mt-[0.15rem] text-[14px] text-muted [font-family:var(--font-family)]">
-                          {item.courseName}
-                        </div>
-                      ) : null}
-                    </a>
-                  }
-                  // FIXME (no professor): non null assertion
-                  description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${
-                    item.semester.season
-                  } ${item.semester.year}`}
-                />
-              </List.Item>
-            )}
+            renderItem={(item) => {
+              const fallback = fallbackById.get(item.id);
+
+              return (
+                <List.Item
+                  key={item.id}
+                  className={`section-list-item relative ${item.id == id ? "section-list-item--selected" : ""}`}
+                  actions={[
+                    <IconText
+                      icon={<UserOutlined />}
+                      child={<span className="text-description">{item.totalStudents.toString()}</span>}
+                      key="students-total"
+                    />,
+                    // FIXME (median)
+                    // <IconText
+                    //   icon={<BarChartOutlined />}
+                    //   child={
+                    //     <AverageWrapper average={item.average}>
+                    //       {getLetterGrade(item.average)}
+                    //     </AverageWrapper>
+                    //   }
+                    //   key="average"
+                    // />,
+                  ]}
+                  onClick={() => onClick(item.id)}
+                >
+                  {item.totalStudents === 0 && (
+                    <Tooltip
+                      title={
+                        fallback
+                          ? `No grades submitted yet -- showing ${fallback.semester.season} ${fallback.semester.year} data`
+                          : "No grades submitted yet"
+                      }
+                    >
+                      <span className="absolute right-3 top-3 rounded bg-[#f1c40f]/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#b8860b]">
+                        Future
+                      </span>
+                    </Tooltip>
+                  )}
+                  <List.Item.Meta
+                    title={
+                      <a href="#">
+                        {item.subject} {item.catalogNumber}.{item.section}
+                        {item.courseName ? (
+                          <div className="mt-[0.15rem] text-[14px] text-muted [font-family:var(--font-family)]">
+                            {item.courseName}
+                          </div>
+                        ) : null}
+                      </a>
+                    }
+                    // FIXME (no professor): non null assertion
+                    description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${
+                      item.semester.season
+                    } ${item.semester.year}`}
+                  />
+                </List.Item>
+              );
+            }}
           />
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 px-2.5 py-4 [font-family:var(--font-family)]">
