@@ -10,10 +10,10 @@ import {
   Tooltip as ChartTooltip,
 } from "chart.js";
 import Image from "next/image";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
-import { extractGrades, getColors } from "../utils";
+import { compareSectionRecency, extractGrades, getColors } from "../utils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
@@ -45,6 +45,7 @@ const SectionContent = React.memo(function SectionContent({
   section,
   instructor,
   courseRating,
+  relatedSections,
 }: SectionContentProps) {
   const [hovered, setHovered] = useState<"rmpLink" | null>(null);
   const rmpLinkRef = useRef<HTMLAnchorElement>(null);
@@ -52,7 +53,24 @@ const SectionContent = React.memo(function SectionContent({
   const handleMouseEnter = useCallback(() => setHovered("rmpLink"), []);
   const handleMouseLeave = useCallback(() => setHovered(null), []);
 
-  const grades = extractGrades(section);
+  // new/future sections have no grades so fall back to the last time this same instructor taught this same course
+  const fallbackSection = useMemo(() => {
+    if (section.totalStudents > 0 || !relatedSections?.length) return undefined;
+
+    return relatedSections
+      .filter(
+        (s) =>
+          s.id !== section.id &&
+          s.totalStudents > 0 &&
+          s.instructor1?.last === section.instructor1?.last &&
+          s.instructor1?.first === section.instructor1?.first
+      )
+      .sort(compareSectionRecency)[0];
+  }, [section, relatedSections]);
+
+  const gradesSection = fallbackSection ?? section;
+
+  const grades = extractGrades(gradesSection);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
   const values = Object.values(grades);
 
@@ -75,7 +93,7 @@ const options: ChartOptions<"bar"> = {
             const count = context.parsed.y;
             return [
               `Students: ${count}`,
-              `Percentage: ${((count / section.totalStudents) * 100).toFixed(2)}%`,
+              `Percentage: ${((count / gradesSection.totalStudents) * 100).toFixed(2)}%`,
             ];
           },
         },
@@ -156,7 +174,7 @@ const options: ChartOptions<"bar"> = {
           </div>
         </div>
         <h5 className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted">
-          Total Students <span className="text-fg">{section.totalStudents}</span>
+          Total Students <span className="text-fg">{gradesSection.totalStudents}</span>
         </h5>
       </div>
 
