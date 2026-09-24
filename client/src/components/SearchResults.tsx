@@ -21,6 +21,7 @@ interface ResultsProps {
 const Results = React.memo(function Results({ search, sectionId, router }: ResultsProps) {
     // Track current page for SectionList pagination
   const [currentPage, setCurrentPage] = useState(1);
+  const [hideFallback, setHideFallback] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasAutoSelected = useRef(false);
 
@@ -65,6 +66,13 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       );
     });
   }, [sections, search]);
+
+  const filteredSections = useMemo(() => {
+    if (!rankedSections) return rankedSections;
+    if (!hideFallback) return rankedSections;
+
+    return rankedSections.filter((s) => s.totalStudents > 0);
+  }, [rankedSections, hideFallback]);
 
   // Auto-select first section when sections load and no section is selected
   useEffect(() => {
@@ -464,15 +472,34 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       </Row>
 
       <Row>
+        <Col lg={{ span: 20, offset: 2 }} xs={{ span: 24, offset: 0 }}>
+          <div className="mt-[35px] flex justify-end">
+            <button
+              onClick={() => setHideFallback((v) => !v)}
+              aria-pressed={hideFallback}
+              aria-label="Toggle 26S sections"
+              className={`flex h-9 items-center justify-center rounded-full border px-4 text-[13px] font-semibold [transition:all_0.2s_ease] ${
+                hideFallback
+                  ? "border-[--toggle-border,#e4e4e7] bg-fg text-card"
+                  : "border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333]"
+              }`}
+            >
+              26S
+            </button>
+          </div>
+        </Col>
+      </Row>
+
+      <Row>
         <Col
           lg={{ span: 20, offset: 2 }}
           xs={{ span: 24, offset: 0 }}
-          className="results-container mt-[35px] rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+          className="results-container mt-[10px] rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
         >
           <Row>
             <Col lg={6} xs={24}>
               <SectionList
-                data={rankedSections}
+                data={filteredSections}
                 onClick={handleClick}
                 loading={sectionsStatus === "loading"}
                 id={sectionId}

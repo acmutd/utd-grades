@@ -59,6 +59,8 @@ const SectionContent = React.memo(function SectionContent({
   );
 
   const gradesSection = fallbackSection ?? section;
+  const isFallbackCase = section.totalStudents === 0;
+  const neverTaught = isFallbackCase && !fallbackSection;
 
   const grades = extractGrades(gradesSection);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
@@ -166,15 +168,24 @@ const options: ChartOptions<"bar"> = {
         <h5 className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted">
           Total Students <span className="text-fg">{gradesSection.totalStudents}</span>
         </h5>
+        {isFallbackCase && (
+          <h5 className="mb-0 mt-1 font-gilroy-semibold text-[16px] font-semibold text-muted">
+            {neverTaught
+              ? "This professor has never taught this class"
+              : `Last taught ${fallbackSection!.semester.season} ${fallbackSection!.semester.year}`}
+          </h5>
+        )}
       </div>
 
-      <Row style={{ marginBottom: "0.5rem" }}>
-        <Col xs={24} sm={24} md={24}>
-          <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
-            <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
-          </div>
-        </Col>
-      </Row>
+      {!neverTaught && (
+        <Row style={{ marginBottom: "0.5rem" }}>
+          <Col xs={24} sm={24} md={24}>
+            <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
+              <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
+            </div>
+          </Col>
+        </Row>
+      )}
 
       <div className="mt-4 w-full flex-shrink-0 bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
         <Row gutter={[16, 4]}>

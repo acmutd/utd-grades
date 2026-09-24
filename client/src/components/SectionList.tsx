@@ -1,6 +1,6 @@
 import { FrownTwoTone, UserOutlined, LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import type { Grades } from "@utd-grades/db";
-import { List, Popover, Spin, Tooltip } from "antd";
+import { List, Popover, Spin } from "antd";
 import React, { ReactNode, useMemo } from "react";
 import { getFallbackSection } from "../utils";
 // FIXME (median)
@@ -125,7 +125,11 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   actions={[
                     <IconText
                       icon={<UserOutlined />}
-                      child={<span className="text-description">{item.totalStudents.toString()}</span>}
+                      child={
+                        <span className="text-description">
+                          {(fallback ? fallback.totalStudents : item.totalStudents).toString()}
+                        </span>
+                      }
                       key="students-total"
                     />,
                     // FIXME (median)
@@ -142,17 +146,9 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   onClick={() => onClick(item.id)}
                 >
                   {item.totalStudents === 0 && (
-                    <Tooltip
-                      title={
-                        fallback
-                          ? `No grades submitted yet -- showing ${fallback.semester.season} ${fallback.semester.year} data`
-                          : "No grades submitted yet"
-                      }
-                    >
-                      <span className="absolute right-3 top-3 rounded bg-[#f1c40f]/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#b8860b]">
-                        Future
-                      </span>
-                    </Tooltip>
+                    <span className="absolute right-3 top-3 rounded bg-[#f1c40f]/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#b8860b]">
+                      Future
+                    </span>
                   )}
                   <List.Item.Meta
                     title={
@@ -165,10 +161,21 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                         ) : null}
                       </a>
                     }
-                    // FIXME (no professor): non null assertion
-                    description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${
-                      item.semester.season
-                    } ${item.semester.year}`}
+                    description={
+                      <>
+                        {/* FIXME (no professor): non null assertion */}
+                        {`${item.instructor1!.last}, ${item.instructor1!.first} - ${
+                          item.semester.season
+                        } ${item.semester.year}`}
+                        {item.totalStudents === 0 && (
+                          <div className="mt-[0.15rem]">
+                            {fallback
+                              ? `Last taught ${fallback.semester.season} ${fallback.semester.year}`
+                              : "This professor has never taught this class"}
+                          </div>
+                        )}
+                      </>
+                    }
                   />
                 </List.Item>
               );
