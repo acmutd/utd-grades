@@ -33,4 +33,5 @@ export interface GradesRow {
   instructor4: number | null;
   instructor5: number | null;
   instructor6: number | null;
+  instructor1NetId: string | null;
 }
