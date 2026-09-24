@@ -2,38 +2,29 @@ import { useMemo } from "react";
 import type { Grades } from "@utd-grades/db";
 import { getFilterOption, getSortOption, type SortDirection } from "./sectionMetrics";
 
+export interface SortFilterResult {
+  sections: Grades[] | undefined;
+  // Sections matching the active filter are listed first; undefined when no filter is active.
+  matchCount: number | undefined;
+}
+
 export function useSortAndFilter(
   sections: Grades[] | undefined,
   sortKey: string,
   sortDirection: SortDirection,
   filterKey: string | undefined,
   filterMinValue: number | undefined
-): Grades[] | undefined {
+): SortFilterResult {
   return useMemo(() => {
     if (!sections) {
-      return sections;
-    }
-
-    const filterOption = filterKey ? getFilterOption(filterKey) : undefined;
-    const hasFilter = !!filterOption && filterMinValue !== undefined;
-
-    if (sortKey === "relevance" && !hasFilter) {
-      return sections;
-    }
-
-    let result = sections;
-
-    if (hasFilter) {
-      result = result.filter((section) => {
-        const value = filterOption!.getValue(section);
-        return value !== null && value >= filterMinValue!;
-      });
+      return { sections, matchCount: undefined };
     }
 
     const sortOption = getSortOption(sortKey);
-    if (sortOption.key !== "relevance") {
+    let sorted = sections;
+    if (sortOption.key !== "recent") {
       const directionMultiplier = sortDirection === "ASC" ? 1 : -1;
-      result = [...result].sort((a, b) => {
+      sorted = [...sections].sort((a, b) => {
         const valueA = sortOption.getValue(a);
         const valueB = sortOption.getValue(b);
 
@@ -45,6 +36,17 @@ export function useSortAndFilter(
       });
     }
 
-    return result;
+    const filterOption = filterKey ? getFilterOption(filterKey) : undefined;
+    if (!filterOption || filterMinValue === undefined) {
+      return { sections: sorted, matchCount: undefined };
+    }
+
+    const matching: Grades[] = [];
+    const rest: Grades[] = [];
+    for (const section of sorted) {
+      const value = filterOption.getValue(section);
+      (value !== null && value >= filterMinValue ? matching : rest).push(section);
+    }
+    return { sections: [...matching, ...rest], matchCount: matching.length };
   }, [sections, sortKey, sortDirection, filterKey, filterMinValue]);
 }

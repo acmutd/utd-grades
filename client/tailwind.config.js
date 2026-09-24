@@ -35,6 +35,8 @@ module.exports = {
         header: "var(--header-color)",
         card: "var(--card-bg)",
         "card-hover": "var(--card-hover-bg)",
+        chip: "var(--chip-bg)",
+        "chip-hover": "var(--chip-hover-bg)",
         border: "var(--border-color)",
         "select-tag": "var(--select-tag)",
         "result-container": "var(--result-container-bg)",

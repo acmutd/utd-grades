@@ -103,6 +103,8 @@
   --card-hover-bg: #494949;
   --tag-hover-bg: #1c1c1c;
   --rmp-link-underline: #333333;
+  --chip-bg: #444444;
+  --chip-hover-bg: #505050;
 }
 
 [data-theme="light"] {
@@ -137,6 +139,9 @@
   --pagination-hover-bg: #f5f5f5;
   --pagination-hover-text: #1a1a1a;
   --pagination-hover-border: #1a1a1a;
+
+  --chip-bg: #ffffff;
+  --chip-hover-bg: #e6e6e9;
 }
 
 html,
