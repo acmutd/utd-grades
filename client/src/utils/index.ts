@@ -259,14 +259,14 @@ export function compareSectionRecency(
 
 export function getFallbackSection(target: Grades, candidates: Grades[]): Grades | undefined {
   if (target.totalStudents > 0) return undefined;
+  if (!target.instructor1NetId) return undefined;
 
   return candidates
     .filter(
       (s) =>
         s.id !== target.id &&
         s.totalStudents > 0 &&
-        s.instructor1?.last === target.instructor1?.last &&
-        s.instructor1?.first === target.instructor1?.first
+        s.instructor1NetId === target.instructor1NetId
     )
     .sort(compareSectionRecency)[0];
 }
