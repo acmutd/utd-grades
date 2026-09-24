@@ -7,10 +7,12 @@ import GradeDot from "./GradeDot";
 interface IconTextProps {
   icon: ReactNode;
   child: ReactNode;
+  tooltip?: string | undefined;
 }
 
-const IconText = ({ icon, child }: IconTextProps) => (
-  <span>
+// Padding enlarges the tooltip's hover target; the negative margin cancels it so layout is unchanged.
+const IconText = ({ icon, child, tooltip }: IconTextProps) => (
+  <span title={tooltip} className={tooltip ? "-mx-2 -my-1 inline-block px-2 py-1" : undefined}>
     <div className="text-description">{icon}</div>
     {child}
   </span>
@@ -137,13 +139,15 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage, 
                 actions={[
                   <IconText
                     icon={<UserOutlined />}
+                    tooltip="Total students, including W, P, CR, NC, I, and NF grades"
                     child={<span className="text-description">{item.totalStudents.toString()}</span>}
                     key="students-total"
                   />,
                   <IconText
                     icon={<BarChartOutlined />}
+                    tooltip="Mean GPA of students who received a letter grade"
                     child={
-                      <span className="text-description" title="Mean GPA of students who received a letter grade">
+                      <span className="text-description">
                         {item.stats.mean === null ? "—" : item.stats.mean.toFixed(2)}
                       </span>
                     }
@@ -151,11 +155,8 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage, 
                   />,
                   <IconText
                     icon={<GradeDot grade={item.stats.median} />}
-                    child={
-                      <span className="text-description" title="Median grade of students who received a letter grade">
-                        {item.stats.median ?? "—"}
-                      </span>
-                    }
+                    tooltip="Median grade of students who received a letter grade"
+                    child={<span className="text-description">{item.stats.median ?? "—"}</span>}
                     key="median-grade"
                   />,
                 ]}
