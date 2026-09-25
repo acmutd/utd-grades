@@ -3,6 +3,7 @@ import { Popover } from "antd";
 import React, { useState, type ReactNode } from "react";
 import { getFilterOption, getSortOption, type SortDirection, type SortFilterState } from "../utils/sectionMetrics";
 import GradeDot from "./GradeDot";
+import { chipClassName } from "./chipClassName";
 
 const MEDIAN_FILTER = getFilterOption("median")!;
 
@@ -17,14 +18,6 @@ const GRADE_SORT_CYCLE: { sortField: string; sortDirection: SortDirection }[] = 
 interface SortFilterBarProps {
   value: SortFilterState;
   onChange: (patch: Partial<SortFilterState>) => void;
-}
-
-function tagClassName(selected: boolean): string {
-  return `inline-flex cursor-pointer items-center gap-1.5 rounded bg-chip px-2 py-[0.3rem] font-gilroy-regular text-[13px] font-medium text-fg [transition:all_0.2s_ease-in-out] hover:-translate-y-px hover:bg-chip-hover ${
-    selected
-      ? "shadow-[inset_0_-3px_0_var(--select-tag),0_2px_4px_rgba(0,0,0,0.1)]"
-      : "shadow-[0_2px_4px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_8px_rgba(0,0,0,0.15)]"
-  }`;
 }
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
@@ -88,7 +81,7 @@ function MedianFilterDropdown({ value, onChange }: SortFilterBarProps) {
       showArrow={false}
       overlayInnerStyle={{ backgroundColor: "var(--card-bg)" }}
     >
-      <button type="button" aria-expanded={open} className={tagClassName(selectedGrade !== undefined)}>
+      <button type="button" aria-expanded={open} className={chipClassName(selectedGrade !== undefined)}>
         {selectedGrade ? (
           <>
             <GradeDot grade={selectedGrade} />
@@ -116,7 +109,7 @@ function GradeSortChip({ value, onChange }: SortFilterBarProps) {
       aria-pressed={active}
       title="Click to cycle: Mean GPA ↓, Mean GPA ↑, Median Grade ↓, Median Grade ↑"
       onClick={() => onChange(next)}
-      className={tagClassName(active)}
+      className={chipClassName(active)}
     >
       {getSortOption(active ? value.sortField : "mean").label}
       {active && (value.sortDirection === "ASC" ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
@@ -132,7 +125,7 @@ export default function SortFilterBar({ value, onChange }: SortFilterBarProps) {
           type="button"
           aria-pressed={value.sortField === "recent"}
           onClick={() => onChange({ sortField: "recent" })}
-          className={tagClassName(value.sortField === "recent")}
+          className={chipClassName(value.sortField === "recent")}
         >
           {getSortOption("recent").label}
         </button>

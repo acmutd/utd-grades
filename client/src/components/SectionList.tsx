@@ -3,6 +3,7 @@ import type { Grades } from "@utd-grades/db";
 import { List, Popover, Spin } from "antd";
 import React, { ReactNode } from "react";
 import GradeDot from "./GradeDot";
+import { chipClassName } from "./chipClassName";
 
 interface IconTextProps {
   icon: ReactNode;
@@ -261,20 +262,13 @@ interface PaginationButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
   active?: boolean;
 }
 
-function PaginationButton({ active, disabled, className, children, ...rest }: PaginationButtonProps) {
+function PaginationButton({ active = false, className, ...rest }: PaginationButtonProps) {
   return (
     <button
-      disabled={disabled}
-      className={`flex h-7 min-w-[28px] items-center justify-center rounded-sm border px-2 text-[14px] [font-family:var(--font-family)] focus:outline-none ${
-        active
-          ? "border-pagination-border-active bg-pagination-bg-active text-pagination-text-active cursor-pointer"
-          : disabled
-          ? "cursor-not-allowed border-pagination-border bg-pagination-bg-disabled text-pagination-text-disabled"
-          : "cursor-pointer border-pagination-border bg-pagination-bg text-pagination-text hover:border-pagination-hover-border hover:bg-pagination-hover-bg hover:text-pagination-hover-text"
-      } ${className ?? ""}`}
+      type="button"
+      aria-current={active ? "page" : undefined}
+      className={`${chipClassName(active)} h-7 min-w-[28px] justify-center ${className ?? ""}`}
       {...rest}
-    >
-      {children}
-    </button>
+    />
   );
 }
