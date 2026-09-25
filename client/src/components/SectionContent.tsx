@@ -14,6 +14,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
+import GradeDot from "./GradeDot";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
@@ -103,9 +104,6 @@ const options: ChartOptions<"bar"> = {
     },
   };
 
-  // FIXME (median)
-  // const averageLetter = getLetterGrade(section.average);
-
   return (
     <div className="flex h-screen flex-col bg-card pb-[50px] pt-5 max-992:h-auto max-992:px-[25px] min-992:px-[50px]">
       <div className="mb-4 flex min-w-0 flex-shrink-0 flex-col first:flex-1">
@@ -155,9 +153,34 @@ const options: ChartOptions<"bar"> = {
             </Row>
           </div>
         </div>
-        <h5 className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted">
-          Total Students <span className="text-fg">{section.totalStudents}</span>
-        </h5>
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+          <h5 className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted">
+            Total Students <span className="text-fg">{section.totalStudents}</span>
+          </h5>
+          <h5
+            className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted"
+            title="Mean GPA of students who received a letter grade"
+          >
+            Mean GPA{" "}
+            <span className={section.stats.mean === null ? "text-muted" : "text-fg"}>
+              {section.stats.mean === null ? "—" : section.stats.mean.toFixed(2)}
+            </span>
+          </h5>
+          <h5
+            className="mb-0 mt-0 inline-flex items-center gap-1.5 font-gilroy-semibold text-[18px] font-semibold text-muted"
+            title="Median grade of students who received a letter grade"
+          >
+            Median Grade
+            {section.stats.median ? (
+              <span className="inline-flex items-center gap-1.5 text-fg">
+                <GradeDot grade={section.stats.median} />
+                {section.stats.median}
+              </span>
+            ) : (
+              <span className="text-muted">—</span>
+            )}
+          </h5>
+        </div>
       </div>
 
       <Row style={{ marginBottom: "0.5rem" }}>

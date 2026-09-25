@@ -1,17 +1,19 @@
-import { FrownTwoTone, UserOutlined, LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
+import { BarChartOutlined, FrownTwoTone, UserOutlined, LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import type { Grades } from "@utd-grades/db";
 import { List, Popover, Spin } from "antd";
-import React, { ReactNode} from "react";
-// FIXME (median)
-// import { getLetterGrade, getLetterGradeColor } from "../utils";
+import React, { ReactNode } from "react";
+import GradeDot from "./GradeDot";
+import { chipClassName } from "./chipClassName";
 
 interface IconTextProps {
   icon: ReactNode;
   child: ReactNode;
+  tooltip?: string | undefined;
 }
 
-const IconText = ({ icon, child }: IconTextProps) => (
-  <span>
+// Padding enlarges the tooltip's hover target; the negative margin cancels it so layout is unchanged.
+const IconText = ({ icon, child, tooltip }: IconTextProps) => (
+  <span title={tooltip} className={tooltip ? "-mx-2 -my-1 inline-block px-2 py-1" : undefined}>
     <div className="text-description">{icon}</div>
     {child}
   </span>
@@ -25,9 +27,26 @@ interface SectionListProps {
   error: unknown;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
+  filterGroups: FilterGroups | undefined;
 }
 
-export function SectionList({ loading, id, data, onClick, error, page, setPage }: SectionListProps) {
+interface FilterGroups {
+  matchCount: number;
+  label: string;
+}
+
+function OutsideFilterSeparator({ restCount }: { restCount: number }) {
+  return (
+    <li role="separator" className="relative list-none border-r border-border py-3">
+      <div className="absolute inset-x-0 top-1/2 h-px bg-description opacity-40" />
+      <span className="relative mx-auto block w-fit rounded-full bg-chip px-3 py-0.5 font-gilroy-semibold text-[12px] text-description shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+        {restCount} outside filter
+      </span>
+    </li>
+  );
+}
+
+export function SectionList({ loading, id, data, onClick, error, page, setPage, filterGroups }: SectionListProps) {
   const pageSize = 5;
   const totalPages = data ? Math.ceil(data.length / pageSize) : 0;
 
@@ -92,34 +111,55 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
       const startIndex = (page - 1) * pageSize;
       const endIndex = startIndex + pageSize;
       const currentPageData = data.slice(startIndex, endIndex);
+      const restCount = filterGroups ? data.length - filterGroups.matchCount : 0;
 
       return (
                 <>
+          {filterGroups?.matchCount === 0 && page === 1 && (
+            <div className="border-b border-r border-border px-[25px] py-4 font-gilroy-regular text-[14px] text-description">
+              No sections match <span className="text-fg">{filterGroups.label}</span>. Showing all sections instead.
+            </div>
+          )}
           <List<Grades>
             itemLayout="vertical"
             size="large"
             dataSource={currentPageData}
             style={{ width: "100%", minWidth: "100%" }}
-            renderItem={(item) => (
+            renderItem={(item, index) => {
+              const globalIndex = startIndex + index;
+              const showSeparator =
+                filterGroups !== undefined && filterGroups.matchCount > 0 && globalIndex === filterGroups.matchCount;
+              const dimmed = filterGroups !== undefined && globalIndex >= filterGroups.matchCount && item.id != id;
+              return (
+              <React.Fragment key={item.id}>
+              {showSeparator && <OutsideFilterSeparator restCount={restCount} />}
               <List.Item
-                key={item.id}
-                className={`section-list-item ${item.id == id ? "section-list-item--selected" : ""}`}
+                className={`section-list-item ${item.id == id ? "section-list-item--selected" : ""} ${
+                  dimmed ? "opacity-60 hover:opacity-100" : ""
+                }`}
                 actions={[
                   <IconText
                     icon={<UserOutlined />}
+                    tooltip="Total students, including W, P, CR, NC, I, and NF grades"
                     child={<span className="text-description">{item.totalStudents.toString()}</span>}
                     key="students-total"
                   />,
-                  // FIXME (median)
-                  // <IconText
-                  //   icon={<BarChartOutlined />}
-                  //   child={
-                  //     <AverageWrapper average={item.average}>
-                  //       {getLetterGrade(item.average)}
-                  //     </AverageWrapper>
-                  //   }
-                  //   key="average"
-                  // />,
+                  <IconText
+                    icon={<BarChartOutlined />}
+                    tooltip="Mean GPA of students who received a letter grade"
+                    child={
+                      <span className="text-description">
+                        {item.stats.mean === null ? "—" : item.stats.mean.toFixed(2)}
+                      </span>
+                    }
+                    key="mean-gpa"
+                  />,
+                  <IconText
+                    icon={<GradeDot grade={item.stats.median} />}
+                    tooltip="Median grade of students who received a letter grade"
+                    child={<span className="text-description">{item.stats.median ?? "—"}</span>}
+                    key="median-grade"
+                  />,
                 ]}
                 onClick={() => onClick(item.id)}
               >
@@ -140,7 +180,9 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   } ${item.semester.year}`}
                 />
               </List.Item>
-            )}
+              </React.Fragment>
+              );
+            }}
           />
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 px-2.5 py-4 [font-family:var(--font-family)]">
@@ -220,20 +262,13 @@ interface PaginationButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEle
   active?: boolean;
 }
 
-function PaginationButton({ active, disabled, className, children, ...rest }: PaginationButtonProps) {
+function PaginationButton({ active = false, className, ...rest }: PaginationButtonProps) {
   return (
     <button
-      disabled={disabled}
-      className={`flex h-7 min-w-[28px] items-center justify-center rounded-sm border px-2 text-[14px] [font-family:var(--font-family)] focus:outline-none ${
-        active
-          ? "border-pagination-border-active bg-pagination-bg-active text-pagination-text-active cursor-pointer"
-          : disabled
-          ? "cursor-not-allowed border-pagination-border bg-pagination-bg-disabled text-pagination-text-disabled"
-          : "cursor-pointer border-pagination-border bg-pagination-bg text-pagination-text hover:border-pagination-hover-border hover:bg-pagination-hover-bg hover:text-pagination-hover-text"
-      } ${className ?? ""}`}
+      type="button"
+      aria-current={active ? "page" : undefined}
+      className={`${chipClassName(active)} h-7 min-w-[28px] justify-center ${className ?? ""}`}
       {...rest}
-    >
-      {children}
-    </button>
+    />
   );
 }
