@@ -145,36 +145,31 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
                   ]}
                   onClick={() => onClick(item.id)}
                 >
-                  {item.totalStudents === 0 && (
-                    <span className="absolute right-3 top-3 rounded bg-[#f1c40f]/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#b8860b]">
-                      Future
-                    </span>
-                  )}
                   <List.Item.Meta
                     title={
-                      <a href="#">
-                        {item.subject} {item.catalogNumber}.{item.section}
+                      <a href="#" className="flex flex-wrap items-center justify-between gap-1">
+                        <span>
+                          {item.subject} {item.catalogNumber}.{item.section}
+                        </span>
+                        <span
+                          className={`shrink-0 rounded px-1 py-0 text-[10px] font-bold uppercase tracking-wide ${
+                            item.totalStudents === 0
+                              ? "bg-green-500/15 text-green-600"
+                              : "bg-muted/15 text-muted"
+                          }`}
+                        >
+                          {item.semester.season} {item.semester.year}
+                        </span>
                         {item.courseName ? (
-                          <div className="mt-[0.15rem] text-[14px] text-muted [font-family:var(--font-family)]">
+                          <div className="mt-[0.15rem] w-full basis-full text-[14px] text-muted [font-family:var(--font-family)]">
                             {item.courseName}
                           </div>
                         ) : null}
                       </a>
                     }
                     description={
-                      <>
-                        {/* FIXME (no professor): non null assertion */}
-                        {`${item.instructor1!.last}, ${item.instructor1!.first} - ${
-                          item.semester.season
-                        } ${item.semester.year}`}
-                        {item.totalStudents === 0 && (
-                          <div className="mt-[0.15rem]">
-                            {fallback
-                              ? `Last taught ${fallback.semester.season} ${fallback.semester.year}`
-                              : "This professor has never taught this class"}
-                          </div>
-                        )}
-                      </>
+                      // FIXME (no professor): non null assertion
+                      `${item.instructor1!.last}, ${item.instructor1!.first}`
                     }
                   />
                 </List.Item>

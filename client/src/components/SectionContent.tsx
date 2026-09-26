@@ -177,15 +177,20 @@ const options: ChartOptions<"bar"> = {
         )}
       </div>
 
-      {!neverTaught && (
-        <Row style={{ marginBottom: "0.5rem" }}>
-          <Col xs={24} sm={24} md={24}>
-            <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
-              <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
-            </div>
-          </Col>
-        </Row>
+      {fallbackSection && (
+        <h5 className="mb-2 mt-0 font-gilroy-semibold text-[14px] font-semibold text-muted">
+          Showing results for {fallbackSection.subject} {fallbackSection.catalogNumber}.
+          {fallbackSection.section} - {fallbackSection.semester.season} {fallbackSection.semester.year}
+        </h5>
       )}
+
+      <Row style={{ marginBottom: "0.5rem" }}>
+        <Col xs={24} sm={24} md={24}>
+          <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
+            <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
+          </div>
+        </Col>
+      </Row>
 
       <div className="mt-4 w-full flex-shrink-0 bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
         <Row gutter={[16, 4]}>
@@ -243,14 +248,7 @@ const options: ChartOptions<"bar"> = {
                 </>
               )}
             </a>
-            {!instructor && (
-              <p className="mb-0 mt-2 text-[0.95rem] font-normal text-muted [font-family:var(--font-family)]">
-                N/A
-              </p>
-            )}
           </Col>
-          {instructor ? (
-            <>
               <Col xs={12} md={6}>
                 <h5 className="mb-0 mt-0 font-extrabold text-fg [font-family:var(--font-family)] max-1200:text-[1.1rem] min-1200:text-[1.6rem] min-1200:leading-[1.3]">
                   {instructor?.quality_rating ? (
@@ -295,8 +293,6 @@ const options: ChartOptions<"bar"> = {
                   Ratings count
                 </p>
               </Col>
-            </>
-          ) : null}
         </Row>
 
         {instructor?.tags && (
