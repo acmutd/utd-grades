@@ -1,5 +1,18 @@
-import type { Grades } from "@utd-grades/db";
+import type { Grades, Season, Semester } from "@utd-grades/db";
 import type { UserFriendlyGrades } from "../types";
+
+// Bump this each time a new semester's (fallback-only) sections get added.
+export const UPCOMING_SEMESETER: Semester = { season: "Spring", year: 2026 };
+
+const SEASON_CODE: Record<Season, string> = { Spring: "S", Summer: "U", Fall: "F" };
+
+export function formatSemesterCode(semester: Semester): string {
+  return `${semester.year % 100}${SEASON_CODE[semester.season]}`;
+}
+
+function isSameSemester(a: Semester, b: Semester): boolean {
+  return a.season === b.season && a.year === b.year;
+}
 
 export function getLetterGrade(grade: number): keyof UserFriendlyGrades {
   if (grade >= 0.97) {
@@ -260,6 +273,7 @@ export function compareSectionRecency(
 export function getFallbackSection(target: Grades, candidates: Grades[]): Grades | undefined {
   if (target.totalStudents > 0) return undefined;
   if (!target.instructor1NetId) return undefined;
+  if (!isSameSemester(target.semester, UPCOMING_SEMESETER)) return undefined;
 
   return candidates
     .filter(

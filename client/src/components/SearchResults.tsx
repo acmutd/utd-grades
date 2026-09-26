@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import type { SearchQuery } from "../types";
-import { compareSectionRecency, getCourseTitleMatchRank, getSectionSearchRank, normalizeName, normalizeSortValue } from "../utils/index";
+import { UPCOMING_SEMESETER, compareSectionRecency, formatSemesterCode, getCourseTitleMatchRank, getSectionSearchRank, normalizeName, normalizeSortValue } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
@@ -488,14 +488,14 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
             <button
               onClick={() => setHideFallback((v) => !v)}
               aria-pressed={hideFallback}
-              aria-label="Toggle 26S sections"
+              aria-label={`Toggle ${formatSemesterCode(UPCOMING_SEMESETER)} sections`}
               className={`flex h-9 items-center justify-center rounded-full border px-4 text-[13px] font-semibold [transition:all_0.2s_ease] ${
                 hideFallback
                   ? "border-[--toggle-border,#e4e4e7] bg-fg text-card"
                   : "border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333]"
               }`}
             >
-              26S
+              {formatSemesterCode(UPCOMING_SEMESETER)}
             </button>
           </div>
         </Col>
