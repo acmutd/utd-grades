@@ -82,7 +82,7 @@ export default function Home() {
   }
 
   return (
-    <Core showSageAd={true}>
+    <Core showAds={true}>
       <div className="relative flex w-full items-center">
         <button
           onClick={toggleTheme}
@@ -118,7 +118,7 @@ export default function Home() {
                 See how students did in any given class. And it&apos;s <strong>free, forever.</strong>
               </p>
             </FadeIn>
-            <Search onSubmit={handleSubmit} showSage={false} />
+            <Search onSubmit={handleSubmit} showAds={false} />
           </Col>
         </div>
       </div>

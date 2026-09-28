@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import type { SearchQuery } from "../types";
 import { getSearchStringRank } from "../utils/index";
 import { useDb } from "../utils/useDb";
+import PartnerAds from "./PartnerAds";
 
 const autoCompleteStyle: React.CSSProperties = {
   width: "100%",
@@ -12,10 +13,10 @@ const autoCompleteStyle: React.CSSProperties = {
 interface SearchProps {
   onSubmit: (query: SearchQuery) => void;
   initialSearchValue?: string;
-  showSage?: boolean;
+  showAds?: boolean;
 }
 
-export default function Search({ onSubmit, initialSearchValue: initialSearch = "", showSage = true }: SearchProps) {
+export default function Search({ onSubmit, initialSearchValue: initialSearch = "", showAds = true }: SearchProps) {
   const hintContent = (
     <div className="w-[375px] font-gilroy-regular">
       <p>You can search for:</p>
@@ -88,24 +89,7 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
         </span>
       </Popover>
 
-      {showSage && (
-        <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <a
-            href="https://utdsage.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="mb-[0.3rem] inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[rgba(7,67,37,1)] to-[rgba(22,50,36,1)] px-[1.2rem] py-[0.6rem] text-[#5AED86] shadow-[0_2px_6px_rgb(0_0_0_/_0.2)] [transition:transform_cubic-bezier(0.4,0,0.2,1)_150ms,box-shadow_cubic-bezier(0.4,0,0.2,1)_150ms] [text-shadow:0_0_4px_rgb(0_0_0_/_0.6)] hover:scale-[1.01] hover:text-[#5AED86] hover:shadow-[0_2px_8px_rgb(0_0_0_/_0.2)]"
-          >
-            <img
-              src="/SAGE-Logo.svg"
-              alt=""
-              className="mr-[0.4rem] h-[1.2rem] drop-shadow-[0_0_4px_rgb(0_0_0_/_0.6)]"
-            />
-            <p className="mb-0 text-[0.9rem] leading-[1.2rem]">Get AI-powered UTD advising with </p>
-            <img src="/SAGE-Textmark.svg" alt="Sage" className="h-[1.2rem]" />
-          </a>
-        </div>
-      )}
+      {showAds && <PartnerAds />}
 
     </AntForm>
   );
