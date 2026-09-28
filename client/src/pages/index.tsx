@@ -82,7 +82,7 @@ export default function Home() {
   }
 
   return (
-    <Core showSageAd={true}>
+    <Core showAds={true}>
       <div className="relative flex w-full items-center">
         <button
           onClick={toggleTheme}

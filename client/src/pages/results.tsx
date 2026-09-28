@@ -15,7 +15,7 @@ export default function ResultsPage() {
   // https://github.com/zeit/next.js/issues/8259
   if (router.asPath !== router.route) {
     return (
-      <Core showSageAd={true}>
+      <Core showAds={true}>
         <div className="flex w-full flex-col">
           <SearchResults search={search} sectionId={parseInt(sectionId)} router={router} />
         </div>
