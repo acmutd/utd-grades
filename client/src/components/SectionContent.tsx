@@ -186,42 +186,28 @@ const options: ChartOptions<"bar"> = {
               Professor Details
               {instructor?.url && <LinkOutlined style={{ fontSize: "1.2em" }} />}
               {hovered && (
-                <>
-                  <div
-                    style={{
-                      position: "absolute",
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: "0.5rem",
-                      transform: "translate(-10%, -100%)",
-                      zIndex: 1000,
-                      padding: "0.75rem",
-                      borderRadius: "0.5rem",
-                      fontSize: "0.75rem",
-                      lineHeight: "1rem",
-                      color: "var(--text-color)",
-                      whiteSpace: "nowrap",
-                      backgroundColor: "var(--card-bg)",
-                      boxShadow:
-                        "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-                    }}
-                  >
-                    See more on
-                    <Image src="/rmp-logo.png" alt="Rate My Professor Logo" width={88} height={18} style={{ height: "1.1rem" }} />
-                  </div>
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "-5rem",
-                      left: "50%",
-                      borderTopWidth: "8px",
-                      borderRightWidth: "8px",
-                      borderLeftWidth: "8px",
-                      width: "10",
-                      height: "10",
-                    }}
-                  />
-                </>
+                <div
+                  style={{
+                    position: "absolute",
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: "0.5rem",
+                    transform: "translate(-10%, -100%)",
+                    zIndex: 1000,
+                    padding: "0.75rem",
+                    borderRadius: "0.5rem",
+                    fontSize: "0.75rem",
+                    lineHeight: "1rem",
+                    color: "var(--text-color)",
+                    whiteSpace: "nowrap",
+                    backgroundColor: "var(--card-bg)",
+                    boxShadow:
+                      "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+                  }}
+                >
+                  See more on
+                  <Image src="/rmp-logo.png" alt="Rate My Professor Logo" width={88} height={18} style={{ height: "1.1rem" }} />
+                </div>
               )}
             </a>
             {!instructor && (
