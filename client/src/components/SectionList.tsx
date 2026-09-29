@@ -1,7 +1,8 @@
 import { FrownTwoTone, UserOutlined, LeftOutlined, RightOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import type { Grades } from "@utd-grades/db";
 import { List, Popover, Spin } from "antd";
-import React, { ReactNode} from "react";
+import React, { ReactNode, useMemo } from "react";
+import { getFallbackSection, groupSidebarSections, SidebarSection } from "../utils";
 // FIXME (median)
 // import { getLetterGrade, getLetterGradeColor } from "../utils";
 
@@ -29,7 +30,24 @@ interface SectionListProps {
 
 export function SectionList({ loading, id, data, onClick, error, page, setPage }: SectionListProps) {
   const pageSize = 5;
-  const totalPages = data ? Math.ceil(data.length / pageSize) : 0;
+
+  const displayData = useMemo(() => (data ? groupSidebarSections(data) : data), [data]);
+
+  const totalPages = displayData ? Math.ceil(displayData.length / pageSize) : 0;
+
+  // sections with no grades yet (new/future offerings) -- map each to the last
+  // time the same instructor taught it, so the sidebar can flag it
+  const fallbackById = useMemo(() => {
+    const map = new Map<number, Grades>();
+    if (!data) return map;
+
+    for (const item of data) {
+      const fallback = getFallbackSection(item, data);
+      if (fallback) map.set(item.id, fallback);
+    }
+
+    return map;
+  }, [data]);
 
   // Calculate which pages to show (max 3 pages)
   const getPageNumbers = () => {
@@ -84,63 +102,114 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage }
     </div>
   );
 
-  if (data) {
-    if (data.length < 1) {
+  if (data && displayData) {
+    if (displayData.length < 1) {
       return emptyMessage;
     } else {
       const pageNumbers = getPageNumbers();
       const startIndex = (page - 1) * pageSize;
       const endIndex = startIndex + pageSize;
-      const currentPageData = data.slice(startIndex, endIndex);
+      const currentPageData = displayData.slice(startIndex, endIndex);
 
       return (
                 <>
-          <List<Grades>
+          <List<SidebarSection>
             itemLayout="vertical"
             size="large"
             dataSource={currentPageData}
             style={{ width: "100%", minWidth: "100%" }}
-            renderItem={(item) => (
-              <List.Item
-                key={item.id}
-                className={`section-list-item ${item.id == id ? "section-list-item--selected" : ""}`}
-                actions={[
-                  <IconText
-                    icon={<UserOutlined />}
-                    child={<span className="text-description">{item.totalStudents.toString()}</span>}
-                    key="students-total"
-                  />,
-                  // FIXME (median)
-                  // <IconText
-                  //   icon={<BarChartOutlined />}
-                  //   child={
-                  //     <AverageWrapper average={item.average}>
-                  //       {getLetterGrade(item.average)}
-                  //     </AverageWrapper>
-                  //   }
-                  //   key="average"
-                  // />,
-                ]}
-                onClick={() => onClick(item.id)}
-              >
-                <List.Item.Meta
-                  title={
-                    <a href="#">
-                      {item.subject} {item.catalogNumber}.{item.section}
-                      {item.courseName ? (
-                        <div className="mt-[0.15rem] text-[14px] text-muted [font-family:var(--font-family)]">
-                          {item.courseName}
-                        </div>
-                      ) : null}
-                    </a>
+            renderItem={(item) => {
+              const professors = item.fallbackProfessors;
+              const activeId =
+                professors && professors.length > 1
+                  ? professors.find((p) => p.id === id)?.id ?? professors[0]!.id
+                  : item.id;
+              const fallback = fallbackById.get(activeId);
+              const isSelected =
+                professors && professors.length > 1 ? professors.some((p) => p.id === id) : item.id == id;
+
+              return (
+                <List.Item
+                  key={item.id}
+                  className={`section-list-item relative ${isSelected ? "section-list-item--selected" : ""}`}
+                  actions={
+                    professors && professors.length > 1
+                      ? []
+                      : [
+                          <IconText
+                            icon={<UserOutlined />}
+                            child={
+                              <span className="text-description">
+                                {(fallback ? fallback.totalStudents : item.totalStudents).toString()}
+                              </span>
+                            }
+                            key="students-total"
+                          />,
+                          // FIXME (median)
+                          // <IconText
+                          //   icon={<BarChartOutlined />}
+                          //   child={
+                          //     <AverageWrapper average={item.average}>
+                          //       {getLetterGrade(item.average)}
+                          //     </AverageWrapper>
+                          //   }
+                          //   key="average"
+                          // />,
+                        ]
                   }
-                  // FIXME (no professor): non null assertion
-                  description={`${item.instructor1!.last}, ${item.instructor1!.first} - ${
-                    item.semester.season
-                  } ${item.semester.year}`}
-                />
-              </List.Item>
-            )}
+                  onClick={() => onClick(activeId)}
+                >
+                  <List.Item.Meta
+                    title={
+                      <a href="#" className="flex flex-wrap items-center justify-between gap-1">
+                        <span>
+                          {item.subject} {item.catalogNumber}
+                          {!professors || professors.length <= 1 ? `.${item.section}` : ""}
+                        </span>
+                        <span
+                          className={`shrink-0 rounded px-1 py-0 text-[10px] font-bold uppercase tracking-wide ${
+                            item.totalStudents === 0
+                              ? "bg-green-500/15 text-green-600"
+                              : "bg-muted/15 text-muted"
+                          }`}
+                        >
+                          {item.semester.season} {item.semester.year}
+                        </span>
+                        {item.courseName ? (
+                          <div className="mt-[0.15rem] w-full basis-full text-[14px] text-muted [font-family:var(--font-family)]">
+                            {item.courseName}
+                          </div>
+                        ) : null}
+                      </a>
+                    }
+                    description={
+                      professors && professors.length > 1 ? (
+                        <span className="flex flex-col gap-0.5">
+                          {professors.map((prof) => (
+                            <span
+                              key={prof.id}
+                              role="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onClick(prof.id);
+                              }}
+                              className={`cursor-pointer ${
+                                prof.id === activeId ? "font-bold text-fg underline" : "hover:underline"
+                              }`}
+                            >
+                              {prof.name}
+                            </span>
+                          ))}
+                        </span>
+                      ) : (
+                        // FIXME (no professor): non null assertion
+                        `${item.instructor1!.last}, ${item.instructor1!.first}`
+                      )
+                    }
+                  />
+                </List.Item>
+              );
+            }}
           />
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 px-2.5 py-4 [font-family:var(--font-family)]">

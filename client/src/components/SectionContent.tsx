@@ -10,10 +10,10 @@ import {
   Tooltip as ChartTooltip,
 } from "chart.js";
 import Image from "next/image";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
-import { extractGrades, getColors } from "../utils";
+import { extractGrades, getColors, getFallbackSection } from "../utils";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
@@ -45,6 +45,7 @@ const SectionContent = React.memo(function SectionContent({
   section,
   instructor,
   courseRating,
+  relatedSections,
 }: SectionContentProps) {
   const [hovered, setHovered] = useState<"rmpLink" | null>(null);
   const rmpLinkRef = useRef<HTMLAnchorElement>(null);
@@ -52,7 +53,16 @@ const SectionContent = React.memo(function SectionContent({
   const handleMouseEnter = useCallback(() => setHovered("rmpLink"), []);
   const handleMouseLeave = useCallback(() => setHovered(null), []);
 
-  const grades = extractGrades(section);
+  const fallbackSection = useMemo(
+    () => getFallbackSection(section, relatedSections ?? []),
+    [section, relatedSections]
+  );
+
+  const gradesSection = fallbackSection ?? section;
+  const isFallbackCase = section.totalStudents === 0;
+  const neverTaught = isFallbackCase && !fallbackSection;
+
+  const grades = extractGrades(gradesSection);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
   const values = Object.values(grades);
 
@@ -75,7 +85,7 @@ const options: ChartOptions<"bar"> = {
             const count = context.parsed.y;
             return [
               `Students: ${count}`,
-              `Percentage: ${((count / section.totalStudents) * 100).toFixed(2)}%`,
+              `Percentage: ${((count / gradesSection.totalStudents) * 100).toFixed(2)}%`,
             ];
           },
         },
@@ -156,9 +166,23 @@ const options: ChartOptions<"bar"> = {
           </div>
         </div>
         <h5 className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted">
-          Total Students <span className="text-fg">{section.totalStudents}</span>
+          Total Students <span className="text-fg">{gradesSection.totalStudents}</span>
         </h5>
+        {isFallbackCase && (
+          <h5 className="mb-0 mt-1 font-gilroy-semibold text-[16px] font-semibold text-muted">
+            {neverTaught
+              ? "This professor has never taught this class"
+              : `Last taught ${fallbackSection!.semester.season} ${fallbackSection!.semester.year}`}
+          </h5>
+        )}
       </div>
+
+      {fallbackSection && (
+        <h5 className="mb-2 mt-0 font-gilroy-semibold text-[14px] font-semibold text-muted">
+          Showing results for {fallbackSection.subject} {fallbackSection.catalogNumber}.
+          {fallbackSection.section} - {fallbackSection.semester.season} {fallbackSection.semester.year}
+        </h5>
+      )}
 
       <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
@@ -224,14 +248,7 @@ const options: ChartOptions<"bar"> = {
                 </>
               )}
             </a>
-            {!instructor && (
-              <p className="mb-0 mt-2 text-[0.95rem] font-normal text-muted [font-family:var(--font-family)]">
-                N/A
-              </p>
-            )}
           </Col>
-          {instructor ? (
-            <>
               <Col xs={12} md={6}>
                 <h5 className="mb-0 mt-0 font-extrabold text-fg [font-family:var(--font-family)] max-1200:text-[1.1rem] min-1200:text-[1.6rem] min-1200:leading-[1.3]">
                   {instructor?.quality_rating ? (
@@ -276,8 +293,6 @@ const options: ChartOptions<"bar"> = {
                   Ratings count
                 </p>
               </Col>
-            </>
-          ) : null}
         </Row>
 
         {instructor?.tags && (

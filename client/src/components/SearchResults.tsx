@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import type { SearchQuery } from "../types";
-import { compareSectionRecency, getCourseTitleMatchRank, getSectionSearchRank, normalizeName, normalizeSortValue } from "../utils/index";
+import { UPCOMING_SEMESTER, compareSectionRecency, formatSemesterCode, getCourseTitleMatchRank, getSectionSearchRank, groupSidebarSections, normalizeName, normalizeSortValue } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
@@ -21,6 +21,7 @@ interface ResultsProps {
 const Results = React.memo(function Results({ search, sectionId, router }: ResultsProps) {
     // Track current page for SectionList pagination
   const [currentPage, setCurrentPage] = useState(1);
+  const [hideFallback, setHideFallback] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasAutoSelected = useRef(false);
 
@@ -66,6 +67,18 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     });
   }, [sections, search]);
 
+  const filteredSections = useMemo(() => {
+    if (!rankedSections) return rankedSections;
+    if (!hideFallback) return rankedSections;
+
+    return rankedSections.filter((s) => s.totalStudents > 0);
+  }, [rankedSections, hideFallback]);
+
+  const sidebarGroups = useMemo(
+    () => (filteredSections ? groupSidebarSections(filteredSections) : filteredSections),
+    [filteredSections]
+  );
+
   // Auto-select first section when sections load and no section is selected
   useEffect(() => {
     if (rankedSections && rankedSections.length > 0 && !sectionId && !hasAutoSelected.current) {
@@ -87,14 +100,16 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
 
   // Update page when sectionId changes (arrow navigation or click)
   useEffect(() => {
-    if (rankedSections && rankedSections.length > 0) {
-      const idx = rankedSections.findIndex(s => s.id === sectionId);
+    if (sidebarGroups && sidebarGroups.length > 0) {
+      const idx = sidebarGroups.findIndex(
+        (s) => s.id === sectionId || (s.fallbackProfessors?.some((p) => p.id === sectionId) ?? false)
+      );
       if (idx !== -1) {
         const newPage = Math.floor(idx / 5) + 1;
         setCurrentPage(newPage);
       }
     }
-  }, [sectionId, rankedSections]);
+  }, [sectionId, sidebarGroups]);
 
 
 
@@ -194,6 +209,17 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
           foundInstructor = ins;
           foundRating = rating;
           break;
+        }
+      }
+
+      if (!foundInstructor && section.instructor1NetId) {
+        const netIdInstructor = db.getInstructorByNetId(section.instructor1NetId);
+        if (netIdInstructor) {
+          foundInstructor = netIdInstructor;
+          foundRating = db.getCourseRating(
+            netIdInstructor.instructor_id,
+            `${section.subject}${section.catalogNumber}`
+          );
         }
       }
 
@@ -464,15 +490,34 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
       </Row>
 
       <Row>
+        <Col lg={{ span: 20, offset: 2 }} xs={{ span: 24, offset: 0 }}>
+          <div className="mt-[35px] flex justify-end">
+            <button
+              onClick={() => setHideFallback((v) => !v)}
+              aria-pressed={hideFallback}
+              aria-label={`Toggle ${formatSemesterCode(UPCOMING_SEMESTER)} sections`}
+              className={`flex h-9 items-center justify-center rounded-full border px-4 text-[13px] font-semibold [transition:all_0.2s_ease] ${
+                hideFallback
+                  ? "border-[--toggle-border,#e4e4e7] bg-fg text-card"
+                  : "border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333]"
+              }`}
+            >
+              {formatSemesterCode(UPCOMING_SEMESTER)}
+            </button>
+          </div>
+        </Col>
+      </Row>
+
+      <Row>
         <Col
           lg={{ span: 20, offset: 2 }}
           xs={{ span: 24, offset: 0 }}
-          className="results-container mt-[35px] rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+          className="results-container mt-[10px] rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
         >
           <Row>
             <Col lg={6} xs={24}>
               <SectionList
-                data={rankedSections}
+                data={filteredSections}
                 onClick={handleClick}
                 loading={sectionsStatus === "loading"}
                 id={sectionId}

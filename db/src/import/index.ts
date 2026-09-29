@@ -93,6 +93,7 @@ function gradesRow(
     instructor4: parseProf(csvRow["Instructor 4"]),
     instructor5: parseProf(csvRow["Instructor 5"]),
     instructor6: parseProf(csvRow["Instructor 6"]),
+    instructor1NetId: csvRow["instructor_id"]?.trim() || null,
   };
 }
 
@@ -298,8 +299,8 @@ async function createDb(): Promise<Uint8Array> {
 
   // insert instructors
   const stmt = db.prepare(`
-    INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, courseNameId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+    INSERT INTO grades(id, aPlus, a, aMinus, bPlus, b, bMinus, cPlus, c, cMinus, dPlus, d, dMinus, f, cr, nc, p, w, i, nf, semesterId, subjectId, catalogNumberId, courseNameId, sectionId, instructor1Id, instructor2Id, instructor3Id, instructor4Id, instructor5Id, instructor6Id, instructor1NetId)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
 
   for (const grades of allGrades) {
     stmt.getAsObject([
@@ -334,6 +335,7 @@ async function createDb(): Promise<Uint8Array> {
       grades.instructor4,
       grades.instructor5,
       grades.instructor6,
+      grades.instructor1NetId,
     ]);
   }
 

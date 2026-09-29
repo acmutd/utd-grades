@@ -1,5 +1,18 @@
-import type { Grades } from "@utd-grades/db";
+import type { Grades, Season, Semester } from "@utd-grades/db";
 import type { UserFriendlyGrades } from "../types";
+
+// Bump this each time a new semester's (fallback-only) sections get added.
+export const UPCOMING_SEMESTER: Semester = { season: "Spring", year: 2026 };
+
+const SEASON_CODE: Record<Season, string> = { Spring: "S", Summer: "U", Fall: "F" };
+
+export function formatSemesterCode(semester: Semester): string {
+  return `${semester.year % 100}${SEASON_CODE[semester.season]}`;
+}
+
+export function isSameSemester(a: Semester, b: Semester): boolean {
+  return a.season === b.season && a.year === b.year;
+}
 
 export function getLetterGrade(grade: number): keyof UserFriendlyGrades {
   if (grade >= 0.97) {
@@ -255,4 +268,63 @@ export function compareSectionRecency(
     a.section.localeCompare(b.section) ||
     (a.courseName ?? "").localeCompare(b.courseName ?? "")
   );
+}
+
+export function getFallbackSection(target: Grades, candidates: Grades[]): Grades | undefined {
+  if (target.totalStudents > 0) return undefined;
+  if (!target.instructor1NetId) return undefined;
+  if (!isSameSemester(target.semester, UPCOMING_SEMESTER)) return undefined;
+
+  return candidates
+    .filter(
+      (s) =>
+        s.id !== target.id &&
+        s.totalStudents > 0 &&
+        s.instructor1NetId === target.instructor1NetId
+    )
+    .sort(compareSectionRecency)[0];
+}
+
+export interface FallbackProfessor {
+  id: number;
+  name: string;
+}
+
+export type SidebarSection = Grades & { fallbackProfessors?: FallbackProfessor[] };
+
+export function groupSidebarSections(data: Grades[]): SidebarSection[] {
+  const result: SidebarSection[] = [];
+  const groupIndexByCourse = new Map<string, number>();
+  const seenProfKeysByCourse = new Map<string, Set<string>>();
+
+  for (const item of data) {
+    const isUpcomingFallback =
+      item.totalStudents === 0 && isSameSemester(item.semester, UPCOMING_SEMESTER);
+
+    if (!isUpcomingFallback) {
+      result.push(item);
+      continue;
+    }
+
+    const courseKey = `${item.subject}|${item.catalogNumber}`;
+    const profName = item.instructor1
+      ? `${item.instructor1.last}, ${item.instructor1.first}`
+      : "Staff";
+    const profKey = item.instructor1NetId ?? `id:${item.id}`;
+    const existingIndex = groupIndexByCourse.get(courseKey);
+
+    if (existingIndex === undefined) {
+      groupIndexByCourse.set(courseKey, result.length);
+      seenProfKeysByCourse.set(courseKey, new Set([profKey]));
+      result.push({ ...item, fallbackProfessors: [{ id: item.id, name: profName }] });
+    } else {
+      const seenProfKeys = seenProfKeysByCourse.get(courseKey)!;
+      if (!seenProfKeys.has(profKey)) {
+        seenProfKeys.add(profKey);
+        result[existingIndex]!.fallbackProfessors!.push({ id: item.id, name: profName });
+      }
+    }
+  }
+
+  return result;
 }

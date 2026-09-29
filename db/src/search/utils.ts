@@ -89,6 +89,7 @@ export function rowToGrades(row: ParamsObject): Grades | null {
       first: instructor1First,
       last: instructor1Last,
     },
+    instructor1NetId: (row["instructor1NetId"] as string | null) ?? null,
     // TODO (more professors)
     instructor2: null,
     instructor3: null,
