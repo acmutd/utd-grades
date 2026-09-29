@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useQuery } from "react-query";
 import { animateScroll as scroll } from "react-scroll";
 import type { SearchQuery } from "../types";
-import { UPCOMING_SEMESETER, compareSectionRecency, formatSemesterCode, getCourseTitleMatchRank, getSectionSearchRank, normalizeName, normalizeSortValue } from "../utils/index";
+import { UPCOMING_SEMESTER, compareSectionRecency, formatSemesterCode, getCourseTitleMatchRank, getSectionSearchRank, groupSidebarSections, normalizeName, normalizeSortValue } from "../utils/index";
 import { useDb } from "../utils/useDb";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
@@ -74,6 +74,11 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     return rankedSections.filter((s) => s.totalStudents > 0);
   }, [rankedSections, hideFallback]);
 
+  const sidebarGroups = useMemo(
+    () => (filteredSections ? groupSidebarSections(filteredSections) : filteredSections),
+    [filteredSections]
+  );
+
   // Auto-select first section when sections load and no section is selected
   useEffect(() => {
     if (rankedSections && rankedSections.length > 0 && !sectionId && !hasAutoSelected.current) {
@@ -95,14 +100,16 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
 
   // Update page when sectionId changes (arrow navigation or click)
   useEffect(() => {
-    if (rankedSections && rankedSections.length > 0) {
-      const idx = rankedSections.findIndex(s => s.id === sectionId);
+    if (sidebarGroups && sidebarGroups.length > 0) {
+      const idx = sidebarGroups.findIndex(
+        (s) => s.id === sectionId || (s.fallbackProfessors?.some((p) => p.id === sectionId) ?? false)
+      );
       if (idx !== -1) {
         const newPage = Math.floor(idx / 5) + 1;
         setCurrentPage(newPage);
       }
     }
-  }, [sectionId, rankedSections]);
+  }, [sectionId, sidebarGroups]);
 
 
 
@@ -488,14 +495,14 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
             <button
               onClick={() => setHideFallback((v) => !v)}
               aria-pressed={hideFallback}
-              aria-label={`Toggle ${formatSemesterCode(UPCOMING_SEMESETER)} sections`}
+              aria-label={`Toggle ${formatSemesterCode(UPCOMING_SEMESTER)} sections`}
               className={`flex h-9 items-center justify-center rounded-full border px-4 text-[13px] font-semibold [transition:all_0.2s_ease] ${
                 hideFallback
                   ? "border-[--toggle-border,#e4e4e7] bg-fg text-card"
                   : "border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333]"
               }`}
             >
-              {formatSemesterCode(UPCOMING_SEMESETER)}
+              {formatSemesterCode(UPCOMING_SEMESTER)}
             </button>
           </div>
         </Col>
