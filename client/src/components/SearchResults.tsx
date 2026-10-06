@@ -44,7 +44,6 @@ const Results = React.memo(
     );
     const { sortField, sortDirection, filterField, filterMinValue } = sortFilter;
     const sortFilterRef = useRef(sortFilter);
-
     const { data: db } = useDb();
 
     // this is to get all of the other sections of the same class (for the side bar)

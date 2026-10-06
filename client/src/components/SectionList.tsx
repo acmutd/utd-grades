@@ -3,21 +3,31 @@ import type { Grades } from "@utd-grades/db";
 import { List, Popover, Spin } from "antd";
 import React, { ReactNode } from "react";
 import GradeDot from "./GradeDot";
+import HoverTip, { MEAN_TIP, MEDIAN_TIP, STUDENTS_TIP } from "./HoverTip";
 import { chipClassName } from "./chipClassName";
 
 interface IconTextProps {
   icon: ReactNode;
   child: ReactNode;
-  tooltip?: string | undefined;
+  tip?: { title: string; body: string } | undefined;
 }
 
-// Padding enlarges the tooltip's hover target; the negative margin cancels it so layout is unchanged.
-const IconText = ({ icon, child, tooltip }: IconTextProps) => (
-  <span title={tooltip} className={tooltip ? "-mx-2 -my-1 inline-block px-2 py-1" : undefined}>
-    <div className="text-description">{icon}</div>
-    {child}
-  </span>
-);
+const IconText = ({ icon, child, tip }: IconTextProps) => {
+  // Padding enlarges the tooltip's hover target; the negative margin cancels it so layout is unchanged.
+  const content = (
+    <span className={tip ? "-mx-2 -my-1 inline-block px-2 py-1" : undefined}>
+      <div className="text-description">{icon}</div>
+      {child}
+    </span>
+  );
+  return tip ? (
+    <HoverTip title={tip.title} body={tip.body}>
+      {content}
+    </HoverTip>
+  ) : (
+    content
+  );
+};
 
 interface SectionListProps {
   loading: boolean;
@@ -37,11 +47,14 @@ interface FilterGroups {
 
 function OutsideFilterSeparator({ restCount }: { restCount: number }) {
   return (
-    <li role="separator" className="relative list-none border-r border-border py-3">
-      <div className="absolute inset-x-0 top-1/2 h-px bg-description opacity-40" />
-      <span className="relative mx-auto block w-fit rounded-full bg-chip px-3 py-0.5 font-gilroy-semibold text-[12px] text-description shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
-        {restCount} outside filter
-      </span>
+    // Zero-height so it sits on the border between the last matching row and the first non-matching row.
+    <li role="separator" className="pointer-events-none relative z-10 h-0 list-none">
+      <div className="absolute inset-x-0 -top-px flex h-px items-center justify-center">
+        <div className="absolute inset-0 bg-description opacity-40" />
+        <span className="relative block w-fit rounded-full bg-chip px-3 py-0.5 font-gilroy-semibold text-[12px] text-description shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+          {restCount} outside filter
+        </span>
+      </div>
     </li>
   );
 }
@@ -140,13 +153,13 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage, 
                 actions={[
                   <IconText
                     icon={<UserOutlined />}
-                    tooltip="Total students, including W, P, CR, NC, I, and NF grades"
+                    tip={STUDENTS_TIP}
                     child={<span className="text-description">{item.totalStudents.toString()}</span>}
                     key="students-total"
                   />,
                   <IconText
                     icon={<BarChartOutlined />}
-                    tooltip="Mean GPA of students who received a letter grade"
+                    tip={MEAN_TIP}
                     child={
                       <span className="text-description">
                         {item.stats.mean === null ? "—" : item.stats.mean.toFixed(2)}
@@ -156,7 +169,7 @@ export function SectionList({ loading, id, data, onClick, error, page, setPage, 
                   />,
                   <IconText
                     icon={<GradeDot grade={item.stats.median} />}
-                    tooltip="Median grade of students who received a letter grade"
+                    tip={MEDIAN_TIP}
                     child={<span className="text-description">{item.stats.median ?? "—"}</span>}
                     key="median-grade"
                   />,

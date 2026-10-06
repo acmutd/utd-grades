@@ -1,31 +1,44 @@
-import { ArrowDownOutlined, ArrowUpOutlined, DownOutlined } from "@ant-design/icons";
+import { CaretDownOutlined, CaretUpOutlined, DownOutlined } from "@ant-design/icons";
+import type { LetterGrade } from "@utd-grades/db";
 import { Popover } from "antd";
-import React, { useState, type ReactNode } from "react";
-import { getFilterOption, getSortOption, type SortDirection, type SortFilterState } from "../utils/sectionMetrics";
+import React, { useState, type ReactElement, type ReactNode } from "react";
+import { getFilterOption, getSortOption, type SortFilterState } from "../utils/sectionMetrics";
 import GradeDot from "./GradeDot";
 import { chipClassName } from "./chipClassName";
 
 const MEDIAN_FILTER = getFilterOption("median")!;
-
-// The grade chip steps through these on each click, wrapping back to the start.
-const GRADE_SORT_CYCLE: { sortField: string; sortDirection: SortDirection }[] = [
-  { sortField: "mean", sortDirection: "DESC" },
-  { sortField: "mean", sortDirection: "ASC" },
-  { sortField: "median", sortDirection: "DESC" },
-  { sortField: "median", sortDirection: "ASC" },
-];
+const SORT_KEYS = ["mean", "median"] as const;
 
 interface SortFilterBarProps {
   value: SortFilterState;
   onChange: (patch: Partial<SortFilterState>) => void;
 }
 
-function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <div>
-      <h4 className="mb-2 mt-0 font-gilroy-bold text-[0.95rem] font-bold text-fg">{title}</h4>
-      <div className="flex flex-wrap gap-2">{children}</div>
-    </div>
+// Each sort button cycles: off → highest first → lowest first → off (back to the default order).
+function sortPatch(value: SortFilterState, key: string): Partial<SortFilterState> {
+  if (value.sortField !== key) return { sortField: key, sortDirection: "DESC" };
+  if (value.sortDirection === "DESC") return { sortDirection: "ASC" };
+  return { sortField: "recent", sortDirection: "DESC" };
+}
+
+function sortState(value: SortFilterState, key: string): "DESC" | "ASC" | null {
+  return value.sortField === key ? value.sortDirection : null;
+}
+
+function selectedThreshold(value: SortFilterState) {
+  return value.filterField === MEDIAN_FILTER.key
+    ? MEDIAN_FILTER.thresholds.find((t) => t.minValue === value.filterMinValue)
+    : undefined;
+}
+
+const CLEAR_FILTER: Partial<SortFilterState> = { filterField: undefined, filterMinValue: undefined };
+
+// Always rendered (invisible when off) so toggling a sort doesn't change the button's width.
+function SortArrow({ state }: { state: "DESC" | "ASC" | null }) {
+  return state === "ASC" ? (
+    <CaretUpOutlined />
+  ) : (
+    <CaretDownOutlined className={state === null ? "invisible" : ""} />
   );
 }
 
@@ -43,26 +56,22 @@ function MenuItem({ selected, onClick, children }: { selected: boolean; onClick:
   );
 }
 
-function MedianFilterDropdown({ value, onChange }: SortFilterBarProps) {
-  const [open, setOpen] = useState(false);
-  const selectedMin = value.filterField === MEDIAN_FILTER.key ? value.filterMinValue : undefined;
-  const selectedGrade = MEDIAN_FILTER.thresholds.find((t) => t.minValue === selectedMin)?.grade;
-
-  const select = (patch: Partial<SortFilterState>) => {
+function GradeMenu({ value, onChange, onPick }: SortFilterBarProps & { onPick: () => void }) {
+  const current = selectedThreshold(value);
+  const pick = (patch: Partial<SortFilterState>) => {
     onChange(patch);
-    setOpen(false);
+    onPick();
   };
-
-  const menu = (
-    <div className="flex max-h-[260px] min-w-[160px] flex-col overflow-y-auto">
-      <MenuItem selected={selectedMin === undefined} onClick={() => select({ filterField: undefined, filterMinValue: undefined })}>
-        Any median grade
+  return (
+    <div className="flex max-h-[260px] min-w-[150px] flex-col overflow-y-auto">
+      <MenuItem selected={current === undefined} onClick={() => pick(CLEAR_FILTER)}>
+        Any grade
       </MenuItem>
       {MEDIAN_FILTER.thresholds.map((t) => (
         <MenuItem
           key={t.minValue}
-          selected={selectedMin === t.minValue}
-          onClick={() => select({ filterField: MEDIAN_FILTER.key, filterMinValue: t.minValue })}
+          selected={current === t}
+          onClick={() => pick({ filterField: MEDIAN_FILTER.key, filterMinValue: t.minValue })}
         >
           <GradeDot grade={t.grade} />
           {t.label}
@@ -70,70 +79,85 @@ function MedianFilterDropdown({ value, onChange }: SortFilterBarProps) {
       ))}
     </div>
   );
+}
 
+interface GradeDropdownProps extends SortFilterBarProps {
+  renderTrigger: (grade: LetterGrade | undefined) => ReactElement;
+}
+
+function GradeDropdown({ value, onChange, renderTrigger }: GradeDropdownProps) {
+  const [open, setOpen] = useState(false);
   return (
     <Popover
-      content={menu}
       trigger="click"
       placement="bottomLeft"
-      open={open}
-      onOpenChange={setOpen}
       showArrow={false}
       overlayInnerStyle={{ backgroundColor: "var(--card-bg)" }}
+      open={open}
+      onOpenChange={setOpen}
+      content={<GradeMenu value={value} onChange={onChange} onPick={() => setOpen(false)} />}
     >
-      <button type="button" aria-expanded={open} className={chipClassName(selectedGrade !== undefined)}>
-        {selectedGrade ? (
-          <>
-            <GradeDot grade={selectedGrade} />
-            {selectedGrade} or higher
-          </>
-        ) : (
-          "Any median grade"
-        )}
-        <DownOutlined className="text-[10px] text-description" />
-      </button>
+      {renderTrigger(selectedThreshold(value)?.grade)}
     </Popover>
   );
 }
 
-function GradeSortChip({ value, onChange }: SortFilterBarProps) {
-  const stage = GRADE_SORT_CYCLE.findIndex(
-    (s) => s.sortField === value.sortField && s.sortDirection === value.sortDirection
-  );
-  const active = stage !== -1;
-  const next = GRADE_SORT_CYCLE[(stage + 1) % GRADE_SORT_CYCLE.length]!;
+const TRIGGER_LABELS: (LetterGrade | undefined)[] = [undefined, ...MEDIAN_FILTER.thresholds.map((t) => t.grade)];
 
+// forwardRef so antd's Popover can attach to the underlying button.
+const GradeChipTrigger = React.forwardRef<
+  HTMLButtonElement,
+  { grade: LetterGrade | undefined } & React.ButtonHTMLAttributes<HTMLButtonElement>
+>(function GradeChipTrigger({ grade, ...rest }, ref) {
   return (
-    <button
-      type="button"
-      aria-pressed={active}
-      title="Click to cycle: Mean GPA ↓, Mean GPA ↑, Median Grade ↓, Median Grade ↑"
-      onClick={() => onChange(next)}
-      className={chipClassName(active)}
-    >
-      {getSortOption(active ? value.sortField : "mean").label}
-      {active && (value.sortDirection === "ASC" ? <ArrowUpOutlined /> : <ArrowDownOutlined />)}
+    <button ref={ref} type="button" {...rest} className={chipClassName(grade !== undefined)}>
+      {/* Every label is stacked in one grid cell (only the current one visible) so the chip is always as wide as the widest. */}
+      <span className="inline-grid">
+        {TRIGGER_LABELS.map((label) => (
+          <span
+            key={label ?? "any"}
+            className={`col-start-1 row-start-1 inline-flex items-center gap-1.5 ${label === grade ? "" : "invisible"}`}
+          >
+            {label ? (
+              <>
+                <GradeDot grade={label} />
+                {label} or higher
+              </>
+            ) : (
+              "Any grade"
+            )}
+          </span>
+        ))}
+      </span>
+      <DownOutlined className="text-[10px] text-description" />
     </button>
   );
-}
+});
 
-export default function SortFilterBar({ value, onChange }: SortFilterBarProps) {
+export default function SortFilterBar(props: SortFilterBarProps) {
+  const { value, onChange } = props;
   return (
-    <div className="flex flex-col gap-3 border-b border-r border-border px-[25px] py-4">
-      <Section title="Sort by">
-        <button
-          type="button"
-          aria-pressed={value.sortField === "recent"}
-          onClick={() => onChange({ sortField: "recent" })}
-          className={chipClassName(value.sortField === "recent")}
-        >
-          {getSortOption("recent").label}
-        </button>
-        <GradeSortChip value={value} onChange={onChange} />
-      </Section>
-      <Section title="Filter by">
-        <MedianFilterDropdown value={value} onChange={onChange} />
-      </Section>
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-r border-border px-[25px] py-4">
+      <div role="group" aria-label="Sort" className="inline-flex rounded bg-chip shadow-[0_2px_6px_1px_rgba(0,0,0,0.16)]">
+        {SORT_KEYS.map((key, i) => {
+          const state = sortState(value, key);
+          return (
+            <button
+              key={key}
+              type="button"
+              aria-pressed={state !== null}
+              onClick={() => onChange(sortPatch(value, key))}
+              className={`inline-flex cursor-pointer items-center gap-1.5 bg-transparent px-2 py-[0.3rem] font-gilroy-regular text-[13px] font-medium text-fg first:rounded-l last:rounded-r hover:bg-chip-hover ${
+                i > 0 ? "border-l border-border" : ""
+              } ${state !== null ? "shadow-[inset_0_-3px_0_var(--select-tag)]" : ""}`}
+            >
+              {getSortOption(key).label}
+              <SortArrow state={state} />
+            </button>
+          );
+        })}
+      </div>
+      <GradeDropdown {...props} renderTrigger={(grade) => <GradeChipTrigger grade={grade} />} />
     </div>
   );
 }

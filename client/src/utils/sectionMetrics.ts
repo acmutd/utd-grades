@@ -64,9 +64,8 @@ export function getFilterOption(key: string | undefined): FilterOption | undefin
 }
 
 export function describeFilter(filterField: string, minValue: number): string {
-  const option = getFilterOption(filterField);
-  const threshold = option?.thresholds.find((t) => t.minValue === minValue);
-  return `${option?.label ?? filterField} ${threshold?.label ?? `${minValue} or higher`}`;
+  const threshold = getFilterOption(filterField)?.thresholds.find((t) => t.minValue === minValue);
+  return threshold?.label ?? `${minValue} or higher`;
 }
 
 export interface SortFilterState {
