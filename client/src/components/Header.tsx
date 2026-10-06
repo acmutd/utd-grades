@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Router from "next/router";
+import Link from "next/link";
 import React, { useEffect, useState, type ReactNode } from "react";
 
 const SunIcon = () => (
@@ -43,26 +43,22 @@ export default function Header({ center }: { center: ReactNode }) {
     }
   }, [theme]);
 
-  function goHome() {
-    (async function () {
-      await Router.push("/");
-    })();
-  }
-
   return (
     <header className="grid w-full grid-cols-[1fr_minmax(0,520px)_1fr] items-center gap-x-6 px-[30px] pb-[30px] pt-5 max-992:grid-cols-[1fr_auto] max-992:gap-y-4">
-      <a href="#" onClick={goHome} className="block justify-self-start">
-        <h2 className="mb-0 flex items-center gap-2 text-[27px] font-light tracking-[2px] text-header">
-          <Image
-            src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
-            alt="ACM Dev Logo"
-            width={56}
-            height={56}
-          />
-          <span className="font-gilroy-bold font-bold">UTD</span>{" "}
-          <span className="font-gilroy-light">GRADES</span>
-        </h2>
-      </a>
+      <Link href="/">
+        <a className="block justify-self-start">
+          <h2 className="mb-0 flex items-center gap-2 text-[27px] font-light tracking-[2px] text-header">
+            <Image
+              src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
+              alt="ACM Dev Logo"
+              width={56}
+              height={56}
+            />
+            <span className="font-gilroy-bold font-bold">UTD</span>{" "}
+            <span className="font-gilroy-light">GRADES</span>
+          </h2>
+        </a>
+      </Link>
       <div className="max-992:col-span-2 max-992:row-start-2">{center}</div>
       <button
         onClick={toggleTheme}
