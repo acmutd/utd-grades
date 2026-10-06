@@ -8,14 +8,30 @@ import {
   ChartOptions,
   LinearScale,
   Tooltip as ChartTooltip,
+  type Plugin,
 } from "chart.js";
 import Image from "next/image";
 import React, { useCallback, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
+import SectionStats from "./SectionStats";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
+
+// Canvas tooltips have no shadow option; this adds the HoverTip shadow while the tooltip draws.
+const tooltipShadow: Plugin<"bar"> = {
+  id: "tooltipShadow",
+  beforeTooltipDraw: ({ ctx }) => {
+    ctx.save();
+    ctx.shadowColor = "rgba(0, 0, 0, 0.25)";
+    ctx.shadowBlur = 12;
+    ctx.shadowOffsetY = 4;
+  },
+  afterTooltipDraw: ({ ctx }) => {
+    ctx.restore();
+  },
+};
 
 interface SectionContentProps {
   section: Grades;
@@ -61,8 +77,8 @@ const SectionContent = React.memo(function SectionContent({
     datasets: [{ backgroundColor: getColors(keys), data: values }],
   };
 
-// READ: I had to hardcode the colors to a color in between light and dark mode here because using CSS variables in ChartJS options was not working properly. If someone has a better solution, please help.
-const options: ChartOptions<"bar"> = {
+  // READ: I had to hardcode the colors to a color in between light and dark mode here because using CSS variables in ChartJS options was not working properly. If someone has a better solution, please help.
+  const options: ChartOptions<"bar"> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -70,6 +86,18 @@ const options: ChartOptions<"bar"> = {
         enabled: true,
         mode: "nearest",
         intersect: true,
+        // Matches HoverTip.
+        backgroundColor: "#1f1f1f",
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        titleFont: { family: "Gilroy-SemiBold", size: 12, weight: "normal", lineHeight: 1.375 },
+        bodyFont: { family: "Gilroy-Regular", size: 12, lineHeight: 1.375 },
+        titleMarginBottom: 0,
+        bodySpacing: 0,
+        padding: { top: 6, bottom: 6, left: 10, right: 10 },
+        cornerRadius: 6,
+        caretSize: 5,
+        displayColors: false,
         callbacks: {
           label: (context) => {
             const count = context.parsed.y;
@@ -103,17 +131,16 @@ const options: ChartOptions<"bar"> = {
     },
   };
 
-  // FIXME (median)
-  // const averageLetter = getLetterGrade(section.average);
-
   return (
     <div className="flex h-screen flex-col bg-card pb-[50px] pt-5 max-992:h-auto max-992:px-[25px] min-992:px-[50px]">
-      <div className="mb-4 flex min-w-0 flex-shrink-0 flex-col first:flex-1">
+      <div className="mb-4 flex min-w-0 flex-shrink-0 flex-col">
         <div className="flex flex-row items-start justify-between max-992:flex-wrap max-992:gap-4">
           <div className="flex min-w-0 flex-shrink-0 flex-col first:flex-1">
             <h3 className="mb-0 mt-0 font-gilroy-bold text-[48px] text-fg">
               {section.subject} {section.catalogNumber}
-              <span className="font-gilroy-regular font-normal text-[#c7c7c7]">.{section.section}</span>
+              <span className="font-gilroy-regular font-normal text-[#c7c7c7]">
+                .{section.section}
+              </span>
             </h3>
             {section.courseName ? (
               <h5 className="mb-0 mt-[0.2rem] break-words font-gilroy-semibold text-[22px] font-semibold text-muted max-992:text-[18px]">
@@ -155,15 +182,20 @@ const options: ChartOptions<"bar"> = {
             </Row>
           </div>
         </div>
-        <h5 className="mb-0 mt-0 font-gilroy-semibold text-[18px] font-semibold text-muted">
-          Total Students <span className="text-fg">{section.totalStudents}</span>
-        </h5>
       </div>
 
       <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
-          <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
-            <Bar options={{ ...options, responsive: true, maintainAspectRatio: false }} data={data} />
+          <div className="w-full bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
+            {/* Height limits are the old card's limits minus the padding now on the wrapper, so the chart keeps its size. */}
+            <div className="min-h-[210px] w-full max-h-[360px] max-992:h-[calc(30vh_-_20px)] max-992:max-h-[280px] max-992:min-h-[180px] max-992:flex-none">
+              <Bar
+                options={{ ...options, responsive: true, maintainAspectRatio: false }}
+                data={data}
+                plugins={[tooltipShadow]}
+              />
+            </div>
+            <SectionStats section={section} />
           </div>
         </Col>
       </Row>
@@ -180,7 +212,9 @@ const options: ChartOptions<"bar"> = {
               onMouseLeave={handleMouseLeave}
               ref={rmpLinkRef}
               className={`mb-2 inline-flex items-center gap-2 font-gilroy-bold text-[1.15rem] font-bold !text-fg !no-underline [transition:color_0.2s_ease] hover:!text-muted max-768:text-[0.8rem] ${
-                instructor?.url && instructor.url !== "#" ? "border-b border-b-rmp-underline" : "border-b-0"
+                instructor?.url && instructor.url !== "#"
+                  ? "border-b border-b-rmp-underline"
+                  : "border-b-0"
               }`}
             >
               Professor Details
@@ -207,7 +241,13 @@ const options: ChartOptions<"bar"> = {
                     }}
                   >
                     See more on
-                    <Image src="/rmp-logo.png" alt="Rate My Professor Logo" width={88} height={18} style={{ height: "1.1rem" }} />
+                    <Image
+                      src="/rmp-logo.png"
+                      alt="Rate My Professor Logo"
+                      width={88}
+                      height={18}
+                      style={{ height: "1.1rem" }}
+                    />
                   </div>
                   <div
                     style={{

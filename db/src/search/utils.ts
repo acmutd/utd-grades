@@ -1,7 +1,10 @@
 import type { RMPInstructor } from "@utd-grades/db";
 import type { ParamsObject } from "sql.js";
-import type { Grades, Season } from "../types/Grades";
+import { GPA_POINTS, LETTER_GRADES } from "../types/Grades";
+import type { Grades, LetterGrade, Season } from "../types/Grades";
 
+// "Graded" buckets (includeNonGraded = false) are returned in the same order as
+// LETTER_GRADES (A+ through F) so they can be zipped against it directly.
 function getGrades(row: ParamsObject, includeNonGraded: boolean): number[] {
   const ret = [
     row["aPlus"],
@@ -16,6 +19,7 @@ function getGrades(row: ParamsObject, includeNonGraded: boolean): number[] {
     row["dPlus"],
     row["d"],
     row["dMinus"],
+    row["f"],
   ];
   if (includeNonGraded) {
     ret.push(row["cr"], row["nc"], row["p"], row["w"], row["i"], row["nf"]);
@@ -23,13 +27,49 @@ function getGrades(row: ParamsObject, includeNonGraded: boolean): number[] {
   return ret as number[];
 }
 
+function getGradedCounts(row: ParamsObject): [LetterGrade, number][] {
+  return zip([...LETTER_GRADES], getGrades(row, false));
+}
+
+function getMeanGpa(row: ParamsObject): number | null {
+  let totalGraded = 0;
+  let totalPoints = 0;
+
+  for (const [letter, count] of getGradedCounts(row)) {
+    totalGraded += count;
+    totalPoints += GPA_POINTS[letter] * count;
+  }
+
+  return totalGraded === 0 ? null : totalPoints / totalGraded;
+}
+
+function getMedianGrade(row: ParamsObject): LetterGrade | null {
+  const gradedCounts = getGradedCounts(row);
+  const totalGraded = gradedCounts.reduce((acc, [, count]) => acc + count, 0);
+  if (totalGraded === 0) return null;
+
+  // Walk from F (lowest) up to A+ (highest) so a tie between two buckets resolves to the
+  // lower one -- the standard "lower median" convention for ordinal/bucketed data.
+  const target = Math.ceil(totalGraded / 2);
+  let cumulative = 0;
+  for (let i = gradedCounts.length - 1; i >= 0; i--) {
+    const [letter, count] = gradedCounts[i]!;
+    cumulative += count;
+    if (cumulative >= target) return letter;
+  }
+
+  return null; // unreachable: cumulative reaches totalGraded, which is >= target
+}
+
 // The percents are based on the Grade Points per Semester Hour (see https://catalog.utdallas.edu/now/undergraduate/policies/academic)
 // For example, earning an A yields 4 out of 4 possible grade points, so it corresponds to 100%
 // For example, earning a C+ yields 2.330 out of 4 possible grade points, so it corresponds to 58.25%
 function getAverage(row: ParamsObject): number {
   // FIXME: we currently don't include F here. I feel like we should, but technically you didn't earn a grade if you got an F? not sure
+  // RESOLVED (2026-09-22): F is now included below. This also fixes getTotalStudents(), which relies on the same getGrades() buckets
+  // and was silently undercounting anyone who received an F. getTotalStudents() was incorrect for over 4 years.
   const percentOfGradePoints = [
-    1, 1, 0.9175, 0.8325, 0.75, 0.6675, 0.5825, 0.5, 0.4175, 0.3325, 0.25, 0.1675,
+    1, 1, 0.9175, 0.8325, 0.75, 0.6675, 0.5825, 0.5, 0.4175, 0.3325, 0.25, 0.1675, 0,
   ];
   const grades = getGrades(row, false);
 
@@ -98,6 +138,10 @@ export function rowToGrades(row: ParamsObject): Grades | null {
 
     totalStudents: getTotalStudents(row),
     average: getAverage(row),
+    stats: {
+      mean: getMeanGpa(row),
+      median: getMedianGrade(row),
+    },
   };
 }
 

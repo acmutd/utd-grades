@@ -87,7 +87,7 @@ export default function Home() {
         <button
           onClick={toggleTheme}
           aria-label="Toggle Dark Mode"
-          className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg [transition:all_0.2s_ease] hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333] [@media(prefers-color-scheme:light)]:border-white/10 [@media(prefers-color-scheme:light)]:bg-white/5 [@media(prefers-color-scheme:light)]:hover:bg-white/10 [@media(prefers-color-scheme:light)]:hover:text-[#727272]"
+          className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-[var(--toggle-border)] bg-[var(--toggle-bg)] text-fg [transition:all_0.2s_ease] hover:bg-[var(--toggle-hover-bg)] hover:text-[#727272]"
         >
           {theme === "dark" ? <SunIcon /> : <MoonIcon />}
         </button>
@@ -118,7 +118,7 @@ export default function Home() {
                 See how students did in any given class. And it&apos;s <strong>free, forever.</strong>
               </p>
             </FadeIn>
-            <Search onSubmit={handleSubmit} showSage={false} />
+            <Search onSubmit={handleSubmit} />
           </Col>
         </div>
       </div>

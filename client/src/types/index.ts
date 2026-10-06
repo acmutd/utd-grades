@@ -2,6 +2,8 @@ export interface SearchQuery {
   search: string;
   sortField?: string;
   sortDirection?: "ASC" | "DESC";
+  filterField?: string;
+  filterMinValue?: number;
 }
 
 export interface UserFriendlyGrades {
