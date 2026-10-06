@@ -21,10 +21,11 @@ import {
 } from "../utils/sectionMetrics";
 import { useDb } from "../utils/useDb";
 import { useSortAndFilter } from "../utils/useSortAndFilter";
+import Header from "./Header";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
 import { SectionList } from "./SectionList";
-import SortFilterBar from "./SortFilterBar";
+import SectionListToolbar from "./SectionListToolbar";
 
 interface ResultsProps {
   search: string;
@@ -446,25 +447,22 @@ const Results = React.memo(
 
     return (
       <div className="relative block">
-        <Row>
-          <Col
-            lg={{ span: 8, offset: 8 }}
-            sm={{ span: 18, offset: 3 }}
-            xs={{ span: 20, offset: 2 }}
-          >
-            <Search onSubmit={handleSubmit} initialSearchValue={search} showSage={true} />
-          </Col>
-        </Row>
+        <Header center={<Search onSubmit={handleSubmit} initialSearchValue={search} compact />} />
 
         <Row>
           <Col
             lg={{ span: 20, offset: 2 }}
             xs={{ span: 24, offset: 0 }}
-            className="results-container mt-[35px] rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
+            className="results-container rounded-[5px] border border-border bg-card pb-5 text-fg max-992:shadow-none min-992:shadow-[0_4px_12px_rgba(0,0,0,0.15)]"
           >
             <Row>
               <Col lg={6} xs={24}>
-                <SortFilterBar value={sortFilter} onChange={handleSortFilterChange} />
+                <SectionListToolbar
+                  value={sortFilter}
+                  onChange={handleSortFilterChange}
+                  total={displaySections?.length ?? 0}
+                  matchCount={filterGroups?.matchCount}
+                />
                 <SectionList
                   data={displaySections}
                   filterGroups={filterGroups}

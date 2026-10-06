@@ -90,6 +90,9 @@
   --rmp-link-underline: #333333;
   --chip-bg: #444444;
   --chip-hover-bg: #505050;
+  --toggle-border: rgba(255, 255, 255, 0.1);
+  --toggle-bg: rgba(255, 255, 255, 0.05);
+  --toggle-hover-bg: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="light"] {
@@ -113,6 +116,9 @@
   
   --chip-bg: #ffffff;
   --chip-hover-bg: #e6e6e9;
+  --toggle-border: rgba(0, 0, 0, 0.1);
+  --toggle-bg: rgba(0, 0, 0, 0.05);
+  --toggle-hover-bg: rgba(0, 0, 0, 0.1);
 }
 
 html,
@@ -165,6 +171,13 @@ body {
 /* Deep Ant Design internal-DOM overrides that don't map to a single element's own
    Tailwind className. Everything else in the app is styled with Tailwind utilities
    directly in JSX; these four classes are the pragmatic escape hatch. */
+
+/* AutoComplete wraps the search input in an antd select whose hover/focus rules add a 1px blue right border
+   (drawn only because of the global border-style reset above), which also nudges the bar 1px. The input
+   group below draws the search bar's real outline. */
+.ant-select-auto-complete .ant-select-selector {
+  border: none !important;
+}
 
 .search-input-dark .ant-input-group {
   border-radius: 20px;

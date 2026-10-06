@@ -1,17 +1,9 @@
-import { HomeOutlined } from "@ant-design/icons";
-import { Button, Row } from "antd";
 import Image from "next/image";
 import Router from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, type ReactNode } from "react";
 
 const SunIcon = () => (
-  <svg
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-    className="h-4 w-4"
-  >
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="h-4 w-4">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -21,13 +13,7 @@ const SunIcon = () => (
 );
 
 const MoonIcon = () => (
-  <svg
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-    className="h-4 w-4"
-  >
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="h-4 w-4">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -36,12 +22,7 @@ const MoonIcon = () => (
   </svg>
 );
 
-const Logo = {
-  height: "36px",
-  width: "36px",
-};
-
-export default function Header() {
+export default function Header({ center }: { center: ReactNode }) {
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     if (typeof window === "undefined") return "light";
     const saved = localStorage.getItem("theme");
@@ -50,8 +31,8 @@ export default function Header() {
   });
 
   const toggleTheme = () => {
-      setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
-    };
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+  };
 
   useEffect(() => {
     try {
@@ -69,39 +50,27 @@ export default function Header() {
   }
 
   return (
-    <Row className="flex w-full items-center justify-between p-[30px]">
-      <Button
-        onClick={goHome}
-        type="ghost"
-        icon={<HomeOutlined />}
-        shape="circle"
-        size="large"
-        className="header-back-btn"
-      />
-      <a
-        href="#"
-        onClick={goHome}
-        className="absolute left-1/2 block -translate-x-1/2"
-      >
-        <h2 className="mb-0 flex items-center gap-2 text-[24px] font-light tracking-[2px] text-header">
+    <header className="grid w-full grid-cols-[1fr_minmax(0,520px)_1fr] items-center gap-x-6 px-[30px] pb-[30px] pt-5 max-992:grid-cols-[1fr_auto] max-992:gap-y-4">
+      <a href="#" onClick={goHome} className="block justify-self-start">
+        <h2 className="mb-0 flex items-center gap-2 text-[27px] font-light tracking-[2px] text-header">
           <Image
             src={theme === "light" ? "/ACMDev-logo.svg" : "/ACMDev-logo-white.svg"}
             alt="ACM Dev Logo"
-            width={24}
-            height={24}
-            style={Logo}
+            width={56}
+            height={56}
           />
           <span className="font-gilroy-bold font-bold">UTD</span>{" "}
           <span className="font-gilroy-light">GRADES</span>
         </h2>
       </a>
+      <div className="max-992:col-span-2 max-992:row-start-2">{center}</div>
       <button
         onClick={toggleTheme}
         aria-label="Toggle Dark Mode"
-        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-[--toggle-border,#e4e4e7] bg-[--toggle-bg] text-fg [transition:all_0.2s_ease] hover:bg-[--toggle-hover-bg] hover:text-[--toggle-hover-color,#333333] [@media(prefers-color-scheme:light)]:border-white/10 [@media(prefers-color-scheme:light)]:bg-white/5 [@media(prefers-color-scheme:light)]:hover:bg-white/10 [@media(prefers-color-scheme:light)]:hover:text-[#727272]"
+        className="flex h-9 w-9 justify-self-end items-center justify-center rounded-full border border-[var(--toggle-border)] bg-[var(--toggle-bg)] text-fg [transition:all_0.2s_ease] hover:bg-[var(--toggle-hover-bg)] hover:text-[#727272]"
       >
         {theme === "dark" ? <SunIcon /> : <MoonIcon />}
       </button>
-    </Row>
+    </header>
   );
 }

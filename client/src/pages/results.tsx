@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
 import Core from "../components/Core";
-import Header from "../components/Header";
 import SearchResults from "../components/SearchResults";
 
 export default function ResultsPage() {
@@ -16,9 +15,8 @@ export default function ResultsPage() {
   // https://github.com/zeit/next.js/issues/8259
   if (router.asPath !== router.route) {
     return (
-      <Core showSageAd={false}>
+      <Core showSageAd={true}>
         <div className="flex w-full flex-col">
-          <Header />
           <SearchResults search={search} sectionId={parseInt(sectionId)} router={router} />
         </div>
       </Core>

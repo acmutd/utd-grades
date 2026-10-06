@@ -15,7 +15,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
 import { extractGrades, getColors } from "../utils";
-import SectionStatsCard from "./SectionStatsCard";
+import SectionStats from "./SectionStats";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
 
@@ -186,17 +186,19 @@ const SectionContent = React.memo(function SectionContent({
 
       <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
-          <div className="min-h-[250px] w-full max-h-[400px] bg-card max-992:max-h-[300px] max-992:min-h-[200px] max-992:flex-none max-992:h-[30vh] max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
-            <Bar
-              options={{ ...options, responsive: true, maintainAspectRatio: false }}
-              data={data}
-              plugins={[tooltipShadow]}
-            />
+          <div className="w-full bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
+            {/* Height limits are the old card's limits minus the padding now on the wrapper, so the chart keeps its size. */}
+            <div className="min-h-[210px] w-full max-h-[360px] max-992:h-[calc(30vh_-_20px)] max-992:max-h-[280px] max-992:min-h-[180px] max-992:flex-none">
+              <Bar
+                options={{ ...options, responsive: true, maintainAspectRatio: false }}
+                data={data}
+                plugins={[tooltipShadow]}
+              />
+            </div>
+            <SectionStats section={section} />
           </div>
         </Col>
       </Row>
-
-      <SectionStatsCard section={section} />
 
       <div className="mt-4 w-full flex-shrink-0 bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
         <Row gutter={[16, 4]}>

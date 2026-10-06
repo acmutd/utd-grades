@@ -14,13 +14,14 @@ interface HoverTipProps {
 }
 
 // Same style as the grade distribution chart's tooltip (see SectionContent's chart options).
+// display:none (not visibility:hidden) while idle: hidden-but-laid-out tooltips near the right edge widen the page on mobile.
 export default function HoverTip({ title, body, children }: HoverTipProps) {
   return (
     <span className="group relative inline-block">
       {children}
       <span
         role="tooltip"
-        className="pointer-events-none invisible absolute bottom-full left-0 z-50 mb-2 w-max max-w-[230px] rounded-md bg-[#1f1f1f] px-2.5 py-1.5 text-left font-gilroy-regular text-[12px] leading-snug text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)] group-hover:visible"
+        className="pointer-events-none absolute bottom-full left-0 z-50 mb-2 hidden w-max max-w-[230px] rounded-md bg-[#1f1f1f] px-2.5 py-1.5 text-left font-gilroy-regular text-[12px] leading-snug text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)] group-hover:block"
       >
         <span className="block font-gilroy-semibold">{title}</span>
         {body}
