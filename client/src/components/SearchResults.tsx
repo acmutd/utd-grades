@@ -459,7 +459,7 @@ const Results = React.memo(function Results({ search, sectionId, router }: Resul
     <div className="relative block">
       <Row>
         <Col lg={{ span: 8, offset: 8 }} sm={{ span: 18, offset: 3 }} xs={{ span: 20, offset: 2 }}>
-          <Search onSubmit={handleSubmit} initialSearchValue={search} showSage={true} />
+          <Search onSubmit={handleSubmit} initialSearchValue={search} showAds={true} />
         </Col>
       </Row>
 
