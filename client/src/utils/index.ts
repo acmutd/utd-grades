@@ -1,14 +1,5 @@
-import type { Grades, Season, Semester } from "@utd-grades/db";
+import type { Grades, Semester } from "@utd-grades/db";
 import type { UserFriendlyGrades } from "../types";
-
-// Bump this each time a new semester's (fallback-only) sections get added.
-export const UPCOMING_SEMESTER: Semester = { season: "Spring", year: 2026 };
-
-const SEASON_CODE: Record<Season, string> = { Spring: "S", Summer: "U", Fall: "F" };
-
-export function formatSemesterCode(semester: Semester): string {
-  return `${semester.year % 100}${SEASON_CODE[semester.season]}`;
-}
 
 export function isSameSemester(a: Semester, b: Semester): boolean {
   return a.season === b.season && a.year === b.year;
@@ -18,9 +9,9 @@ export function isSameCourse(a: Pick<Grades, "subject" | "catalogNumber">, b: Pi
   return a.subject === b.subject && a.catalogNumber === b.catalogNumber;
 }
 
-// Sections in the upcoming semester haven't been graded yet (no students recorded).
-export function isUpcomingSection(section: Grades): boolean {
-  return section.totalStudents === 0 && isSameSemester(section.semester, UPCOMING_SEMESTER);
+// `upcoming` is GradesDatabase.upcomingSemester: next semester's schedule, whose sections have no grades yet.
+export function isUpcomingSection(section: Grades, upcoming: Semester | null): boolean {
+  return upcoming !== null && section.totalStudents === 0 && isSameSemester(section.semester, upcoming);
 }
 
 export function getLetterGrade(grade: number): keyof UserFriendlyGrades {
@@ -279,10 +270,14 @@ export function compareSectionRecency(
   );
 }
 
-export function getFallbackSection(target: Grades, candidates: Grades[]): Grades | undefined {
-  if (target.totalStudents > 0) return undefined;
+// For an upcoming (ungraded) section, the same professor's most recent graded section of the same course.
+export function getFallbackSection(
+  target: Grades,
+  candidates: Grades[],
+  upcoming: Semester | null
+): Grades | undefined {
+  if (!isUpcomingSection(target, upcoming)) return undefined;
   if (!target.instructor1NetId) return undefined;
-  if (!isSameSemester(target.semester, UPCOMING_SEMESTER)) return undefined;
 
   return candidates
     .filter(
@@ -293,48 +288,4 @@ export function getFallbackSection(target: Grades, candidates: Grades[]): Grades
         s.instructor1NetId === target.instructor1NetId
     )
     .sort(compareSectionRecency)[0];
-}
-
-export interface FallbackProfessor {
-  id: number;
-  name: string;
-}
-
-export type SidebarSection = Grades & { fallbackProfessors?: FallbackProfessor[] };
-
-export function groupSidebarSections(data: Grades[]): SidebarSection[] {
-  const result: SidebarSection[] = [];
-  const groupIndexByCourse = new Map<string, number>();
-  const seenProfKeysByCourse = new Map<string, Set<string>>();
-
-  for (const item of data) {
-    const isUpcomingFallback =
-      item.totalStudents === 0 && isSameSemester(item.semester, UPCOMING_SEMESTER);
-
-    if (!isUpcomingFallback) {
-      result.push(item);
-      continue;
-    }
-
-    const courseKey = `${item.subject}|${item.catalogNumber}`;
-    const profName = item.instructor1
-      ? `${item.instructor1.last}, ${item.instructor1.first}`
-      : "Staff";
-    const profKey = item.instructor1NetId ?? `id:${item.id}`;
-    const existingIndex = groupIndexByCourse.get(courseKey);
-
-    if (existingIndex === undefined) {
-      groupIndexByCourse.set(courseKey, result.length);
-      seenProfKeysByCourse.set(courseKey, new Set([profKey]));
-      result.push({ ...item, fallbackProfessors: [{ id: item.id, name: profName }] });
-    } else {
-      const seenProfKeys = seenProfKeysByCourse.get(courseKey)!;
-      if (!seenProfKeys.has(profKey)) {
-        seenProfKeys.add(profKey);
-        result[existingIndex]!.fallbackProfessors!.push({ id: item.id, name: profName });
-      }
-    }
-  }
-
-  return result;
 }

@@ -17,6 +17,13 @@ beforeAll(async () => {
   await initCon();
 });
 
+describe("Upcoming semester", () => {
+  test("Should detect the newest semester with no recorded students as upcoming", () => {
+    // raw_data's newest file is Spring 2026's schedule, which has no grades yet.
+    expect(db.upcomingSemester).toEqual({ season: "Spring", year: 2026 });
+  });
+});
+
 describe("Test sample queries", () => {
   test("Should search by course prefix and number", () => {
     const queries = [

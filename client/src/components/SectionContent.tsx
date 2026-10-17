@@ -14,7 +14,8 @@ import Image from "next/image";
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
-import { extractGrades, getColors, getFallbackSection, isSameSemester, UPCOMING_SEMESTER } from "../utils";
+import { extractGrades, getColors, getFallbackSection, isUpcomingSection } from "../utils";
+import { useDb } from "../utils/useDb";
 import SectionStats from "./SectionStats";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
@@ -69,13 +70,16 @@ const SectionContent = React.memo(function SectionContent({
   const handleMouseEnter = useCallback(() => setHovered("rmpLink"), []);
   const handleMouseLeave = useCallback(() => setHovered(null), []);
 
+  const { data: db } = useDb();
+  const upcomingSemester = db?.upcomingSemester ?? null;
+
   // Upcoming-semester sections have no grades yet; show the professor's most recent graded section of this course.
   const fallbackSection = useMemo(
-    () => getFallbackSection(section, relatedSections ?? []),
-    [section, relatedSections]
+    () => getFallbackSection(section, relatedSections ?? [], upcomingSemester),
+    [section, relatedSections, upcomingSemester]
   );
   const gradesSection = fallbackSection ?? section;
-  const isFallbackCase = section.totalStudents === 0 && isSameSemester(section.semester, UPCOMING_SEMESTER);
+  const isFallbackCase = isUpcomingSection(section, upcomingSemester);
   const neverTaught = isFallbackCase && !fallbackSection;
 
   const grades = extractGrades(gradesSection);
