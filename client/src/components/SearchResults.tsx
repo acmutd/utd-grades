@@ -240,6 +240,17 @@ const Results = React.memo(
           }
         }
 
+        if (!foundInstructor && section.instructor1NetId) {
+          const netIdInstructor = db.getInstructorByNetId(section.instructor1NetId);
+          if (netIdInstructor) {
+            foundInstructor = netIdInstructor;
+            foundRating = db.getCourseRating(
+              netIdInstructor.instructor_id,
+              `${section.subject}${section.catalogNumber}`
+            );
+          }
+        }
+
         setInstructor(foundInstructor);
         setCourseRating(foundRating);
       }

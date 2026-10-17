@@ -194,7 +194,9 @@ describe("Test sample queries", () => {
     ];
 
     for (const { search, expected } of queries) {
-      const response = db.getSectionsBySearch(search)[0];
+      // Upcoming-semester sections (no grades yet) sort first and can spell names differently
+      // (e.g. "Jason Smith" vs "Jason W Smith"), so check the first graded section.
+      const response = db.getSectionsBySearch(search).find((s) => s.totalStudents > 0);
       if (!response) throw new Error("response was empty");
 
       expect(response.catalogNumber).toEqual(expected.courseNumber);

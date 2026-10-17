@@ -11,10 +11,10 @@ import {
   type Plugin,
 } from "chart.js";
 import Image from "next/image";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import type { UserFriendlyGrades } from "../types";
-import { extractGrades, getColors } from "../utils";
+import { extractGrades, getColors, getFallbackSection, isSameSemester, UPCOMING_SEMESTER } from "../utils";
 import SectionStats from "./SectionStats";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ChartTooltip);
@@ -61,6 +61,7 @@ const SectionContent = React.memo(function SectionContent({
   section,
   instructor,
   courseRating,
+  relatedSections,
 }: SectionContentProps) {
   const [hovered, setHovered] = useState<"rmpLink" | null>(null);
   const rmpLinkRef = useRef<HTMLAnchorElement>(null);
@@ -68,7 +69,16 @@ const SectionContent = React.memo(function SectionContent({
   const handleMouseEnter = useCallback(() => setHovered("rmpLink"), []);
   const handleMouseLeave = useCallback(() => setHovered(null), []);
 
-  const grades = extractGrades(section);
+  // Upcoming-semester sections have no grades yet; show the professor's most recent graded section of this course.
+  const fallbackSection = useMemo(
+    () => getFallbackSection(section, relatedSections ?? []),
+    [section, relatedSections]
+  );
+  const gradesSection = fallbackSection ?? section;
+  const isFallbackCase = section.totalStudents === 0 && isSameSemester(section.semester, UPCOMING_SEMESTER);
+  const neverTaught = isFallbackCase && !fallbackSection;
+
+  const grades = extractGrades(gradesSection);
   const keys = Object.keys(grades) as (keyof UserFriendlyGrades)[]; // we can be confident only these keys exist
   const values = Object.values(grades);
 
@@ -103,7 +113,7 @@ const SectionContent = React.memo(function SectionContent({
             const count = context.parsed.y;
             return [
               `Students: ${count}`,
-              `Percentage: ${((count / section.totalStudents) * 100).toFixed(2)}%`,
+              `Percentage: ${((count / gradesSection.totalStudents) * 100).toFixed(2)}%`,
             ];
           },
         },
@@ -184,6 +194,16 @@ const SectionContent = React.memo(function SectionContent({
         </div>
       </div>
 
+      {isFallbackCase && (
+        <h5 className="mb-2 mt-0 font-gilroy-semibold text-[14px] font-semibold text-muted">
+          {neverTaught
+            ? "This professor has never taught this class"
+            : `Not taught yet. Showing the professor's last time teaching it: ${fallbackSection!.subject} ${
+                fallbackSection!.catalogNumber
+              }.${fallbackSection!.section} - ${fallbackSection!.semester.season} ${fallbackSection!.semester.year}`}
+        </h5>
+      )}
+
       <Row style={{ marginBottom: "0.5rem" }}>
         <Col xs={24} sm={24} md={24}>
           <div className="w-full bg-card max-992:pt-5 min-992:rounded-[5px] min-992:p-5 min-992:shadow-section-card">
@@ -195,7 +215,7 @@ const SectionContent = React.memo(function SectionContent({
                 plugins={[tooltipShadow]}
               />
             </div>
-            <SectionStats section={section} />
+            <SectionStats section={gradesSection} />
           </div>
         </Col>
       </Row>
@@ -264,14 +284,7 @@ const SectionContent = React.memo(function SectionContent({
                 </>
               )}
             </a>
-            {!instructor && (
-              <p className="mb-0 mt-2 text-[0.95rem] font-normal text-muted [font-family:var(--font-family)]">
-                N/A
-              </p>
-            )}
           </Col>
-          {instructor ? (
-            <>
               <Col xs={12} md={6}>
                 <h5 className="mb-0 mt-0 font-extrabold text-fg [font-family:var(--font-family)] max-1200:text-[1.1rem] min-1200:text-[1.6rem] min-1200:leading-[1.3]">
                   {instructor?.quality_rating ? (
@@ -316,8 +329,6 @@ const SectionContent = React.memo(function SectionContent({
                   Ratings count
                 </p>
               </Col>
-            </>
-          ) : null}
         </Row>
 
         {instructor?.tags && (

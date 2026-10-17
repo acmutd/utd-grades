@@ -73,6 +73,16 @@ export class GradesDatabase {
     return instructors;
   }
 
+  getInstructorByNetId(netId: string): RMPInstructor | null {
+    const stmt = this.db.prepare(`SELECT * FROM instructors WHERE instructor_id = ? LIMIT 1`);
+    stmt.bind([netId]);
+
+    const instructor = stmt.step() ? rowToInstructor(stmt.getAsObject()) : null;
+
+    stmt.free();
+    return instructor;
+  }
+
   getCourseRating(instructor_id: string, course_code: string): number | null {
     const stmt = this.db.prepare(
       `SELECT * FROM course_ratings WHERE instructor_id LIKE ? AND course_code LIKE ?`
