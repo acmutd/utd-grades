@@ -73,6 +73,8 @@ export interface SortFilterState {
   sortDirection: SortDirection;
   filterField: string | undefined;
   filterMinValue: number | undefined;
+  /** Only sections whose professor teaches the same course next semester count as matching. */
+  nextSemesterOnly: boolean;
 }
 
 export function parseSortFilterQuery(query: NextRouter["query"]): SortFilterState {
@@ -87,6 +89,7 @@ export function parseSortFilterQuery(query: NextRouter["query"]): SortFilterStat
     sortDirection: query["sortDirection"] === "ASC" ? "ASC" : "DESC",
     filterField: hasFilter ? filterField : undefined,
     filterMinValue: hasFilter ? filterMinValue : undefined,
+    nextSemesterOnly: query["nextSem"] === "1",
   };
 }
 
@@ -99,6 +102,9 @@ export function sortFilterToQuery(state: SortFilterState): Record<string, string
   if (state.filterField !== undefined && state.filterMinValue !== undefined) {
     query["filterField"] = state.filterField;
     query["filterMinValue"] = String(state.filterMinValue);
+  }
+  if (state.nextSemesterOnly) {
+    query["nextSem"] = "1";
   }
   return query;
 }

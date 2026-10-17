@@ -10,9 +10,11 @@ import {
   compareSectionRecency,
   getCourseTitleMatchRank,
   getSectionSearchRank,
+  isUpcomingSection,
   normalizeName,
   normalizeSortValue,
 } from "../utils/index";
+import { computeNextSemesterInfo } from "../utils/nextSemester";
 import {
   describeFilter,
   parseSortFilterQuery,
@@ -22,6 +24,7 @@ import {
 import { useDb } from "../utils/useDb";
 import { useSortAndFilter } from "../utils/useSortAndFilter";
 import Header from "./Header";
+import NextSemesterProfessors from "./NextSemesterProfessors";
 import Search from "./Search";
 import SearchResultsContent from "./SearchResultsContent";
 import { SectionList } from "./SectionList";
@@ -44,8 +47,7 @@ const Results = React.memo(
       parseSortFilterQuery(router.query)
     );
     const { sortField, sortDirection, filterField, filterMinValue } = sortFilter;
-    const sortFilterRef = useRef(sortFilter);
-    const { data: db } = useDb();
+    const sortFilterRef = useRef(sortFilter);    const { data: db } = useDb();
 
     // this is to get all of the other sections of the same class (for the side bar)
     const {
@@ -87,17 +89,49 @@ const Results = React.memo(
       });
     }, [sections, search]);
 
+    const upcomingSemester = db?.upcomingSemester ?? null;
+    const upcomingLabel = upcomingSemester ? `${upcomingSemester.season} ${upcomingSemester.year}` : null;
+
+    // Next semester's sections have no grades yet, so they're summarized in the professor view instead of listed.
+    const listSections = useMemo(
+      () => rankedSections?.filter((s) => !isUpcomingSection(s, upcomingSemester)),
+      [rankedSections, upcomingSemester]
+    );
+
+    const nextSemesterInfo = useMemo(
+      () => (db && sections ? computeNextSemesterInfo(db, sections, upcomingSemester) : null),
+      [db, sections, upcomingSemester]
+    );
+    const hasNextSemesterProfessors = !!nextSemesterInfo && nextSemesterInfo.courses.length > 0;
+    const nextSemesterFilter =
+      sortFilter.nextSemesterOnly && hasNextSemesterProfessors ? nextSemesterInfo.teachesNextSemester : undefined;
+
     const { sections: displaySections, matchCount } = useSortAndFilter(
-      rankedSections,
+      listSections,
       sortField,
       sortDirection,
       filterField,
-      filterMinValue
+      filterMinValue,
+      nextSemesterFilter
     );
-    const filterGroups =
-      matchCount !== undefined && filterField !== undefined && filterMinValue !== undefined
-        ? { matchCount, label: describeFilter(filterField, filterMinValue) }
-        : undefined;
+    const filterLabel = [
+      filterField !== undefined && filterMinValue !== undefined ? describeFilter(filterField, filterMinValue) : null,
+      nextSemesterFilter ? `taught by ${upcomingLabel} professors` : null,
+    ]
+      .filter(Boolean)
+      .join(", ");
+    const filterGroups = matchCount !== undefined ? { matchCount, label: filterLabel } : undefined;
+
+    // Next fills in router.query only after the first render, so the useState parse above can miss the URL's
+    // sort/filter params on a direct page load. Re-read them once the router is ready (before auto-select pushes).
+    const sortFilterReadFromUrl = useRef(false);
+    useEffect(() => {
+      if (!router.isReady || sortFilterReadFromUrl.current) return;
+      sortFilterReadFromUrl.current = true;
+      const fromUrl = parseSortFilterQuery(router.query);
+      sortFilterRef.current = fromUrl;
+      setSortFilter(fromUrl);
+    }, [router.isReady, router.query]);
 
     // Auto-select first section when sections load and no section is selected
     useEffect(() => {
@@ -405,7 +439,8 @@ const Results = React.memo(
           next.sortField === current.sortField &&
           next.sortDirection === current.sortDirection &&
           next.filterField === current.filterField &&
-          next.filterMinValue === current.filterMinValue
+          next.filterMinValue === current.filterMinValue &&
+          next.nextSemesterOnly === current.nextSemesterOnly
         ) {
           return;
         }
@@ -473,7 +508,9 @@ const Results = React.memo(
                   onChange={handleSortFilterChange}
                   total={displaySections?.length ?? 0}
                   matchCount={filterGroups?.matchCount}
+                  upcomingLabel={hasNextSemesterProfessors ? upcomingLabel : null}
                 />
+                {hasNextSemesterProfessors && <NextSemesterProfessors info={nextSemesterInfo} onSelect={handleClick} />}
                 <SectionList
                   data={displaySections}
                   filterGroups={filterGroups}

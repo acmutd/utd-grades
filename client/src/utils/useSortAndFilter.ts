@@ -4,7 +4,7 @@ import { getFilterOption, getSortOption, type SortDirection } from "./sectionMet
 
 export interface SortFilterResult {
   sections: Grades[] | undefined;
-  // Sections matching the active filter are listed first; undefined when no filter is active.
+  // Sections matching every active filter are listed first; undefined when no filter is active.
   matchCount: number | undefined;
 }
 
@@ -13,7 +13,9 @@ export function useSortAndFilter(
   sortKey: string,
   sortDirection: SortDirection,
   filterKey: string | undefined,
-  filterMinValue: number | undefined
+  filterMinValue: number | undefined,
+  // Extra filter (e.g. "taught by next semester's professors"); undefined when not active.
+  extraFilter: ((section: Grades) => boolean) | undefined
 ): SortFilterResult {
   return useMemo(() => {
     if (!sections) {
@@ -37,16 +39,24 @@ export function useSortAndFilter(
     }
 
     const filterOption = filterKey ? getFilterOption(filterKey) : undefined;
-    if (!filterOption || filterMinValue === undefined) {
+    const gradeFilterActive = filterOption !== undefined && filterMinValue !== undefined;
+    if (!gradeFilterActive && !extraFilter) {
       return { sections: sorted, matchCount: undefined };
     }
 
     const matching: Grades[] = [];
     const rest: Grades[] = [];
     for (const section of sorted) {
-      const value = filterOption.getValue(section);
-      (value !== null && value >= filterMinValue ? matching : rest).push(section);
+      let matches = true;
+      if (gradeFilterActive) {
+        const value = filterOption.getValue(section);
+        matches = value !== null && value >= filterMinValue;
+      }
+      if (matches && extraFilter) {
+        matches = extraFilter(section);
+      }
+      (matches ? matching : rest).push(section);
     }
     return { sections: [...matching, ...rest], matchCount: matching.length };
-  }, [sections, sortKey, sortDirection, filterKey, filterMinValue]);
+  }, [sections, sortKey, sortDirection, filterKey, filterMinValue, extraFilter]);
 }

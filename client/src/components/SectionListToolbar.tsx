@@ -29,8 +29,12 @@ function selectedThreshold(value: SortFilterState) {
     : undefined;
 }
 
-const CLEAR_FILTER: Partial<SortFilterState> = { filterField: undefined, filterMinValue: undefined };
+const CLEAR_FILTER: Partial<SortFilterState> = {
+  filterField: undefined,
+  filterMinValue: undefined,
+};
 const CLEAR_SORT: Partial<SortFilterState> = { sortField: "recent", sortDirection: "DESC" };
+const CLEAR_NEXT_SEMESTER: Partial<SortFilterState> = { nextSemesterOnly: false };
 
 // Always rendered (invisible when off) so toggling a sort doesn't change the button's width.
 function SortArrow({ state }: { state: "DESC" | "ASC" | null }) {
@@ -41,7 +45,15 @@ function SortArrow({ state }: { state: "DESC" | "ASC" | null }) {
   );
 }
 
-function MenuItem({ selected, onClick, children }: { selected: boolean; onClick: () => void; children: ReactNode }) {
+function MenuItem({
+  selected,
+  onClick,
+  children,
+}: {
+  selected: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
   return (
     <button
       type="button"
@@ -78,7 +90,11 @@ function GradeMenu({ value, onChange }: SortFilterProps) {
 
 function SortGroup({ value, onChange }: SortFilterProps) {
   return (
-    <div role="group" aria-label="Sort" className="inline-flex rounded bg-chip shadow-[0_2px_6px_1px_rgba(0,0,0,0.16)]">
+    <div
+      role="group"
+      aria-label="Sort"
+      className="inline-flex rounded bg-chip shadow-[0_2px_6px_1px_rgba(0,0,0,0.16)]"
+    >
       {SORT_KEYS.map((key, i) => {
         const state = sortState(value, key);
         return (
@@ -100,15 +116,60 @@ function SortGroup({ value, onChange }: SortFilterProps) {
   );
 }
 
-function SortFilterButton(props: SortFilterProps) {
-  const { value } = props;
-  const count = (value.sortField !== "recent" ? 1 : 0) + (selectedThreshold(value) ? 1 : 0);
+interface UpcomingProps {
+  // e.g. "Spring 2026"; null when the data has no upcoming semester.
+  upcomingLabel: string | null;
+}
+
+interface NextSemesterSwitchProps {
+  on: boolean;
+  label: string;
+  onToggle: (on: boolean) => void;
+}
+
+// "<Semester> professors only" label with an on/off switch.
+function NextSemesterSwitch({ on, label, onToggle }: NextSemesterSwitchProps) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onClick={() => onToggle(!on)}
+      className="flex cursor-pointer items-center justify-between gap-2 bg-transparent px-2 py-1 text-left font-gilroy-regular text-[13px] text-fg"
+    >
+      {label} professors only
+      <span
+        className={`relative h-[18px] w-8 flex-shrink-0 rounded-full [transition:background-color_0.2s] ${
+          on ? "bg-select-tag" : "bg-chip shadow-[inset_0_0_0_1px_var(--border-color)]"
+        }`}
+      >
+        <span
+          className={`absolute top-[2px] h-[14px] w-[14px] rounded-full bg-card shadow-[0_1px_2px_rgba(0,0,0,0.3)] [transition:left_0.2s] ${
+            on ? "left-[16px]" : "left-[2px]"
+          }`}
+        />
+      </span>
+    </button>
+  );
+}
+
+function SortFilterButton({ upcomingLabel, ...props }: SortFilterProps & UpcomingProps) {
+  const { value, onChange } = props;
+  const count =
+    (value.sortField !== "recent" ? 1 : 0) +
+    (selectedThreshold(value) ? 1 : 0) +
+    (value.nextSemesterOnly ? 1 : 0);
   const panel = (
     <div className="flex w-[230px] flex-col gap-3">
       <SortGroup {...props} />
-      <div className="border-t border-border pt-2">
-        <GradeMenu {...props} />
-      </div>
+      {upcomingLabel && (
+        <NextSemesterSwitch
+          on={value.nextSemesterOnly}
+          label={upcomingLabel}
+          onToggle={(on) => onChange({ nextSemesterOnly: on })}
+        />
+      )}
+      <GradeMenu value={value} onChange={onChange} />
     </div>
   );
   return (
@@ -135,7 +196,15 @@ function SortFilterButton(props: SortFilterProps) {
   );
 }
 
-function RemovableChip({ onRemove, label, children }: { onRemove: () => void; label: string; children: ReactNode }) {
+function RemovableChip({
+  onRemove,
+  label,
+  children,
+}: {
+  onRemove: () => void;
+  label: string;
+  children: ReactNode;
+}) {
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-chip py-0.5 pl-2.5 pr-1.5 font-gilroy-regular text-[12px] text-fg shadow-[0_2px_6px_1px_rgba(0,0,0,0.16)]">
       {children}
@@ -151,15 +220,21 @@ function RemovableChip({ onRemove, label, children }: { onRemove: () => void; la
   );
 }
 
-interface SectionListToolbarProps extends SortFilterProps {
+interface SectionListToolbarProps extends SortFilterProps, UpcomingProps {
   total: number;
   matchCount: number | undefined;
 }
 
-export default function SectionListToolbar({ total, matchCount, ...props }: SectionListToolbarProps) {
+export default function SectionListToolbar({
+  total,
+  matchCount,
+  upcomingLabel,
+  ...props
+}: SectionListToolbarProps) {
   const { value, onChange } = props;
   const sorting = value.sortField !== "recent";
   const threshold = selectedThreshold(value);
+  const nextSemester = value.nextSemesterOnly && upcomingLabel !== null;
 
   return (
     <div className="flex flex-col gap-2 border-b border-r border-border px-[25px] py-3">
@@ -168,9 +243,9 @@ export default function SectionListToolbar({ total, matchCount, ...props }: Sect
           <span className="text-fg">{matchCount ?? total}</span>
           {matchCount !== undefined && ` of ${total}`} sections
         </span>
-        <SortFilterButton {...props} />
+        <SortFilterButton {...props} upcomingLabel={upcomingLabel} />
       </div>
-      {(sorting || threshold) && (
+      {(sorting || threshold || nextSemester) && (
         <div className="flex flex-wrap items-center gap-2">
           {sorting && (
             <RemovableChip label="sort" onRemove={() => onChange(CLEAR_SORT)}>
@@ -184,9 +259,17 @@ export default function SectionListToolbar({ total, matchCount, ...props }: Sect
               {threshold.label}
             </RemovableChip>
           )}
+          {nextSemester && (
+            <RemovableChip
+              label="next semester filter"
+              onRemove={() => onChange(CLEAR_NEXT_SEMESTER)}
+            >
+              {upcomingLabel} professors
+            </RemovableChip>
+          )}
           <button
             type="button"
-            onClick={() => onChange({ ...CLEAR_SORT, ...CLEAR_FILTER })}
+            onClick={() => onChange({ ...CLEAR_SORT, ...CLEAR_FILTER, ...CLEAR_NEXT_SEMESTER })}
             className="cursor-pointer bg-transparent p-0 font-gilroy-regular text-[12px] text-description underline hover:text-fg"
           >
             Clear all
