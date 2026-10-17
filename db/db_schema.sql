@@ -64,7 +64,8 @@ CREATE TABLE grades
     instructor3Id   INTEGER REFERENCES strings (id),
     instructor4Id   INTEGER REFERENCES strings (id),
     instructor5Id   INTEGER REFERENCES strings (id),
-    instructor6Id   INTEGER REFERENCES strings (id)
+    instructor6Id   INTEGER REFERENCES strings (id),
+    instructor1NetId TEXT
 );
 
 CREATE VIEW grades_populated AS
@@ -93,7 +94,8 @@ SELECT grades.id AS gradesId,
        catalogNumber.string AS catalogNumber,
     courseName.string AS courseName,
        section.string AS section,
-       instructor1.string AS instructor1
+       instructor1.string AS instructor1,
+       grades.instructor1NetId
 FROM grades
          INNER JOIN strings semester ON semester.id = grades.semesterId
          INNER JOIN strings subject ON subject.id = grades.subjectId
