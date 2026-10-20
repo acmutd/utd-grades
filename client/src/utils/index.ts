@@ -1,5 +1,18 @@
-import type { Grades } from "@utd-grades/db";
+import type { Grades, Semester } from "@utd-grades/db";
 import type { UserFriendlyGrades } from "../types";
+
+export function isSameSemester(a: Semester, b: Semester): boolean {
+  return a.season === b.season && a.year === b.year;
+}
+
+export function isSameCourse(a: Pick<Grades, "subject" | "catalogNumber">, b: Pick<Grades, "subject" | "catalogNumber">): boolean {
+  return a.subject === b.subject && a.catalogNumber === b.catalogNumber;
+}
+
+// `upcoming` is GradesDatabase.upcomingSemester: next semester's schedule, whose sections have no grades yet.
+export function isUpcomingSection(section: Grades, upcoming: Semester | null): boolean {
+  return upcoming !== null && section.totalStudents === 0 && isSameSemester(section.semester, upcoming);
+}
 
 export function getLetterGrade(grade: number): keyof UserFriendlyGrades {
   if (grade >= 0.97) {
@@ -255,4 +268,24 @@ export function compareSectionRecency(
     a.section.localeCompare(b.section) ||
     (a.courseName ?? "").localeCompare(b.courseName ?? "")
   );
+}
+
+// For an upcoming (ungraded) section, the same professor's most recent graded section of the same course.
+export function getFallbackSection(
+  target: Grades,
+  candidates: Grades[],
+  upcoming: Semester | null
+): Grades | undefined {
+  if (!isUpcomingSection(target, upcoming)) return undefined;
+  if (!target.instructor1NetId) return undefined;
+
+  return candidates
+    .filter(
+      (s) =>
+        s.id !== target.id &&
+        s.totalStudents > 0 &&
+        isSameCourse(s, target) &&
+        s.instructor1NetId === target.instructor1NetId
+    )
+    .sort(compareSectionRecency)[0];
 }
