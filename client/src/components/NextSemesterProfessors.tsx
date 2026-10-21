@@ -17,13 +17,6 @@ interface NextSemesterProfessorsProps {
 
 const formatMean = (mean: number | null) => (mean === null ? "—" : mean.toFixed(2));
 
-function experience(p: ProfessorCourseStats): string {
-  const latest = p.pastSections[0];
-  if (!latest) return "New to this course";
-  const sections = `${p.pastSections.length} section${p.pastSections.length === 1 ? "" : "s"}`;
-  return `${sections} · ${p.totalStudents} students · last ${latest.semester.season} ${latest.semester.year}`;
-}
-
 function CourseHeading({ course }: { course: CourseProfessors }) {
   return (
     <p className="mb-1 mt-2 font-gilroy-bold text-[13px] text-fg first:mt-0">
@@ -53,7 +46,7 @@ function ProfessorRow({ p, onSelect }: { p: ProfessorCourseStats; onSelect: (id:
           </span>
         </span>
       </span>
-      <span className="text-[11px] text-muted">{experience(p)}</span>
+      {p.pastSections.length === 0 && <span className="text-[11px] text-muted">New to this course</span>}
     </button>
   );
 }

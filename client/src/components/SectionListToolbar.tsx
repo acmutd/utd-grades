@@ -93,7 +93,7 @@ function SortGroup({ value, onChange }: SortFilterProps) {
     <div
       role="group"
       aria-label="Sort"
-      className="inline-flex rounded bg-chip shadow-[0_2px_6px_1px_rgba(0,0,0,0.16)]"
+      className="inline-flex self-start rounded bg-chip shadow-[0_2px_6px_1px_rgba(0,0,0,0.16)]"
     >
       {SORT_KEYS.map((key, i) => {
         const state = sortState(value, key);
