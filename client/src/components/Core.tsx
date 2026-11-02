@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import SageAd from "./SageAd";
+import PartnerAds from "./PartnerAds";
 
 interface CoreProps {
   children: ReactNode;
-  showSageAd?: boolean;
+  showAds?: boolean;
 }
 
-function Core({ children, showSageAd = false }: CoreProps) {
+function Core({ children, showAds = false }: CoreProps) {
   const [, setTheme] = useState<"light" | "dark" | null>(null);
 
   // Initialize theme on start
@@ -86,7 +86,7 @@ function Core({ children, showSageAd = false }: CoreProps) {
     <div className="relative flex min-h-full w-full flex-col">
       <div className="flex h-full w-full flex-1 items-stretch">{children}</div>
       <div className="w-full px-2.5 pb-[15px] pt-[30px] text-center font-[family-name:var(--font-family)] max-992:pt-5">
-        {showSageAd && <SageAd />}
+        {showAds && <PartnerAds />}
         <p className="my-[0.2rem] font-gilroy-bold text-muted max-768:hidden">
          {/*Designed by <a href="https://www.arimilli.io" target={"blank"}>Bharat Arimilli</a>. Thanks to{" "}
           <a href="https://garrettgu.com/" target={"blank"}>Garrett Gu</a>,{" "}

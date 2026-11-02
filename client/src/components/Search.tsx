@@ -1,3 +1,4 @@
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { AutoComplete, Form as AntForm, Input, Popover } from "antd";
 import debounce from "lodash.debounce";
 import React, { useEffect, useMemo, useState } from "react";
@@ -9,27 +10,69 @@ const autoCompleteStyle: React.CSSProperties = {
   width: "100%",
 };
 
+// On ≤992px the hint spans the screen minus the header's 30px side padding, so it lines up centered under the search row.
+const HINT_CONTENT = (
+  <div className="w-[375px] font-gilroy-regular max-992:w-[calc(100vw_-_60px_-_32px)]">
+    <p>You can search for:</p>
+    <ul>
+      <li>A specific section: CS 1337.002</li>
+      <li>A whole course: CS 1337</li>
+      <li>A course name: Computer Science I</li>
+      <li>A professor&apos;s name: Jason Smith</li>
+      <li>A specific semester: CS 1337 Fall 2021</li>
+      <li>Everything together: CS 1337.002 Computer Science I Fall 2021 Jason Smith</li>
+    </ul>
+  </div>
+);
+
+// antd's popover is light-only; point its background, text and arrow at the theme variables.
+const HINT_OVERLAY_CLASS =
+  "[&_.ant-popover-inner]:bg-card [&_.ant-popover-inner-content]:text-fg [&_.ant-popover-arrow-content]:[--antd-arrow-background-color:var(--card-bg)]";
+
+// Matches the header's ≤992px stacked layout.
+function useIsNarrow() {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 992px)");
+    const update = () => setNarrow(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+  return narrow;
+}
+
+// ⓘ button that shows the search hint on hover or tap. 18px to match the search button's magnifier icon.
+function HintButton() {
+  const narrow = useIsNarrow();
+  return (
+    // On narrow screens the icon sits at the right edge: right-align the full-width hint (which centers it on
+    // screen) and point the arrow at the icon instead of leaving it in the middle of the popup.
+    <Popover
+      content={HINT_CONTENT}
+      placement={narrow ? "bottomRight" : "bottom"}
+      arrowPointAtCenter={narrow}
+      trigger={["hover", "click"]}
+      overlayClassName={HINT_OVERLAY_CLASS}
+    >
+      <button
+        type="button"
+        aria-label="What can I search for?"
+        className="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-transparent p-0 text-[18px] text-[#95989a] hover:text-fg"
+      >
+        <InfoCircleOutlined />
+      </button>
+    </Popover>
+  );
+}
+
 interface SearchProps {
   onSubmit: (query: SearchQuery) => void;
   initialSearchValue?: string;
-  showSage?: boolean;
+  compact?: boolean;
 }
 
-export default function Search({ onSubmit, initialSearchValue: initialSearch = "", showSage = true }: SearchProps) {
-  const hintContent = (
-    <div className="w-[375px] font-gilroy-regular">
-      <p>You can search for:</p>
-      <ul>
-        <li>A specific section: CS 1337.002</li>
-        <li>A whole course: CS 1337</li>
-        <li>A course name: Computer Science I</li>
-        <li>A professor&apos;s name: Jason Smith</li>
-        <li>A specific semester: CS 1337 Fall 2021</li>
-        <li>Everything together: CS 1337.002 Computer Science I Fall 2021 Jason Smith</li>
-      </ul>
-    </div>
-  );
-
+export default function Search({ onSubmit, initialSearchValue: initialSearch = "", compact = false }: SearchProps) {
   const [searchValue, setSearchValue] = useState(initialSearch);
   const [options, setOptions] = useState<{ value: string }[]>([]);
 
@@ -59,54 +102,51 @@ export default function Search({ onSubmit, initialSearchValue: initialSearch = "
     fetchOptions(value);
   }
 
+  const input = (
+    <AutoComplete
+      options={options}
+      style={autoCompleteStyle}
+      // TODO: find a better type than unknown
+      onSelect={(value: unknown) => onSubmit({ search: value as string })}
+      onChange={(value: unknown) => onChange(value as string)}
+      value={searchValue}
+    >
+      <Input.Search
+        className="search-input-dark"
+        onSearch={(search) => onSubmit({ search })}
+        name="search"
+        size="large"
+        placeholder="ex. CS 1337 Fall 2017 Smith"
+      />
+    </AutoComplete>
+  );
+
+  if (!compact) {
+    return (
+      <AntForm>
+        {input}
+        <Popover
+          className="mx-auto mt-[25px] block font-gilroy-regular text-[#95989a]"
+          content={HINT_CONTENT}
+          placement="bottom"
+          overlayClassName={HINT_OVERLAY_CLASS}
+        >
+          <span style={{ textAlign: "center" }}>
+            Need to know what you can enter?{" "}
+            <span style={{ textDecoration: "underline" }}>Pretty much anything.</span>
+          </span>
+        </Popover>
+      </AntForm>
+    );
+  }
+
+  // Header (compact) layout: an ⓘ hint button just right of the bar.
   return (
     <AntForm>
-      <AutoComplete
-        options={options}
-        style={autoCompleteStyle}
-        // TODO: find a better type than unknown
-        onSelect={(value: unknown) => onSubmit({ search: value as string })}
-        onChange={(value: unknown) => onChange(value as string)}
-        value={searchValue}
-      >
-        <Input.Search
-          className="search-input-dark"
-          onSearch={(search) => onSubmit({ search })}
-          name="search"
-          size="large"
-          placeholder="ex. CS 1337 Fall 2017 Smith"
-        />
-      </AutoComplete>
-      <Popover
-        className="mx-auto mt-[25px] block font-gilroy-regular text-[#95989a]"
-        content={hintContent}
-        placement="bottom"
-      >
-        <span style={{ textAlign: "center" }}>
-          Need to know what you can enter?{" "}
-          <span style={{ textDecoration: "underline" }}>Pretty much anything.</span>
-        </span>
-      </Popover>
-
-      {showSage && (
-        <div style={{ marginTop: "16px", textAlign: "center" }}>
-          <a
-            href="https://utdsage.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="mb-[0.3rem] inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[rgba(7,67,37,1)] to-[rgba(22,50,36,1)] px-[1.2rem] py-[0.6rem] text-[#5AED86] shadow-[0_2px_6px_rgb(0_0_0_/_0.2)] [transition:transform_cubic-bezier(0.4,0,0.2,1)_150ms,box-shadow_cubic-bezier(0.4,0,0.2,1)_150ms] [text-shadow:0_0_4px_rgb(0_0_0_/_0.6)] hover:scale-[1.01] hover:text-[#5AED86] hover:shadow-[0_2px_8px_rgb(0_0_0_/_0.2)]"
-          >
-            <img
-              src="/SAGE-Logo.svg"
-              alt=""
-              className="mr-[0.4rem] h-[1.2rem] drop-shadow-[0_0_4px_rgb(0_0_0_/_0.6)]"
-            />
-            <p className="mb-0 text-[0.9rem] leading-[1.2rem]">Get AI-powered UTD advising with </p>
-            <img src="/SAGE-Textmark.svg" alt="Sage" className="h-[1.2rem]" />
-          </a>
-        </div>
-      )}
-
+      <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">{input}</div>
+        <HintButton />
+      </div>
     </AntForm>
   );
 }

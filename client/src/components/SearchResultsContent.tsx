@@ -17,7 +17,7 @@ export default function SearchResultsContent({
   section,
   instructor,
   courseRating,
-  // relatedSections,
+  relatedSections,
   loadingSection,
   // handleRelatedSectionClick,
   error,
@@ -28,7 +28,7 @@ export default function SearchResultsContent({
         section={section}
         instructor={instructor}
         courseRating={courseRating}
-        // relatedSections={relatedSections}
+        relatedSections={relatedSections}
         // handleRelatedSectionClick={handleRelatedSectionClick}
       />
     );

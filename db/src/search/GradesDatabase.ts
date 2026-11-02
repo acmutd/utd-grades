@@ -1,13 +1,43 @@
 import type { RMPInstructor } from "@utd-grades/db";
 import type { Database } from "sql.js";
-import type { Grades } from "../types/Grades";
-import { createWhereString, rowToGrades, rowToInstructor, SEASONS } from "./utils";
+import type { Grades, Semester } from "../types/Grades";
+import { createWhereString, parseSemester, rowToGrades, rowToInstructor, SEASONS } from "./utils";
 
 export class GradesDatabase {
   protected db: Database;
+  /** Next semester's schedule: the newest semester in the data if none of its sections have recorded students yet, else null. */
+  readonly upcomingSemester: Semester | null;
 
   constructor(db: Database) {
     this.db = db;
+    this.upcomingSemester = this.findUpcomingSemester();
+  }
+
+  private findUpcomingSemester(): Semester | null {
+    const stmt = this.db.prepare(`
+      SELECT semester.string AS semester,
+             SUM(aPlus + a + aMinus + bPlus + b + bMinus + cPlus + c + cMinus + dPlus + d + dMinus + f
+                 + cr + nc + p + w + i + nf) AS students
+      FROM grades
+      INNER JOIN strings semester ON semester.id = grades.semesterId
+      GROUP BY grades.semesterId
+    `);
+
+    let newest: { semester: Semester; students: number } | null = null;
+    while (stmt.step()) {
+      const row = stmt.getAsObject();
+      const [season, year] = parseSemester(row["semester"] as string);
+      if (
+        !newest ||
+        year > newest.semester.year ||
+        (year === newest.semester.year && SEASONS[season] > SEASONS[newest.semester.season])
+      ) {
+        newest = { semester: { season, year }, students: row["students"] as number };
+      }
+    }
+    stmt.free();
+
+    return newest && newest.students === 0 ? newest.semester : null;
   }
 
   close() {
@@ -71,6 +101,16 @@ export class GradesDatabase {
     stmt.free();
 
     return instructors;
+  }
+
+  getInstructorByNetId(netId: string): RMPInstructor | null {
+    const stmt = this.db.prepare(`SELECT * FROM instructors WHERE instructor_id = ? LIMIT 1`);
+    stmt.bind([netId]);
+
+    const instructor = stmt.step() ? rowToInstructor(stmt.getAsObject()) : null;
+
+    stmt.free();
+    return instructor;
   }
 
   getCourseRating(instructor_id: string, course_code: string): number | null {
