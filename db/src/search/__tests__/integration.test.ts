@@ -19,8 +19,8 @@ beforeAll(async () => {
 
 describe("Upcoming semester", () => {
   test("Should detect the newest semester with no recorded students as upcoming", () => {
-    // raw_data's newest file is Spring 2026's schedule, which has no grades yet.
-    expect(db.upcomingSemester).toEqual({ season: "Spring", year: 2026 });
+    // raw_data's newest file is Spring 2027's schedule, which has no grades yet.
+    expect(db.upcomingSemester).toEqual({ season: "Spring", year: 2027 });
   });
 });
 
