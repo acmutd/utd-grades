@@ -2,7 +2,7 @@
   "name": "@utd-grades/client",
   "version": "1.4.0",
   "engines": {
-    "node": ">=22.0.0",
+    "node": "24.x",
     "npm": ">=10.0.0"
   },
   "scripts": {
