@@ -9,9 +9,6 @@ module.exports = {
     unoptimized: true, // Disable image optimization for static export
   },
   swcMinify: false, // Fallback to Terser if SWC fails
-  experimental: {
-    cpus: 1, // Limit build workers; too many crash on Vercel ("Call retries were exceeded")
-  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.plugins.push(
